@@ -7,6 +7,7 @@ Tolles Frontend für Freiwilligen-Verwaltungstool 🎉
 
 - Ari
 - Fabian
+- Jessica
 
 
 
