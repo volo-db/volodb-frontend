@@ -2,8 +2,12 @@
 
 Tolles Frontend für Freiwilligen-Verwaltungstool 🎉
 
-## Contributers
+
+## Contributors
+
+- Ari
 - Fabian
+
 
 
 ## Project Setup
