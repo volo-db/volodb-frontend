@@ -4,6 +4,7 @@ Tolles Frontend für Freiwilligen-Verwaltungstool 🎉
 
 ## Contributers
 - Fabian
+- Jessica
 
 
 ## Project Setup
