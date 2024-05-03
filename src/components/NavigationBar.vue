@@ -1,6 +1,9 @@
 <template>
-  <div>
-    <img :src="smallVolodbLogo" alt="volodb-logo" class="mt-8 mx-auto">
+  <div class="w-24 bg-white">
+    <div  class="flex justify-center items-center aspect-square ">
+      <img :src="smallVolodbLogo" alt="volodb-logo" class="">
+    </div>
+    
   </div>
 </template>
 
