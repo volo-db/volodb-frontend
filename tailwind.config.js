@@ -6,10 +6,12 @@ export default {
       colors: {
         vologray: {
           100: '#EAECF5',
-          200: '#A5A5A5' // text-color
+          200: '#A5A5A5', // text-color
+          300: '#979797' // bg-color
         },
         voloblue: {
-          100: '#0025FF'
+          100: '#0049FF',
+          200: '#0025FF'
         }
       }
     }
