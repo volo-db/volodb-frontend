@@ -6,8 +6,10 @@ export default {
       colors: {
         vologray: {
           100: '#EAECF5',
-          200: '#A5A5A5', // text-color
-          300: '#979797' // bg-color
+          200: '#EAEAEA', // border-color
+          300: '#B5B5B5', // label-text-color
+          400: '#A5A5A5', // text-color
+          500: '#979797' // bg-color
         },
         voloblue: {
           100: '#0049FF',
