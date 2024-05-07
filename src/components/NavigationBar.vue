@@ -1,10 +1,10 @@
 <template>
   <div class="w-[70px] bg-white">
     <div class="flex justify-center items-center aspect-square">
-      <img :src="smallVolodbLogo" alt="volodb-logo" class="" />
+      <img :src="smallVolodbLogo" alt="volodb-logo"/>
     </div>
     <div>
-      <slot name="nav-button"> </slot>
+      <slot name="nav-icon"></slot>
     </div>
   </div>
 </template>

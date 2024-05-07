@@ -1,7 +1,7 @@
 <template>
   <div class="h-screen overflow-hidden grid grid-cols-[70px,auto] divide-x">
     <NavigationBar>
-      <template v-slot:nav-button>
+      <template v-slot:nav-icon>
         <IconLogout />
       </template>
     </NavigationBar>
@@ -17,5 +17,3 @@ export default {
   components: { NavigationBar, IconLogout }
 }
 </script>
-
-<!-- max-w-screen-2xl  -->
