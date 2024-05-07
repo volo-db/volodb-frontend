@@ -25,14 +25,14 @@
             />
           </div>
           <div
-            class="focus-within:border-l-voloblue-200 focus-within:border-l-4  outline outline-vologray-200 outline-1 border-l-4 border-transparent flex flex-col w-96 relative h-16"
+            class="focus-within:border-l-voloblue-200 focus-within:border-l-4 outline outline-vologray-200 outline-1 border-l-4 border-transparent flex flex-col w-96 relative h-16"
           >
-            <label for="email" class="text-vologray-300 text-sm pt-2 pl-4">Passwort</label>
+            <label for="password" class="text-vologray-300 text-sm pt-2 pl-4">Passwort</label>
             <input
               class="placeholder-transparent outline-none pl-4"
               type="password"
-              id="email"
-              name="email"
+              id="password"
+              name="password"
               v-model="password"
               placeholder="Passwort"
               required
@@ -57,11 +57,14 @@
 
 <script>
 import { useUserStore } from '@/stores/UserStore'
+import { useRouter } from 'vue-router'
 import volodbLogo from '@/assets/logos/volodb-logo.svg'
 
 export default {
   setup: () => {
     const userStore = useUserStore()
+
+    if (userStore.loggedIn) useRouter().replace({ name: 'VolunteersView' })
 
     return {
       userStore

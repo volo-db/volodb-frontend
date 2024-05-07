@@ -1,10 +1,15 @@
 import { defineStore } from 'pinia'
+import { useStorage } from '@vueuse/core'
+
+const state = useStorage('user-store', {
+  token: null,
+  user: null,
+  loggedIn: false,
+  fetching: false
+})
 
 export const useUserStore = defineStore('userStore', {
-  state: () => ({
-    token: null,
-    user: null
-  }),
+  state: () => state,
   actions: {
     login(email, password) {
       if (!email || email === '') return console.error(`VoloDB-ERROR:\n🤌 no email provided`)
@@ -12,6 +17,7 @@ export const useUserStore = defineStore('userStore', {
       if (!password || password === '')
         return console.error(`VoloDB-ERROR:\n🤌 no password provided`)
 
+      this.fetching = true
       fetch(`${import.meta.env.VITE_BASE_URL}/auth/login`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -26,13 +32,16 @@ export const useUserStore = defineStore('userStore', {
         })
         .then((res) => {
           this.token = res.accessToken
+          this.loggedIn = true
           this.getUser()
         })
         .catch((err) => {
           console.error(err)
+          this.fetching = false
         })
     },
     getUser() {
+      this.fetching = true
       fetch(`${import.meta.env.VITE_BASE_URL}/user`, {
         method: 'GET',
         headers: {
@@ -49,14 +58,15 @@ export const useUserStore = defineStore('userStore', {
         })
         .then((user) => {
           this.user = user
+          this.fetching = false
         })
         .catch((err) => {
           console.error(err)
+          this.fetching = false
         })
     },
     logout() {
-      this.token = null
-      //router auf login-Seite
+      state.value = null
     }
   }
 })
