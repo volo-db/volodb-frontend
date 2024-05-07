@@ -1,3 +1,11 @@
+@import url(https://fonts.bunny.net/css?family=amatic-sc:700|fira-sans:100,200,300,400,500,600,700);
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'fira sans', sans-serif;
+  }
+}
