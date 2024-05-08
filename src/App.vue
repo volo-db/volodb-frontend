@@ -6,6 +6,7 @@
       </template>
     </NavigationBar>
     <RouterView />
+    <div id="volo-modals" class="fixed"></div>
   </div>
 </template>
 

@@ -11,14 +11,14 @@ const state = useStorage('user-store', {
 export const useUserStore = defineStore('userStore', {
   state: () => state,
   actions: {
-    login(email, password) {
+    async login(email, password) {
       if (!email || email === '') return console.error(`VoloDB-ERROR:\n🤌 no email provided`)
 
       if (!password || password === '')
         return console.error(`VoloDB-ERROR:\n🤌 no password provided`)
 
       this.fetching = true
-      fetch(`${import.meta.env.VITE_BASE_URL}/auth/login`, {
+      await fetch(`${import.meta.env.VITE_BASE_URL}/auth/login`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
