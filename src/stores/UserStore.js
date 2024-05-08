@@ -4,7 +4,6 @@ import { useStorage } from '@vueuse/core'
 const state = useStorage('user-store', {
   token: null,
   user: null,
-  loggedIn: false,
   fetching: false
 })
 
@@ -12,11 +11,6 @@ export const useUserStore = defineStore('userStore', {
   state: () => state,
   actions: {
     login(email, password) {
-      if (!email || email === '') return console.error(`VoloDB-ERROR:\n🤌 no email provided`)
-
-      if (!password || password === '')
-        return console.error(`VoloDB-ERROR:\n🤌 no password provided`)
-
       this.fetching = true
       fetch(`${import.meta.env.VITE_BASE_URL}/auth/login`, {
         method: 'POST',
@@ -32,13 +26,10 @@ export const useUserStore = defineStore('userStore', {
         })
         .then((res) => {
           this.token = res.accessToken
-          this.loggedIn = true
+
           this.getUser()
         })
-        .catch((err) => {
-          console.error(err)
-          this.fetching = false
-        })
+        .finally(() => (this.fetching = false))
     },
     getUser() {
       this.fetching = true
@@ -58,15 +49,17 @@ export const useUserStore = defineStore('userStore', {
         })
         .then((user) => {
           this.user = user
-          this.fetching = false
         })
-        .catch((err) => {
-          console.error(err)
-          this.fetching = false
-        })
+        .finally(() => (this.fetching = false))
     },
     logout() {
-      state.value = null
+      this.token = null
+      this.user = null
+    }
+  },
+  getters: {
+    loggedIn(state) {
+      return Boolean(state.token)
     }
   }
 })

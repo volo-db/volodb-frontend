@@ -5,16 +5,16 @@
         <img :src="volodbLogo" alt="volodb-logo" class="lg:hidden pb-8" />
         <h1 class="text-3xl text-voloblue-200">Willkommen zurück!</h1>
         <h2 class="text-xl text-vologray-400 mt-2">Bitte logge dich in deinen Account ein.</h2>
-        <form
-          @submit.prevent="userStore.login(this.email, this.password)"
-          class="flex flex-col mt-12"
-        >
+        <form @submit.prevent="onSubmit" class="flex flex-col mt-12" novalidate>
+          <p v-if="errorMessageMail">{{ errorMessageMail }}</p>
+
           <div
             class="focus-within:border-l-voloblue-200 focus-within:border-l-4 outline outline-vologray-200 outline-1 border-l-4 border-transparent flex flex-col w-96 relative h-16"
           >
             <label for="email" class="text-vologray-300 text-sm pt-2 pl-4">E-mail Adresse</label>
+
             <input
-              class="placeholder-transparent outline-none pl-4"
+              class="placeholder-transparent outline-none pl-4 border invalid:border-red-500"
               type="text"
               id="email"
               name="email"
@@ -22,8 +22,10 @@
               placeholder="E-Mail Adresse"
               required
               autocomplete="off"
+              :invalid="Boolean(errorMessageMail) ? true : undefined"
             />
           </div>
+          <p v-if="errorMessagePassword">{{ errorMessagePassword }}</p>
           <div
             class="focus-within:border-l-voloblue-200 focus-within:border-l-4 outline outline-vologray-200 outline-1 border-l-4 border-transparent flex flex-col w-96 relative h-16"
           >
@@ -49,7 +51,7 @@
       </div>
     </main>
 
-    <div class="justify-center items-center bg-vologray-100 hidden lg:flex w-full">
+    <div class="justify-center items-center bg-vologray-100 hidden lg:flex w-full px-4">
       <img :src="volodbLogo" alt="volodb-logo" />
     </div>
   </div>
@@ -74,8 +76,41 @@ export default {
     return {
       email: '',
       password: '',
-      errorMessage: '',
+      errorMessageMail: '',
+      errorMessagePassword: '',
       volodbLogo
+    }
+  },
+  methods: {
+    onSubmit() {
+      this.validate()
+
+      if (this.errorMessagePassword || this.errorMessageMail) {
+        return
+      }
+      try{
+        this.userStore.login(this.email, this.password)
+      }
+      catch(error) {
+        console.log(error)
+      }
+    },
+    validate() {
+      this.errorMessageMail = ''
+      this.errorMessagePassword = ''
+
+      if (!this.email) {
+        this.errorMessageMail = 'Keine E-Mail angegeben!'
+        console.error(`VoloDB-ERROR:\n🤌 no email provided`)
+        console.log('Error message for email set:', this.errorMessageMail)
+      }
+
+      if (!this.password) {
+        this.errorMessagePassword = 'Kein Passwort angegeben!'
+        console.error(`VoloDB-ERROR:\n🤌 no password provided`)
+      }
+      
+      
     }
   }
 }
