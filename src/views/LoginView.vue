@@ -38,13 +38,7 @@
               required
             />
           </div>
-          <button
-            type="submit"
-            id="submit"
-            class="border rounded-lg text-white text-sm bg-voloblue-200 w-28 h-11 mt-20"
-          >
-            Einloggen
-          </button>
+          <BaseButton type="submit">Einloggen</BaseButton>
         </form>
       </div>
     </main>
@@ -59,6 +53,7 @@
 import { useUserStore } from '@/stores/UserStore'
 import { useRouter } from 'vue-router'
 import volodbLogo from '@/assets/logos/volodb-logo.svg'
+import BaseButton from '@/components/BaseButton.vue'
 
 export default {
   setup: () => {
@@ -77,6 +72,7 @@ export default {
       errorMessage: '',
       volodbLogo
     }
-  }
+  },
+  components: { BaseButton }
 }
 </script>
