@@ -6,13 +6,13 @@
         <h1 class="text-3xl text-voloblue-200">Willkommen zurück!</h1>
         <h2 class="text-xl text-vologray-400 mt-2">Bitte logge dich in deinen Account ein.</h2>
         <form @submit.prevent="onSubmit" class="flex flex-col mt-12" novalidate>
-          <p v-if="errorMessageMail">{{ errorMessageMail }}</p>
+          <!-- <p v-if="errorMessageMail">{{ errorMessageMail }}</p> -->
 
           <div
             class="focus-within:border-l-voloblue-200 focus-within:border-l-4 outline outline-vologray-200 outline-1 border-l-4 border-transparent flex flex-col w-96 relative h-16"
+            :class="{ 'error-animation': errorMail }"
           >
             <label for="email" class="text-vologray-300 text-sm pt-2 pl-4">E-mail Adresse</label>
-
             <input
               class="placeholder-transparent outline-none pl-4"
               type="text"
@@ -22,11 +22,12 @@
               placeholder="E-Mail Adresse"
               required
               autocomplete="off"
+              v-if="!errorMail"
             />
           </div>
-          <p v-if="errorMessagePassword">{{ errorMessagePassword }}</p>
           <div
             class="focus-within:border-l-voloblue-200 focus-within:border-l-4 outline outline-vologray-200 outline-1 border-l-4 border-transparent flex flex-col w-96 relative h-16"
+            :class="{ 'error-animation': errorPassword }"
           >
             <label for="password" class="text-vologray-300 text-sm pt-2 pl-4">Passwort</label>
             <input
@@ -37,6 +38,7 @@
               v-model="password"
               placeholder="Passwort"
               required
+              v-if="!errorPassword"
             />
           </div>
           <button
@@ -77,20 +79,33 @@ export default {
       password: '',
       errorMessageMail: '',
       errorMessagePassword: '',
-      volodbLogo
+      volodbLogo,
+      errorMail: false,
+      errorPassword: false
     }
   },
   methods: {
+    errorAnimationMail() {
+      this.errorMail = true
+      setTimeout(() => {
+        this.errorMail = false
+      }, 1000)
+    },
+    errorAnimationPassword() {
+      this.errorPassword = true
+      setTimeout(() => {
+        this.errorPassword = false
+      }, 1000)
+    },
     onSubmit() {
       this.validate()
 
       if (this.errorMessagePassword || this.errorMessageMail) {
         return
       }
-      try{
+      try {
         this.userStore.login(this.email, this.password)
-      }
-      catch(error) {
+      } catch (error) {
         console.log(error)
       }
     },
@@ -102,14 +117,14 @@ export default {
         this.errorMessageMail = 'Keine E-Mail angegeben!'
         console.error(`VoloDB-ERROR:\n🤌 no email provided`)
         console.log('Error message for email set:', this.errorMessageMail)
+        this.errorAnimationMail()
       }
 
       if (!this.password) {
         this.errorMessagePassword = 'Kein Passwort angegeben!'
         console.error(`VoloDB-ERROR:\n🤌 no password provided`)
+        this.errorAnimationPassword()
       }
-      
-      
     }
   }
 }
