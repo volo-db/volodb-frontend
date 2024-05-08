@@ -14,7 +14,7 @@
             <label for="email" class="text-vologray-300 text-sm pt-2 pl-4">E-mail Adresse</label>
 
             <input
-              class="placeholder-transparent outline-none pl-4 border invalid:border-red-500"
+              class="placeholder-transparent outline-none pl-4"
               type="text"
               id="email"
               name="email"
@@ -22,7 +22,6 @@
               placeholder="E-Mail Adresse"
               required
               autocomplete="off"
-              :invalid="Boolean(errorMessageMail) ? true : undefined"
             />
           </div>
           <p v-if="errorMessagePassword">{{ errorMessagePassword }}</p>
