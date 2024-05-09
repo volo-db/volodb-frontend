@@ -8,7 +8,7 @@
         <form @submit.prevent="onSubmit" class="flex flex-col mt-12" novalidate>
           <div
             class="focus-within:border-l-voloblue-200 focus-within:border-l-4 outline outline-vologray-200 outline-1 border-l-4 border-transparent flex flex-col w-96 relative h-16"
-            :class="{ 'error-animation': errorMail || userStore.loginErrorMessage }"
+            :class="{ 'error-animation': errorMail }"
           >
             <label for="email" class="text-vologray-300 text-sm pt-2 pl-4">E-mail Adresse</label>
             <input
@@ -25,7 +25,7 @@
           </div>
           <div
             class="focus-within:border-l-voloblue-200 focus-within:border-l-4 outline outline-vologray-200 outline-1 border-l-4 border-transparent flex flex-col w-96 relative h-16"
-            :class="{ 'error-animation': errorPassword || userStore.loginErrorMessage}"
+            :class="{ 'error-animation': errorPassword}"
           >
             <label for="password" class="text-vologray-300 text-sm pt-2 pl-4">Passwort</label>
             <input
@@ -75,12 +75,10 @@ export default {
     return {
       email: '',
       password: '',
-      // errorMessageMail: '',
-      // errorMessagePassword: '',
       volodbLogo,
       errorMail: false,
       errorPassword: false,
-      errorLogin: false
+      
     }
   },
   methods: {
@@ -98,7 +96,6 @@ export default {
     },
     async onSubmit() {
       this.validate()
-    // if (this.errorMessageMail || this.errorMessagePassword)
       if (this.errorMail || this.errorPassword) {
         return
       }
@@ -106,24 +103,21 @@ export default {
         await this.userStore.login(this.email, this.password)
         this.$router.push({ name: 'DashboardView' })
       } catch (error) {
-        console.log("HI ERROR:" + error)
+        console.log(error)
         this.errorAnimationMail()
         this.errorAnimationPassword()
+        this.email = ''
+        this.password = ''
       }
     },
     validate() {
-      // this.errorMessageMail = ''
-      // this.errorMessagePassword = ''
 
       if (!this.email) {
-        // this.errorMessageMail = 'Keine E-Mail angegeben!'
         console.error(`VoloDB-ERROR:\n🤌 no email provided`)
-        // console.log('Error message for email set:', this.errorMessageMail)
         this.errorAnimationMail()
       }
 
       if (!this.password) {
-        // this.errorMessagePassword = 'Kein Passwort angegeben!'
         console.error(`VoloDB-ERROR:\n🤌 no password provided`)
         this.errorAnimationPassword()
       }
