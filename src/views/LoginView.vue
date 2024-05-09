@@ -96,14 +96,15 @@ export default {
         this.errorPassword = false
       }, 1000)
     },
-    onSubmit() {
+    async onSubmit() {
       this.validate()
     // if (this.errorMessageMail || this.errorMessagePassword)
       if (this.errorMail || this.errorPassword) {
         return
       }
       try {
-        this.userStore.login(this.email, this.password)
+        await this.userStore.login(this.email, this.password)
+        this.$router.push({ name: 'DashboardView' })
       } catch (error) {
         console.log("HI ERROR:" + error)
         this.errorAnimationMail()

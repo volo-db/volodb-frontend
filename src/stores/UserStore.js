@@ -12,9 +12,9 @@ const state = useStorage('user-store', {
 export const useUserStore = defineStore('userStore', {
   state: () => state,
   actions: {
-    login(email, password) {
+    async login(email, password) {
       this.fetching = true
-      fetch(`${import.meta.env.VITE_BASE_URL}/auth/login`, {
+      await fetch(`${import.meta.env.VITE_BASE_URL}/auth/login`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -35,9 +35,9 @@ export const useUserStore = defineStore('userStore', {
         // })
         .finally(() => (this.fetching = false))
     },
-    getUser() {
+    async getUser() {
       this.fetching = true
-      fetch(`${import.meta.env.VITE_BASE_URL}/user`, {
+      await fetch(`${import.meta.env.VITE_BASE_URL}/user`, {
         method: 'GET',
         headers: {
           'content-type': 'application/json',
