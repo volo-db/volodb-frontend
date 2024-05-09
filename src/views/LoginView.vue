@@ -25,7 +25,7 @@
           </div>
           <div
             class="focus-within:border-l-voloblue-200 focus-within:border-l-4 outline outline-vologray-200 outline-1 border-l-4 border-transparent flex flex-col w-96 relative h-16"
-            :class="{ 'error-animation': errorPassword}"
+            :class="{ 'error-animation': errorPassword }"
           >
             <label for="password" class="text-vologray-300 text-sm pt-2 pl-4">Passwort</label>
             <input
@@ -41,6 +41,12 @@
           </div>
           <BaseButton type="submit">Einloggen</BaseButton>
         </form>
+        <!-- <ModalContainer v-if="this.userStore.fetching"> -->
+        <ModalContainer v-if="userStore.fetching">
+          <div class="p-4 flex flex-row gap-2 items-center text-md">
+            <icon-spinner />logging in ...
+          </div>
+        </ModalContainer>
       </div>
     </main>
 
@@ -55,6 +61,8 @@ import { useUserStore } from '@/stores/UserStore'
 import { useRouter } from 'vue-router'
 import volodbLogo from '@/assets/logos/volodb-logo.svg'
 import BaseButton from '@/components/BaseButton.vue'
+import ModalContainer from '@/components/ModalContainer.vue'
+import IconSpinner from '@/components/IconSpinner.vue'
 
 export default {
   setup: () => {
@@ -72,8 +80,7 @@ export default {
       password: '',
       volodbLogo,
       errorMail: false,
-      errorPassword: false,
-      
+      errorPassword: false
     }
   },
   methods: {
@@ -106,7 +113,6 @@ export default {
       }
     },
     validate() {
-
       if (!this.email) {
         console.error(`VoloDB-ERROR:\n🤌 no email provided`)
         this.errorAnimationMail()
@@ -118,6 +124,10 @@ export default {
       }
     }
   },
-  components: { BaseButton }
+  components: {
+    BaseButton,
+    ModalContainer,
+    IconSpinner
+  }
 }
 </script>
