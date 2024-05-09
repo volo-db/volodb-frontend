@@ -6,11 +6,9 @@
         <h1 class="text-3xl text-voloblue-200">Willkommen zurück!</h1>
         <h2 class="text-xl text-vologray-400 mt-2">Bitte logge dich in deinen Account ein.</h2>
         <form @submit.prevent="onSubmit" class="flex flex-col mt-12" novalidate>
-          <!-- <p v-if="errorMessageMail">{{ errorMessageMail }}</p> -->
-
           <div
             class="focus-within:border-l-voloblue-200 focus-within:border-l-4 outline outline-vologray-200 outline-1 border-l-4 border-transparent flex flex-col w-96 relative h-16"
-            :class="{ 'error-animation': errorMail }"
+            :class="{ 'error-animation': errorMail || userStore.loginErrorMessage }"
           >
             <label for="email" class="text-vologray-300 text-sm pt-2 pl-4">E-mail Adresse</label>
             <input
@@ -27,7 +25,7 @@
           </div>
           <div
             class="focus-within:border-l-voloblue-200 focus-within:border-l-4 outline outline-vologray-200 outline-1 border-l-4 border-transparent flex flex-col w-96 relative h-16"
-            :class="{ 'error-animation': errorPassword }"
+            :class="{ 'error-animation': errorPassword || userStore.loginErrorMessage}"
           >
             <label for="password" class="text-vologray-300 text-sm pt-2 pl-4">Passwort</label>
             <input
@@ -77,11 +75,12 @@ export default {
     return {
       email: '',
       password: '',
-      errorMessageMail: '',
-      errorMessagePassword: '',
+      // errorMessageMail: '',
+      // errorMessagePassword: '',
       volodbLogo,
       errorMail: false,
-      errorPassword: false
+      errorPassword: false,
+      errorLogin: false
     }
   },
   methods: {
@@ -99,29 +98,31 @@ export default {
     },
     onSubmit() {
       this.validate()
-
-      if (this.errorMessagePassword || this.errorMessageMail) {
+    // if (this.errorMessageMail || this.errorMessagePassword)
+      if (this.errorMail || this.errorPassword) {
         return
       }
       try {
         this.userStore.login(this.email, this.password)
       } catch (error) {
-        console.log(error)
+        console.log("HI ERROR:" + error)
+        this.errorAnimationMail()
+        this.errorAnimationPassword()
       }
     },
     validate() {
-      this.errorMessageMail = ''
-      this.errorMessagePassword = ''
+      // this.errorMessageMail = ''
+      // this.errorMessagePassword = ''
 
       if (!this.email) {
-        this.errorMessageMail = 'Keine E-Mail angegeben!'
+        // this.errorMessageMail = 'Keine E-Mail angegeben!'
         console.error(`VoloDB-ERROR:\n🤌 no email provided`)
-        console.log('Error message for email set:', this.errorMessageMail)
+        // console.log('Error message for email set:', this.errorMessageMail)
         this.errorAnimationMail()
       }
 
       if (!this.password) {
-        this.errorMessagePassword = 'Kein Passwort angegeben!'
+        // this.errorMessagePassword = 'Kein Passwort angegeben!'
         console.error(`VoloDB-ERROR:\n🤌 no password provided`)
         this.errorAnimationPassword()
       }

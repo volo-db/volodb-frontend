@@ -5,6 +5,8 @@ const state = useStorage('user-store', {
   token: null,
   user: null,
   fetching: false
+  // loginErrorMessage: '',
+  // invalidTokenMessage: ''
 })
 
 export const useUserStore = defineStore('userStore', {
@@ -21,14 +23,16 @@ export const useUserStore = defineStore('userStore', {
         })
       })
         .then((res) => {
-          if (!res.ok) throw Error(`VoloDB-ERROR\n🙅‍♀️ login failed! (${res.status})`)
+          if (!res.ok) throw Error(`VoloDB-ERROR\n🙅‍♀️ login failed! (${res.status}`)
           return res.json()
         })
         .then((res) => {
           this.token = res.accessToken
-
           this.getUser()
         })
+        // .catch((error) => {
+        //   this.loginErrorMessage = error
+        // })
         .finally(() => (this.fetching = false))
     },
     getUser() {
