@@ -13,6 +13,6 @@
 
 <script>
 export default {
-  name: 'PhArrowLineRight'
+  name: 'IconLogin'
 }
 </script>
