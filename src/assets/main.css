@@ -5,6 +5,9 @@
 @tailwind utilities;
 
 @layer base {
+  * {
+    --error-color: rgb(243, 111, 111);
+  }
   html {
     font-family: 'fira sans', sans-serif;
   }
@@ -12,9 +15,13 @@
 
 @layer utilities {
   .error-animation {
-    outline: 1px solid rgb(243, 111, 111);
+    outline: 1px solid var(--error-color);
     background-color: rgba(255, 0, 0, 0.1);
     animation: shake 0.4s;
+  }
+
+  .error-label {
+    color: var(--error-color);
   }
 
   @keyframes shake {
