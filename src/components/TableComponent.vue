@@ -51,7 +51,7 @@
         <td class="text-blue-400">></td>
       </tr>
       <tr>
-        <td class="bg-white text-blue-600 text-center" colspan="7">Alle laden</td>
+        <td class="bg-white text-voloblue-200 text-sm text-center" colspan="7">ALLE LADEN</td>
       </tr>
     </tbody>
   </table>
