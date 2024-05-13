@@ -1,12 +1,22 @@
 <template>
-    <table>
+  <table>
     <thead>
       <tr>
-        <td class="pr-8 pb-3 pl-3 text-gray-500 text-sm">Vorname<img :src="listSortArrows" class="pl-2 inline" /></td>
-        <td class="pr-8 pb-3 text-gray-500 text-sm">Name<img :src="listSortArrows" class="pl-2 inline" /></td>
-        <td class="pr-8 pb-3 text-gray-500 text-sm">Einsatzstelle<img :src="listSortArrows" class="pl-2 inline" /></td>
-        <td class="pr-8 pb-3 text-gray-500 text-sm">Jahrgang<img :src="listSortArrows" class="pl-2 inline" /></td>
-        <td class="pr-8 pb-3 text-gray-500 text-sm">Unterlagen<img :src="listSortArrows" class="pl-2 inline" /></td>
+        <td class="pr-8 pb-3 pl-3 text-gray-500 text-sm">
+          Vorname<img :src="listSortArrows" class="pl-2 inline" />
+        </td>
+        <td class="pr-8 pb-3 text-gray-500 text-sm">
+          Name<img :src="listSortArrows" class="pl-2 inline" />
+        </td>
+        <td class="pr-8 pb-3 text-gray-500 text-sm">
+          Einsatzstelle<img :src="listSortArrows" class="pl-2 inline" />
+        </td>
+        <td class="pr-8 pb-3 text-gray-500 text-sm">
+          Jahrgang<img :src="listSortArrows" class="pl-2 inline" />
+        </td>
+        <td class="pr-8 pb-3 text-gray-500 text-sm">
+          Unterlagen<img :src="listSortArrows" class="pl-2 inline" />
+        </td>
         <td class="pr-8 pb-3 text-gray-500 text-sm">
           gebuchte Seminare<img :src="listSortArrows" class="pl-2 inline" />
         </td>
@@ -50,10 +60,10 @@
 <script>
 import listSortArrows from '../assets/logos/list-sort-arrows.svg'
 export default {
-    data() {
-        return {
-            listSortArrows
-        }
+  data() {
+    return {
+      listSortArrows
     }
+  }
 }
 </script>
