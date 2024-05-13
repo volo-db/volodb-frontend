@@ -30,7 +30,7 @@
         <td class="pr-8">2023/24</td>
         <td class="pr-8">2/5</td>
         <td class="pr-8">25/25</td>
-        <td class="text-blue-400">></td>
+        <td class="text-voloblue-100"><IconDetailViewArrow /></td>
       </tr>
       <tr class="border-b h-11">
         <td class="pr-8 pl-3 font-bold">Friedmann</td>
@@ -39,7 +39,7 @@
         <td class="pr-8">2023/24</td>
         <td class="pr-8">3/5</td>
         <td class="pr-8">10/25</td>
-        <td class="pr-3 text-blue-400">></td>
+        <td class="pr-3 text-voloblue-100"><IconDetailViewArrow /></td>
       </tr>
       <tr class="border-b h-11">
         <td class="pl-3 font-bold">Volk</td>
@@ -48,10 +48,10 @@
         <td>2021/22</td>
         <td>5/5</td>
         <td>25/25</td>
-        <td class="text-blue-400">></td>
+        <td class="text-voloblue-100"><IconDetailViewArrow /></td>
       </tr>
       <tr>
-        <td class="bg-white text-voloblue-200 text-sm text-center" colspan="7">ALLE LADEN</td>
+        <td class="bg-white text-voloblue-200 text-sm text-center" colspan="7">1/5</td>
       </tr>
     </tbody>
   </table>
@@ -59,7 +59,10 @@
 
 <script>
 import listSortArrows from '../assets/logos/list-sort-arrows.svg'
+import IconDetailViewArrow from './IconDetailViewArrow.vue'
+
 export default {
+  components: { IconDetailViewArrow },
   data() {
     return {
       listSortArrows
