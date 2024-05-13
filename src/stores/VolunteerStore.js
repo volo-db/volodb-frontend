@@ -1,27 +1,23 @@
 import { defineStore } from 'pinia'
-import { useStorage } from '@vueuse/core'
-
-const userStore = useStorage('user-store', {})
 
 export const useVolunteerStore = defineStore('volunteerStore', {
   state: () => {
     return {
       fetching: false,
-      userStore: userStore
+      token: JSON.parse(localStorage.getItem('user-store')).token
     }
   },
   actions: {
-    test(volunteer) {
-      console.log(volunteer)
-    },
-
     async saveVolunteer(volunteer) {
+      // If there's no token, something went wrong
+      if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
+
       this.fetching = true
       await fetch(`${import.meta.env.VITE_BASE_URL}/volunteers`, {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
-          authorization: `Bearer ${this.userStore.token}`
+          authorization: `Bearer ${this.token}`
         },
         body: JSON.stringify(volunteer)
       })
@@ -30,23 +26,6 @@ export const useVolunteerStore = defineStore('volunteerStore', {
           return res.json()
         })
         .finally(() => (this.fetching = false))
-    },
-    async getUser() {
-      this.fetching = true
-      await fetch(`${import.meta.env.VITE_BASE_URL}/user`, {
-        method: 'GET',
-        headers: {
-          'content-type': 'application/json',
-          authorization: `Bearer ${this.token}`
-        }
-      }).then((res) => {
-        if (!res.ok) {
-          this.logout()
-          console.log(res.statusText)
-          throw Error(`VoloDB-ERROR\n🙅‍♀️ ups! invalid token. Maybe expired... (${res.status})`)
-        }
-        return res.json()
-      })
     }
   },
   getters: {}

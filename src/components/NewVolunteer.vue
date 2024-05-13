@@ -4,12 +4,18 @@
       <h2 class="text-[20px] text-bold font-medium">Neue:r Freiwillige:r</h2>
     </header>
     <main class="p-8">
+      <p
+        v-if="errorMessage"
+        class="flex justify-center text-sm font-light rounded border border-1 mb-4 p-3 bg-red-100 border-red-500 text-red-500"
+      >
+        🤷‍♀️ Upsi! Da ist wohl was schief gelaufen... Versuchs bitte nochmal.
+      </p>
       <div v-if="!volunteerStore.fetching" class="flex justify-center">
         <!-- left column -->
         <div class="flex-1">
           <p class="text-[13px] text-vologray-400 pe-20">
-            Lege hier im ersten Schritt, die freiwillige Person an mit ein paar grundlegenden Daten
-            an. Alle weiteren Details kannst du im nächsten Schritt ergänzen.
+            Lege hier im ersten Schritt, die freiwillige Person mit ein paar grundlegenden Daten an.
+            Alle weiteren Details kannst du im nächsten Schritt ergänzen.
           </p>
         </div>
         <!-- right column -->
@@ -152,11 +158,14 @@ export default {
         email: '',
         mobile: ''
       },
-      formValid: false
+      formValid: false,
+      errorMessage: false,
+      successMessage: false
     }
   },
   methods: {
     validate() {
+      // clear the table ;-)
       this.formValid = false
 
       this.validationErr.lastname = false
@@ -165,15 +174,25 @@ export default {
       this.validationErr.email = false
       this.validationErr.mobile = false
 
+      // Validate fields:
+      // Lastname
       if (!this.formData.lastname) this.validationErr.lastname = true
+
+      // Firstname
       if (!this.formData.firstname) this.validationErr.firstname = true
+
+      // Gender
       if (!this.formData.gender) this.validationErr.gender = true
+
+      // Email
       if (this.formData.email && !isValidEmail(this.formData.email)) this.validationErr.email = true
 
+      // Mobile
       this.formData.mobile = this.formData.mobile.split(' ').join('')
       if (this.formData.mobile && !isValidPhoneNumber(this.formData.mobile))
         this.validationErr.mobile = true
 
+      // If theres no error -> form is valid
       if (
         !this.validationErr.lastname &&
         !this.validationErr.firsname &&
@@ -184,6 +203,9 @@ export default {
         this.formValid = true
     },
     async onSubmit() {
+      this.errorMessage = false
+      this.successMessage = false
+
       this.validate()
       if (this.formValid) {
         let volunteer = {
@@ -199,7 +221,15 @@ export default {
         try {
           await this.volunteerStore.saveVolunteer(volunteer)
         } catch (error) {
-          //ToDo: Error-handling
+          console.error(error)
+
+          // Showing error message just for 5 seconds
+          this.errorMessage = true
+          setTimeout(() => {
+            this.errorMessage = false
+          }, 5000)
+
+          return
         }
         this.$emit('close')
       }
