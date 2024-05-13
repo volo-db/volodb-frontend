@@ -1,7 +1,7 @@
 <template>
   <div class="w-[70px] bg-white">
     <div class="flex justify-center items-center aspect-square">
-      <img :src="smallVolodbLogo" alt="volodb-logo"/>
+      <img :src="smallVolodbLogo" alt="volodb-logo" />
     </div>
     <div>
       <slot name="nav-icon"></slot>
