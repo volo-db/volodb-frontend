@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from '@/stores/UserStore'
 import LoginView from '@/views/LoginView.vue'
 import VolunteersView from '@/views/VolunteersView.vue'
+import VolunteerDetailView from '@/views/VolunteerDetailView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +21,11 @@ const router = createRouter({
       path: '/volunteers',
       name: 'VolunteersView',
       component: VolunteersView
+    },
+    {
+      path: '/volunteers/:volunteerId',
+      name: 'VolunteersDetailView',
+      component: VolunteerDetailView
     }
   ]
 })
