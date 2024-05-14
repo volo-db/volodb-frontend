@@ -2,7 +2,7 @@
   <div class="h-screen overflow-hidden grid grid-cols-[70px,auto] divide-x">
     <NavigationBar>
       <template v-slot:nav-icon>
-        <IconLogout />
+        <IconLogin />
       </template>
     </NavigationBar>
     <RouterView />
@@ -11,9 +11,9 @@
 
 <script>
 import NavigationBar from '@/components/NavigationBar.vue'
-import IconLogout from '@/components/IconLogout.vue'
+import IconLogin from '@/components/IconLogin.vue'
 
 export default {
-  components: { NavigationBar, IconLogout }
+  components: { NavigationBar, IconLogin }
 }
 </script>
