@@ -19,6 +19,7 @@
       <!-- class="w-full mt-12" -->
   </main>
 </template>
+
 <script>
 import BaseButton from '@/components/BaseButton.vue'
 import IconSearch from '../components/IconSearch.vue'
@@ -38,4 +39,5 @@ export default {
   },
 }
 </script>
+
 <style></style>

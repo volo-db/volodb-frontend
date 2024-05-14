@@ -65,7 +65,11 @@ import ModalContainer from '@/components/ModalContainer.vue'
 import IconSpinner from '@/components/IconSpinner.vue'
 
 export default {
-  name: 'LoginView',
+  components: {
+    BaseButton,
+    ModalContainer,
+    IconSpinner
+  },
   setup: () => {
     const userStore = useUserStore()
 
@@ -124,11 +128,6 @@ export default {
         this.errorAnimationPassword()
       }
     }
-  },
-  components: {
-    BaseButton,
-    ModalContainer,
-    IconSpinner
   }
 }
 </script>
