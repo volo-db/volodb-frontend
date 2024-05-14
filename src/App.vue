@@ -11,7 +11,7 @@
 
 <script>
 import NavigationBar from '@/components/NavigationBar.vue'
-import IconLogout from '@/components/icon-components/IconLogout.vue'
+import IconLogout from '@/components/IconLogout.vue'
 
 export default {
   components: { NavigationBar, IconLogout }
