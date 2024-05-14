@@ -7,6 +7,7 @@
     </modal-container>
   </div>
 </template>
+
 <script>
 import BaseButton from '@/components/BaseButton.vue'
 import ModalContainer from '@/components/ModalContainer.vue'
@@ -21,4 +22,5 @@ export default {
   }
 }
 </script>
+
 <style></style>
