@@ -65,6 +65,7 @@ import ModalContainer from '@/components/ModalContainer.vue'
 import IconSpinner from '@/components/IconSpinner.vue'
 
 export default {
+  name: 'LoginView',
   setup: () => {
     const userStore = useUserStore()
 
