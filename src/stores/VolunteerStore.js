@@ -29,7 +29,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         .finally(() => (this.fetching = false))
     },
     async getVolunteers() {
-      // this.fetching = true
+      this.fetching = true
       await fetch(`${import.meta.env.VITE_BASE_URL}/volunteers`, {
         method: 'GET',
         headers: {
@@ -47,7 +47,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         .then((volunteers) => {
           this.volunteers = volunteers.content
         })
-      // .finally(() => (this.fetching = false))
+        .finally(() => (this.fetching = false))
     }
   },
   getters: {}

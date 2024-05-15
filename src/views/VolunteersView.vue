@@ -1,7 +1,7 @@
 <template>
   <main class="bg-vologray-100 px-8">
     <div class="flex justify-between pt-6">
-      <div class="flex justify-between w-96 h-11 bg-white px-4 py-2 border rounded-md">
+      <div class="flex justify-between items-center w-96 h-11 bg-white px-4 py-2 border rounded-md">
         <input
           class="outline-none placeholder-vologray-300"
           type="text"
@@ -15,8 +15,7 @@
       </modal-container>
     </div>
 
-      <TableComponent   />
-      <!-- class="w-full mt-12" -->
+    <TableComponent class="w-full mt-12" />
   </main>
 </template>
 
@@ -27,16 +26,15 @@ import ModalContainer from '@/components/ModalContainer.vue'
 import NewVolunteer from '@/components/NewVolunteer.vue'
 import TableComponent from '../components/TableComponent.vue'
 
-
 export default {
   name: 'VolunteersView',
   components: { BaseButton, IconSearch, ModalContainer, NewVolunteer, TableComponent },
-  
+
   data() {
     return {
       newVolunteerModal: false
     }
-  },
+  }
 }
 </script>
 
