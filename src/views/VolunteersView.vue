@@ -1,11 +1,13 @@
 <template>
   <main class="bg-vologray-100 px-8">
     <div class="flex justify-between pt-6">
-      <div class="flex justify-between items-center w-96 h-11 bg-white px-4 py-2 border rounded-md">
+      <div class="flex justify-between items-center w-96 h-11 bg-white px-4 py-2 border rounded-md" >
         <input
           class="outline-none placeholder-vologray-300"
           type="text"
           placeholder="Suche nach Freiwilligen"
+          v-model="searchInput"
+          @change="useSearch()"
         />
         <IconSearch />
       </div>
@@ -32,7 +34,13 @@ export default {
 
   data() {
     return {
+      searchInput: "",
       newVolunteerModal: false
+    }
+  },
+  methods: {
+    useSearch() {
+      // handling search stuff here?
     }
   }
 }
