@@ -1,24 +1,24 @@
-<template>
-  <div>
-    <table class="w-full" v-if="volunteerStore.volunteers.length > 0">
+<template> 
+<div>
+    <table class="w-full" v-if="volunteerStore.volunteers.length > 0" >
       <thead>
         <tr>
-          <td class="pr-8 pb-3 pl-3 text-gray-500 text-sm">
+          <td class="pr-8 pb-3 pl-3 text-vologray-700 text-sm">
             Name<img :src="listSortArrows" class="pl-2 inline" />
           </td>
-          <td class="pr-8 pb-3 text-gray-500 text-sm">
+          <td class="pr-8 pb-3 text-vologray-700 text-sm">
             Vorname<img :src="listSortArrows" class="pl-2 inline" />
           </td>
-          <td class="pr-8 pb-3 text-gray-500 text-sm">
+          <td class="pr-8 pb-3 text-vologray-700 text-sm">
             Einsatzstelle<img :src="listSortArrows" class="pl-2 inline" />
           </td>
-          <td class="pr-8 pb-3 text-gray-500 text-sm">
+          <td class="pr-8 pb-3 text-vologray-700 text-sm">
             Jahrgang<img :src="listSortArrows" class="pl-2 inline" />
           </td>
-          <td class="pr-8 pb-3 text-gray-500 text-sm">
+          <td class="pr-8 pb-3 text-vologray-700 text-sm">
             Unterlagen<img :src="listSortArrows" class="pl-2 inline" />
           </td>
-          <td class="pr-8 pb-3 text-gray-500 text-sm">
+          <td class="pr-8 pb-3 text-vologray-700 text-sm">
             gebuchte Seminare<img :src="listSortArrows" class="pl-2 inline" />
           </td>
         </tr>
