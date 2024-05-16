@@ -3,7 +3,7 @@
     <path
       opacity="0.495071"
       d="M1.65674 1.34326L7.31359 7.00012L1.65674 12.657"
-      stroke="#0027FF"
+      stroke="currentColor"
       stroke-width="2"
     />
   </svg>

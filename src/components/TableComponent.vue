@@ -1,6 +1,6 @@
 <template> 
 <div class="overflow-x-auto" v-bind="$attrs">
-    <table class="w-full " v-if="volunteerStore.volunteers.length > 0" >
+    <table class="w-full " v-if="volunteerStore.volunteers" >
       <thead>
         <tr>
           <td class="pb-3 pl-4  text-vologray-700 text-sm">
@@ -35,7 +35,7 @@
           <td>2023/24</td>
           <td>2/5</td>
           <td>25/25</td>
-          <td class="text-voloblue-100"><IconDetailViewArrow /></td>
+          <td class="text-voloblue-200"><IconDetailViewArrow /></td>
         </tr> 
         <td class="bg-white text-voloblue-200 text-sm text-center" colspan="7">1/5</td> 
       </tbody>

@@ -9,7 +9,7 @@
           v-model="searchInput"
           @change="useSearch()"
         />
-        <IconSearch />
+        <IconSearch class="text-vologray-700"/>
       </div>
       <base-button @click.prevent="newVolunteerModal = true">Freiwillige:n anlegen</base-button>
       <modal-container v-if="newVolunteerModal">

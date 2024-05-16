@@ -11,7 +11,7 @@ export default {
           400: '#A5A5A5', // text-color
           500: '#979797', // bg-color
           600: '#7B7F8E', // bg-modal
-          700: '#8C97AF' // table head text
+          700: '#8C97AF' // table head text / magnifier icon
         },
         voloblue: {
           100: '#0049FF',
