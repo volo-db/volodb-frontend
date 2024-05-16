@@ -1,23 +1,46 @@
 <template>
-  <div>
-    <h1>Volunteers</h1>
-    <base-button @click.prevent="newVolunteerModal = true">Neue:r Freiwillige:r</base-button>
-    <modal-container v-if="newVolunteerModal">
-      <new-volunteer @close="newVolunteerModal = false" />
-    </modal-container>
-  </div>
+  <main class="bg-vologray-100 px-8">
+    <div class="flex justify-between pt-6">
+      <div class="flex justify-between items-center w-96 h-11 bg-white px-4 py-2 border rounded-md" >
+        <input
+          class="outline-none placeholder-vologray-300"
+          type="text"
+          placeholder="Suche nach Freiwilligen"
+          v-model="searchInput"
+          @change="useSearch()"
+        />
+        <IconSearch class="text-vologray-700"/>
+      </div>
+      <base-button @click.prevent="newVolunteerModal = true">Freiwillige:n anlegen</base-button>
+      <modal-container v-if="newVolunteerModal">
+        <new-volunteer @close="newVolunteerModal = false" />
+      </modal-container>
+    </div>
+
+    <TableComponent class="w-full mt-12" />
+  </main>
 </template>
 
 <script>
 import BaseButton from '@/components/BaseButton.vue'
+import IconSearch from '../components/IconSearch.vue'
 import ModalContainer from '@/components/ModalContainer.vue'
 import NewVolunteer from '@/components/NewVolunteer.vue'
+import TableComponent from '../components/TableComponent.vue'
+
 export default {
   name: 'VolunteersView',
-  components: { BaseButton, ModalContainer, NewVolunteer },
+  components: { BaseButton, IconSearch, ModalContainer, NewVolunteer, TableComponent },
+
   data() {
     return {
+      searchInput: "",
       newVolunteerModal: false
+    }
+  },
+  methods: {
+    useSearch() {
+      // handling search stuff here?
     }
   }
 }
