@@ -5,6 +5,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
     return {
       fetching: false,
       token: JSON.parse(localStorage.getItem('user-store')).token,
+      data: null,
       volunteers: null
     }
   },
@@ -28,12 +29,11 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         })
         .finally(() => (this.fetching = false))
     },
-    async getVolunteers() {
+    async getVolunteers(pageNumber) {
       this.fetching = true
-      await fetch(`${import.meta.env.VITE_BASE_URL}/volunteers`, {
+      await fetch(`${import.meta.env.VITE_BASE_URL}/volunteers?page=${pageNumber}`, {
         method: 'GET',
         headers: {
-          // 'content-type': 'application/json',
           authorization: `Bearer ${this.token}`
         }
       })
@@ -44,8 +44,9 @@ export const useVolunteerStore = defineStore('volunteerStore', {
           }
           return res.json()
         })
-        .then((volunteers) => {
-          this.volunteers = volunteers.content
+        .then((data) => {
+          this.data = data
+          this.volunteers = data.content
         })
         .finally(() => (this.fetching = false))
     }
