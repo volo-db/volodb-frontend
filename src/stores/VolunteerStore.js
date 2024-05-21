@@ -5,8 +5,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
     return {
       fetching: false,
       token: JSON.parse(localStorage.getItem('user-store')).token,
-      fetchedData: null,
-      volunteers: null
+      volunteerPage: null
     }
   },
   actions: {
@@ -45,8 +44,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
           return res.json()
         })
         .then((data) => {
-          this.fetchedData = data
-          this.volunteers = data.content
+          this.volunteerPage = data
         })
         .finally(() => (this.fetching = false))
     }

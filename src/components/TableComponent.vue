@@ -1,6 +1,6 @@
 <template>
   <div class="overflow-x-auto" v-bind="$attrs">
-    <table class="w-full" v-if="volunteerStore.volunteers">
+    <table class="w-full" v-if="volunteerStore.volunteerPage">
       <thead>
         <tr>
           <td class="pb-3 pl-4 text-vologray-700 text-sm">
@@ -26,7 +26,7 @@
       <tbody class="bg-white outline outline-white rounded">
         <tr
           class="border-b h-14"
-          v-for="volunteer of volunteerStore.volunteers"
+          v-for="volunteer of volunteerStore.volunteerPage.content"
           :key="volunteer.id"
         >
           <td class="pl-4 font-bold">{{ volunteer.person.lastname }}</td>
