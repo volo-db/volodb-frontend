@@ -42,7 +42,6 @@ export default {
   async created() {
     try {
       await this.volunteerStore.getVolunteers()
-      console.log('created')
       console.log(this.volunteerStore.fetchedData.content)
     } catch (error) {
       console.error('Error fetching volunteers:', error)
