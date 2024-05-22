@@ -29,13 +29,13 @@
           v-for="volunteer of volunteerStore.volunteerPage.content"
           :key="volunteer.id"
         >
-          <td class="pl-4 font-bold">{{ volunteer.person.lastname }}</td>
+          <td class="font-bold pl-4">{{ volunteer.person.lastname }}</td>
           <td class="font-bold">{{ volunteer.person.firstname }}</td>
           <td>{{ volunteer.birthplace }}</td>
           <td>2023/24</td>
           <td>2/5</td>
           <td>25/25</td>
-          <td class="text-voloblue-200"><IconDetailViewArrow /></td>
+          <td class="text-voloblue-200 pr-1"><IconDetailViewArrow /></td>
         </tr>
         <PaginationComponent class="w-full"/>
       </tbody>
