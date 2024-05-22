@@ -30,12 +30,15 @@ export const useVolunteerStore = defineStore('volunteerStore', {
     },
     async getVolunteers(pageNumber = 0) {
       this.fetching = true
-      await fetch(`${import.meta.env.VITE_BASE_URL}/volunteers?page=${pageNumber}`, {
-        method: 'GET',
-        headers: {
-          authorization: `Bearer ${this.token}`
+      await fetch(
+        `${import.meta.env.VITE_BASE_URL}/volunteers?page=${pageNumber}&sortField=person.lastname&sortOrder=asc`,
+        {
+          method: 'GET',
+          headers: {
+            authorization: `Bearer ${this.token}`
+          }
         }
-      })
+      )
         .then((res) => {
           console.log(res.status)
           if (!res.ok) {
