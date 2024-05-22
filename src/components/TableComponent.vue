@@ -2,24 +2,9 @@
   <div class="overflow-x-auto" v-bind="$attrs">
     <table class="w-full" v-if="volunteerStore.volunteerPage">
       <thead>
-        <tr>
-          <td class="pb-3 pl-4 text-vologray-700 text-sm">
-            Name<img :src="listSortArrows" class="pl-2 inline" />
-          </td>
-          <td class="pb-3 text-vologray-700 text-sm">
-            Vorname<img :src="listSortArrows" class="pl-2 inline" />
-          </td>
-          <td class="pb-3 text-vologray-700 text-sm">
-            Einsatzstelle<img :src="listSortArrows" class="pl-2 inline" />
-          </td>
-          <td class="pb-3 text-vologray-700 text-sm">
-            Jahrgang<img :src="listSortArrows" class="pl-2 inline" />
-          </td>
-          <td class="pb-3 text-vologray-700 text-sm">
-            Unterlagen<img :src="listSortArrows" class="pl-2 inline" />
-          </td>
-          <td class="pb-3 text-vologray-700 text-sm">
-            gebuchte Seminare<img :src="listSortArrows" class="pl-2 inline" />
+        <tr class="pl-4">
+          <td v-for="title in tableHead" :key="title" class="pb-3 text-vologray-700 text-sm">
+            {{ title }}<img :src="listSortArrows" class="pl-2 inline" />
           </td>
         </tr>
       </thead>
@@ -62,7 +47,8 @@ export default {
   },
   data() {
     return {
-      listSortArrows
+      listSortArrows,
+      tableHead: ['Name', 'Vorname', 'Einsatzstelle', 'Jahrgang', 'Unterlagen', 'gebuchte Seminare']
     }
   }
 }
