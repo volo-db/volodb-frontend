@@ -2,8 +2,8 @@
   <div class="overflow-x-auto" v-bind="$attrs">
     <table class="w-full" v-if="volunteerStore.volunteerPage">
       <thead>
-        <tr class="pl-4">
-          <td v-for="title in tableHead" :key="title" class="pb-3 text-vologray-700 text-sm">
+        <tr>
+          <td v-for="(title,index) in tableHead" :key="index" class="pb-3 text-vologray-700 text-sm" :class="{'pl-4' : index === 0}">
             {{ title }}<img :src="listSortArrows" class="pl-2 inline" />
           </td>
         </tr>
