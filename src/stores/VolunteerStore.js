@@ -50,6 +50,29 @@ export const useVolunteerStore = defineStore('volunteerStore', {
           this.volunteerPage = data
         })
         .finally(() => (this.fetching = false))
+    },
+    async fetchSortedVolunteers(sortBy) {
+      this.fetching = true
+      await fetch(
+        `${import.meta.env.VITE_BASE_URL}/volunteers?page=0&sortField=person.${sortBy}&sortOrder=asc`, // funktioniert nur für person. ...
+        {
+          method: 'GET',
+          headers: {
+            authorization: `Bearer ${this.token}`
+          }
+        }
+      )
+        .then((res) => {
+          console.log(res.status)
+          if (!res.ok) {
+            throw Error(`ERROR:${res.status}`)
+          }
+          return res.json()
+        })
+        .then((data) => {
+          this.volunteerPage = data
+        })
+        .finally(() => (this.fetching = false))
     }
   },
   getters: {}

@@ -3,8 +3,16 @@
     <table class="w-full" v-if="volunteerStore.volunteerPage">
       <thead>
         <tr>
-          <td v-for="(title,index) in tableHead" :key="index" class="pb-3 text-vologray-700 text-sm" :class="{'pl-4' : index === 0}">
-            {{ title }}<img :src="listSortArrows" class="pl-2 inline" />
+          <td
+            v-for="(title, index) in tableHead"
+            :key="index"
+            class="pb-3 text-vologray-700 text-sm"
+            :class="{ 'pl-4': index === 0 }"
+          >
+            {{ title }}
+            <button @click="volunteerStore.fetchSortedVolunteers(sortParameter[index])">
+              <img :src="listSortArrows" class="pl-2 inline" />
+            </button>
           </td>
         </tr>
       </thead>
@@ -22,7 +30,7 @@
           <td>25/25</td>
           <td class="text-voloblue-200 pr-1"><IconDetailViewArrow /></td>
         </tr>
-        <PaginationComponent class="w-full"/>
+        <PaginationComponent class="w-full" />
       </tbody>
     </table>
   </div>
@@ -48,9 +56,9 @@ export default {
   data() {
     return {
       listSortArrows,
-      tableHead: ['Name', 'Vorname', 'Einsatzstelle', 'Jahrgang', 'Unterlagen', 'gebuchte Seminare']
+      tableHead: ['Name', 'Vorname', 'Einsatzstelle', 'Jahrgang', 'Unterlagen', 'gebuchte Seminare'],
+      sortParameter: ['lastname','firstname', 'Organisation','year','documents', 'seminars']
     }
   }
 }
 </script>
-
