@@ -25,6 +25,7 @@
         </div>
       </header>
       <article class="flex flex-col gap-8 w-full self-start mt-6">
+        <!-- contact section -->
         <details v-if="contacts" class="mb-2" open>
           <summary class="font-medium">Kontakt</summary>
           <div v-for="contact of contacts" :key="contact.id" class="flex flex-col gap-3 pt-3">
@@ -71,12 +72,23 @@
             </p> -->
           </div>
         </details>
-        <details class="mb-2">
-          <summary class="font-medium">Anschrift</summary>
-          <div class="flex flex-col gap-3 pt-3">
-            <p>Unterm Auto 9</p>
-            <p>12345 Musterhause</p>
-            <p>Deutschland</p>
+        <!-- address section -->
+        <details v-if="addresses" class="mb-2" open>
+          <summary class="font-medium">Anschriften</summary>
+          <div class="flex flex-col gap-4 mt-4">
+            <div v-for="address of addresses" class="text-vologray-600" :key="address.id">
+              <p class="text-sm">{{ address.name }}</p>
+              <p :class="{ 'text-black': address.status === 'ACTIVE' }">{{ address.street }}</p>
+              <p :class="{ 'text-black': address.status === 'ACTIVE' }">
+                {{ address.postalcode }} {{ address.city }}
+              </p>
+              <p
+                v-if="!(address.country == 'Germany')"
+                :class="{ 'text-black': address.status === 'ACTIVE' }"
+              >
+                {{ address.country }}
+              </p>
+            </div>
           </div>
         </details>
         <details class="mb-2">
@@ -112,15 +124,15 @@ export default {
   data() {
     return {
       volunteer: null,
-      contacts: null
+      contacts: null,
+      addresses: null
     }
   },
   async beforeCreate() {
     await this.volunteerStore.getVolunteer(this.$route.params.volunteerId)
     this.volunteer = this.volunteerStore.selectedVolunteer
     this.contacts = this.volunteerStore.selectedVolunteerContacts
-    console.log(this.volunteer)
-    console.log(this.contacts)
+    this.addresses = this.volunteerStore.selectedVolunteerAddresses
   }
 }
 </script>

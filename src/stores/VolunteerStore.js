@@ -28,6 +28,34 @@ const getContactsOfVolunteer = async (volunteerId, token) => {
   return tempContacts
 }
 
+// private function to use inside "getVolunteer"
+const getAddressesOfVolunteer = async (volunteerId, token) => {
+  //clear selected volunteer contacts like phoneNr, email, whatsap, etc...
+
+  // If there's no token, something went wrong
+  if (!token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
+
+  let tempAddresses = null
+
+  await fetch(`${import.meta.env.VITE_BASE_URL}/volunteers/${volunteerId}/addresses`, {
+    method: 'GET',
+    headers: {
+      'content-type': 'application/json',
+      authorization: `Bearer ${token}`
+    }
+  })
+    .then((res) => {
+      if (!res.ok)
+        throw Error(`VoloDB-ERROR\n🙅‍♀️ fetching volunteer addresses failed! (${res.status}`)
+      return res.json()
+    })
+    .then((addresses) => {
+      tempAddresses = addresses
+    })
+
+  return tempAddresses
+}
+
 export const useVolunteerStore = defineStore('volunteerStore', {
   state: () => {
     return {
@@ -35,7 +63,8 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       token: JSON.parse(localStorage.getItem('user-store')).token,
       volunteersPage: null,
       selectedVolunteer: null,
-      selectedVolunteerContacts: null
+      selectedVolunteerContacts: null,
+      selectedVolunteerAddresses: null
     }
   },
   actions: {
@@ -80,6 +109,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         .then(async (volunteer) => {
           this.selectedVolunteer = volunteer
           this.selectedVolunteerContacts = await getContactsOfVolunteer(volunteerId, this.token)
+          this.selectedVolunteerAddresses = await getAddressesOfVolunteer(volunteerId, this.token)
         })
         .finally(() => (this.fetching = false))
     },
