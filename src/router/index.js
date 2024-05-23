@@ -24,7 +24,7 @@ const router = createRouter({
     },
     {
       path: '/volunteers/:volunteerId',
-      name: 'VolunteersDetailView',
+      name: 'VolunteerDetailView',
       component: VolunteerDetailView
     }
   ]

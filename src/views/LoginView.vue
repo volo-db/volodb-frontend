@@ -39,7 +39,7 @@
               v-if="!errorPassword"
             />
           </div>
-          <BaseButton type="submit">Einloggen</BaseButton>
+          <BaseButton class="mt-16 self-start" type="submit">Einloggen</BaseButton>
         </form>
         <!-- <ModalContainer v-if="this.userStore.fetching"> -->
         <ModalContainer v-if="userStore.fetching">
@@ -65,6 +65,11 @@ import ModalContainer from '@/components/ModalContainer.vue'
 import IconSpinner from '@/components/IconSpinner.vue'
 
 export default {
+  components: {
+    BaseButton,
+    ModalContainer,
+    IconSpinner
+  },
   setup: () => {
     const userStore = useUserStore()
 
@@ -123,11 +128,6 @@ export default {
         this.errorAnimationPassword()
       }
     }
-  },
-  components: {
-    BaseButton,
-    ModalContainer,
-    IconSpinner
   }
 }
 </script>

@@ -77,8 +77,9 @@ export default {
     }
   },
   async beforeCreate() {
-    await this.volunteerStore.loadVolunteer(this.$route.params.volunteerId)
+    await this.volunteerStore.getVolunteer(this.$route.params.volunteerId)
     this.volunteer = this.volunteerStore.selectedVolunteer
+    console.log(this.volunteer)
   }
 }
 </script>

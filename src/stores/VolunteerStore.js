@@ -5,7 +5,8 @@ export const useVolunteerStore = defineStore('volunteerStore', {
     return {
       fetching: false,
       token: JSON.parse(localStorage.getItem('user-store')).token,
-      selectedVolunteer: null
+      selectedVolunteer: null,
+      volunteersPage: null
     }
   },
   actions: {
@@ -28,7 +29,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         })
         .finally(() => (this.fetching = false))
     },
-    async loadVolunteer(volunteerId) {
+    async getVolunteer(volunteerId) {
       //clear selected Volunteer
       this.selectedVolunteer = null
 
@@ -49,6 +50,28 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         })
         .then((volunteer) => {
           this.selectedVolunteer = volunteer
+        })
+        .finally(() => (this.fetching = false))
+    },
+
+    async getVolunteers(pageNumber = 0) {
+      this.fetching = true
+
+      // If there's no token, something went wrong
+      if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
+
+      await fetch(`${import.meta.env.VITE_BASE_URL}/volunteers?page=${pageNumber}`, {
+        method: 'GET',
+        headers: {
+          authorization: `Bearer ${this.token}`
+        }
+      })
+        .then((res) => {
+          if (!res.ok) throw Error(`VoloDB-ERROR\n🙅‍♀️ posting new volunteer failed! (${res.status}`)
+          return res.json()
+        })
+        .then((volunteersPage) => {
+          this.volunteersPage = volunteersPage
         })
         .finally(() => (this.fetching = false))
     }
