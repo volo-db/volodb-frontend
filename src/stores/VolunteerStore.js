@@ -45,7 +45,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         }
       })
         .then((res) => {
-          if (!res.ok) throw Error(`VoloDB-ERROR\n🙅‍♀️ posting new volunteer failed! (${res.status}`)
+          if (!res.ok) throw Error(`VoloDB-ERROR\n🙅‍♀️ fetching volunteer failed! (${res.status}`)
           return res.json()
         })
         .then((volunteer) => {
@@ -67,7 +67,8 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         }
       })
         .then((res) => {
-          if (!res.ok) throw Error(`VoloDB-ERROR\n🙅‍♀️ posting new volunteer failed! (${res.status}`)
+          if (!res.ok)
+            throw Error(`VoloDB-ERROR\n🙅‍♀️ fetching new volunteers failed! (${res.status}`)
           return res.json()
         })
         .then((volunteersPage) => {
