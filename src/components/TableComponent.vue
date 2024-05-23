@@ -7,7 +7,8 @@
             v-for="(title, index) in tableHead"
             :key="index"
             class="pb-3 text-vologray-700 text-sm"
-            :class="{ 'pl-4': index === 0 }"
+            :class="{ 'pl-4': index === 0 , 'text-blue-600 ' : volunteerStore.activeSortProperty === sortParameter[index] }"
+            
           >
             {{ title }}
             <button @click="volunteerStore.fetchSortedVolunteers(sortParameter[index])">
@@ -57,7 +58,8 @@ export default {
     return {
       listSortArrows,
       tableHead: ['Name', 'Vorname', 'Einsatzstelle', 'Jahrgang', 'Unterlagen', 'gebuchte Seminare'],
-      sortParameter: ['lastname','firstname', 'Organisation','year','documents', 'seminars']
+      sortParameter: ['person.lastname','person.firstname', 'Organisation','year','documents', 'seminars'],
+      
     }
   }
 }

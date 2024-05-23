@@ -5,7 +5,9 @@ export const useVolunteerStore = defineStore('volunteerStore', {
     return {
       fetching: false,
       token: JSON.parse(localStorage.getItem('user-store')).token,
-      volunteerPage: null
+      volunteerPage: null,
+      activeSortProperty: '',
+      sortOrder: 'asc'
     }
   },
   actions: {
@@ -53,8 +55,10 @@ export const useVolunteerStore = defineStore('volunteerStore', {
     },
     async fetchSortedVolunteers(sortBy) {
       this.fetching = true
+      // call function for sortOrder
+      this.defineSortOrder(sortBy)
       await fetch(
-        `${import.meta.env.VITE_BASE_URL}/volunteers?page=0&sortField=person.${sortBy}&sortOrder=asc`, // funktioniert nur für person. ...
+        `${import.meta.env.VITE_BASE_URL}/volunteers?page=0&sortField=${sortBy}&sortOrder=${this.sortOrder}`,
         {
           method: 'GET',
           headers: {
@@ -73,6 +77,14 @@ export const useVolunteerStore = defineStore('volunteerStore', {
           this.volunteerPage = data
         })
         .finally(() => (this.fetching = false))
+    },
+    defineSortOrder(sortProperty) {
+      if (sortProperty === this.activeSortProperty) {
+        this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'
+      } else {
+        this.activeSortProperty = sortProperty
+        this.sortOrder = 'asc' // Reset sortOrder to 'asc' when a new sortProperty is selected
+      }
     }
   },
   getters: {}
