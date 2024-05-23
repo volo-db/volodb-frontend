@@ -53,7 +53,5 @@
   </svg>
 </template>
 <script>
-export default {
-  name: 'IconPhone'
-}
+export default {}
 </script>

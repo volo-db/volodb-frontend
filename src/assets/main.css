@@ -57,7 +57,7 @@
     content: '';
     width: 12px;
     height: 9px;
-    background: url('details-arrow.svg');
+    background: url('icon-arrow-details.svg');
     background-size: cover;
     margin-left: 0.75em;
     transform: 0.2s;

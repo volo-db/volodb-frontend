@@ -28,9 +28,9 @@
         <details class="mb-2" open>
           <summary class="font-medium">Kontakt</summary>
           <div class="flex flex-col gap-3 pt-3">
-            <p><icon-message class="text-voloblue-200 text-xl mr-2" /> WhatsApp</p>
-            <p><icon-mail class="text-voloblue-200 text-xl mr-2" /> feli.friedmann@gmail.com</p>
-            <p><icon-phone class="text-voloblue-200 text-xl mr-2" />+49 (0) 151 27584313</p>
+            <p><IconMessenger class="text-voloblue-200 text-xl mr-2" /> WhatsApp</p>
+            <p><IconMail class="text-voloblue-200 text-xl mr-2" /> feli.friedmann@gmail.com</p>
+            <p><IconPhone class="text-voloblue-200 text-xl mr-2" />+49 (0) 151 27584313</p>
           </div>
         </details>
         <details class="mb-2">
@@ -58,9 +58,9 @@
 import { useVolunteerStore } from '@/stores/VolunteerStore.js'
 import IconMail from '@/components/IconMail.vue'
 import IconPhone from '@/components/IconPhone.vue'
-import IconMessage from '@/components/IconMessage.vue'
+import IconMessenger from '@/components/IconMessenger.vue'
 export default {
-  components: { IconMail, IconPhone, IconMessage },
+  components: { IconMail, IconPhone, IconMessenger },
   name: 'VolunteerDetailView.vue',
   setup() {
     const volunteerStore = useVolunteerStore()
