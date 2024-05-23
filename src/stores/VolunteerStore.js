@@ -1,12 +1,41 @@
 import { defineStore } from 'pinia'
 
+// private function to use inside "getVolunteer"
+const getContactsOfVolunteer = async (volunteerId, token) => {
+  //clear selected volunteer contacts like phoneNr, email, whatsap, etc...
+
+  // If there's no token, something went wrong
+  if (!token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
+
+  let tempContacts = null
+
+  await fetch(`${import.meta.env.VITE_BASE_URL}/volunteers/${volunteerId}/contacts`, {
+    method: 'GET',
+    headers: {
+      'content-type': 'application/json',
+      authorization: `Bearer ${token}`
+    }
+  })
+    .then((res) => {
+      if (!res.ok)
+        throw Error(`VoloDB-ERROR\n🙅‍♀️ fetching volunteer contacts failed! (${res.status}`)
+      return res.json()
+    })
+    .then((contacts) => {
+      tempContacts = contacts
+    })
+
+  return tempContacts
+}
+
 export const useVolunteerStore = defineStore('volunteerStore', {
   state: () => {
     return {
       fetching: false,
       token: JSON.parse(localStorage.getItem('user-store')).token,
       volunteersPage: null,
-      selectedVolunteer: null
+      selectedVolunteer: null,
+      selectedVolunteerContacts: null
     }
   },
   actions: {
@@ -30,7 +59,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         .finally(() => (this.fetching = false))
     },
     async getVolunteer(volunteerId) {
-      //clear selected Volunteer
+      //clear selected volunteer
       this.selectedVolunteer = null
 
       // If there's no token, something went wrong
@@ -48,12 +77,12 @@ export const useVolunteerStore = defineStore('volunteerStore', {
           if (!res.ok) throw Error(`VoloDB-ERROR\n🙅‍♀️ fetching volunteer failed! (${res.status}`)
           return res.json()
         })
-        .then((volunteer) => {
+        .then(async (volunteer) => {
           this.selectedVolunteer = volunteer
+          this.selectedVolunteerContacts = await getContactsOfVolunteer(volunteerId, this.token)
         })
         .finally(() => (this.fetching = false))
     },
-
     async getVolunteers(pageNumber = 0) {
       this.fetching = true
 
