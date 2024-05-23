@@ -18,7 +18,5 @@
 </template>
 
 <script>
-export default {
-  name: 'IconSpinner'
-}
+export default {}
 </script>

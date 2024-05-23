@@ -27,7 +27,5 @@
 </template>
 
 <script>
-export default {
-  name: 'IconDeploymentSites'
-}
+export default {}
 </script>

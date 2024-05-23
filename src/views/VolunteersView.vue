@@ -9,27 +9,29 @@
         />
         <IconSearch class="text-vologray-700" />
       </div>
-      <base-button @click.prevent="newVolunteerModal = true">Freiwillige:n anlegen</base-button>
-      <modal-container v-if="newVolunteerModal">
-        <new-volunteer @close="newVolunteerModal = false" />
-      </modal-container>
+      <ButtonStandard @click.prevent="newVolunteerModal = true"
+        >Freiwillige:n anlegen</ButtonStandard
+      >
+      <ContainerModal v-if="newVolunteerModal">
+        <VolunteerFormular @close="newVolunteerModal = false" />
+      </ContainerModal>
     </div>
 
-    <TableComponent class="w-full mt-12" />
+    <VolunteerTable class="w-full mt-12" />
   </main>
 </template>
 
 <script>
-import BaseButton from '@/components/BaseButton.vue'
+import ButtonStandard from '@/components/ButtonStandard.vue'
 import IconSearch from '../components/IconSearch.vue'
-import ModalContainer from '@/components/ModalContainer.vue'
-import NewVolunteer from '@/components/NewVolunteer.vue'
-import TableComponent from '../components/TableComponent.vue'
+import ContainerModal from '@/components/ContainerModal.vue'
+import VolunteerFormular from '@/components/VolunteerFormular.vue'
+import VolunteerTable from '../components/VolunteerTable.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
 
 export default {
   name: 'VolunteersView',
-  components: { BaseButton, IconSearch, ModalContainer, NewVolunteer, TableComponent },
+  components: { ButtonStandard, IconSearch, ContainerModal, VolunteerFormular, VolunteerTable },
   setup: () => {
     const volunteerStore = useVolunteerStore()
     return { volunteerStore }

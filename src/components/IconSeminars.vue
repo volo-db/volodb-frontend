@@ -35,7 +35,5 @@
 </template>
 
 <script>
-export default {
-  name: 'IconSeminars'
-}
+export default {}
 </script>

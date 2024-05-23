@@ -10,7 +10,5 @@
   </teleport>
 </template>
 <script>
-export default {
-  name: 'ModalContainer'
-}
+export default {}
 </script>
