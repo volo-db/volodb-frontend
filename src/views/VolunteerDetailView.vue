@@ -1,20 +1,18 @@
 <template>
-  <div v-if="!volunteerStore.fetching" class="flex overflow-hidden">
+  <div v-if="volunteer" class="flex overflow-hidden">
     <div class="flex-none flex flex-col justify-start items-center p-8 w-[400px] overflow-auto">
       <header class="flex flex-col items-center gap-3">
         <!-- Avatar -->
         <div class="border border-[3px] border-green-300 rounded-full p-2">
           <img
-            :src="baseUrl + '/files/' + { ...volunteer }.avatar"
+            :src="baseUrl + '/files/' + volunteer.avatar"
             alt="Avatar von ausgewähltem Freiwilligen"
             class="aspect-square w-[110px] object-cover rounded-full"
           />
         </div>
         <!-- Name -->
         <h2 class="pt-4 text-lg font-medium">
-          <!-- {{ volunteer.person.firstname }} {{ volunteer.person.lastname }} -->
-          {{ { ...{ ...volunteer }.person }.firstname }}
-          {{ { ...{ ...volunteer }.person }.lastname }}
+          {{ volunteer.person.firstname }} {{ volunteer.person.lastname }}
         </h2>
         <!-- Project -->
         <p class="text-sm">
@@ -81,7 +79,6 @@ export default {
   async beforeCreate() {
     await this.volunteerStore.loadVolunteer(this.$route.params.volunteerId)
     this.volunteer = this.volunteerStore.selectedVolunteer
-    console.log({ ...this.volunteer })
   }
 }
 </script>
