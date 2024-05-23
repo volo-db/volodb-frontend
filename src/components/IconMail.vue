@@ -27,7 +27,5 @@
   </svg>
 </template>
 <script>
-export default {
-  name: 'IconMail'
-}
+export default {}
 </script>

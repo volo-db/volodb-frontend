@@ -17,7 +17,5 @@
 </template>
 
 <script>
-export default {
-  name: 'IconDashboard'
-}
+export default {}
 </script>

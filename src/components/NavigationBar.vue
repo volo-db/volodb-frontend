@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import smallVolodbLogo from '@/assets/logos/volodb-logo-small.svg'
+import smallVolodbLogo from '@/assets/logo-volodb-small.svg'
 
 export default {
   data() {

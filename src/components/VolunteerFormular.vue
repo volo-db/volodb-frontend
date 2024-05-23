@@ -117,24 +117,23 @@
         v-if="volunteerStore.fetching"
         class="p-4 flex flex-row gap-2 justify-center items-center text-md"
       >
-        <icon-spinner />speichere daten...
+        <IconSpinner />speichere daten...
       </div>
     </main>
     <footer class="flex justify-between p-6 border-solid border-t border-vologray-200">
-      <base-button @click.prevent="$emit('close')">Abbrechen</base-button>
-      <base-button type="submit" form="new-volunteer">Freiwillige:n anlegen</base-button>
+      <ButtonStandard @click.prevent="$emit('close')">Abbrechen</ButtonStandard>
+      <ButtonStandard type="submit" form="new-volunteer">Freiwillige:n anlegen</ButtonStandard>
     </footer>
   </section>
 </template>
 <script>
-import BaseButton from './BaseButton.vue'
+import ButtonStandard from './ButtonStandard.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
 import { isValidEmail, isValidPhoneNumber } from '@/utils'
 import IconSpinner from './IconSpinner.vue'
 
 export default {
-  name: 'NewVolunteer',
-  components: { BaseButton, IconSpinner },
+  components: { ButtonStandard, IconSpinner },
   setup() {
     const volunteerStore = useVolunteerStore()
 

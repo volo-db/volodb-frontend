@@ -96,9 +96,9 @@
 import { useVolunteerStore } from '@/stores/VolunteerStore.js'
 import IconMail from '@/components/IconMail.vue'
 import IconPhone from '@/components/IconPhone.vue'
-import IconMessage from '@/components/IconMessage.vue'
+import IconMessenger from '@/components/IconMessenger.vue'
 export default {
-  components: { IconMail, IconPhone, IconMessage },
+  components: { IconMail, IconPhone, IconMessenger },
   name: 'VolunteerDetailView.vue',
   setup() {
     const volunteerStore = useVolunteerStore()

@@ -10,7 +10,5 @@
 </template>
 
 <script>
-export default {
-  name: 'IconDetailViewArrow'
-}
+export default {}
 </script>
