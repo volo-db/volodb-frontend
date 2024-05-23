@@ -39,12 +39,5 @@ export default {
       newVolunteerModal: false
     }
   }
-  // async created() {
-  //   try {
-  //     await this.volunteerStore.getVolunteers()
-  //   } catch (error) {
-  //     console.error('Error fetching volunteers:', error)
-  //   }
-  // }
 }
 </script>

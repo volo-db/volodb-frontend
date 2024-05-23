@@ -5,8 +5,8 @@ export const useVolunteerStore = defineStore('volunteerStore', {
     return {
       fetching: false,
       token: JSON.parse(localStorage.getItem('user-store')).token,
-      selectedVolunteer: null,
-      volunteersPage: null
+      volunteersPage: null,
+      selectedVolunteer: null
     }
   },
   actions: {

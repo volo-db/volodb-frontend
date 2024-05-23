@@ -3,7 +3,7 @@
     <div class="flex-none flex flex-col justify-start items-center p-8 w-[400px] overflow-auto">
       <header class="flex flex-col items-center gap-3">
         <!-- Avatar -->
-        <div class="border border-[3px] border-green-300 rounded-full p-2">
+        <div class="border-[3px] border-green-300 rounded-full p-2">
           <img
             :src="baseUrl + '/files/' + volunteer.avatar"
             alt="Avatar von ausgewähltem Freiwilligen"
@@ -19,7 +19,7 @@
           Einsatzstelle: <span class="font-medium">Kindergarten Kleeblatt</span>
         </p>
         <!-- Status-Pill -->
-        <div class="flex flex-row border border-2 border-voloblue-100 rounded-lg text-sm">
+        <div class="flex flex-row border-2 border-voloblue-100 rounded-lg text-sm">
           <span class="px-1 pt-[1px] text-voloblue-100">BFD</span>
           <span class="px-1 pt-[1px] text-white bg-voloblue-100">IM EINSATZ</span>
         </div>
@@ -73,7 +73,8 @@ export default {
   },
   data() {
     return {
-      volunteer: null
+      volunteer: null,
+      contacts: null
     }
   },
   async beforeCreate() {
