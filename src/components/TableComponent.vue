@@ -1,6 +1,6 @@
 <template>
   <div class="overflow-x-auto" v-bind="$attrs">
-    <table class="w-full" v-if="volunteerStore.volunteerPage">
+    <table class="w-full" v-if="volunteerStore.volunteersPage">
       <thead>
         <tr>
           <td class="pb-3 pl-4 text-vologray-700 text-sm">
@@ -26,7 +26,7 @@
       <tbody class="bg-white outline outline-white rounded">
         <tr
           class="border-b h-14"
-          v-for="volunteer of volunteerStore.volunteerPage.content"
+          v-for="volunteer of volunteerStore.volunteersPage.content"
           :key="volunteer.id"
         >
           <td class="pl-4 font-bold">{{ volunteer.person.lastname }}</td>
@@ -37,7 +37,7 @@
           <td>25/25</td>
           <td class="text-voloblue-200"><IconDetailViewArrow /></td>
         </tr>
-        <PaginationComponent class="w-full"/>
+        <PaginationComponent class="w-full" />
       </tbody>
     </table>
   </div>
@@ -64,7 +64,14 @@ export default {
     return {
       listSortArrows
     }
+  },
+  async beforeMount() {
+    try {
+      await this.volunteerStore.getVolunteers()
+      console.log(this.volunteerStore.volunteersPage)
+    } catch (error) {
+      console.error('Error fetching volunteers:', error)
+    }
   }
 }
 </script>
-
