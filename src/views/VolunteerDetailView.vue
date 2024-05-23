@@ -42,31 +42,31 @@
             <!-- MESSENGER: -->
             <!-- WhatsApp -->
             <p v-if="contact.type === 'whatsapp'">
-              <IconMessage class="text-voloblue-200 text-xl mr-2" />
+              <IconMessenger class="text-voloblue-200 text-xl mr-2" />
               <a :href="'https://wa.me/' + contact.value">{{ contact.value }} (WhatsApp)</a>
             </p>
             <!-- Telegram -->
             <p v-if="contact.type === 'telegram'">
-              <IconMessage class="text-voloblue-200 text-xl mr-2" />
+              <IconMessenger class="text-voloblue-200 text-xl mr-2" />
               <a :href="'https://t.me/' + contact.value">{{ contact.value }} (Telegram)</a>
             </p>
             <!-- Threema -->
             <p v-if="contact.type === 'threema'">
-              <IconMessage class="text-voloblue-200 text-xl mr-2" />
+              <IconMessenger class="text-voloblue-200 text-xl mr-2" />
               <a :href="'https://threema.id/' + contact.value + '?text='"
                 >{{ contact.value }} (Threema)</a
               >
             </p>
             <!-- Instagram -->
             <p v-if="contact.type === 'instagram'">
-              <IconMessage class="text-voloblue-200 text-xl mr-2" />
+              <IconMessenger class="text-voloblue-200 text-xl mr-2" />
               <a :href="'https://ig.me/m/' + contact.value + '?text='"
                 >{{ contact.value }} (Instagram)</a
               >
             </p>
             <!-- ToDo: SIGNAL -->
             <!-- <p v-if="contact.type === 'signal'">
-              <IconMessage class="text-voloblue-200 text-xl mr-2" />
+              <IconMessenger class="text-voloblue-200 text-xl mr-2" />
               <a :href="'????' + contact.value">{{ contact.value }} (Telegram)</a>
             </p> -->
           </div>
