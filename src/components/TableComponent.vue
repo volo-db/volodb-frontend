@@ -19,13 +19,13 @@
                 sortParameter[index] === volunteerStore.activeSortProperty &&
                 volunteerStore.sortOrder === 'asc'
                   ? 'blue'
-                  : 'gray'
+                  : 'lightgrey'
               "
               :downArrowColor="
                 sortParameter[index] === volunteerStore.activeSortProperty &&
                 volunteerStore.sortOrder === 'desc'
                   ? 'blue'
-                  : 'gray'
+                  : 'lightgrey'
               "
               class="pl-2 inline w-5"
             />
@@ -88,7 +88,7 @@ export default {
       sortParameter: [
         'person.lastname',
         'person.firstname',
-        'Organisation',
+        'project',
         'year',
         'documents',
         'seminars'
