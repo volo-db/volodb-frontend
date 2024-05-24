@@ -5,15 +5,16 @@
         <tr>
           <td
             v-for="(title, index) in tableHead"
+            @click="volunteerStore.fetchSortedVolunteers(sortParameter[index])"
             :key="index"
-            class="pb-3 text-vologray-700 text-sm"
-            :class="{ 'pl-4': index === 0 , 'text-blue-600 ' : volunteerStore.activeSortProperty === sortParameter[index] }"
-            
+            class="pb-3 text-vologray-700 text-sm cursor-pointer"
+            :class="{ 'pl-4': index === 0 }"
+            :style="{ color: volunteerStore.activeSortProperty === sortParameter[index] ? 'blue' : '' }"
           >
-            {{ title }}
-            <button @click="volunteerStore.fetchSortedVolunteers(sortParameter[index])">
-              <img :src="listSortArrows" class="pl-2 inline" />
-            </button>
+            {{ title }}        
+             <IconTableSortArrows :upArrowColor="sortParameter[index] === volunteerStore.activeSortProperty && volunteerStore.sortOrder === 'asc' ? 'blue' : 'gray'"
+              :downArrowColor="sortParameter[index] === volunteerStore.activeSortProperty && volunteerStore.sortOrder === 'desc' ? 'blue' : 'gray'"
+              class="pl-2 inline w-5"/> 
           </td>
         </tr>
       </thead>
@@ -26,7 +27,7 @@
           <td class="font-bold pl-4">{{ volunteer.person.lastname }}</td>
           <td class="font-bold">{{ volunteer.person.firstname }}</td>
           <td>{{ volunteer.birthplace }}</td>
-          <td>2023/24</td>
+          <td>2023/24 </td>
           <td>2/5</td>
           <td>25/25</td>
           <td class="text-voloblue-200 pr-1"><IconDetailViewArrow /></td>
@@ -41,22 +42,23 @@
 </template>
 
 <script>
-import listSortArrows from '../assets/logos/list-sort-arrows.svg'
+
 import IconDetailViewArrow from './IconDetailViewArrow.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
 import ModalContainer from '@/components/ModalContainer.vue'
 import IconSpinner from '@/components/IconSpinner.vue'
 import PaginationComponent from '@/components/PaginationComponent.vue'
+import IconTableSortArrows from './IconTableSortArrows.vue'
+
 
 export default {
-  components: { IconDetailViewArrow, ModalContainer, IconSpinner, PaginationComponent },
+  components: { IconDetailViewArrow, ModalContainer, IconSpinner, PaginationComponent, IconTableSortArrows },
   setup: () => {
     const volunteerStore = useVolunteerStore()
     return { volunteerStore }
   },
   data() {
     return {
-      listSortArrows,
       tableHead: ['Name', 'Vorname', 'Einsatzstelle', 'Jahrgang', 'Unterlagen', 'gebuchte Seminare'],
       sortParameter: ['person.lastname','person.firstname', 'Organisation','year','documents', 'seminars'],
       

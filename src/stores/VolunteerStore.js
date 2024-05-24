@@ -86,6 +86,5 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         this.sortOrder = 'asc' // Reset sortOrder to 'asc' when a new sortProperty is selected
       }
     }
-  },
-  getters: {}
+  }
 })
