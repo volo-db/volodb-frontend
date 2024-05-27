@@ -62,9 +62,10 @@ import { useVolunteerStore } from '@/stores/VolunteerStore'
 import ModalContainer from '@/components/ContainerModal.vue'
 import IconSpinner from '@/components/IconSpinner.vue'
 import PaginationController from '@/components/PaginationController.vue'
+import IconTableSortArrows from './IconTableSortArrows.vue'
 
 export default {
-  components: { IconArrowGoto, ModalContainer, IconSpinner, PaginationController },
+  components: { IconArrowGoto, ModalContainer, IconSpinner, PaginationController, IconTableSortArrows },
   setup: () => {
     const volunteerStore = useVolunteerStore()
     return { volunteerStore }
