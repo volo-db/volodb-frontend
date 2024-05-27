@@ -3,23 +3,32 @@
     <table class="w-full" v-if="volunteerStore.volunteersPage">
       <thead>
         <tr>
-          <td class="pb-3 pl-4 text-vologray-700 text-sm">
-            Name<img :src="listSortArrows" class="pl-2 inline" />
-          </td>
-          <td class="pb-3 text-vologray-700 text-sm">
-            Vorname<img :src="listSortArrows" class="pl-2 inline" />
-          </td>
-          <td class="pb-3 text-vologray-700 text-sm">
-            Einsatzstelle<img :src="listSortArrows" class="pl-2 inline" />
-          </td>
-          <td class="pb-3 text-vologray-700 text-sm">
-            Jahrgang<img :src="listSortArrows" class="pl-2 inline" />
-          </td>
-          <td class="pb-3 text-vologray-700 text-sm">
-            Unterlagen<img :src="listSortArrows" class="pl-2 inline" />
-          </td>
-          <td class="pb-3 text-vologray-700 text-sm">
-            gebuchte Seminare<img :src="listSortArrows" class="pl-2 inline" />
+          <td
+            v-for="(title, index) in tableHead"
+            @click="volunteerStore.fetchSortedVolunteers(sortParameter[index])"
+            :key="index"
+            class="pb-3 text-vologray-700 text-sm cursor-pointer"
+            :class="{ 'pl-4': index === 0 }"
+            :style="{
+              color: volunteerStore.activeSortProperty === sortParameter[index] ? 'blue' : ''
+            }"
+          >
+            {{ title }}
+            <IconTableSortArrows
+              :upArrowColor="
+                sortParameter[index] === volunteerStore.activeSortProperty &&
+                volunteerStore.sortOrder === 'asc'
+                  ? 'blue'
+                  : 'lightgrey'
+              "
+              :downArrowColor="
+                sortParameter[index] === volunteerStore.activeSortProperty &&
+                volunteerStore.sortOrder === 'desc'
+                  ? 'blue'
+                  : 'lightgrey'
+              "
+              class="pl-2 inline w-5"
+            />
           </td>
         </tr>
       </thead>
@@ -29,7 +38,7 @@
           v-for="volunteer of volunteerStore.volunteersPage.content"
           :key="volunteer.id"
         >
-          <td class="pl-4 font-bold">{{ volunteer.person.lastname }}</td>
+          <td class="font-bold pl-4">{{ volunteer.person.lastname }}</td>
           <td class="font-bold">{{ volunteer.person.firstname }}</td>
           <td>{{ volunteer.birthplace }}</td>
           <td>2023/24</td>
@@ -47,7 +56,7 @@
 </template>
 
 <script>
-import listSortArrows from '../assets/icon-arrow-listsort.svg'
+
 import IconArrowGoto from './IconArrowGoto.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
 import ModalContainer from '@/components/ContainerModal.vue'
@@ -62,7 +71,22 @@ export default {
   },
   data() {
     return {
-      listSortArrows
+      tableHead: [
+        'Name',
+        'Vorname',
+        'Einsatzstelle',
+        'Jahrgang',
+        'Unterlagen',
+        'gebuchte Seminare'
+      ],
+      sortParameter: [
+        'person.lastname',
+        'person.firstname',
+        'project',
+        'year',
+        'documents',
+        'seminars'
+      ]
     }
   },
   async beforeMount() {

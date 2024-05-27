@@ -115,16 +115,15 @@ export const useVolunteerStore = defineStore('volunteerStore', {
     },
     async getVolunteers(pageNumber = 0) {
       this.fetching = true
-
-      // If there's no token, something went wrong
-      if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
-
-      await fetch(`${import.meta.env.VITE_BASE_URL}/volunteers?page=${pageNumber}`, {
-        method: 'GET',
-        headers: {
-          authorization: `Bearer ${this.token}`
+      await fetch(
+        `${import.meta.env.VITE_BASE_URL}/volunteers?page=${pageNumber}&sortField=person.lastname&sortOrder=asc`,
+        {
+          method: 'GET',
+          headers: {
+            authorization: `Bearer ${this.token}`
+          }
         }
-      })
+      )
         .then((res) => {
           if (!res.ok)
             throw Error(`VoloDB-ERROR\n🙅‍♀️ fetching new volunteers failed! (${res.status}`)
@@ -134,7 +133,39 @@ export const useVolunteerStore = defineStore('volunteerStore', {
           this.volunteersPage = volunteersPage
         })
         .finally(() => (this.fetching = false))
+    },
+    async fetchSortedVolunteers(sortBy) {
+      this.fetching = true
+      // call function for sortOrder
+      this.defineSortOrder(sortBy)
+      await fetch(
+        `${import.meta.env.VITE_BASE_URL}/volunteers?page=0&sortField=${sortBy}&sortOrder=${this.sortOrder}`,
+        {
+          method: 'GET',
+          headers: {
+            authorization: `Bearer ${this.token}`
+          }
+        }
+      )
+        .then((res) => {
+          console.log(res.status)
+          if (!res.ok) {
+            throw Error(`ERROR:${res.status}`)
+          }
+          return res.json()
+        })
+        .then((data) => {
+          this.volunteerPage = data
+        })
+        .finally(() => (this.fetching = false))
+    },
+    defineSortOrder(sortProperty) {
+      if (sortProperty === this.activeSortProperty) {
+        this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'
+      } else {
+        this.activeSortProperty = sortProperty
+        this.sortOrder = 'asc' // Reset sortOrder to 'asc' when a new sortProperty is selected
+      }
     }
-  },
-  getters: {}
+  }
 })
