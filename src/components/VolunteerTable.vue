@@ -34,9 +34,10 @@
       </thead>
       <tbody class="bg-white outline outline-white rounded">
         <tr
-          class="border-b h-14"
+          class="border-b h-14 cursor-pointer hover:text-voloblue-100 hover:bg-gray-50"
           v-for="volunteer of volunteerStore.volunteersPage.content"
           :key="volunteer.id"
+          @click="goToDetails(volunteer.id)"
         >
           <td class="font-bold pl-4">{{ volunteer.person.lastname }}</td>
           <td class="font-bold">{{ volunteer.person.firstname }}</td>
@@ -62,12 +63,15 @@ import { useVolunteerStore } from '@/stores/VolunteerStore'
 import ModalContainer from '@/components/ContainerModal.vue'
 import IconSpinner from '@/components/IconSpinner.vue'
 import PaginationController from '@/components/PaginationController.vue'
+import IconTableSortArrows from './IconTableSortArrows.vue'
+import { useRouter } from 'vue-router'
 
 export default {
-  components: { IconArrowGoto, ModalContainer, IconSpinner, PaginationController },
+  components: { IconArrowGoto, ModalContainer, IconSpinner, PaginationController, IconTableSortArrows },
   setup: () => {
     const volunteerStore = useVolunteerStore()
-    return { volunteerStore }
+    const router = useRouter()
+    return { volunteerStore, router }
   },
   data() {
     return {
@@ -89,10 +93,14 @@ export default {
       ]
     }
   },
+  methods: {
+goToDetails(volunteerId) {
+  this.$router.push({ name: 'VolunteerDetailView', params: {volunteerId} })
+}
+  },
   async beforeMount() {
     try {
       await this.volunteerStore.getVolunteers()
-      console.log(this.volunteerStore.volunteersPage)
     } catch (error) {
       console.error('Error fetching volunteers:', error)
     }

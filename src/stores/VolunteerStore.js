@@ -64,7 +64,9 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       volunteersPage: null,
       selectedVolunteer: null,
       selectedVolunteerContacts: null,
-      selectedVolunteerAddresses: null
+      selectedVolunteerAddresses: null,
+      sortOrder: 'asc',
+      activeSortProperty: null
     }
   },
   actions: {
@@ -148,14 +150,13 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         }
       )
         .then((res) => {
-          console.log(res.status)
           if (!res.ok) {
             throw Error(`ERROR:${res.status}`)
           }
           return res.json()
         })
         .then((data) => {
-          this.volunteerPage = data
+          this.volunteersPage = data
         })
         .finally(() => (this.fetching = false))
     },
