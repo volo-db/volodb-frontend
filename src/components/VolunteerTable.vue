@@ -34,9 +34,10 @@
       </thead>
       <tbody class="bg-white outline outline-white rounded">
         <tr
-          class="border-b h-14"
+          class="border-b h-14 cursor-pointer hover:text-voloblue-100 hover:bg-gray-50"
           v-for="volunteer of volunteerStore.volunteersPage.content"
           :key="volunteer.id"
+          @click="goToDetails(volunteer.id)"
         >
           <td class="font-bold pl-4">{{ volunteer.person.lastname }}</td>
           <td class="font-bold">{{ volunteer.person.firstname }}</td>
@@ -44,7 +45,7 @@
           <td>2023/24</td>
           <td>2/5</td>
           <td>25/25</td>
-          <td class="text-voloblue-200"><IconArrowGoto @click="goToDetails(volunteer.id)" class="cursor-pointer"/></td>
+          <td class="text-voloblue-200"><IconArrowGoto /></td>
         </tr>
         <PaginationController class="w-full" />
       </tbody>
