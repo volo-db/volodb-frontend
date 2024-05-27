@@ -44,7 +44,7 @@
           <td>2023/24</td>
           <td>2/5</td>
           <td>25/25</td>
-          <td class="text-voloblue-200"><IconArrowGoto /></td>
+          <td class="text-voloblue-200"><IconArrowGoto @click="goToDetails(volunteer.id)" class="cursor-pointer"/></td>
         </tr>
         <PaginationController class="w-full" />
       </tbody>
@@ -63,12 +63,14 @@ import ModalContainer from '@/components/ContainerModal.vue'
 import IconSpinner from '@/components/IconSpinner.vue'
 import PaginationController from '@/components/PaginationController.vue'
 import IconTableSortArrows from './IconTableSortArrows.vue'
+import { useRouter } from 'vue-router'
 
 export default {
   components: { IconArrowGoto, ModalContainer, IconSpinner, PaginationController, IconTableSortArrows },
   setup: () => {
     const volunteerStore = useVolunteerStore()
-    return { volunteerStore }
+    const router = useRouter()
+    return { volunteerStore, router }
   },
   data() {
     return {
@@ -90,10 +92,14 @@ export default {
       ]
     }
   },
+  methods: {
+goToDetails(volunteerId) {
+  this.$router.push({ name: 'VolunteerDetailView', params: {volunteerId} })
+}
+  },
   async beforeMount() {
     try {
       await this.volunteerStore.getVolunteers()
-      console.log(this.volunteerStore.volunteersPage)
     } catch (error) {
       console.error('Error fetching volunteers:', error)
     }

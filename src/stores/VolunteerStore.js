@@ -150,7 +150,6 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         }
       )
         .then((res) => {
-          console.log(res.status)
           if (!res.ok) {
             throw Error(`ERROR:${res.status}`)
           }
@@ -164,8 +163,6 @@ export const useVolunteerStore = defineStore('volunteerStore', {
     defineSortOrder(sortProperty) {
       if (sortProperty === this.activeSortProperty) {
         this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'
-        console.log(this.sortOrder)
-        console.log(this.activeSortProperty)
       } else {
         this.activeSortProperty = sortProperty
         this.sortOrder = 'asc' // Reset sortOrder to 'asc' when a new sortProperty is selected
