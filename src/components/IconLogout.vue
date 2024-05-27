@@ -30,7 +30,5 @@
 </template>
 
 <script>
-export default {
-  name: 'IconLogout'
-}
+export default {}
 </script>

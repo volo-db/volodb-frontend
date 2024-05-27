@@ -34,7 +34,5 @@
 </template>
 
 <script>
-export default {
-  name: 'IconSearch'
-}
+export default {}
 </script>

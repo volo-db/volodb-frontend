@@ -1,28 +1,37 @@
 <template>
   <main class="bg-vologray-100 px-8">
     <div class="flex justify-between pt-6">
-      <SearchBar />
-      <base-button @click.prevent="newVolunteerModal = true">Freiwillige:n anlegen</base-button>
-      <modal-container v-if="newVolunteerModal">
-        <new-volunteer @close="newVolunteerModal = false" />
-      </modal-container>
+      <div class="flex justify-between items-center w-96 h-11 bg-white px-4 py-2 border rounded-md">
+        <input
+          class="outline-none placeholder-vologray-300"
+          type="text"
+          placeholder="Suche nach Freiwilligen"
+        />
+        <IconSearch class="text-vologray-700" />
+      </div>
+      <ButtonStandard @click.prevent="newVolunteerModal = true"
+        >Freiwillige:n anlegen</ButtonStandard
+      >
+      <ContainerModal v-if="newVolunteerModal">
+        <VolunteerFormular @close="newVolunteerModal = false" />
+      </ContainerModal>
     </div>
 
-    <TableComponent class="w-full mt-12" />
+    <VolunteerTable class="w-full mt-12" />
   </main>
 </template>
 
 <script>
-import BaseButton from '@/components/BaseButton.vue'
-import SearchBar from '@/components/SearchBar.vue'
-import ModalContainer from '@/components/ModalContainer.vue'
-import NewVolunteer from '@/components/NewVolunteer.vue'
-import TableComponent from '../components/TableComponent.vue'
+import ButtonStandard from '@/components/ButtonStandard.vue'
+import IconSearch from '../components/IconSearch.vue'
+import ContainerModal from '@/components/ContainerModal.vue'
+import VolunteerFormular from '@/components/VolunteerFormular.vue'
+import VolunteerTable from '../components/VolunteerTable.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
 
 export default {
   name: 'VolunteersView',
-  components: { BaseButton, ModalContainer, NewVolunteer, TableComponent, SearchBar },
+  components: { ButtonStandard, IconSearch, ContainerModal, VolunteerFormular, VolunteerTable },
   setup: () => {
     const volunteerStore = useVolunteerStore()
     return { volunteerStore }
@@ -30,13 +39,6 @@ export default {
   data() {
     return {
       newVolunteerModal: false
-    }
-  },
-  async created() {
-    try {
-      await this.volunteerStore.getVolunteers()
-    } catch (error) {
-      console.error('Error fetching volunteers:', error)
     }
   }
 }

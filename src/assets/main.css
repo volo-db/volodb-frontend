@@ -43,3 +43,26 @@
     }
   }
 }
+
+@layer components {
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid lightgray;
+  }
+
+  summary::after {
+    content: '';
+    width: 12px;
+    height: 9px;
+    background: url('icon-arrow-details.svg');
+    background-size: cover;
+    margin-left: 0.75em;
+    transform: 0.2s;
+  }
+  details[open] > summary::after {
+    transform: rotate(180deg);
+  }
+}

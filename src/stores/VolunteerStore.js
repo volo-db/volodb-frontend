@@ -1,13 +1,70 @@
 import { defineStore } from 'pinia'
 
+// private function to use inside "getVolunteer"
+const getContactsOfVolunteer = async (volunteerId, token) => {
+  //clear selected volunteer contacts like phoneNr, email, whatsap, etc...
+
+  // If there's no token, something went wrong
+  if (!token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
+
+  let tempContacts = null
+
+  await fetch(`${import.meta.env.VITE_BASE_URL}/volunteers/${volunteerId}/contacts`, {
+    method: 'GET',
+    headers: {
+      'content-type': 'application/json',
+      authorization: `Bearer ${token}`
+    }
+  })
+    .then((res) => {
+      if (!res.ok)
+        throw Error(`VoloDB-ERROR\n🙅‍♀️ fetching volunteer contacts failed! (${res.status}`)
+      return res.json()
+    })
+    .then((contacts) => {
+      tempContacts = contacts
+    })
+
+  return tempContacts
+}
+
+// private function to use inside "getVolunteer"
+const getAddressesOfVolunteer = async (volunteerId, token) => {
+  //clear selected volunteer contacts like phoneNr, email, whatsap, etc...
+
+  // If there's no token, something went wrong
+  if (!token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
+
+  let tempAddresses = null
+
+  await fetch(`${import.meta.env.VITE_BASE_URL}/volunteers/${volunteerId}/addresses`, {
+    method: 'GET',
+    headers: {
+      'content-type': 'application/json',
+      authorization: `Bearer ${token}`
+    }
+  })
+    .then((res) => {
+      if (!res.ok)
+        throw Error(`VoloDB-ERROR\n🙅‍♀️ fetching volunteer addresses failed! (${res.status}`)
+      return res.json()
+    })
+    .then((addresses) => {
+      tempAddresses = addresses
+    })
+
+  return tempAddresses
+}
+
 export const useVolunteerStore = defineStore('volunteerStore', {
   state: () => {
     return {
       fetching: false,
       token: JSON.parse(localStorage.getItem('user-store')).token,
-      volunteerPage: null,
-      activeSortProperty: '',
-      sortOrder: 'asc'
+      volunteersPage: null,
+      selectedVolunteer: null,
+      selectedVolunteerContacts: null,
+      selectedVolunteerAddresses: null
     }
   },
   actions: {
@@ -30,6 +87,32 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         })
         .finally(() => (this.fetching = false))
     },
+    async getVolunteer(volunteerId) {
+      //clear selected volunteer
+      this.selectedVolunteer = null
+
+      // If there's no token, something went wrong
+      if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
+
+      this.fetching = true
+      await fetch(`${import.meta.env.VITE_BASE_URL}/volunteers/${volunteerId}`, {
+        method: 'GET',
+        headers: {
+          'content-type': 'application/json',
+          authorization: `Bearer ${this.token}`
+        }
+      })
+        .then((res) => {
+          if (!res.ok) throw Error(`VoloDB-ERROR\n🙅‍♀️ fetching volunteer failed! (${res.status}`)
+          return res.json()
+        })
+        .then(async (volunteer) => {
+          this.selectedVolunteer = volunteer
+          this.selectedVolunteerContacts = await getContactsOfVolunteer(volunteerId, this.token)
+          this.selectedVolunteerAddresses = await getAddressesOfVolunteer(volunteerId, this.token)
+        })
+        .finally(() => (this.fetching = false))
+    },
     async getVolunteers(pageNumber = 0) {
       this.fetching = true
       await fetch(
@@ -42,14 +125,12 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         }
       )
         .then((res) => {
-          console.log(res.status)
-          if (!res.ok) {
-            throw Error(`ERROR:${res.status}`)
-          }
+          if (!res.ok)
+            throw Error(`VoloDB-ERROR\n🙅‍♀️ fetching new volunteers failed! (${res.status}`)
           return res.json()
         })
-        .then((data) => {
-          this.volunteerPage = data
+        .then((volunteersPage) => {
+          this.volunteersPage = volunteersPage
         })
         .finally(() => (this.fetching = false))
     },
