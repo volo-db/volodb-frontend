@@ -64,7 +64,9 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       volunteersPage: null,
       selectedVolunteer: null,
       selectedVolunteerContacts: null,
-      selectedVolunteerAddresses: null
+      selectedVolunteerAddresses: null,
+      sortOrder: 'asc',
+      activeSortProperty: null
     }
   },
   actions: {
@@ -155,13 +157,15 @@ export const useVolunteerStore = defineStore('volunteerStore', {
           return res.json()
         })
         .then((data) => {
-          this.volunteerPage = data
+          this.volunteersPage = data
         })
         .finally(() => (this.fetching = false))
     },
     defineSortOrder(sortProperty) {
       if (sortProperty === this.activeSortProperty) {
         this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'
+        console.log(this.sortOrder)
+        console.log(this.activeSortProperty)
       } else {
         this.activeSortProperty = sortProperty
         this.sortOrder = 'asc' // Reset sortOrder to 'asc' when a new sortProperty is selected
