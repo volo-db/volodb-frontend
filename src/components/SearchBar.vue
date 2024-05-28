@@ -3,7 +3,7 @@
     <input
       class="outline-none placeholder-vologray-300 w-full"
       type="text"
-      placeholder="Suche nach Freiwilligen"
+      :placeholder=placeholder
     />
     <IconSearch class="text-vologray-700" />
   </div>
@@ -12,6 +12,9 @@
 import IconSearch from '../components/IconSearch.vue'
 
 export default {
-  components: { IconSearch }
+  components: { IconSearch },
+  props: {
+    placeholder: String
+  }
 }
 </script>
