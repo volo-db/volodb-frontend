@@ -13,7 +13,7 @@
         >Freiwillige:n anlegen</ButtonStandard
       >
       <ContainerModal v-if="newVolunteerModal">
-        <VolunteerFormular @close="newVolunteerModal = false" />
+        <VolunteerFormular @close="redirectToCreatedVolunteer" />
       </ContainerModal>
     </div>
 
@@ -39,6 +39,12 @@ export default {
   data() {
     return {
       newVolunteerModal: false
+    }
+  },
+  methods: {
+    redirectToCreatedVolunteer(volunteerId) {
+      this.$router.push('/volunteers/' + volunteerId)
+      this.newVolunteerModal = false
     }
   }
 }
