@@ -100,6 +100,8 @@ goToDetails(volunteerId) {
   },
   async beforeMount() {
     try {
+      this.volunteerStore.sortOrder = 'asc';
+      this.volunteerStore.activeSortProperty = 'person.lastname'
       await this.volunteerStore.getVolunteers()
     } catch (error) {
       console.error('Error fetching volunteers:', error)
