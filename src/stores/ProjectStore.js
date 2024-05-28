@@ -28,8 +28,41 @@ export const useProjectStore = defineStore('ProjectStore', {
         })
         .then((projectsPage) => {
           this.projectsPage = projectsPage
+          console.log(this.projectsPage)
         })
         .finally(() => (this.fetching = false))
+    },
+    async fetchSortedProjects(sortBy) {
+      this.fetching = true
+      // call function for sortOrder
+      this.defineSortOrder(sortBy)
+      await fetch(
+        `${import.meta.env.VITE_BASE_URL}/projects?page=0&sortField=${sortBy}&sortOrder=${this.sortOrder}`,
+        {
+          method: 'GET',
+          headers: {
+            authorization: `Bearer ${this.token}`
+          }
+        }
+      )
+        .then((res) => {
+          if (!res.ok) {
+            throw Error(`ERROR:${res.status}`)
+          }
+          return res.json()
+        })
+        .then((data) => {
+          this.projectsPage = data
+        })
+        .finally(() => (this.fetching = false))
+    },
+    defineSortOrder(sortProperty) {
+      if (sortProperty === this.activeSortProperty) {
+        this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'
+      } else {
+        this.activeSortProperty = sortProperty
+        this.sortOrder = 'asc' // Reset sortOrder to 'asc' when a new sortProperty is selected
+      }
     }
   }
 })

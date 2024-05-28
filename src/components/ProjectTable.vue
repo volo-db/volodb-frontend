@@ -1,5 +1,5 @@
 <template>
- <div class="overflow-x-auto" v-bind="$attrs">
+  <div class="overflow-x-auto" v-bind="$attrs">
     <table class="w-full" v-if="projectStore.projectsPage">
       <thead>
         <tr>
@@ -16,14 +16,14 @@
             {{ title }}
             <IconTableSortArrows
               :upArrowColor="
-                sortParameter[index] === projectsStore.activeSortProperty &&
+                sortParameter[index] === projectStore.activeSortProperty &&
                 projectStore.sortOrder === 'asc'
                   ? 'blue'
                   : 'lightgrey'
               "
               :downArrowColor="
-                sortParameter[index] === projectsStore.activeSortProperty &&
-                projectsStore.sortOrder === 'desc'
+                sortParameter[index] === projectStore.activeSortProperty &&
+                projectStore.sortOrder === 'desc'
                   ? 'blue'
                   : 'lightgrey'
               "
@@ -39,15 +39,14 @@
           :key="project.id"
           @click="goToDetails(project.id)"
         >
-          <td class="font-bold pl-4">{{ project.person.lastname }}</td>
-          <td class="font-bold">{{ project.person.firstname }}</td>
-          <td>{{ project.birthplace }}</td>
+          <td class="font-bold pl-4">{{ project.name }}</td>
+          <td>{{ project.city }}</td>
+          <td>{{ project.email }}</td>
           <td>2023/24</td>
-          <td>2/5</td>
-          <td>25/25</td>
+          <td>{{ project.capacity }}</td>
           <td class="text-voloblue-200"><IconArrowGoto /></td>
         </tr>
-        <PaginationController class="w-full" />
+        <!-- <PaginationController class="w-full" /> -->
       </tbody>
     </table>
   </div>
@@ -56,24 +55,39 @@
 <script>
 import { useProjectStore } from '@/stores/ProjectStore.js'
 import { useRouter } from 'vue-router'
-import PaginationController from '@/components/PaginationController.vue'
+// import PaginationController from '@/components/PaginationController.vue'
 import IconTableSortArrows from './IconTableSortArrows.vue'
 import IconArrowGoto from './IconArrowGoto.vue'
 // import ModalContainer from '@/components/ContainerModal.vue'
 // import IconSpinner from '@/components/IconSpinner.vue'
 
 export default {
-    components: {
+  components: {
     IconArrowGoto,
     // ModalContainer,
     // IconSpinner,
-    PaginationController,
+    // PaginationController,
     IconTableSortArrows
   },
-    setup: () => {
+  setup: () => {
     const projectStore = useProjectStore()
     const router = useRouter()
     return { projectStore, router }
   },
+  data() {
+    return {
+      tableHead: ['Name', 'Standort', 'Ansprechpartner', 'Aktive FW', 'Offene Stellen'],
+      sortParameter: ['name', 'city', 'email', 'volunteers', 'capacity']
+    }
+  },
+  async beforeMount() {
+    try {
+      this.projectStore.sortOrder = 'asc'
+      this.projectStore.activeSortProperty = 'capacity'
+      await this.projectStore.getProjects()
+    } catch (error) {
+      console.error('Error fetching volunteers:', error)
+    }
+  }
 }
 </script>
