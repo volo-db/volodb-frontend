@@ -10,10 +10,12 @@
 </template>
 <script>
 import { useVolunteerStore } from '@/stores/VolunteerStore'
+// import { useProjectStore } from '@/stores/ProjectStore.js'
 
 export default {
   setup: () => {
     const volunteerStore = useVolunteerStore()
+    // const projectStore = useProjectStore()
     return { volunteerStore }
   },
 

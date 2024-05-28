@@ -28,7 +28,6 @@ export const useProjectStore = defineStore('ProjectStore', {
         })
         .then((projectsPage) => {
           this.projectsPage = projectsPage
-          console.log(this.projectsPage)
         })
         .finally(() => (this.fetching = false))
     },
