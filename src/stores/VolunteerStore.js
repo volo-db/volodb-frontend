@@ -87,6 +87,9 @@ export const useVolunteerStore = defineStore('volunteerStore', {
           if (!res.ok) throw Error(`VoloDB-ERROR\n🙅‍♀️ posting new volunteer failed! (${res.status}`)
           return res.json()
         })
+        .then((volunteer) => {
+          this.selectedVolunteer = volunteer
+        })
         .finally(() => (this.fetching = false))
     },
     async getVolunteer(volunteerId) {

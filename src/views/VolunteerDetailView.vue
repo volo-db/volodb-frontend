@@ -93,11 +93,11 @@
         </details>
         <details class="mb-2">
           <summary class="font-medium">FW-Dienstverlauf</summary>
-          <div class="flex flex-col gap-3 pt-3">
-            <p>Unterm Auto 9</p>
-            <p>12345 Musterhause</p>
-            <p>Deutschland</p>
-          </div>
+          <ul class="flex flex-col gap-3 pt-3">
+            <li>Station 1</li>
+            <li>Station 2</li>
+            <li>Station 3</li>
+          </ul>
         </details>
       </article>
     </div>

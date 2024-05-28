@@ -230,7 +230,7 @@ export default {
 
           return
         }
-        this.$emit('close')
+        this.$emit('close', this.volunteerStore.selectedVolunteer.id)
       }
     }
   },
