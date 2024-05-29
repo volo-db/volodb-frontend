@@ -194,7 +194,7 @@ export default {
       // If theres no error -> form is valid
       if (
         !this.validationErr.lastname &&
-        !this.validationErr.firsname &&
+        !this.validationErr.firstname &&
         !this.validationErr.gender &&
         !this.validationErr.email &&
         !this.validationErr.mobile
