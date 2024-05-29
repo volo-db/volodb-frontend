@@ -145,7 +145,7 @@ export default {
     return {
       validationErr: {
         lastname: false,
-        firsname: false,
+        firstname: false,
         gender: false,
         email: false,
         mobile: false
