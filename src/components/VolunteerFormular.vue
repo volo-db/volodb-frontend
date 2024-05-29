@@ -166,7 +166,6 @@ export default {
     validate() {
       // clear the table ;-)
       this.formValid = false
-
       this.validationErr.lastname = false
       this.validationErr.firstname = false
       this.validationErr.gender = false
