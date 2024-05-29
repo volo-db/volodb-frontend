@@ -3,9 +3,9 @@
     <div class="flex justify-between pt-6">
       <SearchBar placeholder="Suche nach Einsatzstellen" />
       <ButtonStandard @click.prevent="newProjectModal = true">Einsatzstelle anlegen</ButtonStandard>
-       <ContainerModal v-if="newProjectModal">
+      <ContainerModal v-if="newProjectModal">
         <ProjectFormular @close="newProjectModal = false" />
-      </ContainerModal> 
+      </ContainerModal>
     </div>
 
     <ProjectTable class="w-full mt-12" />
@@ -31,6 +31,6 @@ export default {
     return {
       newProjectModal: false
     }
-  },
+  }
 }
 </script>

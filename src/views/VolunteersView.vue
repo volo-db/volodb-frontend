@@ -1,7 +1,7 @@
 <template>
   <main class="bg-vologray-100 px-8">
     <div class="flex justify-between pt-6">
-     <SearchBar placeholder="Suche nach Freiwilligen" />
+      <SearchBar placeholder="Suche nach Freiwilligen" />
       <ButtonStandard @click.prevent="newVolunteerModal = true"
         >Freiwillige:n anlegen</ButtonStandard
       >

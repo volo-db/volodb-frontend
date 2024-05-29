@@ -11,6 +11,29 @@ export const useProjectStore = defineStore('ProjectStore', {
     }
   },
   actions: {
+    async setProject(project) {
+      // check for token
+      if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
+
+      this.fetching = true
+      await fetch(`${import.meta.env.VITE_BASE_URL}/projects`, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          authorization: `Bearer ${this.token}`
+        },
+        body: JSON.stringify(project)
+      })
+        .then((res) => {
+          if (!res.ok) throw Error(`VoloDB-ERROR\n🙅‍♀️ posting new project failed! (${res.status}`)
+          return res.json()
+        })
+        .then(() => {})
+        // .then((project) => {
+        //   this.selectedProject = project
+        // })
+        .finally(() => (this.fetching = false))
+    },
     async getProjects(pageNumber = 0) {
       this.fetching = true
       await fetch(

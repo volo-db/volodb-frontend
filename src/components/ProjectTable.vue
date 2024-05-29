@@ -67,8 +67,8 @@ import IconSpinner from '@/components/IconSpinner.vue'
 export default {
   components: {
     IconArrowGoto,
-     ModalContainer,
-     IconSpinner,
+    ModalContainer,
+    IconSpinner,
     //  PaginationController,
     IconTableSortArrows
   },
@@ -89,7 +89,7 @@ export default {
       this.projectStore.activeSortProperty = 'name'
       await this.projectStore.getProjects()
     } catch (error) {
-      console.error('Error fetching volunteers:', error)
+      console.error('Error fetching projects:', error)
     }
   }
 }

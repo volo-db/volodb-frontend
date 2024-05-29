@@ -57,7 +57,6 @@
 </template>
 
 <script>
-
 import IconArrowGoto from './IconArrowGoto.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
 import ModalContainer from '@/components/ContainerModal.vue'
@@ -67,7 +66,13 @@ import IconTableSortArrows from './IconTableSortArrows.vue'
 import { useRouter } from 'vue-router'
 
 export default {
-  components: { IconArrowGoto, ModalContainer, IconSpinner, PaginationController, IconTableSortArrows },
+  components: {
+    IconArrowGoto,
+    ModalContainer,
+    IconSpinner,
+    PaginationController,
+    IconTableSortArrows
+  },
   setup: () => {
     const volunteerStore = useVolunteerStore()
     const router = useRouter()
@@ -94,13 +99,13 @@ export default {
     }
   },
   methods: {
-goToDetails(volunteerId) {
-  this.$router.push({ name: 'VolunteerDetailView', params: {volunteerId} })
-}
+    goToDetails(volunteerId) {
+      this.$router.push({ name: 'VolunteerDetailView', params: { volunteerId } })
+    }
   },
   async beforeMount() {
     try {
-      this.volunteerStore.sortOrder = 'asc';
+      this.volunteerStore.sortOrder = 'asc'
       this.volunteerStore.activeSortProperty = 'person.lastname'
       await this.volunteerStore.getVolunteers()
     } catch (error) {
