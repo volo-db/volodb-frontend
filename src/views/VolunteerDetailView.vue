@@ -20,7 +20,9 @@
         </p>
         <!-- Status-Pill -->
         <div class="flex flex-row border-2 border-voloblue-100 rounded-lg text-sm">
-          <span class="px-1 pt-[1px] text-voloblue-100">BFD</span>
+          <span class="px-1 pt-[1px] text-voloblue-100" v-if="relevantContract">{{
+            relevantContract.program
+          }}</span>
           <span class="px-1 pt-[1px] text-white bg-voloblue-100">IM EINSATZ</span>
         </div>
       </header>
@@ -125,7 +127,8 @@ export default {
     return {
       volunteer: null,
       contacts: null,
-      addresses: null
+      addresses: null,
+      relevantContract: null
     }
   },
   async beforeCreate() {
@@ -133,6 +136,7 @@ export default {
     this.volunteer = this.volunteerStore.selectedVolunteer
     this.contacts = this.volunteerStore.selectedVolunteerContacts
     this.addresses = this.volunteerStore.selectedVolunteerAddresses
+    this.relevantContract = this.volunteerStore.selectedVolunteerRelevantContract
   }
 }
 </script>
