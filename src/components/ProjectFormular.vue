@@ -23,7 +23,7 @@
           <form class="flex flex-col gap-2" id="new-project" @submit.prevent="onSubmit" novalidate>
             <div class="flex flex-col gap-1">
               <label class="text-vologray-500 font-normal" for="name"
-                >Name der Einsatzstelle*</label
+                >Name der Einsatzstelle</label
               >
               <input
                 class="p-2 border border-vologray-500 rounded-md"
@@ -34,7 +34,7 @@
               />
             </div>
             <div class="flex flex-col gap-1">
-              <label class="text-vologray-500 font-normal" for="description">Beschreibung*</label>
+              <label class="text-vologray-500 font-normal" for="description">Beschreibung</label>
               <textarea
                 class="p-2 border border-vologray-500 rounded-md"
                 rows="5"
@@ -44,7 +44,7 @@
               ></textarea>
             </div>
             <div class="flex flex-col gap-1">
-              <label class="text-vologray-500 font-normal" for="email">Email*</label>
+              <label class="text-vologray-500 font-normal" for="email">Email</label>
               <input
                 class="p-2 border border-vologray-500 rounded-md"
                 type="text"
@@ -54,7 +54,7 @@
               />
             </div>
             <div class="flex flex-col gap-1">
-              <label class="text-vologray-500 font-normal" for="phone">Telefon*</label>
+              <label class="text-vologray-500 font-normal" for="phone">Telefon</label>
               <input
                 class="p-2 border border-vologray-500 rounded-md"
                 type="text"
@@ -83,7 +83,7 @@
 <script>
 import ButtonStandard from './ButtonStandard.vue'
 import { useProjectStore } from '@/stores/ProjectStore'
-import { isValidEmail, isValidPhoneNumber } from '@/utils'
+// import { isValidEmail, isValidPhoneNumber } from '@/utils'
 
 import IconSpinner from '@/components/IconSpinner.vue'
 
@@ -119,22 +119,23 @@ export default {
     validate() {
     this.formValid = false,
     this.validationErr.name = false,
-    this.validationErr.description = false,
-    this.validationErr.email = false,
-    this.validationErr.phone = false
+    this.validationErr.description = false
+    // this.validationErr.email = false,
+    // this.validationErr.phone = false
 
     // validate fields:
      if(!this.formData.name) this.validationErr.name = true
      if(!this.formData.description) this.validationErr.description = true
-     if(this.formData.email && !isValidEmail(this.formData.email)) this.validationErr.email = true
-     if(this.formData.phone && !isValidPhoneNumber(this.formData.phone)) this.validationErr.phone = true
+    //  if(this.formData.email && !isValidEmail(this.formData.email)) this.validationErr.email = true
+    //  if(this.formData.phone && !isValidPhoneNumber(this.formData.phone)) this.validationErr.phone = true
 
     // check for errors, no errors -> form is valid
      if(
         !this.validationErr.name &&
-        !this.validationErr.description &&
-        !this.validationErr.email &&
-        !this.validationErr.phone
+        !this.validationErr.description 
+        // &&
+        // !this.validationErr.email &&
+        // !this.validationErr.phone
      )
      this.formValid = true
     },
@@ -147,9 +148,9 @@ export default {
             let project = {
                 organisationalId: 'null',
                 name: this.formData.name,
-                description: this.formData.description,
+                description: this.formData.description,              
+                email: this.formData.email,
                 phone: this.formData.phone,
-                email: this.formData.email
             }
 
             try {

@@ -83,6 +83,11 @@ export default {
       sortParameter: ['name', 'city', 'email', 'volunteers', 'capacity']
     }
   },
+  methods: {
+    // goToDetails(projectId) {
+    //   this.$router.push({ name: 'ProjectDetailView', params: { projectId } })
+    // }
+  },
   async beforeMount() {
     try {
       this.projectStore.sortOrder = 'asc'

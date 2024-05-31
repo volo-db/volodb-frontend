@@ -6,6 +6,7 @@ export const useProjectStore = defineStore('ProjectStore', {
       fetching: false,
       token: JSON.parse(localStorage.getItem('user-store')).token,
       projectsPage: null,
+      selectedProject: null,
       sortOrder: 'asc',
       activeSortProperty: null
     }
@@ -29,9 +30,33 @@ export const useProjectStore = defineStore('ProjectStore', {
           return res.json()
         })
         .then(() => {})
-        // .then((project) => {
-        //   this.selectedProject = project
-        // })
+        .then((project) => {
+          this.selectedProject = project
+        })
+        .finally(() => (this.fetching = false))
+    },
+    async getProject(projectId) {
+      // clear selected project
+      this.selectedProject = null
+      // If there's no token, something went wrong
+      if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
+
+      this.fetching = true
+
+      await fetch(`${import.meta.env.VITE_BASE_URL}/projects/${projectId}`, {
+        method: 'GET',
+        headers: {
+          'content-type': 'application/json',
+          authorization: `Bearer ${this.token}`
+        }
+      })
+        .then((res) => {
+          if (!res.ok) throw Error(`VoloDB-ERROR\n🙅‍♀️ fetching project failed! (${res.status}`)
+          return res.json()
+        })
+        .then(async (project) => {
+          this.selectedProject = project
+        })
         .finally(() => (this.fetching = false))
     },
     async getProjects(pageNumber = 0) {
