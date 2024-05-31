@@ -144,7 +144,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       // call function for sortOrder
       this.defineSortOrder(sortBy)
       await fetch(
-        `${import.meta.env.VITE_BASE_URL}/volunteers?page=0&sortField=${sortBy}&sortOrder=${this.sortOrder}`,
+        `${import.meta.env.VITE_BASE_URL}/volunteers?&sortField=${sortBy}&sortOrder=${this.sortOrder}`,
         {
           method: 'GET',
           headers: {
