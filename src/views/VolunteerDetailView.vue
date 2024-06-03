@@ -15,15 +15,16 @@
           {{ volunteer.person.firstname }} {{ volunteer.person.lastname }}
         </h2>
         <!-- Project -->
-        <p class="text-sm">
-          Einsatzstelle: <span class="font-medium">Kindergarten Kleeblatt</span>
+        <p class="text-sm" v-if="relevantContract">
+          Einsatzstelle:
+          <span class="font-medium">{{ relevantContract.project.name }}</span>
         </p>
         <!-- Status-Pill -->
         <div class="flex flex-row border-2 border-voloblue-100 rounded-lg text-sm">
           <span class="px-1 pt-[1px] text-voloblue-100" v-if="relevantContract">{{
             relevantContract.program
           }}</span>
-          <span class="px-1 pt-[1px] text-white bg-voloblue-100">IM EINSATZ</span>
+          <span class="px-1 pt-[1px] text-white bg-voloblue-100">{{ volunteer.status }}</span>
         </div>
       </header>
       <article class="flex flex-col gap-8 w-full self-start mt-6">
