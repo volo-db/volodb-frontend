@@ -22,42 +22,63 @@
         <div class="flex-1">
           <form class="flex flex-col gap-2" id="new-project" @submit.prevent="onSubmit" novalidate>
             <div class="flex flex-col gap-1">
-              <label class="text-vologray-500 font-normal" for="name"
-                >Name der Einsatzstelle</label
+              <label
+                class="text-vologray-500 font-normal"
+                for="name"
+                :class="{ 'error-label': validationErr.name }"
+                >Name der Einsatzstelle*</label
               >
               <input
                 class="p-2 border border-vologray-500 rounded-md"
+                :class="{ 'error-animation': validationErr.name }"
                 type="text"
                 id="name"
                 v-model="formData.name"
                 required
+                ref="name"
               />
             </div>
             <div class="flex flex-col gap-1">
-              <label class="text-vologray-500 font-normal" for="description">Beschreibung</label>
+              <label
+                class="text-vologray-500 font-normal"
+                for="description"
+                :class="{ 'error-label': validationErr.description }"
+                >Beschreibung</label
+              >
               <textarea
                 class="p-2 border border-vologray-500 rounded-md"
                 rows="5"
                 id="description"
                 v-model="formData.description"
-                required
               ></textarea>
             </div>
             <div class="flex flex-col gap-1">
-              <label class="text-vologray-500 font-normal" for="email">Email</label>
+              <label
+                class="text-vologray-500 font-normal"
+                for="email"
+                :class="{ 'error-label': validationErr.email }"
+                >E-mail*</label
+              >
               <input
                 class="p-2 border border-vologray-500 rounded-md"
-                type="text"
+                :class="{ 'error-animation': validationErr.email }"
+                type="email"
                 id="email"
                 v-model="formData.email"
                 required
               />
             </div>
             <div class="flex flex-col gap-1">
-              <label class="text-vologray-500 font-normal" for="phone">Telefon</label>
+              <label
+                class="text-vologray-500 font-normal"
+                for="phone"
+                :class="{ 'error-label': validationErr.phone }"
+                >Telefon*</label
+              >
               <input
                 class="p-2 border border-vologray-500 rounded-md"
-                type="text"
+                :class="{ 'error-animation': validationErr.phone }"
+                type="tel"
                 id="phone"
                 v-model="formData.phone"
                 required
@@ -83,7 +104,7 @@
 <script>
 import ButtonStandard from './ButtonStandard.vue'
 import { useProjectStore } from '@/stores/ProjectStore'
-// import { isValidEmail, isValidPhoneNumber } from '@/utils'
+import { isValidEmail, isValidPhoneNumber } from '@/utils'
 
 import IconSpinner from '@/components/IconSpinner.vue'
 
@@ -104,62 +125,63 @@ export default {
         email: '',
         phone: ''
       },
-    validationErr: {
+      validationErr: {
         name: false,
-        description: false,
         email: false,
         phone: false
-    },
-    formValid: false,
+      },
+      formValid: false,
       errorMessage: false,
       successMessage: false
-  }
-},
+    }
+  },
   methods: {
     validate() {
-    this.formValid = false,
-    this.validationErr.name = false,
-    this.validationErr.description = false
-    // this.validationErr.email = false,
-    // this.validationErr.phone = false
+      ;(this.formValid = false),
+        (this.validationErr.name = false),
+        (this.validationErr.email = false),
+        (this.validationErr.phone = false)
 
-    // validate fields:
-     if(!this.formData.name) this.validationErr.name = true
-     if(!this.formData.description) this.validationErr.description = true
-    //  if(this.formData.email && !isValidEmail(this.formData.email)) this.validationErr.email = true
-    //  if(this.formData.phone && !isValidPhoneNumber(this.formData.phone)) this.validationErr.phone = true
+      // validate fields:
+      if (!this.formData.name) this.validationErr.name = true
+      if (!this.formData.email && !isValidEmail(this.formData.email))
+        this.validationErr.email = true
+      if (!this.formData.phone && !isValidPhoneNumber(this.formData.phone))
+        this.validationErr.phone = true
 
-    // check for errors, no errors -> form is valid
-     if(
-        !this.validationErr.name &&
-        !this.validationErr.description 
-        // &&
-        // !this.validationErr.email &&
-        // !this.validationErr.phone
-     )
-     this.formValid = true
+      // check for errors, no errors -> form is valid
+      if (!this.validationErr.name && !this.validationErr.email && !this.validationErr.phone)
+        this.formValid = true
     },
     async onSubmit() {
-        this.errorMessage = false,
-        this.successMessage = false
+      ;(this.errorMessage = false), (this.successMessage = false)
 
-        this.validate()
-        if(this.formValid) {
-            let project = {
-                organisationalId: 'null',
-                name: this.formData.name,
-                description: this.formData.description,              
-                email: this.formData.email,
-                phone: this.formData.phone,
-            }
-
-            try {
-                await this.projectStore.setProject(project)
-            } catch (error) {
-                console.error(error)
-            }
+      this.validate()
+      if (this.formValid) {
+        let project = {
+          organisationalId: 'null',
+          name: this.formData.name,
+          email: this.formData.email,
+          phone: this.formData.phone
         }
+
+        try {
+          await this.projectStore.setProject(project)
+        } catch (error) {
+          console.error(error)
+          // Showing error message just for 5 seconds
+          this.errorMessage = true
+          setTimeout(() => {
+            this.errorMessage = false
+          }, 5000)
+
+          return
+        }
+      }
     }
+  },
+  mounted() {
+    this.$refs.name.focus()
   }
 }
 </script>

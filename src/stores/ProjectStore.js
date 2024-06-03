@@ -29,7 +29,6 @@ export const useProjectStore = defineStore('ProjectStore', {
           if (!res.ok) throw Error(`VoloDB-ERROR\n🙅‍♀️ posting new project failed! (${res.status}`)
           return res.json()
         })
-        .then(() => {})
         .then((project) => {
           this.selectedProject = project
         })
