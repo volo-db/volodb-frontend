@@ -57,7 +57,7 @@ const getAddressesOfVolunteer = async (volunteerId, token) => {
 }
 
 // private function to use inside "getVolunteer"
-const getRelevatnContractOfVolunteer = async (volunteerId, token) => {
+const getRelevantContractOfVolunteer = async (volunteerId, token) => {
   //clear selected volunteer contacts like phoneNr, email, whatsap, etc...
 
   // If there's no token, something went wrong
@@ -145,7 +145,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
           this.selectedVolunteer = volunteer
           this.selectedVolunteerContacts = await getContactsOfVolunteer(volunteerId, this.token)
           this.selectedVolunteerAddresses = await getAddressesOfVolunteer(volunteerId, this.token)
-          this.selectedVolunteerRelevantContract = await getRelevatnContractOfVolunteer(
+          this.selectedVolunteerRelevantContract = await getRelevantContractOfVolunteer(
             volunteerId,
             this.token
           )
