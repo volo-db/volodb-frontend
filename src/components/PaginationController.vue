@@ -1,48 +1,40 @@
 <template>
-  <td class="bg-white text-voloblue-200 text-sm text-center py-2" colspan="7">
+  <div class="flex justify-center bg-white text-voloblue-200 text-sm py-2 border-t mt-[2px]">
+    <!-- toFirst and one backward -->
     <button @click="pageToFirst()">&lt;&lt;</button>
-    <button @click="pageBackward()" class="px-12">&lt;</button
-    >{{ volunteerStore.volunteersPage.pageable.pageNumber + 1 }} /
-    {{ volunteerStore.volunteersPage.totalPages
-    }}<button @click="pageForward()" class="px-12">&gt;</button>
+    <button class="mx-8" @click="pageBackward()">&lt;</button>
+    <div>
+      {{ currentPage + 1 }} /
+      {{ totalPages  }}
+    </div>
+    <!-- toLast and one forward -->
+    <button class="mx-8" @click="pageForward()">&gt;</button>
     <button @click="pageToLast()">&gt;&gt;</button>
-  </td>
+  </div>
 </template>
+
 <script>
-import { useVolunteerStore } from '@/stores/VolunteerStore'
-// import { useProjectStore } from '@/stores/ProjectStore.js'
-
 export default {
-  setup: () => {
-    const volunteerStore = useVolunteerStore()
-    // const projectStore = useProjectStore()
-    return { volunteerStore }
+  props: {
+    currentPage: Number,
+    totalPages: Number
   },
-
   methods: {
     pageBackward() {
-      if (this.volunteerStore.volunteersPage.pageable.pageNumber !== 0) {
-        this.volunteerStore.volunteersPage.pageable.pageNumber--
-        this.volunteerStore.getVolunteers(this.volunteerStore.volunteersPage.pageable.pageNumber)
+      if (this.currentPage > 0) {
+        this.$emit('updatePage', this.currentPage - 1)
       }
-      return
     },
     pageForward() {
-      if (
-        this.volunteerStore.volunteersPage.pageable.pageNumber !==
-        this.volunteerStore.volunteersPage.totalPages - 1
-      ) {
-        this.volunteerStore.volunteersPage.pageable.pageNumber++
-        this.volunteerStore.getVolunteers(this.volunteerStore.volunteersPage.pageable.pageNumber)
+      if (this.currentPage !== this.totalPages - 1) {
+        this.$emit('updatePage', this.currentPage + 1)
       }
-      return
     },
     pageToLast() {
-      this.volunteerStore.getVolunteers(this.volunteerStore.volunteersPage.totalPages - 1)
+      this.$emit('updatePage', this.totalPages - 1)
     },
     pageToFirst() {
-      this.volunteerStore.getVolunteers(0)
-      this.volunteerStore.volunteersPage.pageable.pageNumber = 1
+      this.$emit('updatePage', 0)
     }
   }
 }
