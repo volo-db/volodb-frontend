@@ -108,8 +108,7 @@ export default {
     goToDetails(volunteerId) {
       this.$router.push({ name: 'VolunteerDetailView', params: { volunteerId } })
     },
-    updateVolunteerPage(pageNumber) { 
-      console.log(pageNumber)  
+    updateVolunteerPage(pageNumber) {
       this.volunteerStore.volunteersPage.pageable.pageNumber = pageNumber
       this.volunteerStore.getVolunteers(pageNumber)
     }
