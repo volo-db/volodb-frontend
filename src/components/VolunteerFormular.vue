@@ -129,7 +129,7 @@
 <script>
 import ButtonStandard from './ButtonStandard.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
-import { isValidEmail, isValidPhoneNumber } from '@/utils'
+import { isValidEmail, isValidPhoneNumber } from '@/utils/validations'
 import IconSpinner from './IconSpinner.vue'
 
 export default {
