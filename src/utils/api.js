@@ -18,6 +18,7 @@ export const vdbFetchData = async (subdirectory, method, token, data) => {
   })
     .then((res) => {
       if (!res.ok) throw Error(`VoloDB-ERROR\n🙅‍♀️ fetching failed! (${res.status}`)
+      if (res.headers.get('Content-Length') == 0) return
       return res.json()
     })
     .then((data) => {

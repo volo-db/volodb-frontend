@@ -10,6 +10,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       selectedVolunteer: null,
       selectedVolunteerContacts: null,
       selectedVolunteerAddresses: null,
+      selectedVolunteerRelevantContract: null,
       sortOrder: 'asc',
       activeSortProperty: null
     }
@@ -42,6 +43,12 @@ export const useVolunteerStore = defineStore('volunteerStore', {
 
       this.selectedVolunteerAddresses = await vdbFetchData(
         `volunteers/${volunteerId}/addresses`,
+        'GET',
+        this.token
+      )
+
+      this.selectedVolunteerRelevantContract = await vdbFetchData(
+        `volunteers/${volunteerId}/contracts/relevant`,
         'GET',
         this.token
       )
