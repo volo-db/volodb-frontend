@@ -130,6 +130,7 @@
 import ButtonStandard from './ButtonStandard.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
 import { isValidEmail, isValidPhoneNumber } from '@/utils'
+import { confetti } from '@/utils/confetti.js'
 import IconSpinner from './IconSpinner.vue'
 
 export default {
@@ -158,8 +159,7 @@ export default {
         mobile: ''
       },
       formValid: false,
-      errorMessage: false,
-      successMessage: false
+      errorMessage: false
     }
   },
   methods: {
@@ -203,7 +203,6 @@ export default {
     },
     async onSubmit() {
       this.errorMessage = false
-      this.successMessage = false
 
       this.validate()
       if (this.formValid) {
@@ -230,6 +229,7 @@ export default {
 
           return
         }
+        confetti()
         this.$emit('close', this.volunteerStore.selectedVolunteer.id)
       }
     }
