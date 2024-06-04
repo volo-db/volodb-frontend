@@ -22,7 +22,8 @@
   }
 
   .error-label {
-    color: var(--error-color);
+    /* color: var(--error-color); */
+    color: red;
   }
 
   @keyframes shake {

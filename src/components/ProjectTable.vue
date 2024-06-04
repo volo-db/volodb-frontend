@@ -101,7 +101,7 @@ export default {
       this.projectStore.activeSortProperty = 'name'
       await this.projectStore.getProjects()
     } catch (error) {
-      console.error('Error fetching volunteers:', error)
+      console.error('Error fetching projects:', error)
     }
   }
 }

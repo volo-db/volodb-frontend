@@ -3,7 +3,7 @@
     <input
       class="outline-none placeholder-vologray-300 w-full"
       type="text"
-      :placeholder=placeholder
+      :placeholder="placeholder"
     />
     <IconSearch class="text-vologray-700" />
   </div>

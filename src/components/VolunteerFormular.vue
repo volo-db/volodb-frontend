@@ -147,7 +147,7 @@ export default {
     return {
       validationErr: {
         lastname: false,
-        firsname: false,
+        firstname: false,
         gender: false,
         email: false,
         mobile: false
@@ -167,7 +167,6 @@ export default {
     validate() {
       // clear the table ;-)
       this.formValid = false
-
       this.validationErr.lastname = false
       this.validationErr.firstname = false
       this.validationErr.gender = false
@@ -195,7 +194,7 @@ export default {
       // If theres no error -> form is valid
       if (
         !this.validationErr.lastname &&
-        !this.validationErr.firsname &&
+        !this.validationErr.firstname &&
         !this.validationErr.gender &&
         !this.validationErr.email &&
         !this.validationErr.mobile
