@@ -104,7 +104,7 @@
 <script>
 import ButtonStandard from './ButtonStandard.vue'
 import { useProjectStore } from '@/stores/ProjectStore'
-import { isValidEmail, isValidPhoneNumber } from '@/utils'
+import { isValidEmail, isValidPhoneNumber } from '@/utils/validations'
 
 import IconSpinner from '@/components/IconSpinner.vue'
 
