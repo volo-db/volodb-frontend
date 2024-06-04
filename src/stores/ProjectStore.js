@@ -17,7 +17,7 @@ export const useProjectStore = defineStore('ProjectStore', {
       if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
 
       this.fetching = true
-      await fetch(`${import.meta.env.VITE_BASE_URL}/projects`, {
+      await fetch(`${import.meta.env.VITE_BASE_URL}/projects/`, {
         method: 'POST',
         headers: {
           'content-type': 'application/json',

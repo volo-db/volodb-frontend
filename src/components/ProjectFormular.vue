@@ -154,7 +154,8 @@ export default {
         this.formValid = true
     },
     async onSubmit() {
-      ;(this.errorMessage = false), (this.successMessage = false)
+      this.errorMessage = false
+      this.successMessage = false
 
       this.validate()
       if (this.formValid) {
