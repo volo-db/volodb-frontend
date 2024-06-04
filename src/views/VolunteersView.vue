@@ -6,7 +6,10 @@
         >Freiwillige:n anlegen</ButtonStandard
       >
       <ContainerModal v-if="newVolunteerModal">
-        <VolunteerFormular @close="redirectToCreatedVolunteer" />
+        <VolunteerFormular
+          @saved="redirectToCreatedVolunteer"
+          @cancel="newVolunteerModal = false"
+        />
       </ContainerModal>
     </div>
 
