@@ -1,3 +1,4 @@
+import { vdbFetchData } from '@/utils/api'
 import { defineStore } from 'pinia'
 
 export const useProjectStore = defineStore('ProjectStore', {
@@ -17,22 +18,8 @@ export const useProjectStore = defineStore('ProjectStore', {
       if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
 
       this.fetching = true
-      await fetch(`${import.meta.env.VITE_BASE_URL}/projects/`, {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-          authorization: `Bearer ${this.token}`
-        },
-        body: JSON.stringify(project)
-      })
-        .then((res) => {
-          if (!res.ok) throw Error(`VoloDB-ERROR\n🙅‍♀️ posting new project failed! (${res.status}`)
-          return res.json()
-        })
-        .then((project) => {
-          this.selectedProject = project
-        })
-        .finally(() => (this.fetching = false))
+      this.selectedProject = await vdbFetchData('projects', 'POST', this.token, project)
+      this.fetching = false
     },
     async getProject(projectId) {
       // clear selected project
