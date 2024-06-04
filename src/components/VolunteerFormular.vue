@@ -1,5 +1,5 @@
 <template>
-  <section class="w-[70vw] max-w-[850px] min-w-[400px]" @keydown.esc="$emit('close')">
+  <section class="w-[70vw] max-w-[850px] min-w-[400px]" @keydown.esc="$emit('cancel')">
     <header class="flex justify-center p-5 border-solid border-b border-vologray-200">
       <h2 class="text-[20px] text-bold font-medium">Neue:r Freiwillige:r</h2>
     </header>
@@ -121,7 +121,7 @@
       </div>
     </main>
     <footer class="flex justify-between p-6 border-solid border-t border-vologray-200">
-      <ButtonStandard @click.prevent="$emit('close')">Abbrechen</ButtonStandard>
+      <ButtonStandard @click.prevent="$emit('cancel')">Abbrechen</ButtonStandard>
       <ButtonStandard type="submit" form="new-volunteer">Freiwillige:n anlegen</ButtonStandard>
     </footer>
   </section>
@@ -129,7 +129,9 @@
 <script>
 import ButtonStandard from './ButtonStandard.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
-import { isValidEmail, isValidPhoneNumber } from '@/utils'
+import { confetti } from '@/utils/confetti.js'
+import { isValidEmail, isValidPhoneNumber } from '@/utils/validations'
+
 import IconSpinner from './IconSpinner.vue'
 
 export default {
@@ -158,8 +160,7 @@ export default {
         mobile: ''
       },
       formValid: false,
-      errorMessage: false,
-      successMessage: false
+      errorMessage: false
     }
   },
   methods: {
@@ -202,7 +203,6 @@ export default {
     },
     async onSubmit() {
       this.errorMessage = false
-      this.successMessage = false
 
       this.validate()
       if (this.formValid) {
@@ -229,7 +229,11 @@ export default {
 
           return
         }
-        this.$emit('close', this.volunteerStore.selectedVolunteer.id)
+
+        confetti()
+
+        this.$emit('saved', this.volunteerStore.selectedVolunteer.id)
+
       }
     }
   },

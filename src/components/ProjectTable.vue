@@ -1,5 +1,6 @@
 <template>
-  <div class="overflow-x-auto" v-bind="$attrs">
+   <div class="overflow-x-auto" v-bind="$attrs">
+    <div v-if="projectStore.projectsPage">
     <table class="w-full" v-if="projectStore.projectsPage">
       <thead>
         <tr>
@@ -46,10 +47,15 @@
           <td>{{ project.capacity }}</td>
           <td class="text-voloblue-200"><IconArrowGoto /></td>
         </tr>
-        <!-- <PaginationController class="w-full" />  -->
       </tbody>
     </table>
+    <PaginationController
+      :currentPage="projectStore.projectsPage.pageable.pageNumber"
+      :totalPages="projectStore.projectsPage.totalPages"
+      @updatePage="updateProjectPage"
+    />
   </div>
+</div>
   <ModalContainer v-if="projectStore.fetching">
     <div class="p-4 flex flex-row gap-2 items-center text-md"><IconSpinner />loading ...</div>
   </ModalContainer>
@@ -58,7 +64,7 @@
 <script>
 import { useProjectStore } from '@/stores/ProjectStore.js'
 import { useRouter } from 'vue-router'
-// import PaginationController from '@/components/PaginationController.vue'
+import PaginationController from '@/components/PaginationController.vue'
 import IconTableSortArrows from './IconTableSortArrows.vue'
 import IconArrowGoto from './IconArrowGoto.vue'
 import ModalContainer from '@/components/ContainerModal.vue'
@@ -69,7 +75,7 @@ export default {
     IconArrowGoto,
     ModalContainer,
     IconSpinner,
-    //  PaginationController,
+    PaginationController,
     IconTableSortArrows
   },
   setup: () => {
@@ -84,9 +90,10 @@ export default {
     }
   },
   methods: {
-    // goToDetails(projectId) {
-    //   this.$router.push({ name: 'ProjectDetailView', params: { projectId } })
-    // }
+    updateProjectPage(pageNumber) {  
+      this.projectStore.projectsPage.pageable.pageNumber = pageNumber
+      this.projectStore.getProjects(pageNumber)     
+    }
   },
   async beforeMount() {
     try {
