@@ -26,6 +26,16 @@ const router = createRouter({
     {
       path: '/volunteers/:volunteerId',
       name: 'VolunteerDetailView',
+      redirect: (to) => {
+        return {
+          name: 'VolunteerDetailViewWithContext',
+          params: { volunteerId: to.params.volunteerId, contextTab: 'dokumentation' }
+        }
+      }
+    },
+    {
+      path: '/volunteers/:volunteerId/:contextTab',
+      name: 'VolunteerDetailViewWithContext',
       component: VolunteerDetailView
     },
     {
