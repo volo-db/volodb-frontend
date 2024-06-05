@@ -95,7 +95,7 @@
                 id="postalcode"
                 :required="true"
                 :hasError="validationErr.postalcode"
-                type="number"
+                type="text"
                 v-model="formData.postalcode"
               />
               <FormularInput
@@ -134,7 +134,7 @@
     </div>
     <footer class="flex justify-between p-6 border-solid border-t border-vologray-200">
       <ButtonStandard @click.prevent="$emit('close')">Abbrechen</ButtonStandard>
-      <ButtonStandard type="submit" form="new-project">Einsatzstelle anlegen</ButtonStandard>
+      <ButtonStandard type="submit" form="new-project" :disabled="currentSite === 1" :class="{'bg-opacity-70' : currentSite === 1 }">Einsatzstelle anlegen</ButtonStandard>
     </footer>
   </section>
 </template>
@@ -148,7 +148,7 @@ import PageArrowLeft from './PageArrowLeft.vue'
 import PageArrowRight from './PageArrowRight.vue'
 import FormularInput from './FormularInput.vue'
 import FormularTextarea from './FormularTextarea.vue'
-// custom directive to focus on input when forumlar is mounted
+// custom directive to focus on input when formular is mounted
 const focus =  {
   mounted(el) {
     const input = el.querySelector('input')
@@ -269,6 +269,17 @@ export default {
 
           return
         }
+       
+        this.formData.name = '',
+        this.formData.description = '',
+        this.formData.email = '',
+        this.formData.phone = '',
+        this.formData.street = '',
+        this.formData.postalcode = '',
+        this.formData.city = '',
+        this.formData.country = '',
+        this.formData.shorthand = '',
+        this.currentSite = 1
       }
     },
   },
