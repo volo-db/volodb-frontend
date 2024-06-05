@@ -9,7 +9,6 @@
       :type="type"
       :id="id"
       :required="required"
-      :ref="id"
       :placeholder="placeholder"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
@@ -42,7 +41,7 @@ export default {
     placeholder: {
       type: String,
       default: ''
-    }
+    },
   },
   emits: ['update:modelValue']
 }

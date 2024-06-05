@@ -38,6 +38,7 @@
                 :hasError="validationErr.name"
                 type="text"
                 v-model="formData.name"
+                v-focus
               />
 
               <!-- <div class="flex flex-col gap-1">
@@ -57,6 +58,22 @@
                 ref="name"
               />
             </div> -->
+            <div class="flex flex-col gap-1">
+                <label
+                  class="text-vologray-500 font-normal"
+                  for="shorthand"
+                  :class="{ 'error-label': validationErr.shorthand }"
+                  >Kurzform*</label
+                >
+                <input
+                  class="p-2 border border-vologray-500 rounded-md"
+                  :class="{ 'error-animation': validationErr.shorthand }"
+                  type="text"
+                  id="shorthand"
+                  v-model="formData.shorthand"
+                  required
+                />
+              </div>
               <div class="flex flex-col gap-1">
                 <label
                   class="text-vologray-500 font-normal"
@@ -175,22 +192,7 @@
                   required
                 />
               </div>
-              <div class="flex flex-col gap-1">
-                <label
-                  class="text-vologray-500 font-normal"
-                  for="shorthand"
-                  :class="{ 'error-label': validationErr.shorthand }"
-                  >Abkürzung*</label
-                >
-                <input
-                  class="p-2 border border-vologray-500 rounded-md"
-                  :class="{ 'error-animation': validationErr.shorthand }"
-                  type="text"
-                  id="shorthand"
-                  v-model="formData.shorthand"
-                  required
-                />
-              </div>
+
             </form>
           </div>
         </div>
@@ -224,6 +226,15 @@ import IconSpinner from '@/components/IconSpinner.vue'
 import PageArrowLeft from './PageArrowLeft.vue'
 import PageArrowRight from './PageArrowRight.vue'
 import FormularInput from './FormularInput.vue'
+// custom directive to focus on input when forumlar is mounted
+const focus =  {
+  mounted(el) {
+    const input = el.querySelector('input')
+    if (input) {
+      input.focus()
+    } 
+    }
+  }
 
 export default {
   setup() {
@@ -233,6 +244,7 @@ export default {
       projectStore
     }
   },
+  directives: { focus },
   components: { ButtonStandard, IconSpinner, PageArrowLeft, PageArrowRight, FormularInput },
   data() {
     return {
@@ -336,14 +348,7 @@ export default {
           return
         }
       }
-    }
+    },
   },
-  mounted() {
-    if (this.$refs.name) {
-      this.$refs.name.focus()
-    } else {
-      console.error("Ref 'name' not found.")
-    }
-  }
 }
 </script>
