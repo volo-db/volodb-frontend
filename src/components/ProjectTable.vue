@@ -1,61 +1,61 @@
 <template>
-   <div class="overflow-x-auto" v-bind="$attrs">
+  <div class="overflow-x-auto" v-bind="$attrs">
     <div v-if="projectStore.projectsPage">
-    <table class="w-full" v-if="projectStore.projectsPage">
-      <thead>
-        <tr>
-          <td
-            v-for="(title, index) in tableHead"
-            @click="projectStore.fetchSortedProjects(sortParameter[index])"
-            :key="index"
-            class="pb-3 text-vologray-700 text-sm cursor-pointer"
-            :class="{ 'pl-4': index === 0 }"
-            :style="{
-              color: projectStore.activeSortProperty === sortParameter[index] ? 'blue' : ''
-            }"
+      <table class="w-full" v-if="projectStore.projectsPage">
+        <thead>
+          <tr>
+            <td
+              v-for="(title, index) in tableHead"
+              @click="projectStore.fetchSortedProjects(sortParameter[index])"
+              :key="index"
+              class="pb-3 text-vologray-700 text-sm cursor-pointer"
+              :class="{ 'pl-4': index === 0 }"
+              :style="{
+                color: projectStore.activeSortProperty === sortParameter[index] ? 'blue' : ''
+              }"
+            >
+              {{ title }}
+              <IconTableSortArrows
+                :upArrowColor="
+                  sortParameter[index] === projectStore.activeSortProperty &&
+                  projectStore.sortOrder === 'asc'
+                    ? 'blue'
+                    : 'lightgrey'
+                "
+                :downArrowColor="
+                  sortParameter[index] === projectStore.activeSortProperty &&
+                  projectStore.sortOrder === 'desc'
+                    ? 'blue'
+                    : 'lightgrey'
+                "
+                class="pl-2 inline w-5"
+              />
+            </td>
+          </tr>
+        </thead>
+        <tbody class="bg-white outline outline-white rounded">
+          <tr
+            class="border-b h-14 cursor-pointer hover:text-voloblue-100 hover:bg-gray-50"
+            v-for="project of projectStore.projectsPage.content"
+            :key="project.id"
+            @click="goToDetails(project.id)"
           >
-            {{ title }}
-            <IconTableSortArrows
-              :upArrowColor="
-                sortParameter[index] === projectStore.activeSortProperty &&
-                projectStore.sortOrder === 'asc'
-                  ? 'blue'
-                  : 'lightgrey'
-              "
-              :downArrowColor="
-                sortParameter[index] === projectStore.activeSortProperty &&
-                projectStore.sortOrder === 'desc'
-                  ? 'blue'
-                  : 'lightgrey'
-              "
-              class="pl-2 inline w-5"
-            />
-          </td>
-        </tr>
-      </thead>
-      <tbody class="bg-white outline outline-white rounded">
-        <tr
-          class="border-b h-14 cursor-pointer hover:text-voloblue-100 hover:bg-gray-50"
-          v-for="project of projectStore.projectsPage.content"
-          :key="project.id"
-          @click="goToDetails(project.id)"
-        >
-          <td class="font-bold pl-4">{{ project.name }}</td>
-          <td>{{ project.city }}</td>
-          <td>{{ project.email }}</td>
-          <td>2023/24</td>
-          <td>{{ project.capacity }}</td>
-          <td class="text-voloblue-200"><IconArrowGoto /></td>
-        </tr>
-      </tbody>
-    </table>
-    <PaginationController
-      :currentPage="projectStore.projectsPage.pageable.pageNumber"
-      :totalPages="projectStore.projectsPage.totalPages"
-      @updatePage="updateProjectPage"
-    />
+            <td class="font-bold pl-4">{{ project.name }}</td>
+            <td>{{ project.city }}</td>
+            <td>{{ project.email }}</td>
+            <td>2023/24</td>
+            <td>{{ project.capacity }}</td>
+            <td class="text-voloblue-200 pr-4 md:pr-1"><IconArrowGoto /></td>
+          </tr>
+        </tbody>
+      </table>
+      <PaginationController
+        :currentPage="projectStore.projectsPage.pageable.pageNumber"
+        :totalPages="projectStore.projectsPage.totalPages"
+        @updatePage="updateProjectPage"
+      />
+    </div>
   </div>
-</div>
   <ModalContainer v-if="projectStore.fetching">
     <div class="p-4 flex flex-row gap-2 items-center text-md"><IconSpinner />loading ...</div>
   </ModalContainer>
@@ -90,9 +90,13 @@ export default {
     }
   },
   methods: {
-    updateProjectPage(pageNumber) {  
+    // for future go to detail page of project ->
+    // goToDetails(projectId) {
+    //   this.$router.push({ name: 'ProjectDetailView', params: { projectId } })
+    // },
+    updateProjectPage(pageNumber) {
       this.projectStore.projectsPage.pageable.pageNumber = pageNumber
-      this.projectStore.getProjects(pageNumber)     
+      this.projectStore.getProjects(pageNumber)
     }
   },
   async beforeMount() {

@@ -46,7 +46,7 @@
             <td>2023/24</td>
             <td>2/5</td>
             <td>25/25</td>
-            <td class="text-voloblue-200"><IconArrowGoto /></td>
+            <td class="text-voloblue-200 pr-4 md:pr-1"><IconArrowGoto /></td>
           </tr>
         </tbody>
       </table>

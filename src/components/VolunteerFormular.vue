@@ -233,7 +233,6 @@ export default {
         confetti()
 
         this.$emit('saved', this.volunteerStore.selectedVolunteer.id)
-
       }
     }
   },
