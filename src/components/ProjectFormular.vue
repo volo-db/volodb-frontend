@@ -40,86 +40,38 @@
                 v-model="formData.name"
                 v-focus
               />
-
-              <!-- <div class="flex flex-col gap-1">
-              <label
-                class="text-vologray-500 font-normal"
-                for="name"
-                :class="{ 'error-label': validationErr.name }"
-                >Name der Einsatzstelle*</label
-              >
-              <input
-                class="p-2 border border-vologray-500 rounded-md"
-                :class="{ 'error-animation': validationErr.name }"
+              <FormularInput
+                label="Kurzform"
+                id="shorthand"
+                :required="true"
+                :hasError="validationErr.name"
                 type="text"
-                id="name"
-                v-model="formData.name"
-                required
-                ref="name"
+                v-model="formData.shorthand"
               />
-            </div> -->
-            <div class="flex flex-col gap-1">
-                <label
-                  class="text-vologray-500 font-normal"
-                  for="shorthand"
-                  :class="{ 'error-label': validationErr.shorthand }"
-                  >Kurzform*</label
-                >
-                <input
-                  class="p-2 border border-vologray-500 rounded-md"
-                  :class="{ 'error-animation': validationErr.shorthand }"
-                  type="text"
-                  id="shorthand"
-                  v-model="formData.shorthand"
-                  required
-                />
-              </div>
-              <div class="flex flex-col gap-1">
-                <label
-                  class="text-vologray-500 font-normal"
-                  for="description"
-                  :class="{ 'error-label': validationErr.description }"
-                  >Beschreibung</label
-                >
-                <textarea
-                  class="p-2 border border-vologray-500 rounded-md"
-                  rows="4"
-                  id="description"
-                  v-model="formData.description"
-                ></textarea>
-              </div>
-              <div class="flex flex-col gap-1">
-                <label
-                  class="text-vologray-500 font-normal"
-                  for="email"
-                  :class="{ 'error-label': validationErr.email }"
-                  >E-mail*</label
-                >
-                <input
-                  class="p-2 border border-vologray-500 rounded-md"
-                  :class="{ 'error-animation': validationErr.email }"
-                  type="email"
-                  id="email"
-                  v-model="formData.email"
-                  required
-                />
-              </div>
-              <div class="flex flex-col gap-1">
-                <label
-                  class="text-vologray-500 font-normal"
-                  for="phone"
-                  :class="{ 'error-label': validationErr.phone }"
-                  >Telefon*</label
-                >
-                <input
-                  class="p-2 border border-vologray-500 rounded-md"
-                  :class="{ 'error-animation': validationErr.phone }"
-                  type="tel"
-                  id="phone"
-                  v-model="formData.phone"
-                  required
-                />
-              </div>
+              <FormularTextarea
+                label="Beschreibung"
+                id="description"
+                :hasError="validationErr.description"
+                name="description"
+                rows="3"
+                v-model="formData.description"
+              />
+              <FormularInput
+                label="E-mail"
+                id="email"
+                :required="true"
+                :hasError="validationErr.email"
+                type="email"
+                v-model="formData.email"
+              />
+              <FormularInput
+                label="Telefon"
+                id="phone"
+                :required="true"
+                :hasError="validationErr.phone"
+                type="text"
+                v-model="formData.phone"
+              />
             </form>
           </div>
           <!-- Site 2 -->
@@ -130,69 +82,38 @@
               @submit.prevent="onSubmit"
               novalidate
             >
-              <div class="flex flex-col gap-1">
-                <label
-                  class="text-vologray-500 font-normal"
-                  for="street"
-                  :class="{ 'error-label': validationErr.street }"
-                  >Straße*</label
-                >
-                <input
-                  class="p-2 border border-vologray-500 rounded-md"
-                  :class="{ 'error-animation': validationErr.street }"
-                  type="text"
-                  id="street"
-                  v-model="formData.street"
-                  required
-                />
-              </div>
-              <div class="flex flex-col gap-1">
-                <label
-                  class="text-vologray-500 font-normal"
-                  for="postalcode"
-                  :class="{ 'error-label': validationErr.postalcode }"
-                  >Postleitzahl*</label
-                >
-                <input
-                  class="p-2 border border-vologray-500 rounded-md"
-                  :class="{ 'error-animation': validationErr.city }"
-                  id="postalcode"
-                  v-model="formData.postalcode"
-                />
-              </div>
-              <div class="flex flex-col gap-1">
-                <label
-                  class="text-vologray-500 font-normal"
-                  for="city"
-                  :class="{ 'error-label': validationErr.city }"
-                  >Stadt*</label
-                >
-                <input
-                  class="p-2 border border-vologray-500 rounded-md"
-                  :class="{ 'error-animation': validationErr.city }"
-                  type="text"
-                  id="city"
-                  v-model="formData.city"
-                  required
-                />
-              </div>
-              <div class="flex flex-col gap-1">
-                <label
-                  class="text-vologray-500 font-normal"
-                  for="country"
-                  :class="{ 'error-label': validationErr.country }"
-                  >Land*</label
-                >
-                <input
-                  class="p-2 border border-vologray-500 rounded-md"
-                  :class="{ 'error-animation': validationErr.country }"
-                  type="text"
-                  id="country"
-                  v-model="formData.country"
-                  required
-                />
-              </div>
-
+            <FormularInput
+                label="Straße"
+                id="street"
+                :required="true"
+                :hasError="validationErr.street"
+                type="text"
+                v-model="formData.street"
+              />
+              <FormularInput
+                label="Postleitzahl"
+                id="postalcode"
+                :required="true"
+                :hasError="validationErr.postalcode"
+                type="number"
+                v-model="formData.postalcode"
+              />
+              <FormularInput
+                label="Stadt"
+                id="city"
+                :required="true"
+                :hasError="validationErr.city"
+                type="text"
+                v-model="formData.city"
+              />
+              <FormularInput
+                label="Land"
+                id="country"
+                :required="true"
+                :hasError="validationErr.country"
+                type="text"
+                v-model="formData.country"
+              />
             </form>
           </div>
         </div>
@@ -226,6 +147,7 @@ import IconSpinner from '@/components/IconSpinner.vue'
 import PageArrowLeft from './PageArrowLeft.vue'
 import PageArrowRight from './PageArrowRight.vue'
 import FormularInput from './FormularInput.vue'
+import FormularTextarea from './FormularTextarea.vue'
 // custom directive to focus on input when forumlar is mounted
 const focus =  {
   mounted(el) {
@@ -245,7 +167,7 @@ export default {
     }
   },
   directives: { focus },
-  components: { ButtonStandard, IconSpinner, PageArrowLeft, PageArrowRight, FormularInput },
+  components: { ButtonStandard, IconSpinner, PageArrowLeft, PageArrowRight, FormularInput, FormularTextarea },
   data() {
     return {
       currentSite: 1,
