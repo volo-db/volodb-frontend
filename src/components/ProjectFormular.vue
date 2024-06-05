@@ -269,17 +269,12 @@ export default {
 
           return
         }
-       
-        this.formData.name = '',
-        this.formData.description = '',
-        this.formData.email = '',
-        this.formData.phone = '',
-        this.formData.street = '',
-        this.formData.postalcode = '',
-        this.formData.city = '',
-        this.formData.country = '',
-        this.formData.shorthand = '',
-        this.currentSite = 1
+        this.$emit('close')
+       //
+       // for redirect to new project detail page instead of just closing
+       // this.$emit('saved', this.volunteerStore.selectedVolunteer.id)
+      
+
       }
     },
   },
