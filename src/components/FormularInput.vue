@@ -21,7 +21,6 @@
 export default {
   expose: [ "focus" ],
   props: {
-
     label: {
       type: String
     },
