@@ -212,11 +212,11 @@ export default {
       // validate fields:
       if (!this.formData.name) this.validationErr.name = true
 
-      if (!this.formData.email && !isValidEmail(this.formData.email))
+      if (this.formData.email && !isValidEmail(this.formData.email))
         this.validationErr.email = true
 
       this.formData.phone = this.formData.phone.split(' ').join('')
-      if (!this.formData.phone && !isValidPhoneNumber(this.formData.phone))
+      if (this.formData.phone && !isValidPhoneNumber(this.formData.phone))
         this.validationErr.phone = true
 
       if (!this.formData.street) this.validationErr.street = true
