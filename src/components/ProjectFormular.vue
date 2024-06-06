@@ -38,7 +38,7 @@
                 :hasError="validationErr.name"
                 type="text"
                 v-model="formData.name"
-                v-focus
+                ref="name"
               />
               <FormularInput
                 label="Kurzform"
@@ -106,14 +106,24 @@
                 type="text"
                 v-model="formData.city"
               />
-              <FormularInput
+ 
+             <FormularSelectBox 
+             class="w-8 "
+             :list="['Finnland', 'England', 'Island']"
+             label="Land"
+             id="country"
+             :hasError="validationErr.country"  
+             v-model="formData.country"          
+             />
+
+              <!-- <FormularInput
                 label="Land"
                 id="country"
                 :required="true"
                 :hasError="validationErr.country"
                 type="text"
                 v-model="formData.country"
-              />
+              /> -->
             </form>
           </div>
         </div>
@@ -148,15 +158,16 @@ import PageArrowLeft from './PageArrowLeft.vue'
 import PageArrowRight from './PageArrowRight.vue'
 import FormularInput from './FormularInput.vue'
 import FormularTextarea from './FormularTextarea.vue'
+import FormularSelectBox from './FormularSelectBox.vue'
 // custom directive to focus on input when formular is mounted
-const focus =  {
-  mounted(el) {
-    const input = el.querySelector('input')
-    if (input) {
-      input.focus()
-    } 
-    }
-  }
+// const focus =  {
+//   mounted(el) {
+//     const input = el.querySelector('input')
+//     if (input) {
+//       input.focus()
+//     } 
+//     }
+//   }
 
 export default {
   setup() {
@@ -166,10 +177,11 @@ export default {
       projectStore
     }
   },
-  directives: { focus },
-  components: { ButtonStandard, IconSpinner, PageArrowLeft, PageArrowRight, FormularInput, FormularTextarea },
+  // directives: { focus },
+  components: { ButtonStandard, IconSpinner, PageArrowLeft, PageArrowRight, FormularInput, FormularTextarea, FormularSelectBox },
   data() {
     return {
+      // countryArray=[],
       currentSite: 1,
       formData: {
         name: '',
@@ -278,5 +290,8 @@ export default {
       }
     },
   },
+  mounted() {
+  this.$refs.name.focus()
+}
 }
 </script>

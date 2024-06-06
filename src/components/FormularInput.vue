@@ -12,13 +12,16 @@
       :placeholder="placeholder"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
+      ref="input"
     />
   </div>
 </template>
 
 <script>
 export default {
+  expose: [ "focus" ],
   props: {
+
     label: {
       type: String
     },
@@ -43,6 +46,11 @@ export default {
       default: ''
     },
   },
-  emits: ['update:modelValue']
+  emits: ['update:modelValue'],
+  methods: {
+    focus() {
+     this.$refs.input.focus()
+    }
+  }
 }
 </script>
