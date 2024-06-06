@@ -108,12 +108,14 @@
               />
  
              <FormularSelectBox 
-             class="w-8 "
-             :list="['Finnland', 'England', 'Island']"
+             :list="countryStore.countrysArray"
              label="Land"
              id="country"
+             name="country"
              :hasError="validationErr.country"  
-             v-model="formData.country"          
+             v-model="formData.country"        
+             :selectedName="'Deutschland'"
+             :required="true"
              />
 
               <!-- <FormularInput
@@ -152,6 +154,7 @@
 <script>
 import ButtonStandard from './ButtonStandard.vue'
 import { useProjectStore } from '@/stores/ProjectStore'
+import { useCountryStore } from '@/stores/CountryStore'
 import { isValidEmail, isValidPhoneNumber } from '@/utils/validations'
 import IconSpinner from '@/components/IconSpinner.vue'
 import PageArrowLeft from './PageArrowLeft.vue'
@@ -172,9 +175,9 @@ import FormularSelectBox from './FormularSelectBox.vue'
 export default {
   setup() {
     const projectStore = useProjectStore()
-
+    const countryStore = useCountryStore()
     return {
-      projectStore
+      projectStore, countryStore
     }
   },
   // directives: { focus },
@@ -290,8 +293,10 @@ export default {
       }
     },
   },
+
   mounted() {
   this.$refs.name.focus()
+  this.countryStore.getCountrys()
 }
 }
 </script>
