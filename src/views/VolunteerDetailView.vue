@@ -4,7 +4,7 @@
     <div class="flex-1 bg-vologray-100 p-8">
       <VolunteerDetailNavigationbar
         :navigation="['Dokumentation', 'Dokumente', 'Vereinbarung']"
-        :active="'Dokumentation'"
+        :active="selectedContextTab"
         @navLinkClick="openTab"
       />
       <VolunteerDetailMemo v-if="selectedContextTab === 'dokumentation'" />
