@@ -11,8 +11,8 @@
         🤷‍♀️ Upsi! Da ist wohl was schief gelaufen... Versuchs bitte nochmal.
       </p>
       <div class="flex p-8" v-if="!projectStore.fetching">
-        <button @click="currentSite = 1" class="self-center mr-4">
-          <PageArrowLeft :ArrowLeftColor="currentSite === 1 ? 'lightgrey' : 'blue'" />
+        <button @click="currentPage = 1" class="self-center mr-4">
+          <PageArrowLeft :ArrowLeftColor="currentPage === 1 ? 'lightgrey' : 'blue'" />
         </button>
         <div v-if="!projectStore.fetching" class="flex justify-center">
           <!-- left column -->
@@ -23,8 +23,8 @@
             </p>
           </div>
           <!-- right column -->
-          <!-- Site 1-->
-          <div class="flex-1" v-if="currentSite === 1">
+          <!-- Page 1-->
+          <div class="flex-1" v-if="currentPage === 1">
             <form
               class="flex flex-col gap-2"
               id="new-project"
@@ -44,7 +44,7 @@
                 label="Kurzform"
                 id="shorthand"
                 :required="true"
-                :hasError="validationErr.name"
+                :hasError="validationErr.shorthand"
                 type="text"
                 v-model="formData.shorthand"
               />
@@ -74,8 +74,8 @@
               />
             </form>
           </div>
-          <!-- Site 2 -->
-          <div class="flex-1" v-if="currentSite === 2">
+          <!-- Page 2 -->
+          <div class="flex-1" v-if="currentPage === 2">
             <form
               class="flex flex-col gap-2"
               id="new-project"
@@ -130,12 +130,12 @@
         </div>
         <button class="self-center ml-4">
           <PageArrowRight
-            @click="currentSite = 2"
-            :ArrowRightColor="currentSite === 1 ? 'blue' : 'lightgrey'"
+            @click="currentPage = 2"
+            :ArrowRightColor="currentPage === 1 ? 'blue' : 'lightgrey'"
           />
         </button>
       </div>
-      <div class="text-sm text-center text-vologray-400">{{ currentSite }} / 2</div>
+      <div class="text-sm text-center text-vologray-400">{{ currentPage }} / 2</div>
     </main>
     <div
       v-if="projectStore.fetching"
@@ -146,7 +146,7 @@
     <footer class="flex justify-between p-6 border-solid border-t border-vologray-200">
       <ButtonStandard @click.prevent="$emit('close')">Abbrechen</ButtonStandard>
       <p class="flex justify-center text-sm font-light rounded border border-1 mb-4 p-3 bg-red-100 border-red-500 text-red-500" v-if="pageOneErr === true">Eingabefelder auf Seite 1 prüfen</p>
-      <ButtonStandard type="submit" form="new-project" :disabled="currentSite === 1" :class="{'bg-opacity-70' : currentSite === 1 }">Einsatzstelle anlegen</ButtonStandard>
+      <ButtonStandard type="submit" form="new-project" :disabled="currentPage === 1" :class="{'bg-opacity-70' : currentPage === 1 }">Einsatzstelle anlegen</ButtonStandard>
     </footer>
   </section>
 </template>
@@ -185,7 +185,7 @@ export default {
   data() {
     return {
       // countryArray=[],
-      currentSite: 1,
+      currentPage: 1,
       pageOneErr: false,
       formData: {
         name: '',
@@ -262,11 +262,11 @@ export default {
 
 // reminder to check page 2 if submit is not working but page 2 has no errors
       if(
-      this.currentSite === 2 
-      && this.validationErr.shorthand
+         this.currentPage === 2 
+      && this.validationErr.name
       || this.validationErr.phone
       || this.validationErr.email
-      || this.validationErr.name)
+      || this.validationErr.shorthand)
      this.pageOneErr = true
      setTimeout(() => {
             this.pageOneErr = false
