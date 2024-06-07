@@ -12,7 +12,7 @@ class="p-2 border border-vologray-500 rounded-md"
 :value="modelValue"
 @input="$emit('update:modelValue', $event.target.value)"
 >
-<option v-for="(item, index) in list" :key="index" :selected="selectedName === item">{{ item }}</option>
+<option v-for="(item, index) in list" :key="index" :value="item">{{ item }}</option>
 </select>
     </div>
 </template>
@@ -39,9 +39,6 @@ class="p-2 border border-vologray-500 rounded-md"
      hasError: {
       type: Boolean,
       default: false
-    },
-    selectedName: {
-      type: String,
     },
     name: {
       type: String,

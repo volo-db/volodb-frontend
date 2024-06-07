@@ -115,6 +115,7 @@
              :hasError="validationErr.country"  
              v-model="formData.country"        
              :selectedName="'Deutschland'"
+             :selected="{ true : 'item === Deutschland' }"
              :required="true"
              />
 
@@ -146,6 +147,7 @@
     </div>
     <footer class="flex justify-between p-6 border-solid border-t border-vologray-200">
       <ButtonStandard @click.prevent="$emit('close')">Abbrechen</ButtonStandard>
+      <p class="flex justify-center text-sm font-light rounded border border-1 mb-4 p-3 bg-red-100 border-red-500 text-red-500" v-if="pageOneErr === true">Eingabefelder auf Seite 1 prüfen</p>
       <ButtonStandard type="submit" form="new-project" :disabled="currentSite === 1" :class="{'bg-opacity-70' : currentSite === 1 }">Einsatzstelle anlegen</ButtonStandard>
     </footer>
   </section>
@@ -186,6 +188,7 @@ export default {
     return {
       // countryArray=[],
       currentSite: 1,
+      pageOneErr: false,
       formData: {
         name: '',
         description: null,
@@ -194,7 +197,7 @@ export default {
         street: '',
         postalcode: '',
         city: '',
-        country: '',
+        country: 'Deutschland',
         shorthand: ''
       },
       validationErr: {
@@ -227,11 +230,11 @@ export default {
       // validate fields:
       if (!this.formData.name) this.validationErr.name = true
 
-      if (this.formData.email && !isValidEmail(this.formData.email))
+      if (!this.formData.email || !isValidEmail(this.formData.email))
         this.validationErr.email = true
 
       this.formData.phone = this.formData.phone.split(' ').join('')
-      if (this.formData.phone && !isValidPhoneNumber(this.formData.phone))
+      if (!this.formData.phone || !isValidPhoneNumber(this.formData.phone))
         this.validationErr.phone = true
 
       if (!this.formData.street) this.validationErr.street = true
@@ -258,6 +261,22 @@ export default {
       this.successMessage = false
 
       this.validate()
+
+      if(
+      this.currentSite === 2 
+      && !this.validationErr.country 
+      && !this.validationErr.city 
+      && !this.validationErr.postalcode 
+      && !this.validationErr.street
+      && this.validationErr.shorthand
+      || this.validationErr.phone
+      || this.validationErr.email
+      || this.validationErr.name)
+     this.pageOneErr = true
+     setTimeout(() => {
+            this.pageOneErr = false
+          }, 5000)
+
       if (this.formValid) {
         let project = {
           organisationalId: 'null',
