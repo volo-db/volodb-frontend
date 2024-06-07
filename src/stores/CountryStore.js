@@ -28,6 +28,7 @@ export const useCountryStore = defineStore('CountryStore', {
       for (let country of this.countrysPage) {
         if (country.localName !== null) {
           this.countrysArray.push(country.localName)
+          this.countrysArray.sort()
         }
       }
       return

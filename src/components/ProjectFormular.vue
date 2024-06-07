@@ -114,8 +114,6 @@
              name="country"
              :hasError="validationErr.country"  
              v-model="formData.country"        
-             :selectedName="'Deutschland'"
-             :selected="{ true : 'item === Deutschland' }"
              :required="true"
              />
 
@@ -262,12 +260,9 @@ export default {
 
       this.validate()
 
+// reminder to check page 2 if submit is not working but page 2 has no errors
       if(
       this.currentSite === 2 
-      && !this.validationErr.country 
-      && !this.validationErr.city 
-      && !this.validationErr.postalcode 
-      && !this.validationErr.street
       && this.validationErr.shorthand
       || this.validationErr.phone
       || this.validationErr.email
