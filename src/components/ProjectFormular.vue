@@ -290,18 +290,22 @@ export default {
           await this.projectStore.setProject(project)
         } catch (error) {
           console.error(error)
+          
           // Showing error message just for 5 seconds
           this.errorMessage = true
           setTimeout(() => {
             this.errorMessage = false
           }, 5000)
+          // stop fetching to avoid loop:
+          this.projectStore.fetching = false
 
           return
         }
         this.$emit('close')
        //
-       // for redirect to new project detail page instead of just closing
-       // this.$emit('saved', this.volunteerStore.selectedVolunteer.id)
+       // for redirect to new project detail page instead of just closing:
+       // confetti()
+      // this.$emit('saved', this.projectStore.selectedProject.id)
       
 
       }
