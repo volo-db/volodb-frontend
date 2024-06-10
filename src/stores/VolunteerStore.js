@@ -21,9 +21,14 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
 
       this.fetching = true
-      this.selectedVolunteer = await vdbFetchData('volunteers', 'POST', this.token, volunteer)
-
-      this.fetching = false
+      try {
+        this.selectedVolunteer = await vdbFetchData('volunteers', 'POST', this.token, volunteer)
+      } catch (error) {
+        console.error(error)
+        throw error
+      } finally {
+        this.fetching = false
+      }
     },
     async getVolunteer(volunteerId) {
       //clear selected volunteer

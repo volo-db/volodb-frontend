@@ -278,9 +278,6 @@ export default {
           setTimeout(() => {
             this.errorMessage = false
           }, 5000)
-          // stop fetching to avoid loop:
-          this.projectStore.fetching = false
-
           return
         }
         this.$emit('close')

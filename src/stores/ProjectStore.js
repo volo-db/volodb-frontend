@@ -18,8 +18,14 @@ export const useProjectStore = defineStore('ProjectStore', {
       if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
 
       this.fetching = true
-      this.selectedProject = await vdbFetchData('projects', 'POST', this.token, project)
-      this.fetching = false
+      try {
+        this.selectedProject = await vdbFetchData('projects', 'POST', this.token, project)
+      } catch (error) {
+        console.error(error)
+        throw error
+      } finally {
+        this.fetching = false
+      }
     },
     async getProject(projectId) {
       // clear selected project

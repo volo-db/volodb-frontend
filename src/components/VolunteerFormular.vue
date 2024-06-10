@@ -226,9 +226,6 @@ export default {
           setTimeout(() => {
             this.errorMessage = false
           }, 5000)
-        // stop fetching to avoid loop:
-        //  this.volunteerStore.fetching = false
-
           return
         }
 
