@@ -7,7 +7,10 @@
         :active="selectedContextTab"
         @navLinkClick="openTab"
       />
-      <VolunteerDetailMemo v-if="selectedContextTab === 'dokumentation'" />
+    <VolunteerDetailMemo v-if="selectedContextTab === 'dokumentation'" />
+    <VolunteerDetailsDocuments v-if="selectedContextTab === 'dokumente'"
+    class="mt-16" />
+
     </div>
   </div>
 </template>
@@ -16,12 +19,14 @@ import { useVolunteerStore } from '@/stores/VolunteerStore.js'
 import VolunteerDetailNavigationbar from '@/components/VolunteerDetailNavigationbar.vue'
 import VolunteerDetailMemo from '@/components/VolunteerDetailMemo.vue'
 import VolunteerDetailOverview from '@/components/VolunteerDetailOverview.vue'
+import VolunteerDetailsDocuments from '@/components/VolunteerDetailsDocuments.vue';
 
 export default {
   components: {
     VolunteerDetailNavigationbar,
+    VolunteerDetailOverview,
     VolunteerDetailMemo,
-    VolunteerDetailOverview
+    VolunteerDetailsDocuments
   },
   name: 'VolunteerDetailView.vue',
   setup() {

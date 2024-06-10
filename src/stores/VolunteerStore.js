@@ -11,6 +11,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       selectedVolunteerContacts: null,
       selectedVolunteerAddresses: null,
       selectedVolunteerRelevantContract: null,
+      volunteerDocuments: null,
       sortOrder: 'asc',
       activeSortProperty: null
     }
@@ -81,6 +82,14 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         'GET',
         this.token
       )
+      this.fetching = false
+    },
+    async getDocuments() {
+      // If there's no token, something went wrong
+      if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
+
+      this.fetching = true
+      this.volunteerDocuments = await vdbFetchData(`documents/types/`, 'GET', this.token)
       this.fetching = false
     },
     defineSortOrder(sortProperty) {
