@@ -227,7 +227,7 @@ export default {
             this.errorMessage = false
           }, 5000)
         // stop fetching to avoid loop:
-         this.volunteerStoreStore.fetching = false
+        //  this.volunteerStore.fetching = false
 
           return
         }

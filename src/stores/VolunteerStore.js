@@ -22,6 +22,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
 
       this.fetching = true
       this.selectedVolunteer = await vdbFetchData('volunteers', 'POST', this.token, volunteer)
+
       this.fetching = false
     },
     async getVolunteer(volunteerId) {
