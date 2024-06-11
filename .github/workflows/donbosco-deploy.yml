@@ -1,4 +1,4 @@
-name: Build and Deploy volodb-frontend on Self-Hosted Runner
+name: Build and Deploy volodb_frontend on Self-Hosted Runner
 
 on:
   workflow_dispatch: # Allow manual triggering
@@ -42,16 +42,16 @@ jobs:
       - name: Build Docker image
         run: |
           # Build the Docker image using the static Dockerfile
-          docker build -t volodb-frontend:latest .
+          docker build -t volodb_frontend:latest .
 
       - name: Run Docker container
         run: |
-          # Stop and remove any existing container named volodb-frontend
-          if [ $(docker ps -q -f name=volodb-frontend) ]; then
-            docker stop volodb-frontend
-            docker rm volodb-frontend
+          # Stop and remove any existing container named volodb_frontend
+          if [ $(docker ps -q -f name=volodb_frontend) ]; then
+            docker stop volodb_frontend
+            docker rm volodb_frontend
           fi
           # Run the new Docker container, passing the VITE_BASE_URL environment variable
-          docker run -d -p 80:80 --name volodb-frontend \
+          docker run -d --network volodb_network -p 80:80 --name volodb_frontend \
             -e VITE_BASE_URL=${{ vars.VITE_BASE_URL }} \
-            volodb-frontend:latest
+            volodb_frontend:latest
