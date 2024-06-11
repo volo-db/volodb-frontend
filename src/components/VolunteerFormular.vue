@@ -226,14 +226,12 @@ export default {
           setTimeout(() => {
             this.errorMessage = false
           }, 5000)
-
           return
         }
 
         confetti()
 
         this.$emit('saved', this.volunteerStore.selectedVolunteer.id)
-
       }
     }
   },
