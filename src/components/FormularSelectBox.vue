@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="flex flex-col">
 <label 
 class="text-vologray-500 font-normal" 
 :class="{ 'error-label': hasError }" 
