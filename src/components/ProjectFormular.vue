@@ -18,7 +18,7 @@
         <div v-if="!projectStore.fetching" class="flex justify-center">
           <!-- left column -->
           <div class="flex-1">
-            <p class="text-[13px] text-vologray-400 pe-2 md:pe-20" >
+            <p class="text-[13px] text-vologray-400 pe-2 md:pe-20">
               Lege hier im ersten Schritt, die Einsatzstelle mit ein paar grundlegenden Daten an.
               Alle weiteren Details kannst du im nächsten Schritt ergänzen.
             </p>
