@@ -20,7 +20,7 @@ jobs:
 
       - name: Build the app
         env:
-          VITE_BASE_URL: ${{ vars.VITE_BASE_URL }} # Use the secret value for VITE_BASE_URL
+          VITE_BASE_URL: ${{ vars.VITE_BASE_URL_STAGING }} # Use the secret value for VITE_BASE_URL
         run: npm run build # Build the Vite-based Vue app
 
       - name: Archive production artifacts
@@ -53,5 +53,5 @@ jobs:
           fi
           # Run the new Docker container, passing the VITE_BASE_URL environment variable
           docker run -d --network volodb_network -p 80:80 --name volodb_frontend \
-            -e VITE_BASE_URL=${{ vars.VITE_BASE_URL }} \
+            -e VITE_BASE_URL=${{ vars.VITE_BASE_URL_STAGING }} \
             volodb_frontend:latest
