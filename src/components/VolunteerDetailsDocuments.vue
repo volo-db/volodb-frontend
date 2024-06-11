@@ -1,15 +1,16 @@
 <template>
   <div>
-    <table class="w-full">
+    <table class="w-full max-w-3xl">
       <thead>
         <tr>
           <td
             v-for="(title, index) in tableHead"
             :key="index"
             class="pb-3 text-vologray-700 text-sm cursor-pointer"
+            :class="{'pl-4' : index === 0}"
           >
             {{ title }}
-            <IconTableSortArrows class="inline" />
+            <IconTableSortArrows class="inline" :upArrowColor="'lightgrey'" :downArrowColor="'lightgrey'"/>
           </td>
         </tr>
       </thead>
@@ -20,11 +21,14 @@
       >
         <tr
           @click="toggleExpand(index)"
-          class="h-14 cursor-pointer hover:text-voloblue-100 hover:bg-gray-50"
+          class="h-14 cursor-pointer hover:text-voloblue-100 hover:bg-gray-50 border-b"
+          :class="{'border-none' : expandedRows.includes(index)}"
         >
           <td class="font-bold pl-4">{{ document.name }}</td>
           <td>{{ document.id }}</td>
-          <td><IconArrowShowDetailSummary :class="{ 'transform rotate-180': index === 0 }" /></td>
+          <td>
+            <IconArrowShowDetailSummary :class="{ 'transform rotate-180': expandedRows.includes(index) }" />
+          </td>
         </tr>
         <!-- row for expanded detail -->
         <tr v-if="expandedRows.includes(index)" :key="document.id">
@@ -52,7 +56,8 @@ export default {
   },
   components: {
     IconTableSortArrows,
-    IconArrowShowDetailSummary
+    IconArrowShowDetailSummary,
+   
   },
   data() {
     return {

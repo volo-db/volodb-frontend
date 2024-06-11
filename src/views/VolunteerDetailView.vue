@@ -7,8 +7,15 @@
         :active="selectedContextTab"
         @navLinkClick="openTab"
       />
-      <VolunteerDetailMemo v-if="selectedContextTab === 'dokumentation'" />
+      <div class="flex justify-between mt-8 max-w-3xl">
+        <SearchBar v-if="selectedContextTab === 'dokumente'" placeholder="Suche nach Dokumenten"/>
+        <ButtonStandard v-if="selectedContextTab === 'dokumente'">Dokument hinzufügen</ButtonStandard>
+      </div>
+      
       <VolunteerDetailsDocuments v-if="selectedContextTab === 'dokumente'" class="mt-16" />
+
+      <VolunteerDetailMemo v-if="selectedContextTab === 'dokumentation'" />
+ 
     </div>
   </div>
 </template>
@@ -18,13 +25,17 @@ import VolunteerDetailNavigationbar from '@/components/VolunteerDetailNavigation
 import VolunteerDetailMemo from '@/components/VolunteerDetailMemo.vue'
 import VolunteerDetailOverview from '@/components/VolunteerDetailOverview.vue'
 import VolunteerDetailsDocuments from '@/components/VolunteerDetailsDocuments.vue'
+import SearchBar from '@/components/SearchBar.vue'
+import ButtonStandard from '@/components/ButtonStandard.vue'
 
 export default {
   components: {
     VolunteerDetailNavigationbar,
     VolunteerDetailOverview,
     VolunteerDetailMemo,
-    VolunteerDetailsDocuments
+    VolunteerDetailsDocuments,
+    SearchBar,
+    ButtonStandard
   },
   name: 'VolunteerDetailView.vue',
   setup() {
