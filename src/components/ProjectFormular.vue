@@ -10,14 +10,15 @@
       >
         🤷‍♀️ Upsi! Da ist wohl was schief gelaufen... Versuchs bitte nochmal.
       </p>
-      <div class="flex p-8" v-if="!projectStore.fetching">
+      <div v-if="!projectStore.fetching"   class="flex justify-center p-8">
+        
         <button @click="currentPage = 1" class="self-center mr-4">
           <PageArrowLeft :ArrowLeftColor="currentPage === 1 ? 'lightgrey' : 'blue'" />
         </button>
         <div v-if="!projectStore.fetching" class="flex justify-center">
           <!-- left column -->
           <div class="flex-1">
-            <p class="text-[13px] text-vologray-400 pe-20">
+            <p class="text-[13px] text-vologray-400 pe-2 md:pe-20" >
               Lege hier im ersten Schritt, die Einsatzstelle mit ein paar grundlegenden Daten an.
               Alle weiteren Details kannst du im nächsten Schritt ergänzen.
             </p>
