@@ -1,0 +1,57 @@
+name: Build and Deploy volodb_frontend on Self-Hosted Runner
+
+on:
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  build:
+    runs-on: self-hosted # Use the self-hosted runner with label 'staging'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16' # Specify the Node.js version
+
+      - name: Install dependencies
+        run: npm ci # Install dependencies from package-lock.json
+
+      - name: Build the app
+        env:
+          VITE_BASE_URL: ${{ vars.VITE_BASE_URL }} # Use the secret value for VITE_BASE_URL
+        run: npm run build # Build the Vite-based Vue app
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: production-build
+          path: dist # Upload the build output from the 'dist' directory
+
+  dockerize-and-deploy:
+    runs-on: [self-hosted, staging] # Use the self-hosted runner with label 'staging'
+    needs: build # Ensure this job runs only after the build job completes
+    steps:
+      - name: Download production artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: production-build
+          path: ./dist # Download the build output to the local 'dist' directory
+
+      - name: Build Docker image
+        run: |
+          # Build the Docker image using the static Dockerfile
+          docker build -t volodb_frontend:latest .
+
+      - name: Run Docker container
+        run: |
+          # Stop and remove any existing container named volodb_frontend
+          if [ $(docker ps -q -f name=volodb_frontend) ]; then
+            docker stop volodb_frontend
+            docker rm volodb_frontend
+          fi
+          # Run the new Docker container, passing the VITE_BASE_URL environment variable
+          docker run -d --network volodb_network -p 80:80 --name volodb_frontend \
+            -e VITE_BASE_URL=${{ vars.VITE_BASE_URL }} \
+            volodb_frontend:latest
