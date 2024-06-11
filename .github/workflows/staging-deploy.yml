@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted # Use the self-hosted runner with label 'staging'
+    runs-on: [self-hosted, staging] # Use the self-hosted runner with label 'staging'
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
