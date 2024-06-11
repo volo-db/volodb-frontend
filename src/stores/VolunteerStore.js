@@ -7,6 +7,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       fetching: false,
       token: JSON.parse(localStorage.getItem('user-store')).token,
       volunteersPage: null,
+      volunteerNotes: null,
       selectedVolunteer: null,
       selectedVolunteerContacts: null,
       selectedVolunteerAddresses: null,
@@ -87,6 +88,16 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         'GET',
         this.token
       )
+      this.fetching = false
+    },
+    async getVolunteerNotes(volunteerId) {
+      // If there's no token, something went wrong
+      if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
+
+      this.fetching = true
+
+      this.volunteerNotes = await vdbFetchData(`volunteers/${volunteerId}`, 'GET', this.token)
+
       this.fetching = false
     },
     defineSortOrder(sortProperty) {

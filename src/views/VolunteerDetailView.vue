@@ -7,20 +7,22 @@
         :active="selectedContextTab"
         @navLinkClick="openTab"
       />
-      <VolunteerDetailMemo v-if="selectedContextTab === 'dokumentation'" />
+      <VolunteerDetailNotes 
+      class="mt-16"
+      v-if="selectedContextTab === 'dokumentation'" />
     </div>
   </div>
 </template>
 <script>
 import { useVolunteerStore } from '@/stores/VolunteerStore.js'
 import VolunteerDetailNavigationbar from '@/components/VolunteerDetailNavigationbar.vue'
-import VolunteerDetailMemo from '@/components/VolunteerDetailMemo.vue'
+import VolunteerDetailNotes from '@/components/VolunteerDetailNotes.vue'
 import VolunteerDetailOverview from '@/components/VolunteerDetailOverview.vue'
 
 export default {
   components: {
     VolunteerDetailNavigationbar,
-    VolunteerDetailMemo,
+    VolunteerDetailNotes,
     VolunteerDetailOverview
   },
   name: 'VolunteerDetailView.vue',
@@ -49,6 +51,9 @@ export default {
         }
       })
     }
+  },
+  async beforeMount() {
+   await this.volunteerStore.getVolunteerNotes(this.$route.params.volunteerId)
   }
 }
 </script>
