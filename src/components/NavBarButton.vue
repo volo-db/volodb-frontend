@@ -10,7 +10,7 @@
     <IconLogin v-if="type == 'login'" />
     <IconDashboard v-if="type == 'dashboard'" />
     <IconVolunteers v-if="type == 'volunteers'" />
-    <IconDeploymentSites v-if="type == 'deployment-sites'" />
+    <IconProjects v-if="type == 'projects'" />
     <IconSeminars v-if="type == 'seminars'" />
     <IconMail v-if="type == 'mail'" />
     <IconSettings v-if="type == 'settings'" />
@@ -23,7 +23,7 @@
 import IconLogin from '@/components/IconLogin.vue'
 import IconDashboard from '@/components/IconDashboard.vue'
 import IconVolunteers from '@/components/IconVolunteers.vue'
-import IconDeploymentSites from '@/components/IconDeploymentSites.vue'
+import IconProjects from '@/components/IconProject.vue'
 import IconSeminars from '@/components/IconSeminars.vue'
 import IconMail from '@/components/IconMail.vue'
 import IconSettings from '@/components/IconSettings.vue'
@@ -35,7 +35,7 @@ export default {
     IconLogin,
     IconDashboard,
     IconVolunteers,
-    IconDeploymentSites,
+    IconProjects,
     IconSeminars,
     IconMail,
     IconSettings,

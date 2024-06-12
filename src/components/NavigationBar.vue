@@ -5,9 +5,13 @@
     </div>
     <div>
       <NavBarButton type="login" />
-      <NavBarButton type="dashboard" :active="true" />
-      <NavBarButton type="volunteers" />
-      <NavBarButton type="deployment-sites" />
+      <NavBarButton type="dashboard" :active="$route.name == ''" />
+      <NavBarButton
+        type="volunteers"
+        @click="goToVolunteersView()"
+        :active="$route.name == 'VolunteersView'"
+      />
+      <NavBarButton type="projects" />
       <NavBarButton type="seminars" />
       <NavBarButton type="mail" />
       <NavBarButton type="settings" />
@@ -26,6 +30,11 @@ export default {
   data() {
     return {
       smallVolodbLogo
+    }
+  },
+  methods: {
+    goToVolunteersView() {
+      this.$router.push({ name: 'VolunteersView' })
     }
   }
 }
