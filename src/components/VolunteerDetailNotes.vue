@@ -1,38 +1,34 @@
 <template>
-
-  <div class="flex justify-between mt-8">
-    <SearchBar placeholder="Suche nach Aktivitäten" />
-    <ButtonStandard>Aktivität hinzufügen</ButtonStandard>
-  </div>
-  <div v-bind="$attrs" v-if="volunteerStore.volunteerNotes">
-  <table class="w-full max-w-3xl">
-    <thead>
+  <div v-if="volunteerStore.volunteerNotes">
+    <table class="w-full max-w-3xl">
+      <thead>
         <tr>
           <td
             v-for="(title, index) in tableHead"
             :key="index"
             class="pb-3 text-vologray-700 text-sm cursor-pointer"
-            :class="{'pl-4' : index === 0}"
+            :class="{ 'pl-4': index === 0 }"
           >
             {{ title }}
-            <IconTableSortArrows class="inline" :upArrowColor="'lightgrey'" :downArrowColor="'lightgrey'"/>
+            <IconTableSortArrows
+              class="inline"
+              :upArrowColor="'lightgrey'"
+              :downArrowColor="'lightgrey'"
+            />
           </td>
         </tr>
       </thead>
-      <tbody
-        v-for="(note, index) of volunteerStore.volunteerNotes"
-        :key="note.id"
-        class="bg-white"
-      >
+      <tbody v-for="(note, index) of volunteerStore.volunteerNotes" :key="note.id" class="bg-white">
         <tr
           @click="toggleExpand(index)"
           class="h-14 cursor-pointer hover:text-voloblue-100 hover:bg-gray-50 border-b"
-          :class="{'border-none' : expandedRows.includes(index)}"
+          :class="{ 'border-none': expandedRows.includes(index) }"
         >
           <td class="font-bold pl-4">{{ note.name }}</td>
           <td>{{ note.id }}</td>
           <td>
-            <IconArrowShowDetailSummary :class="{ 'transform rotate-180': expandedRows.includes(index) }" />
+            <IconArrowShowDetailSummary
+              :class="{ 'transform rotate-180': expandedRows.includes(index) }" />
           </td>
         </tr>
         <!-- row for expanded detail -->
@@ -45,26 +41,24 @@
           </td>
         </tr>
       </tbody>
-  </table>
-</div>
+    </table>
+  </div>
 </template>
 <script>
 import { useVolunteerStore } from '@/stores/VolunteerStore'
 import IconArrowShowDetailSummary from './IconArrowShowDetailSummary.vue'
 import IconTableSortArrows from './IconTableSortArrows.vue'
-import ButtonStandard from './ButtonStandard.vue';
-import SearchBar from './SearchBar.vue';
 
 export default {
   setup: () => {
     const volunteerStore = useVolunteerStore()
     return { volunteerStore }
   },
-  components: { ButtonStandard,SearchBar,IconArrowShowDetailSummary,IconTableSortArrows },
+  components: { IconArrowShowDetailSummary, IconTableSortArrows },
   data() {
     return {
       tableHead: ['Typ', 'Erstellt von', 'Datum'],
-      expandedRows: [],
+      expandedRows: []
     }
   },
   methods: {
@@ -77,14 +71,13 @@ export default {
       }
     }
   },
-   async beforeMount() {
+  mounted() {
     try {
-      await this.volunteerStore.getVolunteerNotes(this.$route.params.volunteerId)
+      this.volunteerStore.getNotes(this.$route.params.volunteerId)
       console.log(this.$route.params.volunteerId)
     } catch (error) {
       console.error('Error fetching notes:', error)
     }
   }
 }
-
 </script>

@@ -7,9 +7,13 @@
         :active="selectedContextTab"
         @navLinkClick="openTab"
       />
-      <VolunteerDetailNotes 
-      class="mt-16"
-      v-if="selectedContextTab === 'dokumentation'" />
+
+      <div class="flex justify-between mt-8">
+        <SearchBar placeholder="Suche nach Aktivitäten" />
+        <ButtonStandard>Aktivität hinzufügen</ButtonStandard>
+      </div>
+
+      <VolunteerDetailNotes class="mt-16" v-if="selectedContextTab === 'dokumentation'" />
     </div>
   </div>
 </template>
@@ -18,12 +22,16 @@ import { useVolunteerStore } from '@/stores/VolunteerStore.js'
 import VolunteerDetailNavigationbar from '@/components/VolunteerDetailNavigationbar.vue'
 import VolunteerDetailNotes from '@/components/VolunteerDetailNotes.vue'
 import VolunteerDetailOverview from '@/components/VolunteerDetailOverview.vue'
+import ButtonStandard from '@/components/ButtonStandard.vue'
+import SearchBar from '@/components/SearchBar.vue'
 
 export default {
   components: {
     VolunteerDetailNavigationbar,
     VolunteerDetailNotes,
-    VolunteerDetailOverview
+    VolunteerDetailOverview,
+    ButtonStandard,
+    SearchBar
   },
   name: 'VolunteerDetailView.vue',
   setup() {
@@ -53,7 +61,7 @@ export default {
     }
   },
   async beforeMount() {
-   await this.volunteerStore.getVolunteerNotes(this.$route.params.volunteerId)
+    await this.volunteerStore.getVolunteerNotes(this.$route.params.volunteerId)
   }
 }
 </script>

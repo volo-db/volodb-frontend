@@ -10,8 +10,7 @@
       >
         🤷‍♀️ Upsi! Da ist wohl was schief gelaufen... Versuchs bitte nochmal.
       </p>
-      <div v-if="!projectStore.fetching"   class="flex justify-center p-8">
-        
+      <div v-if="!projectStore.fetching" class="flex justify-center p-8">
         <button @click="currentPage = 1" class="self-center mr-4">
           <PageArrowLeft :ArrowLeftColor="currentPage === 1 ? 'lightgrey' : 'blue'" />
         </button>
@@ -83,7 +82,7 @@
               @submit.prevent="onSubmit"
               novalidate
             >
-            <FormularInput
+              <FormularInput
                 label="Straße"
                 id="street"
                 :required="true"
@@ -107,17 +106,16 @@
                 type="text"
                 v-model="formData.city"
               />
- 
-             <FormularSelectBox 
-             :list="countryStore.sortedCountries"
-             label="Land"
-             id="country"
-             name="country"
-             :hasError="validationErr.country"  
-             v-model="formData.country"        
-             :required="true"
-             />
 
+              <FormularSelectBox
+                :list="countryStore.sortedCountries"
+                label="Land"
+                id="country"
+                name="country"
+                :hasError="validationErr.country"
+                v-model="formData.country"
+                :required="true"
+              />
             </form>
           </div>
         </div>
@@ -138,8 +136,19 @@
     </div>
     <footer class="flex justify-between p-6 border-solid border-t border-vologray-200">
       <ButtonStandard @click.prevent="$emit('close')">Abbrechen</ButtonStandard>
-      <p class="flex justify-center text-sm font-light rounded border border-1 mb-4 p-3 bg-red-100 border-red-500 text-red-500" v-if="pageOneErr === true">Eingabefelder auf Seite 1 prüfen</p>
-      <ButtonStandard type="submit" form="new-project" :disabled="currentPage === 1" :class="{'bg-opacity-70' : currentPage === 1 }">Einsatzstelle anlegen</ButtonStandard>
+      <p
+        class="flex justify-center text-sm font-light rounded border border-1 mb-4 p-3 bg-red-100 border-red-500 text-red-500"
+        v-if="pageOneErr === true"
+      >
+        Eingabefelder auf Seite 1 prüfen
+      </p>
+      <ButtonStandard
+        type="submit"
+        form="new-project"
+        :disabled="currentPage === 1"
+        :class="{ 'bg-opacity-70': currentPage === 1 }"
+        >Einsatzstelle anlegen</ButtonStandard
+      >
     </footer>
   </section>
 </template>
@@ -161,11 +170,20 @@ export default {
     const projectStore = useProjectStore()
     const countryStore = useCountryStore()
     return {
-      projectStore, countryStore
+      projectStore,
+      countryStore
     }
   },
   // directives: { focus },
-  components: { ButtonStandard, IconSpinner, PageArrowLeft, PageArrowRight, FormularInput, FormularTextarea, FormularSelectBox },
+  components: {
+    ButtonStandard,
+    IconSpinner,
+    PageArrowLeft,
+    PageArrowRight,
+    FormularInput,
+    FormularTextarea,
+    FormularSelectBox
+  },
   data() {
     return {
       currentPage: 1,
@@ -243,17 +261,17 @@ export default {
 
       this.validate()
 
-// reminder to check page 2 if submit is not working but page 2 has no errors
-      if(
-         this.currentPage === 2 
-      && this.validationErr.name
-      || this.validationErr.phone
-      || this.validationErr.email
-      || this.validationErr.shorthand)
-     this.pageOneErr = true
-     setTimeout(() => {
-            this.pageOneErr = false
-          }, 5000)
+      // reminder to check page 2 if submit is not working but page 2 has no errors
+      if (
+        (this.currentPage === 2 && this.validationErr.name) ||
+        this.validationErr.phone ||
+        this.validationErr.email ||
+        this.validationErr.shorthand
+      )
+        this.pageOneErr = true
+      setTimeout(() => {
+        this.pageOneErr = false
+      }, 5000)
 
       if (this.formValid) {
         let project = {
@@ -273,7 +291,7 @@ export default {
           await this.projectStore.setProject(project)
         } catch (error) {
           console.error(error)
-          
+
           // Showing error message just for 5 seconds
           this.errorMessage = true
           setTimeout(() => {
@@ -282,19 +300,17 @@ export default {
           return
         }
         this.$emit('close')
-       //
-       // for redirect to new project detail page instead of just closing:
-       // confetti()
-      // this.$emit('saved', this.projectStore.selectedProject.id)
-      
-
+        //
+        // for redirect to new project detail page instead of just closing:
+        // confetti()
+        // this.$emit('saved', this.projectStore.selectedProject.id)
       }
-    },
+    }
   },
 
   mounted() {
-  this.$refs.name.focus()
-  this.countryStore.getCountries()
-}
+    this.$refs.name.focus()
+    this.countryStore.getCountries()
+  }
 }
 </script>

@@ -90,7 +90,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       )
       this.fetching = false
     },
-    async getVolunteerNotes(volunteerId) {
+    async getNotes(volunteerId) {
       // If there's no token, something went wrong
       if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
 
