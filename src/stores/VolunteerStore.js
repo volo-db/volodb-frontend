@@ -96,8 +96,28 @@ export const useVolunteerStore = defineStore('volunteerStore', {
 
       this.fetching = true
 
-      this.volunteerNotes = await vdbFetchData(`volunteers/${volunteerId}/notes`, 'GET', this.token)
+      this.volunteerNotes = await vdbFetchData(
+        `volunteers/${volunteerId}/notes?&sortField=timestamp&sortOrder=${this.sortOrder}`,
+        'GET',
+        this.token
+      )
 
+      this.fetching = false
+    },
+    async fetchSortedNotes(sortBy, volunteerId) {
+      // If there's no token, something went wrong
+      if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
+
+      this.fetching = true
+
+      // call function for sortOrder
+      this.defineSortOrder(sortBy)
+
+      this.volunteerNotes = await vdbFetchData(
+        `volunteers/${volunteerId}/notes?&sortField=${sortBy}&sortOrder=${this.sortOrder}`,
+        'GET',
+        this.token
+      )
       this.fetching = false
     },
     defineSortOrder(sortProperty) {

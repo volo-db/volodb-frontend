@@ -6,13 +6,14 @@
           <tr>
             <td
               v-for="(title, index) in tableHead"
-              @click="volunteerStore.fetchSortedVolunteers(sortParameter[index])"
               :key="index"
               class="pb-3 text-vologray-700 text-sm cursor-pointer"
               :class="{ 'pl-4': index === 0 }"
               :style="{
                 color: volunteerStore.activeSortProperty === sortParameter[index] ? 'blue' : ''
               }"
+              @click="volunteerStore.fetchSortedVolunteers(sortParameter[index])"
+
             >
               {{ title }}
               <IconTableSortArrows
