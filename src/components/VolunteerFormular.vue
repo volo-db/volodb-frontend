@@ -1,5 +1,5 @@
 <template>
-  <section class="w-[70vw] max-w-[850px] min-w-[400px]" @keydown.esc="$emit('close')">
+  <section class="w-[70vw] max-w-[850px] min-w-[400px]" @keydown.esc="$emit('cancel')">
     <header class="flex justify-center p-5 border-solid border-b border-vologray-200">
       <h2 class="text-[20px] text-bold font-medium">Neue:r Freiwillige:r</h2>
     </header>
@@ -117,24 +117,25 @@
         v-if="volunteerStore.fetching"
         class="p-4 flex flex-row gap-2 justify-center items-center text-md"
       >
-        <icon-spinner />speichere daten...
+        <IconSpinner />speichere daten...
       </div>
     </main>
     <footer class="flex justify-between p-6 border-solid border-t border-vologray-200">
-      <base-button @click.prevent="$emit('close')">Abbrechen</base-button>
-      <base-button type="submit" form="new-volunteer">Freiwillige:n anlegen</base-button>
+      <ButtonStandard @click.prevent="$emit('cancel')">Abbrechen</ButtonStandard>
+      <ButtonStandard type="submit" form="new-volunteer">Freiwillige:n anlegen</ButtonStandard>
     </footer>
   </section>
 </template>
 <script>
-import BaseButton from './BaseButton.vue'
+import ButtonStandard from './ButtonStandard.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
-import { isValidEmail, isValidPhoneNumber } from '@/utils'
+import { confetti } from '@/utils/confetti.js'
+import { isValidEmail, isValidPhoneNumber } from '@/utils/validations'
+
 import IconSpinner from './IconSpinner.vue'
 
 export default {
-  name: 'NewVolunteer',
-  components: { BaseButton, IconSpinner },
+  components: { ButtonStandard, IconSpinner },
   setup() {
     const volunteerStore = useVolunteerStore()
 
@@ -146,7 +147,7 @@ export default {
     return {
       validationErr: {
         lastname: false,
-        firsname: false,
+        firstname: false,
         gender: false,
         email: false,
         mobile: false
@@ -159,15 +160,13 @@ export default {
         mobile: ''
       },
       formValid: false,
-      errorMessage: false,
-      successMessage: false
+      errorMessage: false
     }
   },
   methods: {
     validate() {
       // clear the table ;-)
       this.formValid = false
-
       this.validationErr.lastname = false
       this.validationErr.firstname = false
       this.validationErr.gender = false
@@ -195,7 +194,7 @@ export default {
       // If theres no error -> form is valid
       if (
         !this.validationErr.lastname &&
-        !this.validationErr.firsname &&
+        !this.validationErr.firstname &&
         !this.validationErr.gender &&
         !this.validationErr.email &&
         !this.validationErr.mobile
@@ -204,7 +203,6 @@ export default {
     },
     async onSubmit() {
       this.errorMessage = false
-      this.successMessage = false
 
       this.validate()
       if (this.formValid) {
@@ -228,10 +226,12 @@ export default {
           setTimeout(() => {
             this.errorMessage = false
           }, 5000)
-
           return
         }
-        this.$emit('close')
+
+        confetti()
+
+        this.$emit('saved', this.volunteerStore.selectedVolunteer.id)
       }
     }
   },

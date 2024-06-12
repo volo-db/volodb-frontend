@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from '@/stores/UserStore'
 import LoginView from '@/views/LoginView.vue'
 import VolunteersView from '@/views/VolunteersView.vue'
+import VolunteerDetailView from '@/views/VolunteerDetailView.vue'
+import ProjectsView from '@/views/ProjectsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +22,26 @@ const router = createRouter({
       path: '/volunteers',
       name: 'VolunteersView',
       component: VolunteersView
+    },
+    {
+      path: '/volunteers/:volunteerId',
+      name: 'VolunteerDetailView',
+      redirect: (to) => {
+        return {
+          name: 'VolunteerDetailViewWithContext',
+          params: { volunteerId: to.params.volunteerId, contextTab: 'dokumentation' }
+        }
+      }
+    },
+    {
+      path: '/volunteers/:volunteerId/:contextTab',
+      name: 'VolunteerDetailViewWithContext',
+      component: VolunteerDetailView
+    },
+    {
+      path: '/projects',
+      name: 'ProjectsView',
+      component: ProjectsView
     }
   ]
 })

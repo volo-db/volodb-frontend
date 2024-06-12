@@ -39,14 +39,14 @@
               v-if="!errorPassword"
             />
           </div>
-          <BaseButton type="submit">Einloggen</BaseButton>
+          <ButtonStandard class="mt-16 self-start" type="submit">Einloggen</ButtonStandard>
         </form>
         <!-- <ModalContainer v-if="this.userStore.fetching"> -->
-        <ModalContainer v-if="userStore.fetching">
+        <ContainerModal v-if="userStore.fetching">
           <div class="p-4 flex flex-row gap-2 items-center text-md">
-            <icon-spinner />logging in ...
+            <IconSpinner />logging in ...
           </div>
-        </ModalContainer>
+        </ContainerModal>
       </div>
     </main>
 
@@ -59,15 +59,15 @@
 <script>
 import { useUserStore } from '@/stores/UserStore'
 import { useRouter } from 'vue-router'
-import volodbLogo from '@/assets/logos/volodb-logo.svg'
-import BaseButton from '@/components/BaseButton.vue'
-import ModalContainer from '@/components/ModalContainer.vue'
+import volodbLogo from '@/assets/logo-volodb-regular.svg'
+import ButtonStandard from '@/components/ButtonStandard.vue'
+import ContainerModal from '@/components/ContainerModal.vue'
 import IconSpinner from '@/components/IconSpinner.vue'
 
 export default {
   components: {
-    BaseButton,
-    ModalContainer,
+    ButtonStandard,
+    ContainerModal,
     IconSpinner
   },
   setup: () => {

@@ -1,10 +1,18 @@
 import { defineStore } from 'pinia'
+import { vdbFetchData } from '@/utils/api'
 
 export const useVolunteerStore = defineStore('volunteerStore', {
   state: () => {
     return {
       fetching: false,
-      token: JSON.parse(localStorage.getItem('user-store')).token
+      token: JSON.parse(localStorage.getItem('user-store')).token,
+      volunteersPage: null,
+      selectedVolunteer: null,
+      selectedVolunteerContacts: null,
+      selectedVolunteerAddresses: null,
+      selectedVolunteerRelevantContract: null,
+      sortOrder: 'asc',
+      activeSortProperty: null
     }
   },
   actions: {
@@ -13,20 +21,81 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
 
       this.fetching = true
-      await fetch(`${import.meta.env.VITE_BASE_URL}/volunteers`, {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-          authorization: `Bearer ${this.token}`
-        },
-        body: JSON.stringify(volunteer)
-      })
-        .then((res) => {
-          if (!res.ok) throw Error(`VoloDB-ERROR\n🙅‍♀️ posting new volunteer failed! (${res.status}`)
-          return res.json()
-        })
-        .finally(() => (this.fetching = false))
+      try {
+        this.selectedVolunteer = await vdbFetchData('volunteers', 'POST', this.token, volunteer)
+      } catch (error) {
+        console.error(error)
+        throw error
+      } finally {
+        this.fetching = false
+      }
+    },
+    async getVolunteer(volunteerId) {
+      //clear selected volunteer
+      this.selectedVolunteer = null
+
+      // If there's no token, something went wrong
+      if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
+
+      this.fetching = true
+
+      this.selectedVolunteer = await vdbFetchData(`volunteers/${volunteerId}`, 'GET', this.token)
+
+      this.selectedVolunteerContacts = await vdbFetchData(
+        `volunteers/${volunteerId}/contacts`,
+        'GET',
+        this.token
+      )
+
+      this.selectedVolunteerAddresses = await vdbFetchData(
+        `volunteers/${volunteerId}/addresses`,
+        'GET',
+        this.token
+      )
+
+      this.selectedVolunteerRelevantContract = await vdbFetchData(
+        `volunteers/${volunteerId}/contracts/relevant`,
+        'GET',
+        this.token
+      )
+
+      this.fetching = false
+    },
+    async getVolunteers(pageNumber = 0) {
+      // If there's no token, something went wrong
+      if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
+
+      this.fetching = true
+      this.volunteersPage = await vdbFetchData(
+        `volunteers?page=${pageNumber}&sortField=person.lastname&sortOrder=asc`,
+        'GET',
+        this.token
+      )
+      this.fetching = false
+    },
+    async fetchSortedVolunteers(sortBy) {
+      // If there's no token, something went wrong
+      if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
+
+      this.fetching = true
+
+      // call function for sortOrder
+      this.defineSortOrder(sortBy)
+
+      this.volunteersPage = await vdbFetchData(
+        `volunteers?&sortField=${sortBy}&sortOrder=${this.sortOrder}`,
+        'GET',
+        this.token
+      )
+      this.fetching = false
+    },
+    defineSortOrder(sortProperty) {
+      if (sortProperty === this.activeSortProperty) {
+        this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'
+      } else {
+        this.activeSortProperty = sortProperty
+        this.sortOrder = 'asc' // Reset sortOrder to 'asc' when a new sortProperty is selected
+      }
     }
-  },
-  getters: {}
+  }
 })

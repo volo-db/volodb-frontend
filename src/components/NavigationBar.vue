@@ -18,8 +18,8 @@
 </template>
 
 <script>
-import smallVolodbLogo from '@/assets/logos/volodb-logo-small.svg'
 import NavBarButton from '@/components/NavBarButton.vue'
+import smallVolodbLogo from '@/assets/logo-volodb-small.svg'
 
 export default {
   components: { NavBarButton },

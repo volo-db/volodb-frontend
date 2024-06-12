@@ -82,7 +82,5 @@
 </template>
 
 <script>
-export default {
-  name: 'IconVolunteers'
-}
+export default {}
 </script>
