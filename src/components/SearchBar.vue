@@ -4,6 +4,8 @@
       class="outline-none placeholder-vologray-300 w-full"
       type="text"
       :placeholder="placeholder"
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
     />
     <IconSearch class="text-vologray-700" />
   </div>
@@ -14,7 +16,11 @@ import IconSearch from '../components/IconSearch.vue'
 export default {
   components: { IconSearch },
   props: {
-    placeholder: String
-  }
+    placeholder: String,
+    modelValue: {
+      type: String
+    }
+  },
+  emits: ['update:modelValue']
 }
 </script>

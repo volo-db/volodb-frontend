@@ -10,9 +10,10 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       selectedVolunteer: null,
       selectedVolunteerContacts: null,
       selectedVolunteerAddresses: null,
-      selectedVolunteerRelevantContract: null,
-      sortOrder: 'asc',
-      activeSortProperty: null
+      selectedVolunteerRelevantContract: null
+      // sortOrder: 'asc',
+      // activeSortProperty: null,
+      // searchQuery: ''
     }
   },
   actions: {
@@ -55,13 +56,13 @@ export const useVolunteerStore = defineStore('volunteerStore', {
 
       this.fetching = false
     },
-    async getVolunteers(pageNumber = 0) {
+    async getVolunteers(queryObj) {
       // If there's no token, something went wrong
       if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
 
       this.fetching = true
       this.volunteersPage = await vdbFetchData(
-        `volunteers?page=${pageNumber}&sortField=person.lastname&sortOrder=asc`,
+        `volunteers?page=${queryObj.page || 0}&pageSize=${queryObj.pageSize || 10}&sortField=${queryObj.sortBy || 'person.lastname'}&sortOrder=${queryObj.sortOrder || 'asc'}&search=${queryObj.search || ''}`,
         'GET',
         this.token
       )

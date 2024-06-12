@@ -6,27 +6,21 @@
           <tr>
             <td
               v-for="(title, index) in tableHead"
-              @click="volunteerStore.fetchSortedVolunteers(sortParameter[index])"
+              @click="sortVolunteersList(sortParameter[index])"
               :key="index"
               class="pb-3 text-vologray-700 text-sm cursor-pointer"
               :class="{ 'pl-4': index === 0 }"
               :style="{
-                color: volunteerStore.activeSortProperty === sortParameter[index] ? 'blue' : ''
+                color: sortBy === sortParameter[index] ? 'blue' : ''
               }"
             >
               {{ title }}
               <IconTableSortArrows
                 :upArrowColor="
-                  sortParameter[index] === volunteerStore.activeSortProperty &&
-                  volunteerStore.sortOrder === 'asc'
-                    ? 'blue'
-                    : 'lightgrey'
+                  sortBy === sortParameter[index] && sortOrder === 'asc' ? '#0025FF' : 'lightgrey'
                 "
                 :downArrowColor="
-                  sortParameter[index] === volunteerStore.activeSortProperty &&
-                  volunteerStore.sortOrder === 'desc'
-                    ? 'blue'
-                    : 'lightgrey'
+                  sortBy === sortParameter[index] && sortOrder === 'desc' ? '#0025FF' : 'lightgrey'
                 "
                 class="pl-2 inline w-5"
               />
@@ -79,6 +73,12 @@ export default {
     PaginationController,
     IconTableSortArrows
   },
+  props: {
+    searchQuery: {
+      type: String,
+      default: ''
+    }
+  },
   setup: () => {
     const volunteerStore = useVolunteerStore()
     const router = useRouter()
@@ -101,7 +101,11 @@ export default {
         'year',
         'documents',
         'seminars'
-      ]
+      ],
+      sortOrder: 'asc',
+      sortBy: 'person.lastname',
+      page: 0,
+      pageSize: 13
     }
   },
   methods: {
@@ -109,18 +113,62 @@ export default {
       this.$router.push({ name: 'VolunteerDetailView', params: { volunteerId } })
     },
     updateVolunteerPage(pageNumber) {
-      this.volunteerStore.volunteersPage.pageable.pageNumber = pageNumber
-      this.volunteerStore.getVolunteers(pageNumber)
+      this.page = pageNumber
+      this.getVolunteers()
+    },
+    sortVolunteersList(sortBy) {
+      if (this.sortBy !== sortBy) {
+        this.sortOrder === 'asc'
+      } else {
+        if (this.sortOrder === 'asc') {
+          this.sortOrder = 'desc'
+        } else {
+          this.sortOrder = 'asc'
+        }
+      }
+
+      this.sortBy = sortBy
+
+      this.getVolunteers()
+    },
+    async getVolunteers(params) {
+      if (!params)
+        params = {
+          sortOrder: this.sortOrder,
+          sortBy: this.sortBy,
+          page: this.page,
+          pageSize: this.pageSize,
+          search: this.searchQuery
+        }
+
+      try {
+        await this.volunteerStore.getVolunteers({
+          sortOrder: params.sortOrder,
+          sortBy: params.sortBy,
+          page: params.page,
+          pageSize: params.pageSize,
+          search: params.search
+        })
+      } catch (error) {
+        console.error('Error fetching volunteers:', error)
+      }
     }
   },
-  async beforeMount() {
-    try {
-      this.volunteerStore.sortOrder = 'asc'
-      this.volunteerStore.activeSortProperty = 'person.lastname'
-      await this.volunteerStore.getVolunteers()
-    } catch (error) {
-      console.error('Error fetching volunteers:', error)
+  watch: {
+    searchQuery: {
+      async handler(newQuery) {
+        console.log('searchQuery changed:', newQuery)
+        await this.getVolunteers()
+      },
+      immediate: true // This option ensures that the api is called initially with the initial prop value
     }
+    // $route: {
+    //   async handler(to) {
+    //     this.searchQuery = to.query.search
+    //     await this.getVolunteers()
+    //   },
+    //   immediate: true
+    // }
   }
 }
 </script>
