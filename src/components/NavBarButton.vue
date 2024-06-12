@@ -1,0 +1,53 @@
+<template>
+  <button
+    class="w-full flex justify-center items-center text-voloblue-200 text-xl border py-5 opacity-100"
+    :class="{
+      'border-l-voloblue-200 bg-vologray-100 border-l-4': active,
+      'opacity-50': !active
+    }"
+    @click="testMethod"
+  >
+    <IconLogin v-if="type == 'login'" />
+    <IconDashboard v-if="type == 'dashboard'" />
+    <IconVolunteers v-if="type == 'volunteers'" />
+    <IconDeploymentSites v-if="type == 'deployment-sites'" />
+    <IconSeminars v-if="type == 'seminars'" />
+    <IconMail v-if="type == 'mail'" />
+    <IconSettings v-if="type == 'settings'" />
+    <IconLogout v-if="type == 'logout'" />
+    <UserButton v-if="type == 'user-button'" />
+  </button>
+</template>
+
+<script>
+import IconLogin from '@/components/IconLogin.vue'
+import IconDashboard from '@/components/IconDashboard.vue'
+import IconVolunteers from '@/components/IconVolunteers.vue'
+import IconDeploymentSites from '@/components/IconDeploymentSites.vue'
+import IconSeminars from '@/components/IconSeminars.vue'
+import IconMail from '@/components/IconMail.vue'
+import IconSettings from '@/components/IconSettings.vue'
+import IconLogout from '@/components/IconLogout.vue'
+import UserButton from '@/components/UserButton.vue'
+
+export default {
+  components: {
+    IconLogin,
+    IconDashboard,
+    IconVolunteers,
+    IconDeploymentSites,
+    IconSeminars,
+    IconMail,
+    IconSettings,
+    IconLogout,
+    UserButton
+  },
+  name: 'NavBarButton',
+  props: ['type', 'active'],
+  methods: {
+    testMethod() {
+      // auf neue Route springen, switch case, route pushen
+    }
+  }
+}
+</script>

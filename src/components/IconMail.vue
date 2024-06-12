@@ -1,19 +1,25 @@
 <template>
-  <svg width="" height="1em" viewBox="0 0 34 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- need of mail icon if there are no unread mails yet -->
+
+  <!-- mail icon with unread mails: -->
+  <svg width="34" height="40" viewBox="0 0 34 40" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g clip-path="url(#clip0_42_500)">
-      <path
-        d="M18.2688 15.372V21.4853C18.2688 22.8051 17.1994 23.8745 15.8796 23.8745H2.4182C1.09844 23.8745 0.0290527 22.8051 0.0290527 21.4853V12.9465C0.0290527 11.6268 1.09844 10.5574 2.4182 10.5574H13.5392"
-        stroke="CurrentColor"
-        stroke-width="1.5"
-        stroke-linecap="round"
-      />
-      <path
-        d="M0.140137 12.9072L9.14913 20.1874L15.9056 14.7268"
-        stroke="CurrentColor"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
+      <g>
+        <path
+          d="M18.2688 15.372V21.4853C18.2688 22.8051 17.1994 23.8745 15.8796 23.8745H2.4182C1.09844 23.8745 0.0290527 22.8051 0.0290527 21.4853V12.9465C0.0290527 11.6268 1.09844 10.5574 2.4182 10.5574H13.5392"
+          stroke="CurrentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+        />
+        <path
+          d="M0.140137 12.9072L9.14913 20.1874L15.9056 14.7268"
+          stroke="CurrentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </g>
+      <!-- red icon with number which shows how many unread mails are in the inbox.. -->
       <path
         fill-rule="evenodd"
         clip-rule="evenodd"
