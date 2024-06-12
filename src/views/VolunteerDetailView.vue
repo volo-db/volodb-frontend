@@ -60,8 +60,5 @@ export default {
       })
     }
   },
-  async beforeMount() {
-    await this.volunteerStore.getVolunteerNotes(this.$route.params.volunteerId)
-  }
 }
 </script>

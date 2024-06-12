@@ -96,7 +96,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
 
       this.fetching = true
 
-      this.volunteerNotes = await vdbFetchData(`volunteers/${volunteerId}`, 'GET', this.token)
+      this.volunteerNotes = await vdbFetchData(`volunteers/${volunteerId}/notes`, 'GET', this.token)
 
       this.fetching = false
     },
