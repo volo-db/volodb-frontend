@@ -6,7 +6,7 @@
         >Freiwillige:n anlegen</ButtonStandard
       >
     </div>
-    <VolunteerTable :searchQuery="searchQuery" class="w-full mt-12" />
+    <VolunteerTable :searchQuery="debouncedSearchQuery" class="w-full mt-12" />
 
     <ContainerModal v-if="newVolunteerModal">
       <VolunteerFormular @saved="redirectToCreatedVolunteer" @cancel="newVolunteerModal = false" />
@@ -39,12 +39,16 @@ export default {
   data() {
     return {
       newVolunteerModal: false,
-      searchQuery: ''
+      searchQuery: '',
+      debouncedSearchQuery: ''
     }
   },
   watch: {
     searchQuery(newValue) {
       this.$router.push({ query: { search: newValue } })
+      this.debouncedSearch(this.searchQuery, (input) => {
+        this.debouncedSearchQuery = input
+      })
     }
   },
   methods: {
@@ -57,7 +61,7 @@ export default {
     }
   },
   mounted() {
-    this.searchQuery = this.$route.query.search || ''
+    this.debouncedSearchQuery = this.$route.query.search || ''
   }
 }
 </script>
