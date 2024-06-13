@@ -1,6 +1,6 @@
 <template>
   <button
-    class="w-full flex justify-center items-center text-voloblue-200 text-xl border py-5 opacity-100"
+    class="w-full flex justify-center items-center text-voloblue-200 text-xl py-5 opacity-100"
     :class="{
       'border-l-voloblue-200 bg-vologray-100 border-l-4': active,
       'opacity-50': !active

@@ -38,7 +38,7 @@
           >
             <!-- Email -->
             <p v-if="contact.type === 'email'">
-              <IconMail class="text-voloblue-200 text- mr-2" />
+              <IconMail class="text-voloblue-200 text- mr-2" opacity="0.499837" />
               <a :href="'mailto:' + contact.value">{{ contact.value }}</a>
             </p>
             <!-- Phone -->

@@ -11,7 +11,11 @@
         @click="goToVolunteersView()"
         :active="$route.name == 'VolunteersView'"
       />
-      <NavBarButton type="projects" />
+      <NavBarButton
+        type="projects"
+        @click="goToProjectsView()"
+        :active="$route.name == 'ProjectsView'"
+      />
       <NavBarButton type="seminars" />
       <NavBarButton type="mail" />
       <NavBarButton type="settings" />
@@ -35,6 +39,9 @@ export default {
   methods: {
     goToVolunteersView() {
       this.$router.push({ name: 'VolunteersView' })
+    },
+    goToProjectsView() {
+      this.$router.push({ name: 'ProjectsView' })
     }
   }
 }
