@@ -12,7 +12,7 @@
       </p>
       <div v-if="!projectStore.fetching" class="flex justify-center p-8">
         <button @click="currentPage = 1" class="self-center mr-4">
-          <IconPageArrowLeft :ArrowLeftColor="currentPage === 1 ? 'lightgrey' : 'blue'" />
+          <IconArrowPageLeft :ArrowLeftColor="currentPage === 1 ? 'lightgrey' : 'blue'" />
         </button>
         <div v-if="!projectStore.fetching" class="flex justify-center">
           <!-- left column -->
@@ -120,7 +120,7 @@
           </div>
         </div>
         <button class="self-center ml-4">
-          <IconPageArrowRight
+          <IconArrowPageRight
             @click="currentPage = 2"
             :ArrowRightColor="currentPage === 1 ? 'blue' : 'lightgrey'"
           />
@@ -159,8 +159,8 @@ import { useProjectStore } from '@/stores/ProjectStore'
 import { useCountryStore } from '@/stores/CountryStore'
 import { isValidEmail, isValidPhoneNumber } from '@/utils/validations'
 import IconSpinner from '@/components/IconSpinner.vue'
-import IconPageArrowLeft from './IconPageArrowLeft.vue'
-import IconPageArrowRight from './IconPageArrowRight.vue'
+import IconArrowPageLeft from './IconArrowPageLeft.vue'
+import IconArrowPageRight from './IconArrowPageRight.vue'
 import FormularInput from './FormularInput.vue'
 import FormularTextarea from './FormularTextarea.vue'
 import FormularSelectBox from './FormularSelectBox.vue'
@@ -169,8 +169,8 @@ export default {
   components: {
     ButtonStandard,
     IconSpinner,
-    IconPageArrowLeft,
-    IconPageArrowRight,
+    IconArrowPageLeft,
+    IconArrowPageRight,
     FormularInput,
     FormularTextarea,
     FormularSelectBox
