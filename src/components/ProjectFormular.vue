@@ -166,15 +166,6 @@ import FormularTextarea from './FormularTextarea.vue'
 import FormularSelectBox from './FormularSelectBox.vue'
 
 export default {
-  setup() {
-    const projectStore = useProjectStore()
-    const countryStore = useCountryStore()
-    return {
-      projectStore,
-      countryStore
-    }
-  },
-  // directives: { focus },
   components: {
     ButtonStandard,
     IconSpinner,
@@ -183,6 +174,14 @@ export default {
     FormularInput,
     FormularTextarea,
     FormularSelectBox
+  },
+  setup() {
+    const projectStore = useProjectStore()
+    const countryStore = useCountryStore()
+    return {
+      projectStore,
+      countryStore
+    }
   },
   data() {
     return {

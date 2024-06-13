@@ -26,90 +26,41 @@
             @submit.prevent="onSubmit"
             novalidate
           >
-            <div class="flex flex-col gap-1">
-              <label
-                class="text-vologray-500 font-normal"
-                :class="{ 'error-label': validationErr.lastname }"
-                for="name"
-                >Name*</label
-              >
-              <input
-                class="p-2 border border-vologray-500 rounded-md"
-                :class="{ 'error-animation': validationErr.lastname }"
-                type="text"
-                id="name"
-                required
-                v-model="formData.lastname"
-                ref="lastname"
-              />
-            </div>
-            <div class="flex flex-col gap-1">
-              <label
-                class="text-vologray-500 font-normal"
-                :class="{ 'error-label': validationErr.firstname }"
-                for="firstname"
-                >Vorname*</label
-              >
-              <input
-                class="p-2 border border-vologray-500 rounded-md"
-                :class="{ 'error-animation': validationErr.firstname }"
-                type="text"
-                id="firstname"
-                required
-                v-model="formData.firstname"
-              />
-            </div>
-            <div class="flex flex-col gap-1">
-              <label
-                class="text-vologray-500 font-normal"
-                :class="{ 'error-label': validationErr.gender }"
-                for="gender"
-                >Geschlecht*</label
-              >
-              <select
-                class="p-2 border border-vologray-500 rounded-md"
-                :class="{ 'error-animation': validationErr.gender }"
-                id="gender"
-                required
-                v-model="formData.gender"
-              >
-                <option value="">--bitte auswählen--</option>
-                <option value="female">weiblich</option>
-                <option value="male">männlich</option>
-                <option value="divers">divers</option>
-                <option value="not-selected">keine Angaben</option>
-              </select>
-            </div>
-            <div class="flex flex-col gap-1">
-              <label
-                class="text-vologray-500 font-normal"
-                for="email"
-                :class="{ 'error-label': validationErr.email }"
-                >E-Mail</label
-              >
-              <input
-                class="p-2 border border-vologray-500 rounded-md"
-                :class="{ 'error-animation': validationErr.email }"
-                type="email"
-                id="email"
-                v-model="formData.email"
-              />
-            </div>
-            <div class="flex flex-col gap-1">
-              <label
-                class="text-vologray-500 font-normal"
-                :class="{ 'error-label': validationErr.mobile }"
-                for="mobile"
-                >Mobil</label
-              >
-              <input
-                class="p-2 border border-vologray-500 rounded-md"
-                :class="{ 'error-animation': validationErr.mobile }"
-                type="tel"
-                id="mobile"
-                v-model="formData.mobile"
-              />
-            </div>
+          <formularInput 
+            label="Name"
+            id="lastname"
+            :required="true"
+            :hasError="validationErr.lastname"
+            v-model="formData.lastname"
+            ref="lastname"
+          />
+          <formularInput 
+            label="Vorname"
+            id="firstname"
+            :required="true"
+            :hasError="validationErr.firstname"
+            v-model="formData.firstname"
+          />
+          <FormularSelectBox 
+            :list="['--bitte auswählen--', 'weiblich', 'männlich', 'divers', 'keine Angabe']"
+            label="Gender"
+            id="gender"
+            :required="true"
+            :hasError="validationErr.gender"
+            v-model="formData.gender"
+          />
+          <formularInput 
+            label="E-Mail"
+            id="email"
+            :hasError="validationErr.email"
+            v-model="formData.email"
+          />
+          <formularInput 
+            label="Mobil"
+            id="mobile"
+            :hasError="validationErr.mobile"
+            v-model="formData.mobile"
+          />
           </form>
         </div>
       </div>
@@ -131,11 +82,12 @@ import ButtonStandard from './ButtonStandard.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
 import { confetti } from '@/utils/confetti.js'
 import { isValidEmail, isValidPhoneNumber } from '@/utils/validations'
-
+import FormularInput from './FormularInput.vue'
+import FormularSelectBox from './FormularSelectBox.vue'
 import IconSpinner from './IconSpinner.vue'
 
 export default {
-  components: { ButtonStandard, IconSpinner },
+  components: { ButtonStandard, IconSpinner, FormularInput,FormularSelectBox },
   setup() {
     const volunteerStore = useVolunteerStore()
 
@@ -155,7 +107,7 @@ export default {
       formData: {
         lastname: '',
         firstname: '',
-        gender: '',
+        gender: '--bitte auswählen--',
         email: '',
         mobile: ''
       },
