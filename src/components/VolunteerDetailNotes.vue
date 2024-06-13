@@ -82,7 +82,7 @@ export default {
   data() {
     return {
       tableHead: ['Typ', 'Erstellt von', 'Datum'],
-      sortParameter: [ 'type', 'user', 'timestamp',],
+      sortParameter: [ 'type', 'username', 'timestamp',],
       expandedRows: []
     }
   },
