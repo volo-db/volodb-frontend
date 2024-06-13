@@ -62,6 +62,7 @@ export default {
   },
   mounted() {
     this.debouncedSearchQuery = this.$route.query.search || ''
+    this.searchQuery = this.debouncedSearchQuery
   }
 }
 </script>
