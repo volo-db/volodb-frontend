@@ -10,24 +10,17 @@
               class="pb-3 text-vologray-700 text-sm cursor-pointer"
               :class="{ 'pl-4': index === 0 }"
               :style="{
-                color: volunteerStore.activeSortProperty === sortParameter[index] ? 'blue' : ''
+                color: sortBy === sortParameter[index] ? 'blue' : ''
               }"
-              @click="volunteerStore.fetchSortedVolunteers(sortParameter[index])"
-
+              @click="sortVolunteersList(sortParameter[index])"
             >
               {{ title }}
               <IconTableSortArrows
                 :upArrowColor="
-                  sortParameter[index] === volunteerStore.activeSortProperty &&
-                  volunteerStore.sortOrder === 'asc'
-                    ? 'blue'
-                    : 'lightgrey'
+                  sortParameter[index] === sortBy && sortOrder === 'asc' ? 'blue' : 'lightgrey'
                 "
                 :downArrowColor="
-                  sortParameter[index] === volunteerStore.activeSortProperty &&
-                  volunteerStore.sortOrder === 'desc'
-                    ? 'blue'
-                    : 'lightgrey'
+                  sortParameter[index] === sortBy && sortOrder === 'desc' ? 'blue' : 'lightgrey'
                 "
                 class="pl-2 inline w-5"
               />
@@ -102,7 +95,11 @@ export default {
         'year',
         'documents',
         'seminars'
-      ]
+      ],
+      sortOrder: 'asc',
+      sortBy: 'person.lastname',
+      page: 0,
+      pageSize: 13
     }
   },
   methods: {
@@ -111,17 +108,67 @@ export default {
     },
     updateVolunteerPage(pageNumber) {
       this.volunteerStore.volunteersPage.pageable.pageNumber = pageNumber
-      this.volunteerStore.getVolunteers(pageNumber)
+      let params = {
+        sortOrder: this.sortOrder,
+        sortBy: this.sortBy,
+        page: pageNumber,
+        pageSize: this.pageSize
+      }
+      this.volunteerStore.getVolunteers(params)
+    },
+    sortVolunteersList(sortBy) {
+      if (this.sortBy !== sortBy) {
+        this.sortOrder === 'asc'
+      } else {
+        if (this.sortOrder === 'asc') {
+          this.sortOrder = 'desc'
+        } else {
+          this.sortOrder = 'asc'
+        }
+      }
+
+      this.sortBy = sortBy
+
+      this.getVolunteers()
+    },
+    async getVolunteers(params) {
+      if (!params)
+        params = {
+          sortOrder: this.sortOrder,
+          sortBy: this.sortBy,
+          page: this.page,
+          pageSize: this.pageSize,
+          search: this.searchQuery
+        }
+
+      try {
+        await this.volunteerStore.getVolunteers({
+          sortOrder: params.sortOrder,
+          sortBy: params.sortBy,
+          page: params.page,
+          pageSize: params.pageSize,
+          search: params.search
+        })
+      } catch (error) {
+        console.error('Error fetching volunteers:', error)
+      }
     }
   },
-  async beforeMount() {
-    try {
-      this.volunteerStore.sortOrder = 'asc'
-      this.volunteerStore.activeSortProperty = 'person.lastname'
-      await this.volunteerStore.getVolunteers()
-    } catch (error) {
-      console.error('Error fetching volunteers:', error)
+  watch: {
+    searchQuery: {
+      async handler(newQuery) {
+        console.log('searchQuery changed:', newQuery)
+        await this.getVolunteers()
+      },
+      immediate: true // This option ensures that the api is called initially with the initial prop value
     }
+    // $route: {
+    //   async handler(to) {
+    //     this.searchQuery = to.query.search
+    //     await this.getVolunteers()
+    //   },
+    //   immediate: true
+    // }
   }
 }
 </script>

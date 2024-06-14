@@ -8,9 +8,21 @@
         @navLinkClick="openTab"
       />
 
-      <div class="flex justify-between mt-8">
-        <SearchBar placeholder="Suche nach Aktivitäten" />
-        <ButtonStandard>Aktivität hinzufügen</ButtonStandard>
+      <div
+        v-if="selectedContextTab === 'dokumentation' || selectedContextTab === 'dokumente'"
+        class="flex justify-between mt-8 max-w-2xl"
+      >
+        <SearchBar
+          v-if="selectedContextTab === 'dokumentation'"
+          placeholder="Suche nach Aktivitäten"
+        />
+        <SearchBar v-if="selectedContextTab === 'dokumente'" placeholder="Suche nach Dokumenten" />
+        <ButtonStandard v-if="selectedContextTab === 'dokumentation'"
+          >Aktivität hinzufügen</ButtonStandard
+        >
+        <ButtonStandard v-if="selectedContextTab === 'dokumente'"
+          >Dokument hinzufügen</ButtonStandard
+        >
       </div>
 
       <VolunteerDetailNotes class="mt-16" v-if="selectedContextTab === 'dokumentation'" />
@@ -59,6 +71,6 @@ export default {
         }
       })
     }
-  },
+  }
 }
 </script>

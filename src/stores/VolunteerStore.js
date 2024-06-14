@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import { vdbFetchData } from '@/utils/api'
 
+let mostRecentRequest = ''
+
 export const useVolunteerStore = defineStore('volunteerStore', {
   state: () => {
     return {
@@ -62,16 +64,19 @@ export const useVolunteerStore = defineStore('volunteerStore', {
 
       this.fetching = false
     },
-    async getVolunteers(pageNumber = 0) {
+    async getVolunteers(queryObj) {
       // If there's no token, something went wrong
       if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
 
-      this.fetching = true
-      this.volunteersPage = await vdbFetchData(
-        `volunteers?page=${pageNumber}&sortField=person.lastname&sortOrder=asc`,
-        'GET',
-        this.token
-      )
+      const thisRequest = `volunteers?page=${queryObj.page || 0}&pageSize=${queryObj.pageSize || 10}&sortField=${queryObj.sortBy || 'person.lastname'}&sortOrder=${queryObj.sortOrder || 'asc'}&search=${queryObj.search || ''}`
+
+      mostRecentRequest = thisRequest
+
+      const volunteers = await vdbFetchData(thisRequest, 'GET', this.token)
+
+      if (mostRecentRequest != thisRequest) return
+
+      this.volunteersPage = volunteers
       this.fetching = false
     },
     async fetchSortedVolunteers(sortBy) {
