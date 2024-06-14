@@ -6,27 +6,21 @@
           <tr>
             <td
               v-for="(title, index) in tableHead"
-              @click="projectStore.fetchSortedProjects(sortParameter[index])"
               :key="index"
               class="pb-3 text-vologray-700 text-sm cursor-pointer"
               :class="{ 'pl-4': index === 0 }"
               :style="{
-                color: projectStore.activeSortProperty === sortParameter[index] ? 'blue' : ''
+                color: sortBy === sortParameter[index] ? 'blue' : ''
               }"
+              @click="sortProjectsList(sortParameter[index])"
             >
               {{ title }}
               <IconTableSortArrows
                 :upArrowColor="
-                  sortParameter[index] === projectStore.activeSortProperty &&
-                  projectStore.sortOrder === 'asc'
-                    ? 'blue'
-                    : 'lightgrey'
+                  sortParameter[index] === sortBy && sortOrder === 'asc' ? 'blue' : 'lightgrey'
                 "
                 :downArrowColor="
-                  sortParameter[index] === projectStore.activeSortProperty &&
-                  projectStore.sortOrder === 'desc'
-                    ? 'blue'
-                    : 'lightgrey'
+                  sortParameter[index] === sortBy && sortOrder === 'desc' ? 'blue' : 'lightgrey'
                 "
                 class="pl-2 inline w-5"
               />
@@ -78,6 +72,12 @@ export default {
     PaginationController,
     IconTableSortArrows
   },
+  props: {
+    searchQuery: {
+      type: String,
+      default: ''
+    }
+  },
   setup: () => {
     const projectStore = useProjectStore()
     const router = useRouter()
@@ -86,7 +86,11 @@ export default {
   data() {
     return {
       tableHead: ['Name', 'Standort', 'Ansprechpartner', 'Aktive FW', 'Offene Stellen'],
-      sortParameter: ['name', 'city', 'email', 'volunteers', 'capacity']
+      sortParameter: ['name', 'city', 'email', 'volunteers', 'capacity'],
+      sortOrder: 'asc',
+      sortBy: 'name',
+      page: 0,
+      pageSize: 13
     }
   },
   methods: {
@@ -96,16 +100,59 @@ export default {
     // },
     updateProjectPage(pageNumber) {
       this.projectStore.projectsPage.pageable.pageNumber = pageNumber
-      this.projectStore.getProjects(pageNumber)
+      let params = {
+        sortOrder: this.sortOrder,
+        sortBy: this.sortBy,
+        page: pageNumber,
+        pageSize: this.pageSize
+      }
+      this.projectStore.getProjects(params)
+    },
+    sortProjectsList(sortBy) {
+      if (this.sortBy !== sortBy) {
+        this.sortOrder === 'asc'
+      } else {
+        if (this.sortOrder === 'asc') {
+          this.sortOrder = 'desc'
+        } else {
+          this.sortOrder = 'asc'
+        }
+      }
+
+      this.sortBy = sortBy
+
+      this.getProjects()
+    },
+    async getProjects(params) {
+      if (!params)
+        params = {
+          sortOrder: this.sortOrder,
+          sortBy: this.sortBy,
+          page: this.page,
+          pageSize: this.pageSize,
+          search: this.searchQuery
+        }
+
+      try {
+        await this.projectStore.getProjects({
+          sortOrder: params.sortOrder,
+          sortBy: params.sortBy,
+          page: params.page,
+          pageSize: params.pageSize,
+          search: params.search
+        })
+      } catch (error) {
+        console.error('Error fetching projects:', error)
+      }
     }
   },
-  async beforeMount() {
-    try {
-      this.projectStore.sortOrder = 'asc'
-      this.projectStore.activeSortProperty = 'name'
-      await this.projectStore.getProjects()
-    } catch (error) {
-      console.error('Error fetching projects:', error)
+  watch: {
+    searchQuery: {
+      async handler(newQuery) {
+        console.log('searchQuery changed:', newQuery)
+        await this.getProjects()
+      },
+      immediate: true // This option ensures that the api is called initially with the initial prop value
     }
   }
 }
