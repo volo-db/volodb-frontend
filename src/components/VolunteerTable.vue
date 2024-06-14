@@ -73,6 +73,12 @@ export default {
     PaginationController,
     IconTableSortArrows
   },
+  props: {
+    searchQuery: {
+      type: String,
+      default: ''
+    }
+  },
   setup: () => {
     const volunteerStore = useVolunteerStore()
     const router = useRouter()

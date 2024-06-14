@@ -9,30 +9,28 @@
             class="pb-3 text-vologray-700 text-sm cursor-pointer"
             :class="{ 'pl-4': index === 0 }"
             :style="{
-                color: volunteerStore.activeSortProperty === sortParameter[index] ? 'blue' : ''
-              }"
-            @click="volunteerStore.fetchSortedNotes(sortParameter[index],this.$route.params.volunteerId)"
+              color: sortBy === sortParameter[index] ? 'blue' : ''
+            }"
+            @click="sortNotesList(sortParameter[index])"
           >
             {{ title }}
             <IconTableSortArrows
-            :upArrowColor="
-                  sortParameter[index] === volunteerStore.activeSortProperty &&
-                  volunteerStore.sortOrder === 'asc'
-                    ? 'blue'
-                    : 'lightgrey'
-                "
-                :downArrowColor="
-                  sortParameter[index] === volunteerStore.activeSortProperty &&
-                  volunteerStore.sortOrder === 'desc'
-                    ? 'blue'
-                    : 'lightgrey'
-                "
+              :upArrowColor="
+                sortParameter[index] === sortBy && sortOrder === 'asc' ? 'blue' : 'lightgrey'
+              "
+              :downArrowColor="
+                sortParameter[index] === sortBy && sortOrder === 'desc' ? 'blue' : 'lightgrey'
+              "
               class="inline"
             />
           </td>
         </tr>
       </thead>
-      <tbody v-for="(note, index) of volunteerStore.volunteerNotes.content" :key="note.id" class="bg-white">
+      <tbody
+        v-for="(note, index) of volunteerStore.volunteerNotes.content"
+        :key="note.id"
+        class="bg-white"
+      >
         <tr
           @click="toggleExpand(index)"
           class="h-14 cursor-pointer hover:text-voloblue-100 hover:bg-gray-50 border-b"
@@ -47,16 +45,21 @@
             <p class="inline pl-4" v-else-if="note.type == 'note'">Notiz</p>
             <p class="inline pl-4" v-else-if="note.type == 'phone incoming'">Telefonat</p>
             <p class="inline pl-4" v-else-if="note.type == 'phone outgoing'">Telefonat</p>
-            <p class="inline pl-4" v-else>{{ note.type }}</p></td>
+            <p class="inline pl-4" v-else>{{ note.type }}</p>
+          </td>
           <td>{{ note.user }}</td>
-          <td>{{ note.timestamp.split("T").slice(0,1).join().split("-").reverse().join(".") }}</td>
-          <td><IconArrowShowDetailSummary :class="{ 'transform rotate-180' : expandedRows.includes(index) }" /></td>         
+          <td>{{ note.timestamp.split('T').slice(0, 1).join().split('-').reverse().join('.') }}</td>
+          <td>
+            <IconArrowShowDetailSummary
+              :class="{ 'transform rotate-180': expandedRows.includes(index) }"
+            />
+          </td>
         </tr>
-        
+
         <tr v-if="expandedRows.includes(index)" :key="note.id">
           <td colspan="4" class="h-14 px-12 pb-4 border-b">
             <div>
-              <p>{{ note.note }}</p>         
+              <p>{{ note.note }}</p>
             </div>
           </td>
         </tr>
@@ -68,22 +71,33 @@
 import { useVolunteerStore } from '@/stores/VolunteerStore'
 import IconArrowShowDetailSummary from './IconArrowShowDetailSummary.vue'
 import IconTableSortArrows from './IconTableSortArrows.vue'
-import IconMail from './IconMail.vue';
-import IconMemo from './IconMemo.vue';
-import IconPhoneIngoing from './IconPhoneIngoing.vue';
-import IconPhoneOutgoing from './IconPhoneOutgoing.vue';
+import IconMail from './IconMail.vue'
+import IconMemo from './IconMemo.vue'
+import IconPhoneIngoing from './IconPhoneIngoing.vue'
+import IconPhoneOutgoing from './IconPhoneOutgoing.vue'
 
 export default {
   setup: () => {
     const volunteerStore = useVolunteerStore()
     return { volunteerStore }
   },
-  components: { IconArrowShowDetailSummary, IconTableSortArrows, IconMail, IconMemo, IconPhoneIngoing, IconPhoneOutgoing },
+  components: {
+    IconArrowShowDetailSummary,
+    IconTableSortArrows,
+    IconMail,
+    IconMemo,
+    IconPhoneIngoing,
+    IconPhoneOutgoing
+  },
   data() {
     return {
       tableHead: ['Typ', 'Erstellt von', 'Datum'],
-      sortParameter: [ 'type', 'username', 'timestamp',],
-      expandedRows: []
+      sortParameter: ['type', 'username', 'timestamp'],
+      expandedRows: [],
+      sortOrder: 'desc',
+      sortBy: 'timestamp',
+      page: 0,
+      pageSize: 13
     }
   },
   methods: {
@@ -94,16 +108,53 @@ export default {
       } else {
         this.expandedRows.push(index)
       }
+    },
+    sortNotesList(sortBy) {
+      if (this.sortBy !== sortBy) {
+        this.sortOrder === 'asc'
+      } else {
+        if (this.sortOrder === 'asc') {
+          this.sortOrder = 'desc'
+        } else {
+          this.sortOrder = 'asc'
+        }
+      }
+
+      this.sortBy = sortBy
+
+      this.getNotes()
+    },
+    async getNotes(params) {
+      if (!params)
+        params = {
+          sortOrder: this.sortOrder,
+          sortBy: this.sortBy,
+          page: this.page,
+          pageSize: this.pageSize,
+          volunteerId: this.$route.params.volunteerId
+        }
+
+      try {
+        await this.volunteerStore.getVolunteerNotes({
+          sortOrder: params.sortOrder,
+          sortBy: params.sortBy,
+          page: params.page,
+          pageSize: params.pageSize,
+          volunteerId: params.volunteerId
+        })
+      } catch (error) {
+        console.error('Error fetching notes:', error)
+      }
     }
   },
   async beforeMount() {
     try {
-      this.volunteerStore.sortOrder = 'desc'
-      this.volunteerStore.activeSortProperty = 'timestamp'
-      this.volunteerStore.getNotes(this.$route.params.volunteerId)
-      console.log(this.$route.params.volunteerId)
+      let params = {
+        volunteerId: this.$route.params.volunteerId
+      }
+      this.volunteerStore.getVolunteerNotes(params)
     } catch (error) {
-      console.error('Error fetching notes:', error)      
+      console.error('Error fetching notes:', error)
     }
   }
 }
