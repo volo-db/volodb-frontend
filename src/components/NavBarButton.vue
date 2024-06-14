@@ -5,7 +5,6 @@
       'border-l-voloblue-200 bg-vologray-100 border-l-4': active,
       'opacity-50': !active
     }"
-    @click="testMethod"
   >
     <IconLogin v-if="type == 'login'" />
     <IconDashboard v-if="type == 'dashboard'" />
@@ -43,11 +42,6 @@ export default {
     UserButton
   },
   name: 'NavBarButton',
-  props: ['type', 'active'],
-  methods: {
-    testMethod() {
-      // auf neue Route springen, switch case, route pushen
-    }
-  }
+  props: ['type', 'active']
 }
 </script>

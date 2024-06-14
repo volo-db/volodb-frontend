@@ -10,11 +10,13 @@
         type="volunteers"
         @click="goToVolunteersView()"
         :active="$route.name == 'VolunteersView'"
+        class="hover:bg-vologray-100"
       />
       <NavBarButton
         type="projects"
         @click="goToProjectsView()"
         :active="$route.name == 'ProjectsView'"
+        class="hover:bg-vologray-100"
       />
       <NavBarButton type="seminars" />
       <NavBarButton type="mail" />
