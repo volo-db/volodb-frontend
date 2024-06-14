@@ -17,7 +17,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
     }
   },
   actions: {
-    async saveVolunteer(volunteer) {
+    async setVolunteer(volunteer) {
       // If there's no token, something went wrong
       if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
 

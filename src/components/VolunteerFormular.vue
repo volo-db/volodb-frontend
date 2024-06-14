@@ -169,7 +169,7 @@ export default {
         }
 
         try {
-          await this.volunteerStore.saveVolunteer(volunteer)
+          await this.volunteerStore.setVolunteer(volunteer)
         } catch (error) {
           console.error(error)
 
