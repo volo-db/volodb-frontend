@@ -148,8 +148,7 @@ export default {
   },
   watch: {
     searchQuery: {
-      async handler(newQuery) {
-        console.log('searchQuery changed:', newQuery)
+      async handler() {
         await this.getProjects()
       },
       immediate: true // This option ensures that the api is called initially with the initial prop value
