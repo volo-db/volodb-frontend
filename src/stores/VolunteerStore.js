@@ -67,9 +67,9 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
 
       const thisRequest = `volunteers?page=${queryObj.page || 0}&pageSize=${queryObj.pageSize || 10}&sortField=${queryObj.sortBy || 'person.lastname'}&sortOrder=${queryObj.sortOrder || 'asc'}&search=${queryObj.search || ''}`
-
       mostRecentRequest = thisRequest
 
+      this.fetching = true
       const volunteers = await vdbFetchData(thisRequest, 'GET', this.token)
 
       if (mostRecentRequest != thisRequest) return

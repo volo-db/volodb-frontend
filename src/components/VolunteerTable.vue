@@ -6,21 +6,21 @@
           <tr>
             <td
               v-for="(title, index) in tableHead"
+              @click="sortVolunteersList(sortParameter[index])"
               :key="index"
               class="pb-3 text-vologray-700 text-sm cursor-pointer"
               :class="{ 'pl-4': index === 0 }"
               :style="{
                 color: sortBy === sortParameter[index] ? 'blue' : ''
               }"
-              @click="sortVolunteersList(sortParameter[index])"
             >
               {{ title }}
               <IconTableSortArrows
                 :upArrowColor="
-                  sortParameter[index] === sortBy && sortOrder === 'asc' ? 'blue' : 'lightgrey'
+                  sortBy === sortParameter[index] && sortOrder === 'asc' ? '#0025FF' : 'lightgrey'
                 "
                 :downArrowColor="
-                  sortParameter[index] === sortBy && sortOrder === 'desc' ? 'blue' : 'lightgrey'
+                  sortBy === sortParameter[index] && sortOrder === 'desc' ? '#0025FF' : 'lightgrey'
                 "
                 class="pl-2 inline w-5"
               />
