@@ -9,6 +9,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       fetching: false,
       token: JSON.parse(localStorage.getItem('user-store')).token,
       volunteersPage: null,
+      volunteerNotes: null,
       selectedVolunteer: null,
       selectedVolunteerContacts: null,
       selectedVolunteerAddresses: null,
@@ -16,7 +17,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
     }
   },
   actions: {
-    async saveVolunteer(volunteer) {
+    async setVolunteer(volunteer) {
       // If there's no token, something went wrong
       if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
 
@@ -66,7 +67,6 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
 
       const thisRequest = `volunteers?page=${queryObj.page || 0}&pageSize=${queryObj.pageSize || 10}&sortField=${queryObj.sortBy || 'person.lastname'}&sortOrder=${queryObj.sortOrder || 'asc'}&search=${queryObj.search || ''}`
-      console.log(thisRequest)
       mostRecentRequest = thisRequest
 
       this.fetching = true
@@ -77,29 +77,20 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       this.volunteersPage = volunteers
       this.fetching = false
     },
-    async fetchSortedVolunteers(sortBy) {
+    async getVolunteerNotes(queryObj) {
       // If there's no token, something went wrong
       if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
 
-      this.fetching = true
+      const thisRequest = `volunteers/${queryObj.volunteerId}/notes?page=${queryObj.page || 0}&pageSize=${queryObj.pageSize || 10}&sortField=${queryObj.sortBy || 'type'}&sortOrder=${queryObj.sortOrder || 'asc'}`
 
-      // call function for sortOrder
-      this.defineSortOrder(sortBy)
+      mostRecentRequest = thisRequest
 
-      this.volunteersPage = await vdbFetchData(
-        `volunteers?&sortField=${sortBy}&sortOrder=${this.sortOrder}`,
-        'GET',
-        this.token
-      )
+      const notes = await vdbFetchData(thisRequest, 'GET', this.token)
+
+      if (mostRecentRequest != thisRequest) return
+
+      this.volunteerNotes = notes
       this.fetching = false
-    },
-    defineSortOrder(sortProperty) {
-      if (sortProperty === this.activeSortProperty) {
-        this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'
-      } else {
-        this.activeSortProperty = sortProperty
-        this.sortOrder = 'asc' // Reset sortOrder to 'asc' when a new sortProperty is selected
-      }
     }
   }
 })

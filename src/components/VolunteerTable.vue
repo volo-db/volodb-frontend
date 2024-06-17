@@ -11,16 +11,16 @@
               class="pb-3 text-vologray-700 text-sm cursor-pointer"
               :class="{ 'pl-4': index === 0 }"
               :style="{
-                color: sortBy === sortParameter[index] ? 'blue' : ''
+                color: sortBy === sortParameter[index] ? '#0025FF' : ''
               }"
             >
               {{ title }}
               <IconTableSortArrows
                 :upArrowColor="
-                  sortBy === sortParameter[index] && sortOrder === 'asc' ? '#0025FF' : 'lightgrey'
+                  sortParameter[index] === sortBy && sortOrder === 'asc' ? '#0025FF' : 'lightgrey'
                 "
                 :downArrowColor="
-                  sortBy === sortParameter[index] && sortOrder === 'desc' ? '#0025FF' : 'lightgrey'
+                  sortParameter[index] === sortBy && sortOrder === 'desc' ? '#0025FF' : 'lightgrey'
                 "
                 class="pl-2 inline w-5"
               />
@@ -113,8 +113,14 @@ export default {
       this.$router.push({ name: 'VolunteerDetailView', params: { volunteerId } })
     },
     updateVolunteerPage(pageNumber) {
-      this.page = pageNumber
-      this.getVolunteers()
+      this.volunteerStore.volunteersPage.pageable.pageNumber = pageNumber
+      let params = {
+        sortOrder: this.sortOrder,
+        sortBy: this.sortBy,
+        page: pageNumber,
+        pageSize: this.pageSize
+      }
+      this.volunteerStore.getVolunteers(params)
     },
     sortVolunteersList(sortBy) {
       if (this.sortBy !== sortBy) {
@@ -156,19 +162,11 @@ export default {
   },
   watch: {
     searchQuery: {
-      async handler(newQuery) {
-        console.log('searchQuery changed:', newQuery)
+      async handler() {
         await this.getVolunteers()
       },
       immediate: true // This option ensures that the api is called initially with the initial prop value
     }
-    // $route: {
-    //   async handler(to) {
-    //     this.searchQuery = to.query.search
-    //     await this.getVolunteers()
-    //   },
-    //   immediate: true
-    // }
   }
 }
 </script>

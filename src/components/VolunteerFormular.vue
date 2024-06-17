@@ -26,41 +26,41 @@
             @submit.prevent="onSubmit"
             novalidate
           >
-          <formularInput 
-            label="Name"
-            id="lastname"
-            :required="true"
-            :hasError="validationErr.lastname"
-            v-model="formData.lastname"
-            ref="lastname"
-          />
-          <formularInput 
-            label="Vorname"
-            id="firstname"
-            :required="true"
-            :hasError="validationErr.firstname"
-            v-model="formData.firstname"
-          />
-          <FormularSelectBox 
-            :list="['--bitte auswählen--', 'weiblich', 'männlich', 'divers', 'keine Angabe']"
-            label="Gender"
-            id="gender"
-            :required="true"
-            :hasError="validationErr.gender"
-            v-model="formData.gender"
-          />
-          <formularInput 
-            label="E-Mail"
-            id="email"
-            :hasError="validationErr.email"
-            v-model="formData.email"
-          />
-          <formularInput 
-            label="Mobil"
-            id="mobile"
-            :hasError="validationErr.mobile"
-            v-model="formData.mobile"
-          />
+            <FormularInput
+              label="Name"
+              id="lastname"
+              :required="true"
+              :hasError="validationErr.lastname"
+              v-model="formData.lastname"
+              ref="lastname"
+            />
+            <FormularInput
+              label="Vorname"
+              id="firstname"
+              :required="true"
+              :hasError="validationErr.firstname"
+              v-model="formData.firstname"
+            />
+            <FormularSelectBox
+              :list="['--bitte auswählen--', 'weiblich', 'männlich', 'divers', 'keine Angabe']"
+              label="Gender"
+              id="gender"
+              :required="true"
+              :hasError="validationErr.gender"
+              v-model="formData.gender"
+            />
+            <FormularInput
+              label="E-Mail"
+              id="email"
+              :hasError="validationErr.email"
+              v-model="formData.email"
+            />
+            <FormularInput
+              label="Mobil"
+              id="mobile"
+              :hasError="validationErr.mobile"
+              v-model="formData.mobile"
+            />
           </form>
         </div>
       </div>
@@ -87,7 +87,7 @@ import FormularSelectBox from './FormularSelectBox.vue'
 import IconSpinner from './IconSpinner.vue'
 
 export default {
-  components: { ButtonStandard, IconSpinner, FormularInput,FormularSelectBox },
+  components: { ButtonStandard, IconSpinner, FormularInput, FormularSelectBox },
   setup() {
     const volunteerStore = useVolunteerStore()
 
@@ -169,7 +169,7 @@ export default {
         }
 
         try {
-          await this.volunteerStore.saveVolunteer(volunteer)
+          await this.volunteerStore.setVolunteer(volunteer)
         } catch (error) {
           console.error(error)
 
