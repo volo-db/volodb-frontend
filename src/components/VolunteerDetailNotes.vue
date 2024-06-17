@@ -51,16 +51,19 @@
           <td>{{ note.timestamp.split('T').slice(0, 1).join().split('-').reverse().join('.') }}</td>
           <td>
             <IconArrowShowDetailSummary
+              class="mx-4"
               :class="{ 'transform rotate-180': expandedRows.includes(index) }"
             />
           </td>
         </tr>
 
         <tr v-if="expandedRows.includes(index)" :key="note.id">
-          <td colspan="4" class="h-14 px-12 pb-4 border-b">
-            <div>
-              <p>{{ note.note }}</p>
-            </div>
+          <td colspan="3" class="h-14 pl-8 pb-4 border-b">
+            <p v-if="!edit" class="bg-vologray-100 px-4 py-2 mx-4">{{ note.note }}</p>
+            <textarea v-if="edit" class="w-full" cols="3" :value="note.note" />
+          </td>
+          <td class="h-14 pb-4 border-b">
+            <button><IconPenEdit class="mx-4" /></button>
           </td>
         </tr>
       </tbody>
@@ -75,6 +78,7 @@ import IconMail from './IconMail.vue'
 import IconMemo from './IconMemo.vue'
 import IconPhoneIngoing from './IconPhoneIngoing.vue'
 import IconPhoneOutgoing from './IconPhoneOutgoing.vue'
+import IconPenEdit from './IconPenEdit.vue'
 
 export default {
   setup: () => {
@@ -87,7 +91,8 @@ export default {
     IconMail,
     IconMemo,
     IconPhoneIngoing,
-    IconPhoneOutgoing
+    IconPhoneOutgoing,
+    IconPenEdit
   },
   data() {
     return {
@@ -97,7 +102,8 @@ export default {
       sortOrder: 'desc',
       sortBy: 'timestamp',
       page: 0,
-      pageSize: 0
+      pageSize: 0,
+      edit: true
     }
   },
   methods: {

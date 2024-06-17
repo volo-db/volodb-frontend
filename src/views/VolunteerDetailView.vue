@@ -17,7 +17,9 @@
           placeholder="Suche nach Aktivitäten"
         />
         <SearchBar v-if="selectedContextTab === 'dokumente'" placeholder="Suche nach Dokumenten" />
-        <ButtonStandard v-if="selectedContextTab === 'dokumentation'"
+        <ButtonStandard
+          v-if="selectedContextTab === 'dokumentation'"
+          @click.prevent="newNotesModal = true"
           >Aktivität hinzufügen</ButtonStandard
         >
         <ButtonStandard v-if="selectedContextTab === 'dokumente'"
@@ -26,6 +28,10 @@
       </div>
 
       <VolunteerDetailNotes class="mt-16" v-if="selectedContextTab === 'dokumentation'" />
+
+      <ContainerModal v-if="newNotesModal">
+        <NotesFormular @cancel="newNotesModal = false" />
+      </ContainerModal>
     </div>
   </div>
 </template>
@@ -36,6 +42,8 @@ import VolunteerDetailNotes from '@/components/VolunteerDetailNotes.vue'
 import VolunteerDetailOverview from '@/components/VolunteerDetailOverview.vue'
 import ButtonStandard from '@/components/ButtonStandard.vue'
 import SearchBar from '@/components/SearchBar.vue'
+import ContainerModal from '@/components/ContainerModal.vue'
+import NotesFormular from '@/components/NotesFormular.vue'
 
 export default {
   components: {
@@ -43,7 +51,9 @@ export default {
     VolunteerDetailNotes,
     VolunteerDetailOverview,
     ButtonStandard,
-    SearchBar
+    SearchBar,
+    ContainerModal,
+    NotesFormular
   },
   name: 'VolunteerDetailView.vue',
   setup() {
@@ -54,7 +64,9 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      newNotesModal: false
+    }
   },
   computed: {
     selectedContextTab() {

@@ -91,6 +91,24 @@ export const useVolunteerStore = defineStore('volunteerStore', {
 
       this.volunteerNotes = notes
       this.fetching = false
+    },
+    async setNote(note) {
+      if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
+
+      this.fetching = true
+      try {
+        await vdbFetchData(
+          'volunteers/' + this.selectedVolunteer.id + '/notes',
+          'POST',
+          this.token,
+          note
+        )
+      } catch (error) {
+        console.error(error)
+        throw error
+      } finally {
+        this.fetching = false
+      }
     }
   }
 })
