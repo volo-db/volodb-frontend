@@ -9,17 +9,17 @@
             class="pb-3 text-vologray-700 text-sm cursor-pointer"
             :class="{ 'pl-4': index === 0 }"
             :style="{
-              color: sortBy === sortParameter[index] ? 'blue' : ''
+              color: sortBy === sortParameter[index] ? '#0025FF' : '#8C97AF'
             }"
             @click="sortNotesList(sortParameter[index])"
           >
             {{ title }}
             <IconTableSortArrows
               :upArrowColor="
-                sortParameter[index] === sortBy && sortOrder === 'asc' ? 'blue' : 'lightgrey'
+                sortParameter[index] === sortBy && sortOrder === 'asc' ? '#0025FF' : 'lightgrey'
               "
               :downArrowColor="
-                sortParameter[index] === sortBy && sortOrder === 'desc' ? 'blue' : 'lightgrey'
+                sortParameter[index] === sortBy && sortOrder === 'desc' ? '#0025FF' : 'lightgrey'
               "
               class="inline"
             />
@@ -97,7 +97,7 @@ export default {
       sortOrder: 'desc',
       sortBy: 'timestamp',
       page: 0,
-      pageSize: 13
+      pageSize: 0
     }
   },
   methods: {

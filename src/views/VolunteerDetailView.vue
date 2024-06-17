@@ -10,7 +10,7 @@
 
       <div
         v-if="selectedContextTab === 'dokumentation' || selectedContextTab === 'dokumente'"
-        class="flex justify-between mt-8 max-w-2xl"
+        class="flex justify-between mt-8"
       >
         <SearchBar
           v-if="selectedContextTab === 'dokumentation'"
