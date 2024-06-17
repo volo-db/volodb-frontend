@@ -1,8 +1,9 @@
+import { useUserStore } from '@/stores/UserStore'
+
 const baseUrl = import.meta.env.VITE_BASE_URL
 
-export const vdbFetchData = async (subdirectory, method, token, data) => {
-  // If there's no token, something went wrong
-  if (!token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! No token provided or not logged in.')
+export const vdbFetchData = async (subdirectory, method, data) => {
+  const token = useUserStore().token
 
   // If first character is a slash -> delete it
   if (String(subdirectory).charAt(0) === '/') subdirectory = String(subdirectory).substring(1)
