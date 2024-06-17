@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  expose: [ "focus" ],
+  expose: ['focus'],
   props: {
     label: {
       type: String
@@ -34,8 +34,8 @@ export default {
       type: String
     },
     modelValue: {
-       type: String
-     },
+      type: String
+    },
     hasError: {
       type: Boolean,
       default: false
@@ -43,12 +43,12 @@ export default {
     placeholder: {
       type: String,
       default: ''
-    },
+    }
   },
   emits: ['update:modelValue'],
   methods: {
     focus() {
-     this.$refs.input.focus()
+      this.$refs.input.focus()
     }
   }
 }

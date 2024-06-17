@@ -7,21 +7,43 @@
         :active="selectedContextTab"
         @navLinkClick="openTab"
       />
-      <VolunteerDetailMemo v-if="selectedContextTab === 'dokumentation'" />
+
+      <div
+        v-if="selectedContextTab === 'dokumentation' || selectedContextTab === 'dokumente'"
+        class="flex justify-between mt-8"
+      >
+        <SearchBar
+          v-if="selectedContextTab === 'dokumentation'"
+          placeholder="Suche nach Aktivitäten"
+        />
+        <SearchBar v-if="selectedContextTab === 'dokumente'" placeholder="Suche nach Dokumenten" />
+        <ButtonStandard v-if="selectedContextTab === 'dokumentation'"
+          >Aktivität hinzufügen</ButtonStandard
+        >
+        <ButtonStandard v-if="selectedContextTab === 'dokumente'"
+          >Dokument hinzufügen</ButtonStandard
+        >
+      </div>
+
+      <VolunteerDetailNotes class="mt-16" v-if="selectedContextTab === 'dokumentation'" />
     </div>
   </div>
 </template>
 <script>
 import { useVolunteerStore } from '@/stores/VolunteerStore.js'
 import VolunteerDetailNavigationbar from '@/components/VolunteerDetailNavigationbar.vue'
-import VolunteerDetailMemo from '@/components/VolunteerDetailMemo.vue'
+import VolunteerDetailNotes from '@/components/VolunteerDetailNotes.vue'
 import VolunteerDetailOverview from '@/components/VolunteerDetailOverview.vue'
+import ButtonStandard from '@/components/ButtonStandard.vue'
+import SearchBar from '@/components/SearchBar.vue'
 
 export default {
   components: {
     VolunteerDetailNavigationbar,
-    VolunteerDetailMemo,
-    VolunteerDetailOverview
+    VolunteerDetailNotes,
+    VolunteerDetailOverview,
+    ButtonStandard,
+    SearchBar
   },
   name: 'VolunteerDetailView.vue',
   setup() {

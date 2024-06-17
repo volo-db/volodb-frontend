@@ -8,6 +8,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
     return {
       fetching: false,
       volunteersPage: null,
+      volunteerNotes: null,
       selectedVolunteer: null,
       selectedVolunteerContacts: null,
       selectedVolunteerAddresses: null,
