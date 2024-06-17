@@ -1,12 +1,14 @@
 import { defineStore } from 'pinia'
 import { useStorage } from '@vueuse/core'
+import router from '@/router'
+import { vdbFetchData } from '@/utils/api'
+
+const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const state = useStorage('user-store', {
-  token: null,
+  latestToken: null,
   user: null,
   fetching: false
-  // loginErrorMessage: '',
-  // invalidTokenMessage: ''
 })
 
 export const useUserStore = defineStore('userStore', {
@@ -14,7 +16,7 @@ export const useUserStore = defineStore('userStore', {
   actions: {
     async login(email, password) {
       this.fetching = true
-      await fetch(`${import.meta.env.VITE_BASE_URL}/auth/login`, {
+      await fetch(`${BASE_URL}/auth/login`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -27,7 +29,7 @@ export const useUserStore = defineStore('userStore', {
           return res.json()
         })
         .then((res) => {
-          this.token = res.accessToken
+          this.latestToken = res.accessToken
           this.getUser()
         })
         // .catch((error) => {
@@ -37,33 +39,43 @@ export const useUserStore = defineStore('userStore', {
     },
     async getUser() {
       this.fetching = true
-      await fetch(`${import.meta.env.VITE_BASE_URL}/user`, {
+      this.user = await vdbFetchData('user', 'GET')
+      this.fetching = false
+    },
+    logout() {
+      this.latestToken = null
+      this.user = null
+      router.replace({ name: 'LoginView' })
+    },
+    refreshToken() {
+      fetch(`${BASE_URL}/auth/refresh`, {
         method: 'GET',
         headers: {
           'content-type': 'application/json',
-          authorization: `Bearer ${this.token}`
+          authorization: `Bearer ${this.latestToken}`
         }
       })
         .then((res) => {
           if (!res.ok) {
             this.logout()
-            throw Error(`VoloDB-ERROR\n🙅‍♀️ ups! invalid token. Maybe expired... (${res.status})`)
+            throw Error(
+              `VoloDB-ERROR\n🙅‍♀️ upsi! invalid token: Token has probably expired. (${res.status})`
+            )
           }
           return res.json()
         })
-        .then((user) => {
-          this.user = user
+        .then((token) => {
+          this.latestToken = token.accessToken
         })
-        .finally(() => (this.fetching = false))
-    },
-    logout() {
-      this.token = null
-      this.user = null
     }
   },
   getters: {
     loggedIn(state) {
-      return Boolean(state.token)
+      return Boolean(state.latestToken)
+    },
+    token(state) {
+      this.refreshToken()
+      return state.latestToken
     }
   }
 })
