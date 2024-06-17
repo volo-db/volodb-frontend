@@ -6,13 +6,13 @@
           <tr>
             <td
               v-for="(title, index) in tableHead"
+              @click="sortVolunteersList(sortParameter[index])"
               :key="index"
               class="pb-3 text-vologray-700 text-sm cursor-pointer"
               :class="{ 'pl-4': index === 0 }"
               :style="{
                 color: sortBy === sortParameter[index] ? '#0025FF' : ''
               }"
-              @click="sortVolunteersList(sortParameter[index])"
             >
               {{ title }}
               <IconTableSortArrows
@@ -162,19 +162,11 @@ export default {
   },
   watch: {
     searchQuery: {
-      async handler(newQuery) {
-        console.log('searchQuery changed:', newQuery)
+      async handler() {
         await this.getVolunteers()
       },
       immediate: true // This option ensures that the api is called initially with the initial prop value
     }
-    // $route: {
-    //   async handler(to) {
-    //     this.searchQuery = to.query.search
-    //     await this.getVolunteers()
-    //   },
-    //   immediate: true
-    // }
   }
 }
 </script>
