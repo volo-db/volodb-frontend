@@ -59,15 +59,17 @@
 
         <tr v-if="expandedRows.includes(index)" :key="note.id">
           <td colspan="3" class="h-14 pl-8 pb-4 border-b">
-            <p v-if="!edit" class="bg-vologray-100 px-4 py-2 mx-4">{{ note.note }}</p>
-            <textarea v-if="edit" class="w-full" cols="3" :value="note.note" />
+            <p class="bg-vologray-100 px-4 py-2 mx-4">{{ note.note }}</p>
           </td>
           <td class="h-14 pb-4 border-b">
-            <button><IconPenEdit class="mx-4" /></button>
+            <button><IconPenEdit class="mx-4" @click="editNote = true" /></button>
           </td>
         </tr>
       </tbody>
     </table>
+    <ContainerModal v-if="editNote">
+      <NotesFormular @cancel="editNote = false" />
+    </ContainerModal>
   </div>
 </template>
 <script>
@@ -79,6 +81,8 @@ import IconMemo from './IconMemo.vue'
 import IconPhoneIngoing from './IconPhoneIngoing.vue'
 import IconPhoneOutgoing from './IconPhoneOutgoing.vue'
 import IconPenEdit from './IconPenEdit.vue'
+import ContainerModal from '@/components/ContainerModal.vue'
+import NotesFormular from '@/components/NotesFormular.vue'
 
 export default {
   setup: () => {
@@ -92,7 +96,9 @@ export default {
     IconMemo,
     IconPhoneIngoing,
     IconPhoneOutgoing,
-    IconPenEdit
+    IconPenEdit,
+    ContainerModal,
+    NotesFormular
   },
   data() {
     return {
@@ -103,7 +109,7 @@ export default {
       sortBy: 'timestamp',
       page: 0,
       pageSize: 0,
-      edit: true
+      editNote: false
     }
   },
   methods: {
@@ -152,6 +158,12 @@ export default {
         console.error('Error fetching notes:', error)
       }
     }
+    // handleEdit(index) {
+    //   this.edit = !this.edit
+    //   this.selectedIndex = index
+    //   let note = document.getElementById('index')
+    //   note.focus()
+    // }
   },
   async beforeMount() {
     try {

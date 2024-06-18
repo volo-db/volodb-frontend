@@ -30,7 +30,7 @@
       <VolunteerDetailNotes class="mt-16" v-if="selectedContextTab === 'dokumentation'" />
 
       <ContainerModal v-if="newNotesModal">
-        <NotesFormular @cancel="newNotesModal = false" />
+        <NotesFormular @saved="newNotesModal = false" @cancel="newNotesModal = false" />
       </ContainerModal>
     </div>
   </div>

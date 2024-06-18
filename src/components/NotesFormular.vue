@@ -99,7 +99,7 @@ export default {
       if (this.formValid) {
         let note = {
           type: this.formData.type,
-          note: this.formData.note
+          note: this.formData.note.trim()
         }
 
         try {
@@ -115,6 +115,7 @@ export default {
           }, 5000)
           return
         }
+        this.$emit('saved')
       }
     }
   },
