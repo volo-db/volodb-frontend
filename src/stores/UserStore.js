@@ -7,6 +7,7 @@ const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const state = useStorage('user-store', {
   latestToken: null,
+  tokenRefreshTime: null,
   user: null,
   fetching: false
 })
@@ -30,6 +31,7 @@ export const useUserStore = defineStore('userStore', {
         })
         .then((res) => {
           this.latestToken = res.accessToken
+          this.tokenRefreshTime = Date.now()
           this.getUser()
         })
         // .catch((error) => {
@@ -48,6 +50,10 @@ export const useUserStore = defineStore('userStore', {
       router.replace({ name: 'LoginView' })
     },
     refreshToken() {
+      // exit if token is less then half an hour old
+      const tokenDuration = 1000 * 60 * Number(import.meta.env.VITE_TOKEN_DURATION) // Duration in Milliseconds
+      if (this.tokenRefreshTime > Date.now() - tokenDuration) return
+
       fetch(`${BASE_URL}/auth/refresh`, {
         method: 'GET',
         headers: {
@@ -66,6 +72,7 @@ export const useUserStore = defineStore('userStore', {
         })
         .then((token) => {
           this.latestToken = token.accessToken
+          this.tokenRefreshTime = Date.now()
         })
     }
   },
