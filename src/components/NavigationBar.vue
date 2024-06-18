@@ -4,25 +4,23 @@
       <img :src="smallVolodbLogo" alt="volodb-logo" />
     </div>
     <div>
-      <NavBarButton type="login" />
-      <NavBarButton type="dashboard" :active="$route.name == ''" />
+      <NavBarButton type="login" v-if="false" />
+      <NavBarButton type="dashboard" v-if="false" />
       <NavBarButton
         type="volunteers"
         @click="goToVolunteersView()"
         :active="$route.name == 'VolunteersView'"
-        class="hover:bg-vologray-100"
       />
       <NavBarButton
         type="projects"
         @click="goToProjectsView()"
         :active="$route.name == 'ProjectsView'"
-        class="hover:bg-vologray-100"
       />
-      <NavBarButton type="seminars" />
-      <NavBarButton type="mail" />
-      <NavBarButton type="settings" />
-      <NavBarButton type="logout" />
+      <NavBarButton type="seminars" v-if="false" />
+      <NavBarButton type="mail" v-if="false" />
+      <NavBarButton type="settings" v-if="false" />
       <NavBarButton type="user-button" />
+      <NavBarButton type="logout" v-if="false" />
     </div>
   </div>
 </template>
