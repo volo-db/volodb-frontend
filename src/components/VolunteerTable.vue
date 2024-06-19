@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-x-auto" v-bind="$attrs">
+  <div class="overflow-auto" v-bind="$attrs">
     <div v-if="volunteerStore.volunteersPage">
       <table class="w-full">
         <thead>
@@ -28,20 +28,24 @@
           </tr>
         </thead>
 
-        <tbody class="">
+        <tbody class="bg-white">
           <tr
-            class="border-b rounded overflow-hidden h-14 cursor-pointer hover:text-voloblue-100 hover:bg-gray-50"
-            v-for="volunteer of volunteerStore.volunteersPage.content"
+            v-for="(volunteer, index) of volunteerStore.volunteersPage.content"
+            class="border-b h-14 cursor-pointer hover:text-voloblue-100 hover:bg-gray-50"
             :key="volunteer.id"
             @click="goToDetails(volunteer.id)"
           >
-            <td class="bg-white font-bold pl-4">{{ volunteer.person.lastname }}</td>
+            <td class="font-bold pl-4" :class="{ 'rounded-tl-md': index === 0 }">
+              {{ volunteer.person.lastname }}
+            </td>
             <td class="font-bold">{{ volunteer.person.firstname }}</td>
             <td>{{ volunteer.birthplace }}</td>
             <td>2023/24</td>
             <td>2/5</td>
             <td>25/25</td>
-            <td class="text-voloblue-200 pr-4 md:pr-1"><IconArrowGoto /></td>
+            <td class="text-voloblue-200 pr-4 md:pr-1" :class="{ 'rounded-tr-md ': index === 0 }">
+              <IconArrowGoto />
+            </td>
           </tr>
         </tbody>
       </table>

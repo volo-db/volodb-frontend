@@ -33,10 +33,21 @@
       >
         <tr
           @click="toggleExpand(index)"
-          class="h-14 cursor-pointer hover:text-voloblue-100 hover:bg-gray-50 border-b"
-          :class="{ 'border-none': expandedRows.includes(index) }"
+          class="h-14 cursor-pointer"
+          :class="{
+            'border-none': expandedRows.includes(index),
+            ' hover:text-voloblue-100 hover:bg-gray-50 border-b': !expandedRows.includes(index)
+          }"
         >
-          <td class="font-bold pl-4">
+          <td
+            class="font-bold pl-4"
+            :class="{
+              'rounded-tl-md': index === 0,
+              'rounded-bl-md':
+                index === volunteerStore.volunteerNotes.content.length - 1 &&
+                !expandedRows.includes(index)
+            }"
+          >
             <IconMail
               class="text-vologray-600"
               v-if="note.type == 'email' || note.type == 'E-Mail'"
@@ -66,7 +77,14 @@
           </td>
           <td>{{ note.user }}</td>
           <td>{{ note.timestamp.split('T').slice(0, 1).join().split('-').reverse().join('.') }}</td>
-          <td>
+          <td
+            :class="{
+              'rounded-tr-md ': index === 0,
+              'rounded-br-md':
+                index === volunteerStore.volunteerNotes.content.length - 1 &&
+                !expandedRows.includes(index)
+            }"
+          >
             <IconArrowShowDetailSummary
               class="mx-4"
               :class="{ 'transform rotate-180': expandedRows.includes(index) }"
