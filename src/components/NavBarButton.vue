@@ -4,7 +4,8 @@
     :class="{
       'border-l-voloblue-200 bg-vologray-100 ': active,
       'opacity-50 border-transparent': !active,
-      'hover:border-l-voloblue-200 hover:bg-vologray-100 hover:opacity-100': !active
+      'hover:border-l-voloblue-200 hover:bg-vologray-100 hover:opacity-100 hover:shadow-inner':
+        !active
     }"
   >
     <IconLogin v-if="type == 'login'" />
