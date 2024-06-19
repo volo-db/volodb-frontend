@@ -35,6 +35,7 @@
               name="note"
               rows="6"
               v-model="noteCopy.note"
+              ref="note"
             />
           </form>
         </div>
@@ -97,6 +98,9 @@ export default {
 
       this.$emit('savedEdit')
     }
+  },
+  mounted() {
+    this.$refs.note.focus()
   }
 }
 </script>

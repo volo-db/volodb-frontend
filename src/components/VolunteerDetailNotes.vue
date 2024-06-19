@@ -94,7 +94,7 @@
 
         <tr v-if="expandedRows.includes(index)" :key="note.id">
           <td colspan="3" class="h-14 pl-8 pb-4 border-b">
-            <p class="bg-vologray-100 px-4 py-2 mx-4">{{ note.note }}</p>
+            <p class="bg-vologray-100 px-4 py-2 mx-4 rounded-md">{{ note.note }}</p>
           </td>
           <td class="h-14 pb-4 border-b">
             <button><IconPenEdit class="mx-4" @click="openEditModal(note)" /></button>
