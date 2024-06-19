@@ -1,6 +1,6 @@
 <template>
   <div class="h-screen overflow-hidden grid grid-cols-[70px,auto] divide-x">
-    <NavigationBar> </NavigationBar>
+    <NavigationBar />
     <RouterView />
   </div>
 </template>
