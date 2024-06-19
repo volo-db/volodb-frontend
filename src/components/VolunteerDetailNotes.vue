@@ -37,14 +37,31 @@
           :class="{ 'border-none': expandedRows.includes(index) }"
         >
           <td class="font-bold pl-4">
-            <IconMail class="text-vologray-600" v-if="note.type == 'email'" />
-            <IconMemo v-if="note.type == 'note'" />
-            <IconPhoneIngoing v-if="note.type == 'phone incoming'" />
-            <IconPhoneOutgoing v-if="note.type == 'phone outgoing'" />
-            <p class="inline pl-4" v-if="note.type == 'email'">E-Mail</p>
-            <p class="inline pl-4" v-else-if="note.type == 'note'">Notiz</p>
-            <p class="inline pl-4" v-else-if="note.type == 'phone incoming'">Telefonat</p>
-            <p class="inline pl-4" v-else-if="note.type == 'phone outgoing'">Telefonat</p>
+            <IconMail
+              class="text-vologray-600"
+              v-if="note.type == 'email' || note.type == 'E-Mail'"
+            />
+            <IconMemo v-if="note.type == 'note' || note.type == 'Notiz'" />
+            <IconPhoneIngoing
+              v-if="note.type == 'phone incoming' || note.type == 'Eingehender Anruf'"
+            />
+            <IconPhoneOutgoing
+              v-if="note.type == 'phone outgoing' || note.type == 'Ausgehender Anruf'"
+            />
+            <p class="inline pl-4" v-if="note.type == 'email' || note.type == 'E-Mail'">E-Mail</p>
+            <p class="inline pl-4" v-else-if="note.type == 'note' || note.type == 'Notiz'">Notiz</p>
+            <p
+              class="inline pl-4"
+              v-else-if="note.type == 'phone incoming' || note.type == 'Eingehender Anruf'"
+            >
+              Telefonat
+            </p>
+            <p
+              class="inline pl-4"
+              v-else-if="note.type == 'phone outgoing' || note.type == 'Ausgehender Anruf'"
+            >
+              Telefonat
+            </p>
             <p class="inline pl-4" v-else>{{ note.type }}</p>
           </td>
           <td>{{ note.user }}</td>
@@ -62,13 +79,17 @@
             <p class="bg-vologray-100 px-4 py-2 mx-4">{{ note.note }}</p>
           </td>
           <td class="h-14 pb-4 border-b">
-            <button><IconPenEdit class="mx-4" @click="editNote = true" /></button>
+            <button><IconPenEdit class="mx-4" @click="openEditModal(note)" /></button>
           </td>
         </tr>
       </tbody>
     </table>
     <ContainerModal v-if="editNote">
-      <NotesFormular @cancel="editNote = false" />
+      <NoteEditFormular
+        :note="selectedNote"
+        @savedEdit="editNote = false"
+        @cancel="editNote = false"
+      />
     </ContainerModal>
   </div>
 </template>
@@ -82,7 +103,7 @@ import IconPhoneIngoing from './IconPhoneIngoing.vue'
 import IconPhoneOutgoing from './IconPhoneOutgoing.vue'
 import IconPenEdit from './IconPenEdit.vue'
 import ContainerModal from '@/components/ContainerModal.vue'
-import NotesFormular from '@/components/NotesFormular.vue'
+import NoteEditFormular from '@/components/NoteEditFormular.vue'
 
 export default {
   setup: () => {
@@ -98,7 +119,7 @@ export default {
     IconPhoneOutgoing,
     IconPenEdit,
     ContainerModal,
-    NotesFormular
+    NoteEditFormular
   },
   data() {
     return {
@@ -109,7 +130,8 @@ export default {
       sortBy: 'timestamp',
       page: 0,
       pageSize: 0,
-      editNote: false
+      editNote: false,
+      selectedNote: null
     }
   },
   methods: {
@@ -157,13 +179,11 @@ export default {
       } catch (error) {
         console.error('Error fetching notes:', error)
       }
+    },
+    openEditModal(note) {
+      this.selectedNote = note
+      this.editNote = true
     }
-    // handleEdit(index) {
-    //   this.edit = !this.edit
-    //   this.selectedIndex = index
-    //   let note = document.getElementById('index')
-    //   note.focus()
-    // }
   },
   async beforeMount() {
     try {

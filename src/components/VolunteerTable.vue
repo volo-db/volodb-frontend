@@ -27,14 +27,15 @@
             </td>
           </tr>
         </thead>
-        <tbody class="bg-white outline outline-white rounded">
+
+        <tbody class="">
           <tr
-            class="border-b h-14 cursor-pointer hover:text-voloblue-100 hover:bg-gray-50"
+            class="border-b rounded overflow-hidden h-14 cursor-pointer hover:text-voloblue-100 hover:bg-gray-50"
             v-for="volunteer of volunteerStore.volunteersPage.content"
             :key="volunteer.id"
             @click="goToDetails(volunteer.id)"
           >
-            <td class="font-bold pl-4">{{ volunteer.person.lastname }}</td>
+            <td class="bg-white font-bold pl-4">{{ volunteer.person.lastname }}</td>
             <td class="font-bold">{{ volunteer.person.firstname }}</td>
             <td>{{ volunteer.birthplace }}</td>
             <td>2023/24</td>
