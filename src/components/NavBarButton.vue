@@ -1,11 +1,10 @@
 <template>
   <button
-    class="w-full flex justify-center items-center text-voloblue-200 text-xl py-5 opacity-100"
+    class="w-full flex justify-center items-center text-voloblue-200 text-xl border-l-4 py-5 opacity-100"
     :class="{
-      'border-l-voloblue-200 bg-vologray-100 border-l-4': active,
-      'opacity-50 ': !active,
-      'hover:border-l-voloblue-200 hover:bg-vologray-100 hover:border-l-4 hover:opacity-100':
-        !active
+      'border-l-voloblue-200 bg-vologray-100 ': active,
+      'opacity-50 border-transparent': !active,
+      'hover:border-l-voloblue-200 hover:bg-vologray-100 hover:opacity-100': !active
     }"
   >
     <IconLogin v-if="type == 'login'" />
@@ -15,7 +14,6 @@
     <IconSeminars v-if="type == 'seminars'" />
     <IconMail v-if="type == 'mail'" />
     <IconSettings v-if="type == 'settings'" />
-    <UserButton v-if="type == 'user-button'" />
     <IconLogout v-if="type == 'logout'" />
   </button>
 </template>
@@ -28,7 +26,6 @@ import IconProjects from '@/components/IconProject.vue'
 import IconSeminars from '@/components/IconSeminars.vue'
 import IconMail from '@/components/IconMail.vue'
 import IconSettings from '@/components/IconSettings.vue'
-import UserButton from '@/components/UserButton.vue'
 import IconLogout from '@/components/IconLogout.vue'
 
 export default {
@@ -40,8 +37,7 @@ export default {
     IconSeminars,
     IconMail,
     IconSettings,
-    IconLogout,
-    UserButton
+    IconLogout
   },
   name: 'NavBarButton',
   props: ['type', 'active']
