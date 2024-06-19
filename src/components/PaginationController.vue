@@ -5,7 +5,7 @@
     <button class="mx-8" @click="pageBackward()">&lt;</button>
     <div>
       {{ currentPage + 1 }} /
-      {{ totalPages  }}
+      {{ totalPages }}
     </div>
     <!-- toLast and one forward -->
     <button class="mx-8" @click="pageForward()">&gt;</button>

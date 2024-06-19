@@ -15,7 +15,7 @@
       :cols="cols"
       :name="name"
       @input="$emit('update:modelValue', $event.target.value)"
-      >
+    >
     </textarea>
   </div>
 </template>
@@ -36,8 +36,8 @@ export default {
       type: String
     },
     modelValue: {
-       type: String
-     },
+      type: String
+    },
     hasError: {
       type: Boolean,
       default: false
@@ -47,13 +47,13 @@ export default {
       default: ''
     },
     rows: {
-      type: String,
+      type: String
     },
     cols: {
-      type: String,
+      type: String
     },
     name: {
-        type: String
+      type: String
     }
   },
   emits: ['update:modelValue']
