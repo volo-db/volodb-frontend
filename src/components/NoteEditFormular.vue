@@ -75,8 +75,15 @@ export default {
   },
   methods: {
     async onSubmit() {
+      let note = {
+        type: this.noteCopy.type,
+        note: this.noteCopy.note.trim()
+      }
+
+      let id = this.noteCopy.id
+
       try {
-        await this.volunteerStore.editNote()
+        await this.volunteerStore.editNote(note, id)
       } catch (error) {
         console.error(error)
 

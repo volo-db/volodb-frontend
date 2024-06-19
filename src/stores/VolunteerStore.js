@@ -109,23 +109,23 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       } finally {
         this.fetching = false
       }
+    },
+    async editNote(note, id) {
+      if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
+      this.fetching = true
+      try {
+        await vdbFetchData(
+          'volunteers/' + this.selectedVolunteer.id + '/notes/' + id,
+          'PATCH',
+          this.token,
+          note
+        )
+      } catch (error) {
+        console.error(error)
+        throw error
+      } finally {
+        this.fetching = false
+      }
     }
-    // async editNote(){
-    //   if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
-    //     this.fetching = true
-    //     try {
-    //       await vdbFetchData(
-    //         'volunteers/' + this.selectedVolunteer.id + '/notes' + ,
-    //         'PATCH',
-    //         this.token,
-
-    //       )
-    //     } catch (error) {
-    //       console.error(error)
-    //       throw error
-    //     } finally {
-    //       this.fetching = false
-    //     }
-    // }
   }
 })
