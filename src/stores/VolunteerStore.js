@@ -81,7 +81,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       // If there's no token, something went wrong
       if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
 
-      const thisRequest = `volunteers/${queryObj.volunteerId}/notes?page=${queryObj.page || 0}&pageSize=${queryObj.pageSize || 10}&sortField=${queryObj.sortBy || 'type'}&sortOrder=${queryObj.sortOrder || 'asc'}`
+      const thisRequest = `volunteers/${queryObj.volunteerId}/notes?sortField=${queryObj.sortBy || 'timestamp'}&sortOrder=${queryObj.sortOrder || 'desc'}`
 
       mostRecentRequest = thisRequest
 

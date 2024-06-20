@@ -43,8 +43,10 @@
           </form>
         </div>
       </div>
+      <div v-if="volunteerStore.fetching" class="flex gap-2 justify-center items-center text-md">
+        <IconSpinner />speichere neue Notiz ...
+      </div>
     </main>
-
     <footer class="flex justify-between p-6 border-solid border-t border-vologray-200">
       <ButtonStandard @click.prevent="$emit('cancel')">Abbrechen</ButtonStandard>
       <ButtonStandard type="submit" form="new-note">Notiz anlegen</ButtonStandard>
@@ -57,9 +59,10 @@ import ButtonStandard from './ButtonStandard.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
 import FormularSelectBox from './FormularSelectBox.vue'
 import FormularTextarea from './FormularTextarea.vue'
+import IconSpinner from './IconSpinner.vue'
 
 export default {
-  components: { ButtonStandard, FormularSelectBox, FormularTextarea },
+  components: { ButtonStandard, FormularSelectBox, FormularTextarea, IconSpinner },
   setup() {
     const volunteerStore = useVolunteerStore()
 
@@ -105,7 +108,6 @@ export default {
 
         try {
           await this.volunteerStore.setNote(note)
-          console.log(note)
         } catch (error) {
           console.error(error)
 

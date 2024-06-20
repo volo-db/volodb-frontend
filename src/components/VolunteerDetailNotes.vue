@@ -26,11 +26,7 @@
           </td>
         </tr>
       </thead>
-      <tbody
-        v-for="(note, index) of volunteerStore.volunteerNotes.content"
-        :key="note.id"
-        class="bg-white"
-      >
+      <tbody v-for="(note, index) of volunteerStore.volunteerNotes" :key="note.id" class="bg-white">
         <tr
           @click="toggleExpand(index)"
           class="h-14 cursor-pointer"
@@ -44,8 +40,7 @@
             :class="{
               'rounded-tl-md': index === 0,
               'rounded-bl-md':
-                index === volunteerStore.volunteerNotes.content.length - 1 &&
-                !expandedRows.includes(index)
+                index === volunteerStore.volunteerNotes.length - 1 && !expandedRows.includes(index)
             }"
           >
             <IconMail
@@ -81,8 +76,7 @@
             :class="{
               'rounded-tr-md ': index === 0,
               'rounded-br-md':
-                index === volunteerStore.volunteerNotes.content.length - 1 &&
-                !expandedRows.includes(index)
+                index === volunteerStore.volunteerNotes.length - 1 && !expandedRows.includes(index)
             }"
           >
             <IconArrowShowDetailSummary
@@ -105,7 +99,7 @@
     <ContainerModal v-if="editNote">
       <NoteEditFormular
         :note="selectedNote"
-        @savedEdit="editNote = false"
+        @savedEdit="(editNote = false), getNotes()"
         @cancel="editNote = false"
       />
     </ContainerModal>
@@ -139,6 +133,12 @@ export default {
     ContainerModal,
     NoteEditFormular
   },
+  props: {
+    searchQuery: {
+      type: String,
+      default: ''
+    }
+  },
   data() {
     return {
       tableHead: ['Typ', 'Erstellt von', 'Datum'],
@@ -146,8 +146,6 @@ export default {
       expandedRows: [],
       sortOrder: 'desc',
       sortBy: 'timestamp',
-      page: 0,
-      pageSize: 0,
       editNote: false,
       selectedNote: null
     }
@@ -183,6 +181,7 @@ export default {
           sortBy: this.sortBy,
           page: this.page,
           pageSize: this.pageSize,
+          search: this.searchQuery,
           volunteerId: this.$route.params.volunteerId
         }
 
@@ -192,6 +191,7 @@ export default {
           sortBy: params.sortBy,
           page: params.page,
           pageSize: params.pageSize,
+          search: params.search,
           volunteerId: params.volunteerId
         })
       } catch (error) {
@@ -203,14 +203,12 @@ export default {
       this.editNote = true
     }
   },
-  async beforeMount() {
-    try {
-      let params = {
-        volunteerId: this.$route.params.volunteerId
-      }
-      this.volunteerStore.getVolunteerNotes(params)
-    } catch (error) {
-      console.error('Error fetching notes:', error)
+  watch: {
+    searchQuery: {
+      async handler() {
+        await this.getNotes()
+      },
+      immediate: true // This option ensures that the api is called initially with the initial prop value
     }
   }
 }

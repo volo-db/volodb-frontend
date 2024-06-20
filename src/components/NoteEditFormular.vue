@@ -40,6 +40,9 @@
           </form>
         </div>
       </div>
+      <div v-if="volunteerStore.fetching" class="flex gap-2 justify-center items-center text-md">
+        <IconSpinner />speichere bearbeitete Notiz ...
+      </div>
     </main>
 
     <footer class="flex justify-between p-6 border-solid border-t border-vologray-200">
@@ -54,8 +57,10 @@ import ButtonStandard from './ButtonStandard.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
 import FormularSelectBox from './FormularSelectBox.vue'
 import FormularTextarea from './FormularTextarea.vue'
+import IconSpinner from './IconSpinner.vue'
+
 export default {
-  components: { ButtonStandard, FormularSelectBox, FormularTextarea },
+  components: { ButtonStandard, FormularSelectBox, FormularTextarea, IconSpinner },
   setup() {
     const volunteerStore = useVolunteerStore()
 
@@ -76,7 +81,7 @@ export default {
   },
   methods: {
     async onSubmit() {
-      let note = {
+      let editedNote = {
         type: this.noteCopy.type,
         note: this.noteCopy.note.trim()
       }
@@ -84,7 +89,7 @@ export default {
       let id = this.noteCopy.id
 
       try {
-        await this.volunteerStore.editNote(note, id)
+        await this.volunteerStore.editNote(editedNote, id)
       } catch (error) {
         console.error(error)
 

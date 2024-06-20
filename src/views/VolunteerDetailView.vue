@@ -14,6 +14,7 @@
       >
         <SearchBar
           v-if="selectedContextTab === 'dokumentation'"
+          v-model="searchQuery"
           placeholder="Suche nach Aktivitäten"
         />
         <SearchBar v-if="selectedContextTab === 'dokumente'" placeholder="Suche nach Dokumenten" />
@@ -27,7 +28,11 @@
         >
       </div>
 
-      <VolunteerDetailNotes class="mt-16" v-if="selectedContextTab === 'dokumentation'" />
+      <VolunteerDetailNotes
+        :searchQuery="debouncedSearchQuery"
+        class="mt-16"
+        v-if="selectedContextTab === 'dokumentation'"
+      />
 
       <ContainerModal v-if="newNotesModal">
         <NotesFormular @saved="newNotesModal = false" @cancel="newNotesModal = false" />
@@ -42,6 +47,7 @@ import VolunteerDetailNotes from '@/components/VolunteerDetailNotes.vue'
 import VolunteerDetailOverview from '@/components/VolunteerDetailOverview.vue'
 import ButtonStandard from '@/components/ButtonStandard.vue'
 import SearchBar from '@/components/SearchBar.vue'
+import debounce from 'lodash.debounce'
 import ContainerModal from '@/components/ContainerModal.vue'
 import NotesFormular from '@/components/NotesFormular.vue'
 
@@ -65,7 +71,9 @@ export default {
   },
   data() {
     return {
-      newNotesModal: false
+      newNotesModal: false,
+      searchQuery: '',
+      debouncedSearchQuery: ''
     }
   },
   computed: {
@@ -82,7 +90,22 @@ export default {
           contextTab: String(tabName).toLowerCase()
         }
       })
+    },
+    debouncedSearch: debounce((input, searchFunction) => {
+      searchFunction(input)
+    }, 1000)
+  },
+  watch: {
+    searchQuery(newValue) {
+      this.$router.push({ query: { search: newValue } })
+      this.debouncedSearch(this.searchQuery, (input) => {
+        this.debouncedSearchQuery = input
+      })
     }
+  },
+  mounted() {
+    this.debouncedSearchQuery = this.$route.query.search || ''
+    this.searchQuery = this.debouncedSearchQuery
   }
 }
 </script>
