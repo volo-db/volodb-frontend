@@ -3,7 +3,7 @@
     <div class="flex justify-center items-center aspect-square">
       <img :src="smallVolodbLogo" alt="volodb-logo" />
     </div>
-    <NavBarButton type="login" v-if="!userStore.loggedIn" />
+    <NavBarButton type="login" v-if="!userStore.loggedIn" :active="true" />
     <NavBarButton type="dashboard" v-if="false" />
     <NavBarButton
       type="volunteers"
@@ -18,10 +18,13 @@
       v-if="userStore.loggedIn"
     />
     <NavBarButton type="seminars" v-if="false" />
+
+    <!--devider for the bottom-buttons-->
     <div class="mt-auto"></div>
+
     <NavBarButton type="mail" v-if="false" />
     <NavBarButton type="settings" v-if="false" />
-    <UserButton v-if="userStore.loggedIn" />
+    <NavBarUserButton v-if="userStore.loggedIn" />
     <NavBarButton type="logout" @click="userStore.logout()" v-if="userStore.loggedIn" />
   </div>
 </template>
@@ -29,11 +32,11 @@
 <script>
 import NavBarButton from '@/components/NavBarButton.vue'
 import smallVolodbLogo from '@/assets/logo-volodb-small.svg'
-import UserButton from '@/components/UserButton.vue'
+import NavBarUserButton from '@/components/NavBarUserButton.vue'
 import { useUserStore } from '@/stores/UserStore.js'
 
 export default {
-  components: { NavBarButton, UserButton },
+  components: { NavBarButton, NavBarUserButton },
   setup() {
     const userStore = useUserStore()
 

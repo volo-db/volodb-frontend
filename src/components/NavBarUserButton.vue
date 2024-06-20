@@ -1,5 +1,5 @@
 <template>
-  <button class="w-full flex justify-center items-center">
+  <button class="w-full flex justify-center items-center py-[10px]">
     <img
       v-if="userStore.user"
       :src="baseUrl + '/files/' + userStore.user.avatar"
@@ -9,13 +9,10 @@
   </button>
 </template>
 
-<!-- class="border-[3px] border-vologray-100 rounded-e-full" -->
-
 <script>
 import { useUserStore } from '@/stores/UserStore.js'
 
 export default {
-  name: 'UserButton',
   components: {},
   setup() {
     const userStore = useUserStore()
