@@ -7,7 +7,6 @@ export const useVolunteerStore = defineStore('volunteerStore', {
   state: () => {
     return {
       fetching: false,
-      token: JSON.parse(localStorage.getItem('user-store')).token,
       volunteersPage: null,
       volunteerNotes: null,
       selectedVolunteer: null,
@@ -18,12 +17,9 @@ export const useVolunteerStore = defineStore('volunteerStore', {
   },
   actions: {
     async setVolunteer(volunteer) {
-      // If there's no token, something went wrong
-      if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
-
       this.fetching = true
       try {
-        this.selectedVolunteer = await vdbFetchData('volunteers', 'POST', this.token, volunteer)
+        this.selectedVolunteer = await vdbFetchData('volunteers', 'POST', volunteer)
       } catch (error) {
         console.error(error)
         throw error
@@ -35,72 +31,70 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       //clear selected volunteer
       this.selectedVolunteer = null
 
-      // If there's no token, something went wrong
-      if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
-
       this.fetching = true
+      try {
+        this.selectedVolunteer = await vdbFetchData(`volunteers/${volunteerId}`, 'GET')
 
-      this.selectedVolunteer = await vdbFetchData(`volunteers/${volunteerId}`, 'GET', this.token)
+        this.selectedVolunteerContacts = await vdbFetchData(
+          `volunteers/${volunteerId}/contacts`,
+          'GET'
+        )
 
-      this.selectedVolunteerContacts = await vdbFetchData(
-        `volunteers/${volunteerId}/contacts`,
-        'GET',
-        this.token
-      )
+        this.selectedVolunteerAddresses = await vdbFetchData(
+          `volunteers/${volunteerId}/addresses`,
+          'GET'
+        )
 
-      this.selectedVolunteerAddresses = await vdbFetchData(
-        `volunteers/${volunteerId}/addresses`,
-        'GET',
-        this.token
-      )
-
-      this.selectedVolunteerRelevantContract = await vdbFetchData(
-        `volunteers/${volunteerId}/contracts/relevant`,
-        'GET',
-        this.token
-      )
-
-      this.fetching = false
+        this.selectedVolunteerRelevantContract = await vdbFetchData(
+          `volunteers/${volunteerId}/contracts/relevant`,
+          'GET'
+        )
+      } catch (error) {
+        console.error(error)
+      } finally {
+        this.fetching = false
+      }
     },
     async getVolunteers(queryObj) {
-      // If there's no token, something went wrong
-      if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
-
       const thisRequest = `volunteers?page=${queryObj.page || 0}&pageSize=${queryObj.pageSize || 10}&sortField=${queryObj.sortBy || 'person.lastname'}&sortOrder=${queryObj.sortOrder || 'asc'}&search=${queryObj.search || ''}`
       mostRecentRequest = thisRequest
 
       this.fetching = true
-      const volunteers = await vdbFetchData(thisRequest, 'GET', this.token)
 
-      if (mostRecentRequest != thisRequest) return
-
-      this.volunteersPage = volunteers
-      this.fetching = false
+      try {
+        const volunteersPage = await vdbFetchData(thisRequest, 'GET')
+        if (mostRecentRequest != thisRequest) return
+        this.volunteersPage = volunteersPage
+      } catch (error) {
+        console.error(error)
+      } finally {
+        this.fetching = false
+      }
     },
     async getVolunteerNotes(queryObj) {
-      // If there's no token, something went wrong
-      if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
-
       const thisRequest = `volunteers/${queryObj.volunteerId}/notes?sortField=${queryObj.sortBy || 'timestamp'}&sortOrder=${queryObj.sortOrder || 'desc'}`
 
       mostRecentRequest = thisRequest
 
-      const notes = await vdbFetchData(thisRequest, 'GET', this.token)
+      this.fetching = true
 
-      if (mostRecentRequest != thisRequest) return
-
-      this.volunteerNotes = notes
-      this.fetching = false
+      try {
+        const notes = await vdbFetchData(thisRequest, 'GET')
+        if (mostRecentRequest != thisRequest) return
+        this.volunteerNotes = notes
+      } catch (error) {
+        console.error(error)
+      } finally {
+        this.fetching = false
+      }
     },
     async setNote(note) {
-      if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
-
       this.fetching = true
       try {
         await vdbFetchData(
           'volunteers/' + this.selectedVolunteer.id + '/notes',
           'POST',
-          this.token,
+
           note
         )
       } catch (error) {
@@ -111,13 +105,12 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       }
     },
     async editNote(note, id) {
-      if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
       this.fetching = true
       try {
         await vdbFetchData(
           'volunteers/' + this.selectedVolunteer.id + '/notes/' + id,
           'PATCH',
-          this.token,
+
           note
         )
       } catch (error) {
