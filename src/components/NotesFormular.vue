@@ -20,48 +20,48 @@
         </div>
         <!-- right column -->
         <div class="flex-1">
-          <form class="flex flex-col gap-2" :id="id" @submit.prevent="onSubmit" novalidate>
-            <FormularSelectBox
-              v-if="formData.noteToEdit.note"
-              :list="['Eingehender Anruf', 'Ausgehender Anruf', 'E-Mail', 'Notiz']"
-              label="Typ"
-              id="type"
-              name="type"
-              v-model="formData.noteToEdit.type"
-            />
+          <form :id="id" @submit.prevent="onSubmit" novalidate>
+            <!-- for editing a note -->
+            <!-- <div v-if="formData.noteToEdit.note">
+              <FormularSelectBox
+                :list="['Eingehender Anruf', 'Ausgehender Anruf', 'E-Mail', 'Notiz']"
+                label="Typ"
+                id="type"
+                name="type"
+                v-model="formData.noteToEdit.type"
+              />
+              <FormularTextarea
+                label="Notiz"
+                id="note"
+                name="note"
+                rows="6"
+                ref="note"
+                v-model="formData.noteToEdit.note"
+              />
+            </div> -->
+            <!-- for setting a new note -->
+            <div>
+              <FormularSelectBox
+                :list="['Eingehender Anruf', 'Ausgehender Anruf', 'E-Mail', 'Notiz']"
+                label="Typ"
+                id="type"
+                name="type"
+                :hasError="validationErr.type"
+                :required="true"
+                v-model="formData.type"
+              />
 
-            <FormularSelectBox
-              v-else
-              :list="['Eingehender Anruf', 'Ausgehender Anruf', 'E-Mail', 'Notiz']"
-              label="Typ"
-              id="type"
-              name="type"
-              :hasError="validationErr.type"
-              :required="true"
-              v-model="formData.type"
-            />
-
-            <FormularTextarea
-              v-if="formData.noteToEdit.note"
-              label="Notiz"
-              id="note"
-              name="note"
-              rows="6"
-              ref="note"
-              v-model="formData.noteToEdit.note"
-            />
-
-            <FormularTextarea
-              v-else
-              label="Notiz"
-              id="note"
-              :hasError="validationErr.note"
-              :required="true"
-              name="note"
-              rows="6"
-              ref="note"
-              v-model="formData.note"
-            />
+              <FormularTextarea
+                label="Notiz"
+                id="note"
+                :hasError="validationErr.note"
+                :required="true"
+                name="note"
+                rows="6"
+                ref="note"
+                v-model="formData.note"
+              />
+            </div>
           </form>
         </div>
       </div>
@@ -91,8 +91,8 @@ export default {
     description: String,
     id: String,
     loadingText: String,
-    submitButtonText: String,
-    noteCopy: Object
+    submitButtonText: String
+    // noteCopy: Object
   },
   setup() {
     const volunteerStore = useVolunteerStore()
@@ -104,7 +104,8 @@ export default {
   data() {
     return {
       formData: {
-        noteToEdit: { ...this.noteCopy },
+        isEditing: false,
+        // noteToEdit: { ...this.noteCopy },
         note: '',
         type: 'Notiz'
       },
@@ -131,44 +132,26 @@ export default {
     async onSubmit() {
       this.errorMessage = false
 
-      const isEditing = this.noteToEdit && this.noteToEdit.id
-      let note, id
-
-      if (!isEditing) {
-        // Validate form data for new note
-        this.validate()
-        if (!this.formValid) {
-          return // Exit if form is not valid
-        }
-
-        note = {
+      this.validate()
+      if (this.formValid) {
+        let note = {
           type: this.formData.type,
           note: this.formData.note.trim()
         }
-      } else {
-        //data for editing note
-        note = {
-          type: this.noteToEdit.type,
-          note: this.noteToEdit.note.trim()
-        }
-        id = this.noteToEdit.id
-      }
 
-      try {
-        if (!isEditing) {
+        try {
           await this.volunteerStore.setNote(note)
-        } else {
-          await this.volunteerStore.editNote(note, id)
+        } catch (error) {
+          console.error(error)
+
+          // Showing error message just for 5 seconds
+          this.errorMessage = true
+          setTimeout(() => {
+            this.errorMessage = false
+          }, 5000)
+          return
         }
         this.$emit('saved')
-      } catch (error) {
-        console.error(error)
-
-        // Showing error message just for 5 seconds
-        this.errorMessage = true
-        setTimeout(() => {
-          this.errorMessage = false
-        }, 5000)
       }
     }
   },
