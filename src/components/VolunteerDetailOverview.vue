@@ -1,7 +1,7 @@
 <template>
   <div class="flex-none flex flex-col justify-start items-center p-8 w-[400px] overflow-auto">
     <div v-if="volunteerStore.fetching" id="skeleton-loader"></div>
-    <div v-if="volunteer">
+    <div class="w-full" v-if="volunteer">
       <div>
         <header class="flex flex-col items-center gap-3">
           <!-- Avatar -->
