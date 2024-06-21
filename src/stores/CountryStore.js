@@ -13,10 +13,8 @@ export const useCountryStore = defineStore('CountryStore', {
   },
   actions: {
     async getCountries() {
-      // If there's no token, something went wrong
-      if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
       try {
-        this.countries = await vdbFetchData(`/countrys`, 'GET', this.token)
+        this.countries = await vdbFetchData(`/countrys`, 'GET')
         this.createCountrysArray()
       } catch (error) {
         console.error('Error fetching countries:', error)
