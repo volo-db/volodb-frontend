@@ -6,7 +6,6 @@ export const useCountryStore = defineStore('CountryStore', {
   state: () => {
     return {
       fetching: false,
-      token: JSON.parse(localStorage.getItem('user-store')).token,
       countries: null,
       sortedCountries: []
     }

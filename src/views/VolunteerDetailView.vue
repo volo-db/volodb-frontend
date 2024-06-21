@@ -20,7 +20,7 @@
         <SearchBar v-if="selectedContextTab === 'dokumente'" placeholder="Suche nach Dokumenten" />
         <ButtonStandard
           v-if="selectedContextTab === 'dokumentation'"
-          @click.prevent="newNotesModal = true"
+          @click.prevent="setNote = true"
           >Aktivität hinzufügen</ButtonStandard
         >
         <ButtonStandard v-if="selectedContextTab === 'dokumente'"
@@ -34,8 +34,18 @@
         v-if="selectedContextTab === 'dokumentation'"
       />
 
-      <ContainerModal v-if="newNotesModal">
-        <NotesFormular @saved="newNotesModal = false" @cancel="newNotesModal = false" />
+      <ContainerModal v-if="setNote">
+        <NotesFormular
+          @saved="setNote = false"
+          @cancel="setNote = false"
+          id="new-note"
+          :title="'Neue Notiz für ' + volunteerStore.selectedVolunteer.person.firstname"
+          :description="
+            'Lege eine neue Notiz für ' + volunteerStore.selectedVolunteer.person.firstname + ' an.'
+          "
+          loadingText="speichere neue Notiz ..."
+          submitButtonText="Notiz anlegen"
+        />
       </ContainerModal>
     </div>
   </div>
@@ -71,7 +81,7 @@ export default {
   },
   data() {
     return {
-      newNotesModal: false,
+      setNote: false,
       searchQuery: '',
       debouncedSearchQuery: ''
     }

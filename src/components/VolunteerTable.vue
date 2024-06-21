@@ -27,7 +27,6 @@
             </td>
           </tr>
         </thead>
-
         <tbody class="bg-white">
           <tr
             v-for="(volunteer, index) of volunteerStore.volunteersPage.content"
@@ -50,6 +49,7 @@
         </tbody>
       </table>
       <PaginationController
+        class="mt-1"
         :currentPage="volunteerStore.volunteersPage.pageable.pageNumber"
         :totalPages="volunteerStore.volunteersPage.totalPages"
         @updatePage="updateVolunteerPage"

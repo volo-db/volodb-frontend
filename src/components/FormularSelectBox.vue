@@ -10,6 +10,7 @@
       :name="name"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
+      ref="input"
     >
       <option v-for="(item, index) in list" :key="index" :value="item">{{ item }}</option>
     </select>
@@ -18,6 +19,7 @@
 
 <script>
 export default {
+  expose: ['focus'],
   emits: ['update:modelValue'],
   props: {
     list: {
@@ -41,6 +43,11 @@ export default {
     },
     name: {
       type: String
+    }
+  },
+  methods: {
+    focus() {
+      this.$refs.input.focus()
     }
   }
 }

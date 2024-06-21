@@ -41,7 +41,9 @@
         </div>
       </div>
       <div v-if="volunteerStore.fetching" class="flex gap-2 justify-center items-center text-md">
-        <IconSpinner />speichere bearbeitete Notiz ...
+        <IconSpinner />
+        <p></p>
+        <!-- speichere bearbeitete Notiz ... -->
       </div>
     </main>
 
@@ -79,31 +81,7 @@ export default {
       noteCopy: { ...this.note }
     }
   },
-  methods: {
-    async onSubmit() {
-      let editedNote = {
-        type: this.noteCopy.type,
-        note: this.noteCopy.note.trim()
-      }
 
-      let id = this.noteCopy.id
-
-      try {
-        await this.volunteerStore.editNote(editedNote, id)
-      } catch (error) {
-        console.error(error)
-
-        // Showing error message just for 5 seconds
-        this.errorMessage = true
-        setTimeout(() => {
-          this.errorMessage = false
-        }, 5000)
-        return
-      }
-
-      this.$emit('savedEdit')
-    }
-  },
   mounted() {
     this.$refs.note.focus()
   }

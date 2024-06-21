@@ -97,10 +97,19 @@
       </tbody>
     </table>
     <ContainerModal v-if="editNote">
-      <NoteEditFormular
-        :note="selectedNote"
-        @savedEdit="(editNote = false), getNotes()"
+      <NotesFormular
+        @saved="(editNote = false), getNotes()"
         @cancel="editNote = false"
+        id="edited-note"
+        title="Notiz bearbeiten"
+        :description="
+          'Bearbeite hier deine Notiz für ' +
+          volunteerStore.selectedVolunteer.person.firstname +
+          '.'
+        "
+        loadingText="speichere bearbeitete Notiz ..."
+        submitButtonText="Notiz neu anlegen"
+        :noteCopy="selectedNote"
       />
     </ContainerModal>
   </div>
@@ -115,7 +124,7 @@ import IconPhoneIngoing from './IconPhoneIngoing.vue'
 import IconPhoneOutgoing from './IconPhoneOutgoing.vue'
 import IconPenEdit from './IconPenEdit.vue'
 import ContainerModal from '@/components/ContainerModal.vue'
-import NoteEditFormular from '@/components/NoteEditFormular.vue'
+import NotesFormular from '@/components/NotesFormular.vue'
 
 export default {
   setup: () => {
@@ -131,7 +140,7 @@ export default {
     IconPhoneOutgoing,
     IconPenEdit,
     ContainerModal,
-    NoteEditFormular
+    NotesFormular
   },
   props: {
     searchQuery: {
@@ -201,6 +210,7 @@ export default {
     openEditModal(note) {
       this.selectedNote = note
       this.editNote = true
+      console.log(this.selectedNote.note)
     }
   },
   watch: {

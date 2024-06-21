@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-x-auto" v-bind="$attrs">
+  <div class="overflow-auto" v-bind="$attrs">
     <div v-if="projectStore.projectsPage">
       <table class="w-full" v-if="projectStore.projectsPage">
         <thead>
@@ -48,6 +48,7 @@
         </tbody>
       </table>
       <PaginationController
+        class="mt-1"
         :currentPage="projectStore.projectsPage.pageable.pageNumber"
         :totalPages="projectStore.projectsPage.totalPages"
         @updatePage="updateProjectPage"
