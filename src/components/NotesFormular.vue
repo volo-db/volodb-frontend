@@ -40,7 +40,7 @@
               />
             </div> -->
             <!-- for setting a new note -->
-            <div>
+            <div class="flex flex-col gap-6">
               <FormularSelectBox
                 :list="['Eingehender Anruf', 'Ausgehender Anruf', 'E-Mail', 'Notiz']"
                 label="Typ"
