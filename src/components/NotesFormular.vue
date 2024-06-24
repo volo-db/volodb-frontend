@@ -22,44 +22,25 @@
         <div class="flex-1">
           <form :id="id" @submit.prevent="onSubmit" novalidate>
             <!-- for editing a note -->
-            <!-- <div v-if="formData.noteToEdit.note">
+            <div>
               <FormularSelectBox
                 :list="['Eingehender Anruf', 'Ausgehender Anruf', 'E-Mail', 'Notiz']"
                 label="Typ"
                 id="type"
                 name="type"
-                v-model="formData.noteToEdit.type"
-              />
-              <FormularTextarea
-                label="Notiz"
-                id="note"
-                name="note"
-                rows="6"
-                ref="note"
-                v-model="formData.noteToEdit.note"
-              />
-            </div> -->
-            <!-- for setting a new note -->
-            <div class="flex flex-col gap-6">
-              <FormularSelectBox
-                :list="['Eingehender Anruf', 'Ausgehender Anruf', 'E-Mail', 'Notiz']"
-                label="Typ"
-                id="type"
-                name="type"
+                :required="true"
                 :hasError="validationErr.type"
-                :required="true"
-                v-model="formData.type"
+                v-model="formData.note.type"
               />
-
               <FormularTextarea
                 label="Notiz"
                 id="note"
-                :hasError="validationErr.note"
-                :required="true"
                 name="note"
                 rows="6"
                 ref="note"
-                v-model="formData.note"
+                :required="true"
+                :hasError="validationErr.note"
+                v-model="formData.note.note"
               />
             </div>
           </form>
@@ -91,8 +72,8 @@ export default {
     description: String,
     id: String,
     loadingText: String,
-    submitButtonText: String
-    // noteCopy: Object
+    submitButtonText: String,
+    noteCopy: Object
   },
   setup() {
     const volunteerStore = useVolunteerStore()
@@ -104,10 +85,7 @@ export default {
   data() {
     return {
       formData: {
-        isEditing: false,
-        // noteToEdit: { ...this.noteCopy },
-        note: '',
-        type: 'Notiz'
+        note: { ...this.noteCopy }
       },
       validationErr: {
         type: false,
@@ -124,8 +102,8 @@ export default {
       this.validationErr.type = false
       this.validationErr.note = false
 
-      if (!this.formData.type) this.validationErr.type = true
-      if (!this.formData.note) this.validationErr.note = true
+      if (!this.formData.note.type) this.validationErr.type = true
+      if (!this.formData.note.note) this.validationErr.note = true
 
       if (!this.validationErr.type && !this.validationErr.note) this.formValid = true
     },
@@ -135,12 +113,14 @@ export default {
       this.validate()
       if (this.formValid) {
         let note = {
-          type: this.formData.type,
-          note: this.formData.note.trim()
+          type: this.formData.note.type,
+          note: this.formData.note.note.trim()
         }
 
+        let id = this.formData.note.id
+
         try {
-          await this.volunteerStore.setNote(note)
+          await this.volunteerStore.setNote(note, id)
         } catch (error) {
           console.error(error)
 
