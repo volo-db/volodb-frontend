@@ -91,7 +91,9 @@
             <p class="bg-vologray-100 px-4 py-2 mx-4 rounded-md">{{ note.note }}</p>
           </td>
           <td class="h-14 pb-4 border-b">
-            <button><IconPenEdit class="mx-4" @click="openEditModal(note)" /></button>
+            <button v-if="note.user == userStore.user.email">
+              <IconPenEdit class="mx-4" @click="openEditModal(note)" />
+            </button>
           </td>
         </tr>
       </tbody>
@@ -108,7 +110,7 @@
           '.'
         "
         loadingText="speichere bearbeitete Notiz ..."
-        submitButtonText="Notiz neu anlegen"
+        submitButtonText="Speichern"
         :noteCopy="selectedNote"
       />
     </ContainerModal>
@@ -116,6 +118,7 @@
 </template>
 <script>
 import { useVolunteerStore } from '@/stores/VolunteerStore'
+import { useUserStore } from '@/stores/UserStore'
 import IconArrowShowDetailSummary from './IconArrowShowDetailSummary.vue'
 import IconTableSortArrows from './IconTableSortArrows.vue'
 import IconMail from './IconMail.vue'
@@ -129,7 +132,8 @@ import NotesFormular from '@/components/NotesFormular.vue'
 export default {
   setup: () => {
     const volunteerStore = useVolunteerStore()
-    return { volunteerStore }
+    const userStore = useUserStore()
+    return { volunteerStore, userStore }
   },
   components: {
     IconArrowShowDetailSummary,
