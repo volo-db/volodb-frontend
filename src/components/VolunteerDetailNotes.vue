@@ -26,11 +26,7 @@
           </td>
         </tr>
       </thead>
-      <tbody
-        v-for="(note, index) of volunteerStore.volunteerNotes.content"
-        :key="note.id"
-        class="bg-white"
-      >
+      <tbody v-for="(note, index) of volunteerStore.volunteerNotes" :key="note.id" class="bg-white">
         <tr
           @click="toggleExpand(index)"
           class="h-14 cursor-pointer hover:text-voloblue-100 hover:bg-gray-50 border-b"

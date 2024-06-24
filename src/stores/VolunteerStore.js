@@ -100,7 +100,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       try {
         const documents = await vdbFetchData(thisRequest, 'GET')
         if (mostRecentRequest != thisRequest) return
-        this.volunteerNotes.content = documents
+        this.volunteerDocuments = documents
       } catch (error) {
         console.error(error)
       } finally {
