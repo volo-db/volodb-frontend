@@ -147,7 +147,7 @@ export default {
       }
     }
   },
-  async beforeMount() {
+  beforeMount() {
     try {
       let params = {
         volunteerId: this.$route.params.volunteerId

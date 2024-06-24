@@ -7,10 +7,14 @@
             v-for="(title, index) in tableHead"
             :key="index"
             class="pb-3 text-vologray-700 text-sm cursor-pointer"
-            :class="{'pl-4' : index === 0}"
+            :class="{ 'pl-4': index === 0 }"
           >
             {{ title }}
-            <IconTableSortArrows class="inline" :upArrowColor="'lightgrey'" :downArrowColor="'lightgrey'"/>
+            <IconTableSortArrows
+              class="inline"
+              :upArrowColor="'lightgrey'"
+              :downArrowColor="'lightgrey'"
+            />
           </td>
         </tr>
       </thead>
@@ -22,12 +26,14 @@
         <tr
           @click="toggleExpand(index)"
           class="h-14 cursor-pointer hover:text-voloblue-100 hover:bg-gray-50 border-b"
-          :class="{'border-none' : expandedRows.includes(index)}"
+          :class="{ 'border-none': expandedRows.includes(index) }"
         >
           <td class="font-bold pl-4">{{ document.name }}</td>
           <td>{{ document.id }}</td>
           <td>
-            <IconArrowShowDetailSummary :class="{ 'transform rotate-180': expandedRows.includes(index) }" />
+            <IconArrowShowDetailSummary
+              :class="{ 'transform rotate-180': expandedRows.includes(index) }"
+            />
           </td>
         </tr>
         <!-- row for expanded detail -->
@@ -56,13 +62,14 @@ export default {
   },
   components: {
     IconTableSortArrows,
-    IconArrowShowDetailSummary,
-   
+    IconArrowShowDetailSummary
   },
   data() {
     return {
       tableHead: ['Name', 'Datum'],
-      expandedRows: []
+      expandedRows: [],
+      sortOrder: 'desc',
+      sortBy: 'name'
     }
   },
   methods: {
@@ -73,10 +80,55 @@ export default {
       } else {
         this.expandedRows.push(index)
       }
+    },
+    sortDocumentsList(sortBy) {
+      if (this.sortBy !== sortBy) {
+        this.sortOrder === 'asc'
+      } else {
+        if (this.sortOrder === 'asc') {
+          this.sortOrder = 'desc'
+        } else {
+          this.sortOrder = 'asc'
+        }
+      }
+
+      this.sortBy = sortBy
+
+      this.getDocuments()
+    },
+    async getDocuments(params) {
+      if (!params)
+        params = {
+          sortOrder: this.sortOrder,
+          sortBy: this.sortBy,
+          // page: this.page,
+          // pageSize: this.pageSize,
+          volunteerId: this.$route.params.volunteerId
+        }
+
+      try {
+        await this.volunteerStore.getVolunteerDocuments({
+          sortOrder: params.sortOrder,
+          sortBy: params.sortBy,
+          // page: params.page,
+          // pageSize: params.pageSize,
+          volunteerId: params.volunteerId
+        })
+      } catch (error) {
+        console.error('Error fetching documents:', error)
+      }
     }
   },
-  mounted() {
-    this.volunteerStore.getDocuments()
+  beforeMount() {
+    console.log(this.$route.params.volunteerId)
+    try {
+      let params = {
+        volunteerId: this.$route.params.volunteerId
+      }
+      this.volunteerStore.getVolunteerDocuments(params)
+    } catch (error) {
+      console.error('Error fetching documents:', error)
+    }
   }
 }
 </script>

@@ -39,7 +39,7 @@ export const useProjectStore = defineStore('ProjectStore', {
       }
     },
     async getProjects(queryObj) {
-      const thisRequest = `projects?page=${queryObj.page || 0}&pageSize=${queryObj.pageSize || 10}&sortField=${queryObj.sortBy || 'name'}&sortOrder=${queryObj.sortOrder || 'asc'}&search=${queryObj.search || ''}`
+      const thisRequest = `projects?page=${queryObj.page || 0}&pageSize=${queryObj.pageSize || 10}&sortBy=${queryObj.sortBy || 'name'}&sortOrder=${queryObj.sortOrder || 'asc'}&search=${queryObj.search || ''}`
       mostRecentRequest = thisRequest
 
       this.fetching = true

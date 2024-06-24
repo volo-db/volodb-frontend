@@ -26,6 +26,7 @@
       </div>
 
       <VolunteerDetailNotes class="mt-16" v-if="selectedContextTab === 'dokumentation'" />
+      <VolunteerDetailDocuments class="mt-16" v-if="selectedContextTab === 'dokumente'" />
     </div>
   </div>
 </template>
@@ -34,6 +35,7 @@ import { useVolunteerStore } from '@/stores/VolunteerStore.js'
 import VolunteerDetailNavigationbar from '@/components/VolunteerDetailNavigationbar.vue'
 import VolunteerDetailNotes from '@/components/VolunteerDetailNotes.vue'
 import VolunteerDetailOverview from '@/components/VolunteerDetailOverview.vue'
+import VolunteerDetailDocuments from '@/components/VolunteerDetailDocuments.vue'
 import ButtonStandard from '@/components/ButtonStandard.vue'
 import SearchBar from '@/components/SearchBar.vue'
 
@@ -43,7 +45,8 @@ export default {
     VolunteerDetailNotes,
     VolunteerDetailOverview,
     ButtonStandard,
-    SearchBar
+    SearchBar,
+    VolunteerDetailDocuments
   },
   name: 'VolunteerDetailView.vue',
   setup() {

@@ -59,7 +59,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       }
     },
     async getVolunteers(queryObj) {
-      const thisRequest = `volunteers?page=${queryObj.page || 0}&pageSize=${queryObj.pageSize || 10}&sortField=${queryObj.sortBy || 'person.lastname'}&sortOrder=${queryObj.sortOrder || 'asc'}&search=${queryObj.search || ''}`
+      const thisRequest = `volunteers?page=${queryObj.page || 0}&pageSize=${queryObj.pageSize || 10}&sortBy=${queryObj.sortBy || 'person.lastname'}&sortOrder=${queryObj.sortOrder || 'asc'}&search=${queryObj.search || ''}`
       mostRecentRequest = thisRequest
 
       this.fetching = true
@@ -85,6 +85,22 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         const notes = await vdbFetchData(thisRequest, 'GET')
         if (mostRecentRequest != thisRequest) return
         this.volunteerNotes = notes
+      } catch (error) {
+        console.error(error)
+      } finally {
+        this.fetching = false
+      }
+    },
+    async getVolunteerDocuments(queryObj) {
+      const thisRequest = `volunteers/${queryObj.volunteerId}/documents`
+
+      mostRecentRequest = thisRequest
+
+      this.fetching = true
+      try {
+        const documents = await vdbFetchData(thisRequest, 'GET')
+        if (mostRecentRequest != thisRequest) return
+        this.volunteerNotes.content = documents
       } catch (error) {
         console.error(error)
       } finally {
