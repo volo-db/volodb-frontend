@@ -44,7 +44,9 @@
             <p class="inline pl-4" v-else>{{ note.type }}</p>
           </td>
           <td>{{ note.user }}</td>
-          <td>{{ note.timestamp.split('T').slice(0, 1).join().split('-').reverse().join('.') }}</td>
+          <td>
+            {{ note.timestamp.split('T').slice(0, 1).join().split('-').reverse().join('.') }}
+          </td>
           <td>
             <IconArrowShowDetailSummary
               :class="{ 'transform rotate-180': expandedRows.includes(index) }"

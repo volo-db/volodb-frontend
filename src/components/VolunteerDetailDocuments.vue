@@ -8,12 +8,18 @@
             :key="index"
             class="pb-3 text-vologray-700 text-sm cursor-pointer"
             :class="{ 'pl-4': index === 0 }"
+            :style="{ color: sortBy === sortParameter[index] ? '#0025FF' : '#8C97AF' }"
+            @click="sortDocumentsList(sortParameter[index])"
           >
             {{ title }}
             <IconTableSortArrows
+              :upArrowColor="
+                sortParameter[index] === sortBy && sortOrder === 'asc' ? '#0025FF' : 'lightgrey'
+              "
+              :downArrowColor="
+                sortParameter[index] === sortBy && sortOrder === 'desc' ? '#0025FF' : 'lightgrey'
+              "
               class="inline"
-              :upArrowColor="'lightgrey'"
-              :downArrowColor="'lightgrey'"
             />
           </td>
         </tr>
@@ -25,7 +31,7 @@
       >
         <tr
           @click="toggleExpand(index)"
-          class="h-14 cursor-pointer hover:text-voloblue-100 hover:bg-gray-50 border-b"
+          class="h-14 cursor-pointer"
           :class="{
             'border-none': expandedRows.includes(index),
             ' hover:text-voloblue-100 hover:bg-gray-50 border-b': !expandedRows.includes(index)
@@ -36,7 +42,7 @@
             :class="{
               'rounded-tl-md': index === 0,
               'rounded-bl-md':
-                index === volunteerStore.volunteerDocuments.length - 1 &&
+                index === volunteerStore.volunteerDocuments.content.length - 1 &&
                 !expandedRows.includes(index)
             }"
           >
@@ -45,16 +51,36 @@
           <td>
             {{ document.timestamp.split('T').slice(0, 1).join().split('-').reverse().join('.') }}
           </td>
-          <td>
+          <td
+            :class="{
+              'rounded-tr-md ': index === 0,
+              'rounded-br-md':
+                index === volunteerStore.volunteerDocuments.content.length - 1 &&
+                !expandedRows.includes(index)
+            }"
+          >
             <IconArrowShowDetailSummary
               class="mx-4"
-              :class="{ 'transform rotate-180': expandedRows.includes(index) }"
+              :class="{
+                'transform rotate-180': expandedRows.includes(index)
+              }"
             />
           </td>
         </tr>
         <!-- row for expanded detail -->
         <tr v-if="expandedRows.includes(index)" :key="document.id">
-          <td colspan="3" class="h-14 pl-8 pb-4 border-b">
+          <td
+            colspan="3"
+            class="h-14 pl-8 pb-4 border-b"
+            :class="{
+              'rounded-br-md':
+                index === volunteerStore.volunteerDocuments.content.length - 1 &&
+                expandedRows.includes(index),
+              'rounded-bl-md':
+                index === volunteerStore.volunteerDocuments.content.length - 1 &&
+                expandedRows.includes(index)
+            }"
+          >
             <div>
               <!-- Your expanded content here -->
               <p class="bg-vologray-100 px-4 py-2 mx-4 rounded-md">
@@ -85,9 +111,10 @@ export default {
   data() {
     return {
       tableHead: ['Name', 'Datum'],
+      sortParameter: ['documentType.name', 'timestamp'],
       expandedRows: [],
       sortOrder: 'desc',
-      sortBy: 'name',
+      sortBy: 'timestamp',
       page: 0,
       pageSize: 10
     }
@@ -130,8 +157,8 @@ export default {
         await this.volunteerStore.getVolunteerDocuments({
           sortOrder: params.sortOrder,
           sortBy: params.sortBy,
-          // page: params.page,
-          // pageSize: params.pageSize,
+          page: params.page,
+          pageSize: params.pageSize,
           volunteerId: params.volunteerId
         })
       } catch (error) {

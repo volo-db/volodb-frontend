@@ -75,7 +75,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       }
     },
     async getVolunteerNotes(queryObj) {
-      const thisRequest = `volunteers/${queryObj.volunteerId}/notes?page=${queryObj.page || 0}&pageSize=${queryObj.pageSize || 10}&sortField=${queryObj.sortBy || 'type'}&sortOrder=${queryObj.sortOrder || 'asc'}`
+      const thisRequest = `volunteers/${queryObj.volunteerId}/notes?page=${queryObj.page || 0}&pageSize=${queryObj.pageSize || 10}&sortBy=${queryObj.sortBy || 'type'}&sortOrder=${queryObj.sortOrder || 'asc'}`
 
       mostRecentRequest = thisRequest
 
@@ -92,7 +92,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       }
     },
     async getVolunteerDocuments(queryObj) {
-      const thisRequest = `volunteers/${queryObj.volunteerId}/documents`
+      const thisRequest = `volunteers/${queryObj.volunteerId}/documents?page=${queryObj.page || 0}&pageSize=${queryObj.pageSize || 10}&sortBy=${queryObj.sortBy || 'timestamp'}&sortOrder=${queryObj.sortOrder || 'desc'}`
 
       mostRecentRequest = thisRequest
 
