@@ -80,19 +80,31 @@
             }"
           >
             <IconArrowShowDetailSummary
-              class="mx-4"
               :class="{ 'transform rotate-180': expandedRows.includes(index) }"
             />
           </td>
         </tr>
 
         <tr v-if="expandedRows.includes(index)" :key="note.id">
-          <td colspan="3" class="h-14 pl-8 pb-4 border-b">
+          <td
+            colspan="3"
+            class="h-14 pl-8 pb-4 border-b"
+            :class="{
+              'rounded-bl-md':
+                index === volunteerStore.volunteerNotes.length - 1 && expandedRows.includes(index)
+            }"
+          >
             <p class="bg-vologray-100 px-4 py-2 mx-4 rounded-md">{{ note.note }}</p>
           </td>
-          <td class="h-14 pb-4 border-b">
+          <td
+            class="h-14 border-b"
+            :class="{
+              'rounded-br-md':
+                index === volunteerStore.volunteerNotes.length - 1 && expandedRows.includes(index)
+            }"
+          >
             <button v-if="note.user == userStore.user.email">
-              <IconPenEdit class="mx-4" @click="openEditModal(note)" />
+              <IconPenEdit class="" @click="openEditModal(note)" />
             </button>
           </td>
         </tr>
