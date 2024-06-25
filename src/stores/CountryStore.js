@@ -7,32 +7,31 @@ export const useCountryStore = defineStore('CountryStore', {
     return {
       fetching: false,
       token: JSON.parse(localStorage.getItem('user-store')).token,
-      countries: null,
-      sortedCountries: []
+      countries: null
     }
   },
   actions: {
     async getCountries() {
-      // If there's no token, something went wrong
-      if (!this.token) throw Error('VoloDB-ERROR\n🙅‍♀️ ups! not logged in.')
       try {
-        this.countries = await vdbFetchData(`/countrys`, 'GET', this.token)
-        this.createCountrysArray()
+        this.countries = await vdbFetchData(`/countrys`, 'GET')
       } catch (error) {
         console.error('Error fetching countries:', error)
       } finally {
         this.fetching = false
+        console.log(this.countries)
       }
-    },
-    createCountrysArray() {
-      this.sortedCountries = []
+    }
+  },
+  getters: {
+    sortedCountries() {
+      const sortedCountries = []
       for (let country of this.countries) {
         if (country.localName !== null) {
-          this.sortedCountries.push(country.localName)
-          this.countries.sort()
+          sortedCountries.push(country.localName)
+          sortedCountries.sort()
         }
       }
-      return
+      return sortedCountries
     }
   }
 })
