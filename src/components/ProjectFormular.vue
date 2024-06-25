@@ -135,7 +135,7 @@
       <IconSpinner />speichere daten...
     </div>
     <footer class="flex justify-between p-6 border-solid border-t border-vologray-200">
-      <ButtonStandard @click.prevent="$emit('close')">Abbrechen</ButtonStandard>
+      <ButtonStandard @click.prevent="$emit('close')" :gray="true">Abbrechen</ButtonStandard>
       <p
         class="flex justify-center text-sm font-light rounded border border-1 mb-4 p-3 bg-red-100 border-red-500 text-red-500"
         v-if="pageOneErr === true"
