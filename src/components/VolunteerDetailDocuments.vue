@@ -1,6 +1,6 @@
 <template>
   <div v-if="volunteerStore.volunteerDocuments">
-    <table class="w-full max-w-3xl">
+    <table class="w-full">
       <thead>
         <tr>
           <td
@@ -24,6 +24,7 @@
           </td>
         </tr>
       </thead>
+
       <tbody
         v-for="(document, index) of volunteerStore.volunteerDocuments.content"
         :key="document.id"
@@ -60,7 +61,6 @@
             }"
           >
             <IconArrowShowDetailSummary
-              class="mx-4"
               :class="{
                 'transform rotate-180': expandedRows.includes(index)
               }"
@@ -71,7 +71,7 @@
         <tr v-if="expandedRows.includes(index)" :key="document.id">
           <td
             colspan="3"
-            class="h-14 pl-8 pb-4 border-b"
+            class="h-14 pl-4 border-b"
             :class="{
               'rounded-br-md':
                 index === volunteerStore.volunteerDocuments.content.length - 1 &&
@@ -83,9 +83,15 @@
           >
             <div>
               <!-- Your expanded content here -->
-              <p class="bg-vologray-100 px-4 py-2 mx-4 rounded-md">
+              <p class="">
                 {{ document.documentType.description }}
               </p>
+              <div class="flex gap-2 justify-end py-2 pr-6">
+                <ButtonSendAndDownload>Senden</ButtonSendAndDownload>
+                <ButtonSendAndDownload class="flex gap-1 justify-center items-center"
+                  >Download<IconArrowDownload
+                /></ButtonSendAndDownload>
+              </div>
             </div>
           </td>
         </tr>
@@ -97,7 +103,9 @@
 <script>
 import IconArrowShowDetailSummary from './IconArrowShowDetailSummary.vue'
 import IconTableSortArrows from './IconTableSortArrows.vue'
+import ButtonSendAndDownload from './ButtonSendAndDownload.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
+import IconArrowDownload from './IconArrowDownload.vue'
 
 export default {
   setup: () => {
@@ -106,7 +114,9 @@ export default {
   },
   components: {
     IconTableSortArrows,
-    IconArrowShowDetailSummary
+    IconArrowShowDetailSummary,
+    ButtonSendAndDownload,
+    IconArrowDownload
   },
   data() {
     return {

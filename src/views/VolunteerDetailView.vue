@@ -1,6 +1,6 @@
 <template>
-  <div class="flex overflow-hidden">
-    <VolunteerDetailOverview />
+  <div class="flex">
+    <div class="bg-white"><VolunteerDetailOverview /></div>
 
     <div class="flex-1 bg-vologray-100 p-8">
       <VolunteerDetailNavigationbar
