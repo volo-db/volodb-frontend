@@ -13,9 +13,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       selectedVolunteerContacts: null,
       selectedVolunteerAddresses: null,
       selectedVolunteerRelevantContract: null,
-      volunteerDocuments: null,
-      sortOrder: 'asc',
-      activeSortProperty: null
+      volunteerDocuments: null
     }
   },
   actions: {
