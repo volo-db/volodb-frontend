@@ -26,73 +26,34 @@
       </thead>
 
       <tbody
-        v-for="(document, index) of volunteerStore.volunteerDocuments.content"
+        v-for="(document, index) of volunteerStore.volunteerDocuments"
         :key="document.id"
         class="bg-white"
       >
-        <tr
-          @click="toggleExpand(index)"
-          class="h-14 cursor-pointer"
-          :class="{
-            'border-none': expandedRows.includes(index),
-            ' hover:text-voloblue-100 hover:bg-gray-50 border-b': !expandedRows.includes(index)
-          }"
-        >
+        <tr class="h-14 border-b hover:text-voloblue-100 hover:bg-gray-50">
           <td
             class="font-bold pl-4"
             :class="{
               'rounded-tl-md': index === 0,
-              'rounded-bl-md':
-                index === volunteerStore.volunteerDocuments.content.length - 1 &&
-                !expandedRows.includes(index)
+              'rounded-bl-md': index === volunteerStore.volunteerDocuments.length - 1
             }"
           >
-            {{ document.documentType.name }}
+            {{ document.name }}
           </td>
+          <td>{{ document.documentType.name }}</td>
+          <td>{{ document.user }}</td>
           <td>
             {{ document.timestamp.split('T').slice(0, 1).join().split('-').reverse().join('.') }}
           </td>
           <td
             :class="{
               'rounded-tr-md ': index === 0,
-              'rounded-br-md':
-                index === volunteerStore.volunteerDocuments.content.length - 1 &&
-                !expandedRows.includes(index)
+              'rounded-br-md': index === volunteerStore.volunteerDocuments.length - 1
             }"
           >
-            <IconArrowShowDetailSummary
-              :class="{
-                'transform rotate-180': expandedRows.includes(index)
-              }"
-            />
-          </td>
-        </tr>
-        <!-- row for expanded detail -->
-        <tr v-if="expandedRows.includes(index)" :key="document.id">
-          <td
-            colspan="3"
-            class="h-14 pl-4 border-b"
-            :class="{
-              'rounded-br-md':
-                index === volunteerStore.volunteerDocuments.content.length - 1 &&
-                expandedRows.includes(index),
-              'rounded-bl-md':
-                index === volunteerStore.volunteerDocuments.content.length - 1 &&
-                expandedRows.includes(index)
-            }"
-          >
-            <div>
-              <!-- Your expanded content here -->
-              <p class="">
-                {{ document.documentType.description }}
-              </p>
-              <div class="flex gap-2 justify-end py-2 pr-6">
-                <ButtonSendAndDownload>Senden</ButtonSendAndDownload>
-                <ButtonSendAndDownload class="flex gap-1 justify-center items-center"
-                  >Download<IconArrowDownload
-                /></ButtonSendAndDownload>
-              </div>
-            </div>
+            <ButtonSendAndDownload class="flex gap-1 justify-center items-center"
+              >Download<IconArrowDownload
+            /></ButtonSendAndDownload>
           </td>
         </tr>
       </tbody>
@@ -101,7 +62,6 @@
 </template>
 
 <script>
-import IconArrowShowDetailSummary from './IconArrowShowDetailSummary.vue'
 import IconTableSortArrows from './IconTableSortArrows.vue'
 import ButtonSendAndDownload from './ButtonSendAndDownload.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
@@ -114,30 +74,18 @@ export default {
   },
   components: {
     IconTableSortArrows,
-    IconArrowShowDetailSummary,
     ButtonSendAndDownload,
     IconArrowDownload
   },
   data() {
     return {
-      tableHead: ['Name', 'Datum'],
-      sortParameter: ['documentType.name', 'timestamp'],
-      expandedRows: [],
+      tableHead: ['Dokument', 'Typ', 'Name', 'Datum'],
+      sortParameter: ['name', 'documentType.name', 'user', 'timestamp'],
       sortOrder: 'desc',
-      sortBy: 'timestamp',
-      page: 0,
-      pageSize: 10
+      sortBy: 'timestamp'
     }
   },
   methods: {
-    toggleExpand(index) {
-      const rowIndex = this.expandedRows.indexOf(index)
-      if (rowIndex > -1) {
-        this.expandedRows.splice(rowIndex, 1)
-      } else {
-        this.expandedRows.push(index)
-      }
-    },
     sortDocumentsList(sortBy) {
       if (this.sortBy !== sortBy) {
         this.sortOrder === 'asc'
@@ -158,8 +106,6 @@ export default {
         params = {
           sortOrder: this.sortOrder,
           sortBy: this.sortBy,
-          page: this.page,
-          pageSize: this.pageSize,
           volunteerId: this.$route.params.volunteerId
         }
 
@@ -167,8 +113,6 @@ export default {
         await this.volunteerStore.getVolunteerDocuments({
           sortOrder: params.sortOrder,
           sortBy: params.sortBy,
-          page: params.page,
-          pageSize: params.pageSize,
           volunteerId: params.volunteerId
         })
       } catch (error) {
