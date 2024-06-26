@@ -80,7 +80,7 @@ export default {
   data() {
     return {
       tableHead: ['Dokument', 'Typ', 'Name', 'Datum'],
-      sortParameter: ['name', 'documentType.name', 'user', 'timestamp'],
+      sortParameter: ['name', 'documentType.name', 'username', 'timestamp'],
       sortOrder: 'desc',
       sortBy: 'timestamp'
     }
