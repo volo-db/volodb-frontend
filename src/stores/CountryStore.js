@@ -6,30 +6,31 @@ export const useCountryStore = defineStore('CountryStore', {
   state: () => {
     return {
       fetching: false,
-      countries: null,
-      sortedCountries: []
+      countries: null
     }
   },
   actions: {
     async getCountries() {
       try {
         this.countries = await vdbFetchData(`/countrys`, 'GET')
-        this.createCountrysArray()
       } catch (error) {
         console.error('Error fetching countries:', error)
       } finally {
         this.fetching = false
+        console.log(this.countries)
       }
-    },
-    createCountrysArray() {
-      this.sortedCountries = []
+    }
+  },
+  getters: {
+    sortedCountries() {
+      const sortedCountries = []
       for (let country of this.countries) {
         if (country.localName !== null) {
-          this.sortedCountries.push(country.localName)
-          this.countries.sort()
+          sortedCountries.push(country.localName)
+          sortedCountries.sort()
         }
       }
-      return
+      return sortedCountries
     }
   }
 })
