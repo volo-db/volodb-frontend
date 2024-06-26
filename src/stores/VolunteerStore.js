@@ -88,6 +88,32 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       } finally {
         this.fetching = false
       }
+    },
+    async setNote(note, id) {
+      this.fetching = true
+      if (id) {
+        try {
+          await vdbFetchData(
+            'volunteers/' + this.selectedVolunteer.id + '/notes/' + id,
+            'PATCH',
+            note
+          )
+        } catch (error) {
+          console.error(error)
+          throw error
+        } finally {
+          this.fetching = false
+        }
+      } else {
+        try {
+          await vdbFetchData('volunteers/' + this.selectedVolunteer.id + '/notes', 'POST', note)
+        } catch (error) {
+          console.error(error)
+          throw error
+        } finally {
+          this.fetching = false
+        }
+      }
     }
   }
 })

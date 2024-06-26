@@ -51,7 +51,7 @@
               'rounded-br-md': index === volunteerStore.volunteerDocuments.length - 1
             }"
           >
-            <ButtonSendAndDownload class="flex gap-1 justify-center items-center"
+            <ButtonSendAndDownload class="flex gap-1 items-center mx-auto"
               >Download<IconArrowDownload
             /></ButtonSendAndDownload>
           </td>
