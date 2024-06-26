@@ -15,6 +15,7 @@
       :cols="cols"
       :name="name"
       @input="$emit('update:modelValue', $event.target.value)"
+      ref="input"
     >
     </textarea>
   </div>
@@ -22,6 +23,7 @@
 
 <script>
 export default {
+  expose: ['focus'],
   props: {
     label: {
       type: String
@@ -56,6 +58,11 @@ export default {
       type: String
     }
   },
-  emits: ['update:modelValue']
+  emits: ['update:modelValue'],
+  methods: {
+    focus() {
+      this.$refs.input.focus()
+    }
+  }
 }
 </script>

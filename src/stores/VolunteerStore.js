@@ -56,7 +56,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       }
     },
     async getVolunteers(queryObj) {
-      const thisRequest = `volunteers?page=${queryObj.page || 0}&pageSize=${queryObj.pageSize || 10}&sortField=${queryObj.sortBy || 'person.lastname'}&sortOrder=${queryObj.sortOrder || 'asc'}&search=${queryObj.search || ''}`
+      const thisRequest = `volunteers?page=${queryObj.page || 0}&pageSize=${queryObj.pageSize || 10}&sortBy=${queryObj.sortBy || 'person.lastname'}&sortOrder=${queryObj.sortOrder || 'asc'}&search=${queryObj.search || ''}`
       mostRecentRequest = thisRequest
 
       this.fetching = true
@@ -72,7 +72,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       }
     },
     async getVolunteerNotes(queryObj) {
-      const thisRequest = `volunteers/${queryObj.volunteerId}/notes?page=${queryObj.page || 0}&pageSize=${queryObj.pageSize || 10}&sortField=${queryObj.sortBy || 'type'}&sortOrder=${queryObj.sortOrder || 'asc'}`
+      const thisRequest = `volunteers/${queryObj.volunteerId}/notes?sortBy=${queryObj.sortBy || 'timestamp'}&sortOrder=${queryObj.sortOrder || 'desc'}`
 
       mostRecentRequest = thisRequest
 
@@ -86,6 +86,32 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         console.error(error)
       } finally {
         this.fetching = false
+      }
+    },
+    async setNote(note, id) {
+      this.fetching = true
+      if (id) {
+        try {
+          await vdbFetchData(
+            'volunteers/' + this.selectedVolunteer.id + '/notes/' + id,
+            'PATCH',
+            note
+          )
+        } catch (error) {
+          console.error(error)
+          throw error
+        } finally {
+          this.fetching = false
+        }
+      } else {
+        try {
+          await vdbFetchData('volunteers/' + this.selectedVolunteer.id + '/notes', 'POST', note)
+        } catch (error) {
+          console.error(error)
+          throw error
+        } finally {
+          this.fetching = false
+        }
       }
     }
   }

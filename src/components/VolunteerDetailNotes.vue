@@ -26,30 +26,59 @@
           </td>
         </tr>
       </thead>
-      <tbody
-        v-for="(note, index) of volunteerStore.volunteerNotes.content"
-        :key="note.id"
-        class="bg-white"
-      >
+      <tbody v-for="(note, index) of volunteerStore.volunteerNotes" :key="note.id" class="bg-white">
         <tr
           @click="toggleExpand(index)"
-          class="h-14 cursor-pointer hover:text-voloblue-100 hover:bg-gray-50 border-b"
-          :class="{ 'border-none': expandedRows.includes(index) }"
+          class="h-14 cursor-pointer"
+          :class="{
+            'border-none': expandedRows.includes(index),
+            ' hover:text-voloblue-100 hover:bg-gray-50 border-b': !expandedRows.includes(index)
+          }"
         >
-          <td class="font-bold pl-4">
-            <IconMail class="text-vologray-600" v-if="note.type == 'email'" />
-            <IconMemo v-if="note.type == 'note'" />
-            <IconPhoneIngoing v-if="note.type == 'phone incoming'" />
-            <IconPhoneOutgoing v-if="note.type == 'phone outgoing'" />
-            <p class="inline pl-4" v-if="note.type == 'email'">E-Mail</p>
-            <p class="inline pl-4" v-else-if="note.type == 'note'">Notiz</p>
-            <p class="inline pl-4" v-else-if="note.type == 'phone incoming'">Telefonat</p>
-            <p class="inline pl-4" v-else-if="note.type == 'phone outgoing'">Telefonat</p>
+          <td
+            class="font-bold pl-4"
+            :class="{
+              'rounded-tl-md': index === 0,
+              'rounded-bl-md':
+                index === volunteerStore.volunteerNotes.length - 1 && !expandedRows.includes(index)
+            }"
+          >
+            <IconMail
+              class="text-vologray-600"
+              v-if="note.type == 'email' || note.type == 'E-Mail'"
+            />
+            <IconMemo v-if="note.type == 'note' || note.type == 'Notiz'" />
+            <IconPhoneIngoing
+              v-if="note.type == 'phone incoming' || note.type == 'Eingehender Anruf'"
+            />
+            <IconPhoneOutgoing
+              v-if="note.type == 'phone outgoing' || note.type == 'Ausgehender Anruf'"
+            />
+            <p class="inline pl-4" v-if="note.type == 'email' || note.type == 'E-Mail'">E-Mail</p>
+            <p class="inline pl-4" v-else-if="note.type == 'note' || note.type == 'Notiz'">Notiz</p>
+            <p
+              class="inline pl-4"
+              v-else-if="note.type == 'phone incoming' || note.type == 'Eingehender Anruf'"
+            >
+              Telefonat
+            </p>
+            <p
+              class="inline pl-4"
+              v-else-if="note.type == 'phone outgoing' || note.type == 'Ausgehender Anruf'"
+            >
+              Telefonat
+            </p>
             <p class="inline pl-4" v-else>{{ note.type }}</p>
           </td>
           <td>{{ note.user }}</td>
           <td>{{ note.timestamp.split('T').slice(0, 1).join().split('-').reverse().join('.') }}</td>
-          <td>
+          <td
+            :class="{
+              'rounded-tr-md ': index === 0,
+              'rounded-br-md':
+                index === volunteerStore.volunteerNotes.length - 1 && !expandedRows.includes(index)
+            }"
+          >
             <IconArrowShowDetailSummary
               :class="{ 'transform rotate-180': expandedRows.includes(index) }"
             />
@@ -57,29 +86,66 @@
         </tr>
 
         <tr v-if="expandedRows.includes(index)" :key="note.id">
-          <td colspan="4" class="h-14 px-12 pb-4 border-b">
-            <div>
-              <p>{{ note.note }}</p>
-            </div>
+          <td
+            colspan="3"
+            class="h-14 pl-8 pb-4 border-b"
+            :class="{
+              'rounded-bl-md':
+                index === volunteerStore.volunteerNotes.length - 1 && expandedRows.includes(index)
+            }"
+          >
+            <p class="bg-vologray-100 px-4 py-2 mx-4 rounded-md">{{ note.note }}</p>
+          </td>
+          <td
+            class="h-14 border-b"
+            :class="{
+              'rounded-br-md':
+                index === volunteerStore.volunteerNotes.length - 1 && expandedRows.includes(index)
+            }"
+          >
+            <button v-if="note.user == userStore.user.email">
+              <IconPenEdit class="" @click="openEditModal(note)" />
+            </button>
           </td>
         </tr>
       </tbody>
     </table>
+    <ContainerModal v-if="editNote">
+      <NotesFormular
+        @saved="(editNote = false), getNotes()"
+        @cancel="editNote = false"
+        id="edited-note"
+        title="Notiz bearbeiten"
+        :description="
+          'Bearbeite hier deine Notiz für ' +
+          volunteerStore.selectedVolunteer.person.firstname +
+          '.'
+        "
+        loadingText="speichere bearbeitete Notiz ..."
+        submitButtonText="Speichern"
+        :noteCopy="selectedNote"
+      />
+    </ContainerModal>
   </div>
 </template>
 <script>
 import { useVolunteerStore } from '@/stores/VolunteerStore'
+import { useUserStore } from '@/stores/UserStore'
 import IconArrowShowDetailSummary from './IconArrowShowDetailSummary.vue'
 import IconTableSortArrows from './IconTableSortArrows.vue'
 import IconMail from './IconMail.vue'
 import IconMemo from './IconMemo.vue'
 import IconPhoneIngoing from './IconPhoneIngoing.vue'
 import IconPhoneOutgoing from './IconPhoneOutgoing.vue'
+import IconPenEdit from './IconPenEdit.vue'
+import ContainerModal from '@/components/ContainerModal.vue'
+import NotesFormular from '@/components/NotesFormular.vue'
 
 export default {
   setup: () => {
     const volunteerStore = useVolunteerStore()
-    return { volunteerStore }
+    const userStore = useUserStore()
+    return { volunteerStore, userStore }
   },
   components: {
     IconArrowShowDetailSummary,
@@ -87,7 +153,16 @@ export default {
     IconMail,
     IconMemo,
     IconPhoneIngoing,
-    IconPhoneOutgoing
+    IconPhoneOutgoing,
+    IconPenEdit,
+    ContainerModal,
+    NotesFormular
+  },
+  props: {
+    searchQuery: {
+      type: String,
+      default: ''
+    }
   },
   data() {
     return {
@@ -96,8 +171,8 @@ export default {
       expandedRows: [],
       sortOrder: 'desc',
       sortBy: 'timestamp',
-      page: 0,
-      pageSize: 0
+      editNote: false,
+      selectedNote: null
     }
   },
   methods: {
@@ -131,6 +206,7 @@ export default {
           sortBy: this.sortBy,
           page: this.page,
           pageSize: this.pageSize,
+          search: this.searchQuery,
           volunteerId: this.$route.params.volunteerId
         }
 
@@ -140,21 +216,25 @@ export default {
           sortBy: params.sortBy,
           page: params.page,
           pageSize: params.pageSize,
+          search: params.search,
           volunteerId: params.volunteerId
         })
       } catch (error) {
         console.error('Error fetching notes:', error)
       }
+    },
+    openEditModal(note) {
+      this.selectedNote = note
+      this.editNote = true
+      console.log(this.selectedNote.note)
     }
   },
-  async beforeMount() {
-    try {
-      let params = {
-        volunteerId: this.$route.params.volunteerId
-      }
-      this.volunteerStore.getVolunteerNotes(params)
-    } catch (error) {
-      console.error('Error fetching notes:', error)
+  watch: {
+    searchQuery: {
+      async handler() {
+        await this.getNotes()
+      },
+      immediate: true // This option ensures that the api is called initially with the initial prop value
     }
   }
 }
