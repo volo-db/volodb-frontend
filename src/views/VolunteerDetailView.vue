@@ -9,23 +9,6 @@
         @navLinkClick="openTab"
       />
 
-      <div
-        v-if="selectedContextTab === 'dokumentation' || selectedContextTab === 'dokumente'"
-        class="flex justify-between mt-8"
-      >
-        <SearchBar
-          v-if="selectedContextTab === 'dokumentation'"
-          placeholder="Suche nach Aktivitäten"
-        />
-        <SearchBar v-if="selectedContextTab === 'dokumente'" placeholder="Suche nach Dokumenten" />
-        <ButtonStandard v-if="selectedContextTab === 'dokumentation'"
-          >Aktivität hinzufügen</ButtonStandard
-        >
-        <ButtonStandard v-if="selectedContextTab === 'dokumente'"
-          >Dokument hinzufügen</ButtonStandard
-        >
-      </div>
-
       <VolunteerDetailDocuments class="mt-16" v-if="selectedContextTab === 'dokumente'" />
     </div>
   </div>
@@ -33,19 +16,13 @@
 <script>
 import { useVolunteerStore } from '@/stores/VolunteerStore.js'
 import VolunteerDetailNavigationbar from '@/components/VolunteerDetailNavigationbar.vue'
-
 import VolunteerDetailOverview from '@/components/VolunteerDetailOverview.vue'
 import VolunteerDetailDocuments from '@/components/VolunteerDetailDocuments.vue'
-import ButtonStandard from '@/components/ButtonStandard.vue'
-import SearchBar from '@/components/SearchBar.vue'
 
 export default {
   components: {
     VolunteerDetailNavigationbar,
-
     VolunteerDetailOverview,
-    ButtonStandard,
-    SearchBar,
     VolunteerDetailDocuments
   },
   name: 'VolunteerDetailView.vue',
