@@ -7,7 +7,7 @@
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <g opacity="0.498256">
+    <g>
       <path
         d="M11.4101 13.6205C6.04572 13.6205 1.69629 9.2711 1.69629 3.90674"
         stroke="currentColor"

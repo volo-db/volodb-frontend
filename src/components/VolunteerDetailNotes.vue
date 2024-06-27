@@ -44,14 +44,19 @@
             }"
           >
             <IconMail
-              class="text-vologray-600"
+              class="text-vologray-600 opacity-60"
               v-if="note.type == 'email' || note.type == 'E-Mail'"
             />
-            <IconMemo v-if="note.type == 'note' || note.type == 'Notiz'" />
+            <IconMemo
+              class="text-vologray-600 opacity-60"
+              v-if="note.type == 'note' || note.type == 'Notiz'"
+            />
             <IconPhoneIngoing
+              class="text-vologray-600 opacity-60"
               v-if="note.type == 'phone incoming' || note.type == 'Eingehender Anruf'"
             />
             <IconPhoneOutgoing
+              class="text-vologray-600 opacity-60"
               v-if="note.type == 'phone outgoing' || note.type == 'Ausgehender Anruf'"
             />
             <p class="inline pl-4" v-if="note.type == 'email' || note.type == 'E-Mail'">E-Mail</p>
@@ -80,6 +85,7 @@
             }"
           >
             <IconArrowShowDetailSummary
+              class="text-voloblue-200 opacity-50"
               :class="{ 'transform rotate-180': expandedRows.includes(index) }"
             />
           </td>
@@ -104,7 +110,7 @@
             }"
           >
             <button v-if="note.user == userStore.user.email">
-              <IconPenEdit class="" @click="openEditModal(note)" />
+              <IconPenEdit class="text-vologray-600 opacity-60" @click="openEditModal(note)" />
             </button>
           </td>
         </tr>

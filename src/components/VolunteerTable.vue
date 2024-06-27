@@ -43,7 +43,7 @@
             <td>2/5</td>
             <td>25/25</td>
             <td class="text-voloblue-200 pr-4 md:pr-1" :class="{ 'rounded-tr-md ': index === 0 }">
-              <IconArrowGoto />
+              <IconArrowGoto class="text-voloblue-200 opacity-50" />
             </td>
           </tr>
         </tbody>
