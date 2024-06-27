@@ -113,6 +113,21 @@ export const useVolunteerStore = defineStore('volunteerStore', {
           this.fetching = false
         }
       }
+    },
+    async deleteNote(note, id) {
+      this.fetching = true
+      try {
+        await vdbFetchData(
+          'volunteers/' + this.selectedVolunteer.id + '/notes/' + id,
+          'DELETE',
+          note
+        )
+      } catch (error) {
+        console.error(error)
+        throw error
+      } finally {
+        this.fetching = false
+      }
     }
   }
 })

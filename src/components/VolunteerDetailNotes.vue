@@ -119,10 +119,12 @@
               }"
             >
               <div class="flex gap-1 mr-2" v-if="note.user == userStore.user.email">
-                <button title="editieren">
-                  <IconPenEdit class="text-vologray-600 opacity-60" @click="openEditModal(note)" />
+                <button @click="openEditModal(note)" title="editieren">
+                  <IconPenEdit class="text-vologray-600 opacity-60" />
                 </button>
-                <button title="löschen"><IconTrash class="text-vologray-600 opacity-60" /></button>
+                <button @click="handleDelete(note)" title="löschen">
+                  <IconTrash class="text-vologray-600 opacity-60" />
+                </button>
               </div>
             </td>
           </tr>
@@ -146,7 +148,7 @@
       </ContainerModal>
       <ContainerModal v-if="setNote">
         <NotesFormular
-          @saved="setNote = false"
+          @saved="(setNote = false), getNotes()"
           @cancel="setNote = false"
           id="new-note"
           :title="'Neue Notiz für ' + volunteerStore.selectedVolunteer.person.firstname"
@@ -264,6 +266,15 @@ export default {
       this.selectedNote = note
       this.editNote = true
       console.log(this.selectedNote.note)
+    },
+    async handleDelete(note) {
+      try {
+        await this.volunteerStore.deleteNote(note.note, note.id)
+      } catch (error) {
+        console.error('Error deleting note: ', error)
+      } finally {
+        this.getNotes()
+      }
     },
     debouncedSearch: debounce((input, searchFunction) => {
       searchFunction(input)
