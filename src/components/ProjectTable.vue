@@ -42,7 +42,7 @@
             <td>2023/24</td>
             <td>{{ project.capacity }}</td>
             <td class="text-voloblue-200 pr-4 md:pr-1" :class="{ 'rounded-tr-md ': index === 0 }">
-              <IconArrowGoto />
+              <IconArrowGoto class="text-voloblue-200 opacity-50" />
             </td>
           </tr>
         </tbody>
