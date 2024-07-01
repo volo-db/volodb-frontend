@@ -53,34 +53,7 @@
                   !expandedRows.includes(index)
               }"
             >
-              <IconMail
-                class="text-vologray-600"
-                v-if="note.type == 'email' || note.type == 'E-Mail'"
-              />
-              <IconMemo v-if="note.type == 'note' || note.type == 'Notiz'" />
-              <IconPhoneIngoing
-                v-if="note.type == 'phone incoming' || note.type == 'Eingehender Anruf'"
-              />
-              <IconPhoneOutgoing
-                v-if="note.type == 'phone outgoing' || note.type == 'Ausgehender Anruf'"
-              />
-              <p class="inline pl-4" v-if="note.type == 'email' || note.type == 'E-Mail'">E-Mail</p>
-              <p class="inline pl-4" v-else-if="note.type == 'note' || note.type == 'Notiz'">
-                Notiz
-              </p>
-              <p
-                class="inline pl-4"
-                v-else-if="note.type == 'phone incoming' || note.type == 'Eingehender Anruf'"
-              >
-                Telefonat
-              </p>
-              <p
-                class="inline pl-4"
-                v-else-if="note.type == 'phone outgoing' || note.type == 'Ausgehender Anruf'"
-              >
-                Telefonat
-              </p>
-              <p class="inline pl-4" v-else>{{ note.type }}</p>
+              <VolunteerDetailNotesTypeData :type="note.type" />
             </td>
             <td>{{ note.user }}</td>
             <td>
@@ -170,10 +143,6 @@ import { useVolunteerStore } from '@/stores/VolunteerStore'
 import { useUserStore } from '@/stores/UserStore'
 import IconArrowShowDetailSummary from './IconArrowShowDetailSummary.vue'
 import IconTableSortArrows from './IconTableSortArrows.vue'
-import IconMail from './IconMail.vue'
-import IconMemo from './IconMemo.vue'
-import IconPhoneIngoing from './IconPhoneIngoing.vue'
-import IconPhoneOutgoing from './IconPhoneOutgoing.vue'
 import IconPenEdit from './IconPenEdit.vue'
 import IconTrash from './IconTrash.vue'
 import ContainerModal from '@/components/ContainerModal.vue'
@@ -181,6 +150,7 @@ import NotesFormular from '@/components/NotesFormular.vue'
 import ButtonStandard from '@/components/ButtonStandard.vue'
 import SearchBar from '@/components/SearchBar.vue'
 import debounce from 'lodash.debounce'
+import VolunteerDetailNotesTypeData from '@/components/VolunteerDetailNotesTypeData.vue'
 
 export default {
   setup: () => {
@@ -191,16 +161,13 @@ export default {
   components: {
     IconArrowShowDetailSummary,
     IconTableSortArrows,
-    IconMail,
-    IconMemo,
-    IconPhoneIngoing,
-    IconPhoneOutgoing,
     IconPenEdit,
     ContainerModal,
     NotesFormular,
     ButtonStandard,
     SearchBar,
-    IconTrash
+    IconTrash,
+    VolunteerDetailNotesTypeData
   },
 
   data() {

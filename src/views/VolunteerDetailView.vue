@@ -8,6 +8,46 @@
         @navLinkClick="openTab"
       />
       <VolunteerDetailNotes class="mt-8" v-if="selectedContextTab === 'dokumentation'" />
+
+      <div
+        v-if="selectedContextTab === 'dokumentation' || selectedContextTab === 'dokumente'"
+        class="flex justify-between mt-8"
+      >
+        <SearchBar
+          v-if="selectedContextTab === 'dokumentation'"
+          v-model="searchQuery"
+          placeholder="Suche nach Aktivitäten"
+        />
+        <SearchBar v-if="selectedContextTab === 'dokumente'" placeholder="Suche nach Dokumenten" />
+        <ButtonStandard
+          v-if="selectedContextTab === 'dokumentation'"
+          @click.prevent="setNote = true"
+          >Aktivität hinzufügen</ButtonStandard
+        >
+        <ButtonStandard v-if="selectedContextTab === 'dokumente'"
+          >Dokument hinzufügen</ButtonStandard
+        >
+      </div>
+
+      <VolunteerDetailNotes
+        :searchQuery="debouncedSearchQuery"
+        class="mt-16"
+        v-if="selectedContextTab === 'dokumentation'"
+      />
+
+      <ContainerModal v-if="setNote">
+        <NotesFormular
+          @saved="(setNote = false), getNotes()"
+          @cancel="setNote = false"
+          id="new-note"
+          :title="'Neue Notiz für ' + volunteerStore.selectedVolunteer.person.firstname"
+          :description="
+            'Lege eine neue Notiz für ' + volunteerStore.selectedVolunteer.person.firstname + ' an.'
+          "
+          loadingText="speichere neue Notiz ..."
+          submitButtonText="Notiz anlegen"
+        />
+      </ContainerModal>
     </div>
   </div>
 </template>
@@ -16,6 +56,7 @@ import { useVolunteerStore } from '@/stores/VolunteerStore.js'
 import VolunteerDetailNavigationbar from '@/components/VolunteerDetailNavigationbar.vue'
 import VolunteerDetailNotes from '@/components/VolunteerDetailNotes.vue'
 import VolunteerDetailOverview from '@/components/VolunteerDetailOverview.vue'
+import debounce from 'lodash.debounce'
 
 export default {
   components: {
@@ -51,6 +92,25 @@ export default {
           volunteerId: this.$route.params.volunteerId,
           contextTab: String(tabName).toLowerCase()
         }
+      })
+    },
+    async getNotes() {
+      let params = { volunteerId: this.$route.params.volunteerId }
+      try {
+        await this.volunteerStore.getVolunteerNotes(params)
+      } catch (error) {
+        console.error('Error fetching notes:', error)
+      }
+    },
+    debouncedSearch: debounce((input, searchFunction) => {
+      searchFunction(input)
+    }, 1000)
+  },
+  watch: {
+    searchQuery(newValue) {
+      this.$router.push({ query: { search: newValue } })
+      this.debouncedSearch(this.searchQuery, (input) => {
+        this.debouncedSearchQuery = input
       })
     }
   }
