@@ -36,7 +36,7 @@
 
       <ContainerModal v-if="setNote">
         <NotesFormular
-          @saved="setNote = false"
+          @saved="(setNote = false), getNotes()"
           @cancel="setNote = false"
           id="new-note"
           :title="'Neue Notiz für ' + volunteerStore.selectedVolunteer.person.firstname"
@@ -100,6 +100,14 @@ export default {
           contextTab: String(tabName).toLowerCase()
         }
       })
+    },
+    async getNotes() {
+      let params = { volunteerId: this.$route.params.volunteerId }
+      try {
+        await this.volunteerStore.getVolunteerNotes(params)
+      } catch (error) {
+        console.error('Error fetching notes:', error)
+      }
     },
     debouncedSearch: debounce((input, searchFunction) => {
       searchFunction(input)
