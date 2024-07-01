@@ -8,11 +8,12 @@ export const useVolunteerStore = defineStore('volunteerStore', {
     return {
       fetching: false,
       volunteersPage: null,
-      volunteerNotes: null,
+
       selectedVolunteer: null,
       selectedVolunteerContacts: null,
       selectedVolunteerAddresses: null,
-      selectedVolunteerRelevantContract: null
+      selectedVolunteerRelevantContract: null,
+      volunteerDocuments: null
     }
   },
   actions: {
@@ -71,17 +72,16 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         this.fetching = false
       }
     },
-    async getVolunteerNotes(queryObj) {
-      const thisRequest = `volunteers/${queryObj.volunteerId}/notes?sortBy=${queryObj.sortBy || 'timestamp'}&sortOrder=${queryObj.sortOrder || 'desc'}&search=${queryObj.search || ''}`
+    async getVolunteerDocuments(queryObj) {
+      const thisRequest = `volunteers/${queryObj.volunteerId}/documents?sortBy=${queryObj.sortBy || 'timestamp'}&sortOrder=${queryObj.sortOrder || 'desc'}&search=${queryObj.search || ''}`
 
       mostRecentRequest = thisRequest
 
       this.fetching = true
-
       try {
-        const notes = await vdbFetchData(thisRequest, 'GET')
+        const documents = await vdbFetchData(thisRequest, 'GET')
         if (mostRecentRequest != thisRequest) return
-        this.volunteerNotes = notes
+        this.volunteerDocuments = documents
       } catch (error) {
         console.error(error)
       } finally {
