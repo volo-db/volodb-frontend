@@ -246,8 +246,6 @@ export default {
         params = {
           sortOrder: this.sortOrder,
           sortBy: this.sortBy,
-          page: this.page,
-          pageSize: this.pageSize,
           search: this.searchQuery,
           volunteerId: this.$route.params.volunteerId
         }
@@ -256,8 +254,6 @@ export default {
         await this.volunteerStore.getVolunteerNotes({
           sortOrder: params.sortOrder,
           sortBy: params.sortBy,
-          page: params.page,
-          pageSize: params.pageSize,
           search: params.search,
           volunteerId: params.volunteerId
         })
@@ -271,8 +267,9 @@ export default {
       console.log(this.selectedNote.note)
     },
     async handleDelete(note) {
+      if (!window.confirm('Soll die Notiz wirklich gelöscht werden?')) return
       try {
-        await this.volunteerStore.deleteNote(note.note, note.id)
+        await this.volunteerStore.deleteNote(note.id)
       } catch (error) {
         console.error('Error deleting note: ', error)
       } finally {
@@ -288,12 +285,15 @@ export default {
     searchQuery: {
       async handler(newValue) {
         this.$router.push({ query: { search: newValue } })
-
         this.debouncedSearch(newValue, (input) => {
-          this.debouncedSearchQuery = input
+          const params = {
+            sortOrder: this.sortOrder,
+            sortBy: this.sortBy,
+            search: input,
+            volunteerId: this.$route.params.volunteerId
+          }
+          this.getNotes(params)
         })
-
-        await this.getNotes()
       },
       immediate: true // This option ensures that the api is called initially with the initial prop value
     }
