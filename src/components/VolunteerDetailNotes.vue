@@ -55,6 +55,7 @@
             }"
           >
             <IconArrowShowDetailSummary
+              class="text-voloblue-200 opacity-50"
               :class="{ 'transform rotate-180': expandedRows.includes(index) }"
             />
           </td>
@@ -79,7 +80,7 @@
             }"
           >
             <button v-if="note.user == userStore.user.email">
-              <IconPenEdit class="" @click="openEditModal(note)" />
+              <IconPenEdit class="text-vologray-600 opacity-60" @click="openEditModal(note)" />
             </button>
           </td>
         </tr>
