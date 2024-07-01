@@ -87,6 +87,7 @@
               {{ note.timestamp.split('T').slice(0, 1).join().split('-').reverse().join('.') }}
             </td>
             <td
+              class="px-4"
               :class="{
                 'rounded-tr-md ': index === 0,
                 'rounded-br-md':
@@ -94,9 +95,11 @@
                   !expandedRows.includes(index)
               }"
             >
-              <IconArrowShowDetailSummary
-                :class="{ 'transform rotate-180': expandedRows.includes(index) }"
-              />
+              <div class="flex justify-end">
+                <IconArrowShowDetailSummary
+                  :class="{ 'transform rotate-180': expandedRows.includes(index) }"
+                />
+              </div>
             </td>
           </tr>
 
@@ -118,7 +121,7 @@
                   index === volunteerStore.volunteerNotes.length - 1 && expandedRows.includes(index)
               }"
             >
-              <div class="flex gap-1 mr-2" v-if="note.user == userStore.user.email">
+              <div class="flex gap-1 mr-2 justify-start" v-if="note.user == userStore.user.email">
                 <button @click="openEditModal(note)" title="editieren">
                   <IconPenEdit class="text-vologray-600 opacity-60" />
                 </button>
