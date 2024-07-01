@@ -70,6 +70,7 @@
             >
               <div class="flex justify-end">
                 <IconArrowShowDetailSummary
+                  class="text-voloblue-200/50"
                   :class="{ 'transform rotate-180': expandedRows.includes(index) }"
                 />
               </div>
