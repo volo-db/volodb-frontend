@@ -7,46 +7,7 @@
         :active="selectedContextTab"
         @navLinkClick="openTab"
       />
-
-      <div
-        v-if="selectedContextTab === 'dokumentation' || selectedContextTab === 'dokumente'"
-        class="flex justify-between mt-8"
-      >
-        <SearchBar
-          v-if="selectedContextTab === 'dokumentation'"
-          v-model="searchQuery"
-          placeholder="Suche nach Aktivitäten"
-        />
-        <SearchBar v-if="selectedContextTab === 'dokumente'" placeholder="Suche nach Dokumenten" />
-        <ButtonStandard
-          v-if="selectedContextTab === 'dokumentation'"
-          @click.prevent="setNote = true"
-          >Aktivität hinzufügen</ButtonStandard
-        >
-        <ButtonStandard v-if="selectedContextTab === 'dokumente'"
-          >Dokument hinzufügen</ButtonStandard
-        >
-      </div>
-
-      <VolunteerDetailNotes
-        :searchQuery="debouncedSearchQuery"
-        class="mt-16"
-        v-if="selectedContextTab === 'dokumentation'"
-      />
-
-      <ContainerModal v-if="setNote">
-        <NotesFormular
-          @saved="(setNote = false), getNotes()"
-          @cancel="setNote = false"
-          id="new-note"
-          :title="'Neue Notiz für ' + volunteerStore.selectedVolunteer.person.firstname"
-          :description="
-            'Lege eine neue Notiz für ' + volunteerStore.selectedVolunteer.person.firstname + ' an.'
-          "
-          loadingText="speichere neue Notiz ..."
-          submitButtonText="Notiz anlegen"
-        />
-      </ContainerModal>
+      <VolunteerDetailNotes class="mt-8" v-if="selectedContextTab === 'dokumentation'" />
     </div>
   </div>
 </template>
@@ -55,21 +16,13 @@ import { useVolunteerStore } from '@/stores/VolunteerStore.js'
 import VolunteerDetailNavigationbar from '@/components/VolunteerDetailNavigationbar.vue'
 import VolunteerDetailNotes from '@/components/VolunteerDetailNotes.vue'
 import VolunteerDetailOverview from '@/components/VolunteerDetailOverview.vue'
-import ButtonStandard from '@/components/ButtonStandard.vue'
-import SearchBar from '@/components/SearchBar.vue'
 import debounce from 'lodash.debounce'
-import ContainerModal from '@/components/ContainerModal.vue'
-import NotesFormular from '@/components/NotesFormular.vue'
 
 export default {
   components: {
     VolunteerDetailNavigationbar,
     VolunteerDetailNotes,
-    VolunteerDetailOverview,
-    ButtonStandard,
-    SearchBar,
-    ContainerModal,
-    NotesFormular
+    VolunteerDetailOverview
   },
   name: 'VolunteerDetailView.vue',
   setup() {
@@ -120,10 +73,6 @@ export default {
         this.debouncedSearchQuery = input
       })
     }
-  },
-  mounted() {
-    this.debouncedSearchQuery = this.$route.query.search || ''
-    this.searchQuery = this.debouncedSearchQuery
   }
 }
 </script>
