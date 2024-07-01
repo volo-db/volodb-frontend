@@ -7,7 +7,7 @@
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <g opacity="0.6">
+    <g>
       <path
         fill-rule="evenodd"
         clip-rule="evenodd"
