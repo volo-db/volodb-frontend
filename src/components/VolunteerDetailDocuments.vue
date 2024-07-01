@@ -51,14 +51,17 @@
               {{ document.timestamp.split('T').slice(0, 1).join().split('-').reverse().join('.') }}
             </td>
             <td
+              class="px-2"
               :class="{
                 'rounded-tr-md ': index === 0,
                 'rounded-br-md': index === volunteerStore.volunteerDocuments.length - 1
               }"
             >
-              <ButtonSendAndDownload class="flex gap-1 items-center mx-auto"
-                >Download<IconArrowDownload
-              /></ButtonSendAndDownload>
+              <div class="flex justify-end">
+                <ButtonSendAndDownload class="flex gap-1 items-center"
+                  >Download<IconArrowDownload
+                /></ButtonSendAndDownload>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -142,12 +145,15 @@ export default {
     searchQuery: {
       async handler(newValue) {
         this.$router.push({ query: { search: newValue } })
-
         this.debouncedSearch(newValue, (input) => {
-          this.debouncedSearchQuery = input
+          const params = {
+            sortOrder: this.sortOrder,
+            sortBy: this.sortBy,
+            search: input,
+            volunteerId: this.$route.params.volunteerId
+          }
+          this.getDocuments(params)
         })
-
-        await this.getDocuments()
       },
       immediate: true // This option ensures that the api is called initially with the initial prop value
     }
@@ -156,15 +162,5 @@ export default {
     this.debouncedSearchQuery = this.$route.query.search || ''
     this.searchQuery = this.debouncedSearchQuery
   }
-  // beforeMount() {
-  //   try {
-  //     let params = {
-  //       volunteerId: this.$route.params.volunteerId
-  //     }
-  //     this.volunteerStore.getVolunteerDocuments(params)
-  //   } catch (error) {
-  //     console.error('Error fetching documents:', error)
-  //   }
-  // }
 }
 </script>

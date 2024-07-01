@@ -74,7 +74,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
     },
 
     async getVolunteerDocuments(queryObj) {
-      const thisRequest = `volunteers/${queryObj.volunteerId}/documents?sortBy=${queryObj.sortBy || 'timestamp'}&sortOrder=${queryObj.sortOrder || 'desc'}`
+      const thisRequest = `volunteers/${queryObj.volunteerId}/documents?sortBy=${queryObj.sortBy || 'timestamp'}&sortOrder=${queryObj.sortOrder || 'desc'}&search=${queryObj.search || ''}`
 
       mostRecentRequest = thisRequest
 
