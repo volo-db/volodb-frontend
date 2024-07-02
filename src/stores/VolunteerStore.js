@@ -12,7 +12,8 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       selectedVolunteer: null,
       selectedVolunteerContacts: null,
       selectedVolunteerAddresses: null,
-      selectedVolunteerRelevantContract: null
+      selectedVolunteerRelevantContract: null,
+      volunteerDocuments: null
     }
   },
   actions: {
@@ -82,6 +83,22 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         const notes = await vdbFetchData(thisRequest, 'GET')
         if (mostRecentRequest != thisRequest) return
         this.volunteerNotes = notes
+      } catch (error) {
+        console.error(error)
+      } finally {
+        this.fetching = false
+      }
+    },
+    async getVolunteerDocuments(queryObj) {
+      const thisRequest = `volunteers/${queryObj.volunteerId}/documents?sortBy=${queryObj.sortBy || 'timestamp'}&sortOrder=${queryObj.sortOrder || 'desc'}&search=${queryObj.search || ''}`
+
+      mostRecentRequest = thisRequest
+
+      this.fetching = true
+      try {
+        const documents = await vdbFetchData(thisRequest, 'GET')
+        if (mostRecentRequest != thisRequest) return
+        this.volunteerDocuments = documents
       } catch (error) {
         console.error(error)
       } finally {

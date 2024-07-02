@@ -1,12 +1,15 @@
 <template>
-  <div class="flex overflow-auto">
-    <VolunteerDetailOverview />
-    <div class="flex-1 bg-vologray-100 p-8 overflow-auto">
+  <div class="flex">
+    <div class="bg-white"><VolunteerDetailOverview /></div>
+
+    <div class="flex-1 bg-vologray-100 p-8">
       <VolunteerDetailNavigationbar
         :navigation="['Dokumentation', 'Dokumente', 'Vereinbarung']"
         :active="selectedContextTab"
         @navLinkClick="openTab"
       />
+
+      <VolunteerDetailDocuments class="mt-8" v-if="selectedContextTab === 'dokumente'" />
       <VolunteerDetailNotes class="mt-8" v-if="selectedContextTab === 'dokumentation'" />
     </div>
   </div>
@@ -14,15 +17,17 @@
 <script>
 import { useVolunteerStore } from '@/stores/VolunteerStore.js'
 import VolunteerDetailNavigationbar from '@/components/VolunteerDetailNavigationbar.vue'
-import VolunteerDetailNotes from '@/components/VolunteerDetailNotes.vue'
 import VolunteerDetailOverview from '@/components/VolunteerDetailOverview.vue'
+import VolunteerDetailDocuments from '@/components/VolunteerDetailDocuments.vue'
+import VolunteerDetailNotes from '@/components/VolunteerDetailNotes.vue'
 import debounce from 'lodash.debounce'
 
 export default {
   components: {
     VolunteerDetailNavigationbar,
-    VolunteerDetailNotes,
-    VolunteerDetailOverview
+    VolunteerDetailOverview,
+    VolunteerDetailDocuments,
+    VolunteerDetailNotes
   },
   name: 'VolunteerDetailView.vue',
   setup() {
@@ -33,11 +38,7 @@ export default {
     }
   },
   data() {
-    return {
-      setNote: false,
-      searchQuery: '',
-      debouncedSearchQuery: ''
-    }
+    return {}
   },
   computed: {
     selectedContextTab() {
