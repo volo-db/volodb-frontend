@@ -8,7 +8,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
     return {
       fetching: false,
       volunteersPage: null,
-
+      volunteerNotes: null,
       selectedVolunteer: null,
       selectedVolunteerContacts: null,
       selectedVolunteerAddresses: null,
@@ -80,9 +80,9 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       this.fetching = true
 
       try {
-        const documents = await vdbFetchData(thisRequest, 'GET')
+        const notes = await vdbFetchData(thisRequest, 'GET')
         if (mostRecentRequest != thisRequest) return
-        this.volunteerDocuments = documents
+        this.volunteerNotes = notes
       } catch (error) {
         console.error(error)
       } finally {

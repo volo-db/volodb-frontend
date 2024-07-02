@@ -9,7 +9,7 @@
         @navLinkClick="openTab"
       />
 
-      <VolunteerDetailDocuments class="mt-16" v-if="selectedContextTab === 'dokumente'" />
+      <VolunteerDetailDocuments class="mt-8" v-if="selectedContextTab === 'dokumente'" />
       <VolunteerDetailNotes class="mt-8" v-if="selectedContextTab === 'dokumentation'" />
     </div>
   </div>
