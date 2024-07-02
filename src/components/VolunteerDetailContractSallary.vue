@@ -1,70 +1,124 @@
 <template>
-  <!-- SVG NOT READY YET -->
-  <svg
-    v-if="false"
-    :width="`${diagramWidth}px`"
-    :height="`${diagramWidth * 0.55}px`"
-    xmlns="http://www.w3.org/2000/svg"
-    viewbox="0 0 1 1"
-  >
-    <defs>
-      <!-- Diagonal hatch pattern -->
-      <pattern id="diagonalHatch" patternUnits="userSpaceOnUse" width="10" height="10">
-        <path d="M0,0 L5,5" stroke="#000" stroke-width="2" />
-      </pattern>
-      <!-- Horizontal hatch pattern -->
-      <pattern id="horizontalHatch" patternUnits="userSpaceOnUse" width="10" height="10">
-        <path d="M0,5 L10,5" stroke="black" stroke-width="1" />
-      </pattern>
-      <!-- Vertical hatch pattern -->
-      <pattern id="verticalHatch" patternUnits="userSpaceOnUse" width="10" height="10">
-        <path d="M5,0 L5,10" stroke="black" stroke-width="1" />
-      </pattern>
-      <pattern id="dottedPattern" patternUnits="userSpaceOnUse" width="10" height="10">
-        <!-- Small circle for the dot -->
-        <circle cx="5" cy="5" r="1" fill="black" />
-      </pattern>
-    </defs>
-    <!-- BACKGROUND CIRCLE -->
-    <circle
-      :cx="center.x"
-      :cy="center.y"
-      :r="radius"
-      stroke="#ddd"
-      fill="transparent"
-      :stroke-width="strokeWidth"
-      :stroke-dasharray="`${radius * pi * 1} ${1000}`"
-      stroke-linecap="round"
-      :transform="`scale(-1 -1) translate(-${diagramWidth} -${diagramWidth})`"
-    />
-    <!-- LAST CIRCLE -->
-    <circle
-      :cx="center.x"
-      :cy="center.y"
-      :r="radius"
-      stroke="#0025ff"
-      fill="transparent"
-      :stroke-width="strokeWidth * 0.72"
-      :stroke-dasharray="`${radius * pi * 0.8} ${1000}`"
-      stroke-linecap="round"
-      :transform="`scale(-1 -1) translate(-${diagramWidth} -${diagramWidth})`"
-    />
-    <!-- POCKETMONEY -->
-    <circle
-      :cx="center.x"
-      :cy="center.y"
-      :r="radius"
-      stroke="#FCD12E"
-      fill="transparent"
-      :stroke-width="strokeWidth * 0.72"
-      :stroke-dasharray="`${radius * pi * pocketMoney} ${1000}`"
-      stroke-linecap="round"
-      :transform="`scale(-1 -1) translate(-${diagramWidth} -${diagramWidth})`"
-    />
-  </svg>
-
-  <!-- TEXT-VARIANT FOR TRANSITION  -->
   <div>
+    <!-- SVG NOT READY YET -->
+    <svg
+      v-if="true"
+      :width="`${diagramWidth}px`"
+      :height="`${diagramWidth * 0.55}px`"
+      xmlns="http://www.w3.org/2000/svg"
+      viewbox="0 0 1 1"
+    >
+      <defs>
+        <!-- Diagonal hatch pattern -->
+        <pattern id="diagonalHatch" patternUnits="userSpaceOnUse" width="10" height="10">
+          <path d="M0,0 L5,5" stroke="#000" stroke-width="2" />
+        </pattern>
+        <!-- Horizontal hatch pattern -->
+        <pattern id="horizontalHatch" patternUnits="userSpaceOnUse" width="10" height="10">
+          <path d="M0,5 L10,5" stroke="black" stroke-width="1" />
+        </pattern>
+        <!-- Vertical hatch pattern -->
+        <pattern id="verticalHatch" patternUnits="userSpaceOnUse" width="10" height="10">
+          <path d="M5,0 L5,10" stroke="black" stroke-width="1" />
+        </pattern>
+        <pattern id="dottedPattern" patternUnits="userSpaceOnUse" width="10" height="10">
+          <!-- Small circle for the dot -->
+          <circle cx="5" cy="5" r="1" fill="black" />
+        </pattern>
+      </defs>
+      <!-- BACKGROUND CIRCLE -->
+      <circle
+        :cx="center.x"
+        :cy="center.y"
+        :r="radius"
+        stroke="#ddd"
+        fill="transparent"
+        :stroke-width="strokeWidth"
+        :stroke-dasharray="`${radius * pi * 1} ${1000}`"
+        stroke-linecap="round"
+        :transform="`scale(-1 -1) translate(-${diagramWidth} -${diagramWidth})`"
+      />
+      <!-- FOOD -->
+      <!-- Free of charge -->
+      <circle
+        :cx="center.x"
+        :cy="center.y"
+        :r="radius"
+        stroke="#ffd3ad"
+        fill="transparent"
+        :stroke-width="strokeWidth * 0.72"
+        :stroke-dasharray="`${radius * pi * freeOfChargeFoodRelation} ${1000}`"
+        stroke-linecap="round"
+        :transform="`scale(-1 -1) translate(-${diagramWidth} -${diagramWidth})`"
+      />
+      <!-- Allowance -->
+      <circle
+        :cx="center.x"
+        :cy="center.y"
+        :r="radius"
+        stroke="#ffa04d"
+        fill="transparent"
+        :stroke-width="strokeWidth * 0.72"
+        :stroke-dasharray="`${radius * pi * foodAllowanceRelation} ${1000}`"
+        stroke-linecap="round"
+        :transform="`scale(-1 -1) translate(-${diagramWidth} -${diagramWidth})`"
+      />
+      <!-- ACCOMODATION -->
+      <!-- Free of charge -->
+      <circle
+        :cx="center.x"
+        :cy="center.y"
+        :r="radius"
+        stroke="#a0b9ff"
+        fill="transparent"
+        :stroke-width="strokeWidth * 0.72"
+        :stroke-dasharray="`${radius * pi * freeOfChargeAccomodationRelation} ${1000}`"
+        stroke-linecap="round"
+        :transform="`scale(-1 -1) translate(-${diagramWidth} -${diagramWidth})`"
+      />
+      <!-- Allowance -->
+      <circle
+        :cx="center.x"
+        :cy="center.y"
+        :r="radius"
+        stroke="#0025ff"
+        fill="transparent"
+        :stroke-width="strokeWidth * 0.72"
+        :stroke-dasharray="`${radius * pi * accomodationAllowanceRelation} ${1000}`"
+        stroke-linecap="round"
+        :transform="`scale(-1 -1) translate(-${diagramWidth} -${diagramWidth})`"
+      />
+      <!-- Service -->
+      <!-- Free of charge -->
+      <circle
+        :cx="center.x"
+        :cy="center.y"
+        :r="radius"
+        stroke="#fef6d8"
+        fill="transparent"
+        :stroke-width="strokeWidth * 0.72"
+        :stroke-dasharray="`${radius * pi * freeOfChargeServiceRelation} ${1000}`"
+        stroke-linecap="round"
+        :transform="`scale(-1 -1) translate(-${diagramWidth} -${diagramWidth})`"
+      />
+      <!-- Pocketmoney -->
+      <circle
+        :cx="center.x"
+        :cy="center.y"
+        :r="radius"
+        stroke="#FCD12E"
+        fill="transparent"
+        :stroke-width="strokeWidth * 0.72"
+        :stroke-dasharray="`${radius * pi * pocketMoneyRelation} ${1000}`"
+        stroke-linecap="round"
+        :transform="`scale(-1 -1) translate(-${diagramWidth} -${diagramWidth})`"
+      />
+    </svg>
+    <p>{{ sum }}</p>
+    <p>{{ cash }}</p>
+  </div>
+  <!-- TEXT-VARIANT FOR TRANSITION  -->
+  <div v-if="false">
     <div class="grid grid-cols-[1fr,auto] gap-x-6 w-[250px]">
       <p v-if="salary.pocketMoney != 0">Taschengeld:</p>
       <p v-if="salary.pocketMoney != 0" class="font-medium">
@@ -127,17 +181,35 @@ export default {
       return (
         this.salary.pocketMoney +
         this.salary.freeOfChargeService +
-        this.salary.foodAllowance +
-        this.salary.freeOfChargeFood +
         this.salary.accomodationAllowance +
-        this.salary.freeOfChargeAccommodation
+        this.salary.freeOfChargeAccommodation +
+        this.salary.foodAllowance +
+        this.salary.freeOfChargeFood
       )
+    },
+    cash() {
+      return this.salary.pocketMoney + this.salary.accomodationAllowance + this.salary.foodAllowance
     },
     strokeWidth() {
       return this.diagramWidth * 0.1
     },
-    pocketMoney() {
+    pocketMoneyRelation() {
       return this.salary.pocketMoney / this.sum
+    },
+    freeOfChargeServiceRelation() {
+      return this.salary.freeOfChargeService / this.sum + this.pocketMoneyRelation
+    },
+    accomodationAllowanceRelation() {
+      return this.salary.accomodationAllowance / this.sum + this.freeOfChargeServiceRelation
+    },
+    freeOfChargeAccomodationRelation() {
+      return this.salary.freeOfChargeAccommodation / this.sum + this.accomodationAllowanceRelation
+    },
+    foodAllowanceRelation() {
+      return this.salary.foodAllowance / this.sum + this.freeOfChargeAccomodationRelation
+    },
+    freeOfChargeFoodRelation() {
+      return this.salary.freeOfChargeFood / this.sum + this.foodAllowanceRelation
     }
   }
 }
