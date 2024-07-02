@@ -10,6 +10,7 @@
       />
 
       <VolunteerDetailDocuments class="mt-16" v-if="selectedContextTab === 'dokumente'" />
+      <VolunteerDetailNotes class="mt-8" v-if="selectedContextTab === 'dokumentation'" />
     </div>
   </div>
 </template>
@@ -18,12 +19,15 @@ import { useVolunteerStore } from '@/stores/VolunteerStore.js'
 import VolunteerDetailNavigationbar from '@/components/VolunteerDetailNavigationbar.vue'
 import VolunteerDetailOverview from '@/components/VolunteerDetailOverview.vue'
 import VolunteerDetailDocuments from '@/components/VolunteerDetailDocuments.vue'
+import VolunteerDetailNotes from '@/components/VolunteerDetailNotes.vue'
+import debounce from 'lodash.debounce'
 
 export default {
   components: {
     VolunteerDetailNavigationbar,
     VolunteerDetailOverview,
-    VolunteerDetailDocuments
+    VolunteerDetailDocuments,
+    VolunteerDetailNotes
   },
   name: 'VolunteerDetailView.vue',
   setup() {
@@ -49,6 +53,25 @@ export default {
           volunteerId: this.$route.params.volunteerId,
           contextTab: String(tabName).toLowerCase()
         }
+      })
+    },
+    async getNotes() {
+      let params = { volunteerId: this.$route.params.volunteerId }
+      try {
+        await this.volunteerStore.getVolunteerNotes(params)
+      } catch (error) {
+        console.error('Error fetching notes:', error)
+      }
+    },
+    debouncedSearch: debounce((input, searchFunction) => {
+      searchFunction(input)
+    }, 1000)
+  },
+  watch: {
+    searchQuery(newValue) {
+      this.$router.push({ query: { search: newValue } })
+      this.debouncedSearch(this.searchQuery, (input) => {
+        this.debouncedSearchQuery = input
       })
     }
   }

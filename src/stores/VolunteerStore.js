@@ -72,7 +72,23 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         this.fetching = false
       }
     },
+    async getVolunteerNotes(queryObj) {
+      const thisRequest = `volunteers/${queryObj.volunteerId}/notes?sortBy=${queryObj.sortBy || 'timestamp'}&sortOrder=${queryObj.sortOrder || 'desc'}&search=${queryObj.search || ''}`
 
+      mostRecentRequest = thisRequest
+
+      this.fetching = true
+
+      try {
+        const documents = await vdbFetchData(thisRequest, 'GET')
+        if (mostRecentRequest != thisRequest) return
+        this.volunteerDocuments = documents
+      } catch (error) {
+        console.error(error)
+      } finally {
+        this.fetching = false
+      }
+    },
     async getVolunteerDocuments(queryObj) {
       const thisRequest = `volunteers/${queryObj.volunteerId}/documents?sortBy=${queryObj.sortBy || 'timestamp'}&sortOrder=${queryObj.sortOrder || 'desc'}&search=${queryObj.search || ''}`
 
@@ -113,6 +129,17 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         } finally {
           this.fetching = false
         }
+      }
+    },
+    async deleteNote(id) {
+      this.fetching = true
+      try {
+        await vdbFetchData('volunteers/' + this.selectedVolunteer.id + '/notes/' + id, 'DELETE')
+      } catch (error) {
+        console.error(error)
+        throw error
+      } finally {
+        this.fetching = false
       }
     }
   }

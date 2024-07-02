@@ -20,29 +20,28 @@
         </div>
         <!-- right column -->
         <div class="flex-1">
-          <form :id="id" @submit.prevent="onSubmit" novalidate>
+          <form class="flex flex-col gap-2" :id="id" @submit.prevent="onSubmit" novalidate>
             <!-- for editing a note -->
-            <div>
-              <FormularSelectBox
-                :list="['Eingehender Anruf', 'Ausgehender Anruf', 'E-Mail', 'Notiz']"
-                label="Typ"
-                id="type"
-                name="type"
-                :required="true"
-                :hasError="validationErr.type"
-                v-model="formData.note.type"
-              />
-              <FormularTextarea
-                label="Notiz"
-                id="note"
-                name="note"
-                rows="6"
-                ref="note"
-                :required="true"
-                :hasError="validationErr.note"
-                v-model="formData.note.note"
-              />
-            </div>
+
+            <FormularSelectBox
+              :list="['Eingehender Anruf', 'Ausgehender Anruf', 'E-Mail', 'Notiz']"
+              label="Typ"
+              id="type"
+              name="type"
+              :required="true"
+              :hasError="validationErr.type"
+              v-model="formData.note.type"
+            />
+            <FormularTextarea
+              label="Notiz"
+              id="note"
+              name="note"
+              rows="6"
+              ref="note"
+              :required="true"
+              :hasError="validationErr.note"
+              v-model="formData.note.note"
+            />
           </form>
         </div>
       </div>
