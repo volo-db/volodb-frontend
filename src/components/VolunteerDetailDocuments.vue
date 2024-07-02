@@ -58,9 +58,9 @@
               }"
             >
               <div class="flex justify-end">
-                <ButtonSendAndDownload class="flex gap-1 items-center"
+                <ButtonDownload class="flex gap-1 items-center"
                   >Download<IconArrowDownload
-                /></ButtonSendAndDownload>
+                /></ButtonDownload>
               </div>
             </td>
           </tr>
@@ -72,7 +72,7 @@
 
 <script>
 import IconTableSortArrows from './IconTableSortArrows.vue'
-import ButtonSendAndDownload from './ButtonSendAndDownload.vue'
+import ButtonDownload from './ButtonDownload.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
 import IconArrowDownload from './IconArrowDownload.vue'
 import ButtonStandard from '@/components/ButtonStandard.vue'
@@ -86,7 +86,7 @@ export default {
   },
   components: {
     IconTableSortArrows,
-    ButtonSendAndDownload,
+    ButtonDownload,
     IconArrowDownload,
     ButtonStandard,
     SearchBar
