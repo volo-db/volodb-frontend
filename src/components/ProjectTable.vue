@@ -27,7 +27,7 @@
             </td>
           </tr>
         </thead>
-        <tbody class="bg-white outline outline-white rounded">
+        <tbody class="bg-white">
           <tr
             class="border-b h-14 cursor-pointer hover:text-voloblue-100 hover:bg-gray-50"
             v-for="(project, index) of projectStore.projectsPage.content"
@@ -48,7 +48,7 @@
         </tbody>
       </table>
       <PaginationController
-        class="mt-1"
+        class="mt-[2px]"
         :currentPage="projectStore.projectsPage.pageable.pageNumber"
         :totalPages="projectStore.projectsPage.totalPages"
         @updatePage="updateProjectPage"
