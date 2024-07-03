@@ -16,34 +16,32 @@
         </p>
         <!-- Pills -->
         <div class="mt-2 flex gap-2 flex-wrap items-center">
-          <div
-            class="inline bg-voloblue-200 px-2 pt-[1px] rounded-2xl flex justify-center items-center"
-          >
+          <div class="bg-voloblue-200 px-2 pt-[1px] rounded-2xl flex justify-center items-center">
             <p class="inline text-white">
               {{ contract.program }}
             </p>
           </div>
           <div
             v-if="contract.visaNecessary"
-            class="inline bg-voloyellow-100 px-2 pt-[1px] rounded-2xl flex justify-center items-center"
+            class="bg-voloyellow-100 px-2 pt-[1px] rounded-2xl flex justify-center items-center"
           >
             <p class="inline">Visum</p>
           </div>
           <div
             v-if="contract.incomingVolunteer"
-            class="inline bg-voloyellow-100 px-2 pt-[1px] rounded-2xl flex justify-center items-center"
+            class="bg-voloyellow-100 px-2 pt-[1px] rounded-2xl flex justify-center items-center"
           >
             <p class="inline">Incoming</p>
           </div>
           <div
             v-if="age < 18"
-            class="inline bg-voloyellow-100 px-2 pt-[1px] rounded-2xl flex justify-center items-center"
+            class="bg-voloyellow-100 px-2 pt-[1px] rounded-2xl flex justify-center items-center"
           >
             <p class="inline">U18</p>
           </div>
           <div
             v-if="age > 25"
-            class="inline bg-voloyellow-100 px-2 pt-[1px] rounded-2xl flex justify-center items-center"
+            class="bg-voloyellow-100 px-2 pt-[1px] rounded-2xl flex justify-center items-center"
           >
             <p class="inline">Ü25</p>
           </div>
