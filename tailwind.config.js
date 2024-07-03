@@ -17,6 +17,9 @@ export default {
         voloblue: {
           100: '#0049FF',
           200: '#0025FF'
+        },
+        voloyellow: {
+          100: '#FCD12E'
         }
       }
     }
