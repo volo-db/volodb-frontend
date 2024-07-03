@@ -14,7 +14,7 @@
               class="pb-3 text-sm cursor-pointer"
               :class="{ 'pl-4': index === 0 }"
               :style="{
-                color: sortBy === sortParameter[index] ? '#0025FF' : 'black' // #8C97AF
+                color: sortBy === sortParameter[index] ? '#0025FF' : '#8C97AF'
               }"
               @click="sortNotesList(sortParameter[index])"
             >
