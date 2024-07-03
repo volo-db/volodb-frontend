@@ -5,13 +5,19 @@
       <div>
         <header class="flex flex-col items-center gap-3">
           <!-- Avatar -->
-          <div class="border-[3px] border-green-300 rounded-full p-2">
-            <img
-              :src="baseUrl + '/files/' + volunteer.avatar"
-              alt="Avatar von ausgewähltem Freiwilligen"
-              class="aspect-square w-[110px] object-cover rounded-full"
-            />
+
+          <VolunteerDetailOverviewAvatar
+            :src="baseUrl + '/files/' + volunteer.avatar"
+            :alt="`Avatar von ${volunteer.person.firstname} ${volunteer.person.lastname}`"
+          />
+          <!-- when hover img -->
+
+          <div
+            class="flex justify-center items-center aspect-square w-[110px] object-cover rounded-full"
+          >
+            <button><IconPenEdit @click="editAvatar()" /></button>
           </div>
+
           <!-- Name -->
           <h2 class="pt-4 text-lg font-medium">
             {{ volunteer.person.firstname }} {{ volunteer.person.lastname }}
@@ -118,6 +124,8 @@ import { useVolunteerStore } from '@/stores/VolunteerStore.js'
 import IconMail from '@/components/IconMail.vue'
 import IconPhone from '@/components/IconPhone.vue'
 import IconMessenger from '@/components/IconMessenger.vue'
+import IconPenEdit from '@/components/IconPenEdit.vue'
+import VolunteerDetailOverviewAvatar from './VolunteerDetailOverviewAvatar.vue'
 
 export default {
   setup() {
@@ -132,7 +140,9 @@ export default {
   components: {
     IconMail,
     IconPhone,
-    IconMessenger
+    IconMessenger,
+    IconPenEdit,
+    VolunteerDetailOverviewAvatar
   },
   data() {
     return {
@@ -141,6 +151,9 @@ export default {
       addresses: null,
       relevantContract: null
     }
+  },
+  methods: {
+    editAvatar() {}
   },
   async beforeMount() {
     await this.volunteerStore.getVolunteer(this.$route.params.volunteerId)
