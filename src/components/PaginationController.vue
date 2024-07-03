@@ -1,5 +1,7 @@
 <template>
-  <div class="flex justify-center bg-white text-voloblue-200 text-sm py-2 border-t mt-[2px]">
+  <div
+    class="flex justify-center bg-white text-voloblue-200 text-sm py-2 border-t border-b-white rounded-b-md"
+  >
     <!-- toFirst and one backward -->
     <button @click="pageToFirst()">&lt;&lt;</button>
     <button class="mx-8" @click="pageBackward()">&lt;</button>

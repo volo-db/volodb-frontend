@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-x-auto" v-bind="$attrs">
+  <div class="overflow-auto" v-bind="$attrs">
     <div v-if="projectStore.projectsPage">
       <table class="w-full" v-if="projectStore.projectsPage">
         <thead>
@@ -30,20 +30,25 @@
         <tbody class="bg-white outline outline-white rounded">
           <tr
             class="border-b h-14 cursor-pointer hover:text-voloblue-100 hover:bg-gray-50"
-            v-for="project of projectStore.projectsPage.content"
+            v-for="(project, index) of projectStore.projectsPage.content"
             :key="project.id"
             @click="goToDetails(project.id)"
           >
-            <td class="font-bold pl-4">{{ project.name }}</td>
+            <td class="font-bold pl-4" :class="{ 'rounded-tl-md': index === 0 }">
+              {{ project.name }}
+            </td>
             <td>{{ project.city }}</td>
             <td>{{ project.email }}</td>
             <td>2023/24</td>
             <td>{{ project.capacity }}</td>
-            <td class="text-voloblue-200 pr-4 md:pr-1"><IconArrowGoto /></td>
+            <td class="text-voloblue-200 pr-4 md:pr-1" :class="{ 'rounded-tr-md ': index === 0 }">
+              <IconArrowGoto class="text-voloblue-200 opacity-50" />
+            </td>
           </tr>
         </tbody>
       </table>
       <PaginationController
+        class="mt-1"
         :currentPage="projectStore.projectsPage.pageable.pageNumber"
         :totalPages="projectStore.projectsPage.totalPages"
         @updatePage="updateProjectPage"

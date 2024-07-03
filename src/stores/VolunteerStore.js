@@ -12,7 +12,8 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       selectedVolunteer: null,
       selectedVolunteerContacts: null,
       selectedVolunteerAddresses: null,
-      selectedVolunteerRelevantContract: null
+      selectedVolunteerRelevantContract: null,
+      volunteerDocuments: null
     }
   },
   actions: {
@@ -56,7 +57,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       }
     },
     async getVolunteers(queryObj) {
-      const thisRequest = `volunteers?page=${queryObj.page || 0}&pageSize=${queryObj.pageSize || 10}&sortField=${queryObj.sortBy || 'person.lastname'}&sortOrder=${queryObj.sortOrder || 'asc'}&search=${queryObj.search || ''}`
+      const thisRequest = `volunteers?page=${queryObj.page || 0}&pageSize=${queryObj.pageSize || 10}&sortBy=${queryObj.sortBy || 'person.lastname'}&sortOrder=${queryObj.sortOrder || 'asc'}&search=${queryObj.search || ''}`
       mostRecentRequest = thisRequest
 
       this.fetching = true
@@ -72,7 +73,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       }
     },
     async getVolunteerNotes(queryObj) {
-      const thisRequest = `volunteers/${queryObj.volunteerId}/notes?page=${queryObj.page || 0}&pageSize=${queryObj.pageSize || 10}&sortField=${queryObj.sortBy || 'type'}&sortOrder=${queryObj.sortOrder || 'asc'}`
+      const thisRequest = `volunteers/${queryObj.volunteerId}/notes?sortBy=${queryObj.sortBy || 'timestamp'}&sortOrder=${queryObj.sortOrder || 'desc'}&search=${queryObj.search || ''}`
 
       mostRecentRequest = thisRequest
 
@@ -84,6 +85,59 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         this.volunteerNotes = notes
       } catch (error) {
         console.error(error)
+      } finally {
+        this.fetching = false
+      }
+    },
+    async getVolunteerDocuments(queryObj) {
+      const thisRequest = `volunteers/${queryObj.volunteerId}/documents?sortBy=${queryObj.sortBy || 'timestamp'}&sortOrder=${queryObj.sortOrder || 'desc'}&search=${queryObj.search || ''}`
+
+      mostRecentRequest = thisRequest
+
+      this.fetching = true
+      try {
+        const documents = await vdbFetchData(thisRequest, 'GET')
+        if (mostRecentRequest != thisRequest) return
+        this.volunteerDocuments = documents
+      } catch (error) {
+        console.error(error)
+      } finally {
+        this.fetching = false
+      }
+    },
+    async setNote(note, id) {
+      this.fetching = true
+      if (id) {
+        try {
+          await vdbFetchData(
+            'volunteers/' + this.selectedVolunteer.id + '/notes/' + id,
+            'PATCH',
+            note
+          )
+        } catch (error) {
+          console.error(error)
+          throw error
+        } finally {
+          this.fetching = false
+        }
+      } else {
+        try {
+          await vdbFetchData('volunteers/' + this.selectedVolunteer.id + '/notes', 'POST', note)
+        } catch (error) {
+          console.error(error)
+          throw error
+        } finally {
+          this.fetching = false
+        }
+      }
+    },
+    async deleteNote(id) {
+      this.fetching = true
+      try {
+        await vdbFetchData('volunteers/' + this.selectedVolunteer.id + '/notes/' + id, 'DELETE')
+      } catch (error) {
+        console.error(error)
+        throw error
       } finally {
         this.fetching = false
       }
