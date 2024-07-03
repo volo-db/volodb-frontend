@@ -19,7 +19,7 @@
           <div
             class="inline bg-voloblue-200 px-2 pt-[1px] rounded-2xl flex justify-center items-center"
           >
-            <p class="inline block text-white">
+            <p class="inline text-white">
               {{ contract.program }}
             </p>
           </div>
@@ -27,30 +27,28 @@
             v-if="contract.visaNecessary"
             class="inline bg-voloyellow-100 px-2 pt-[1px] rounded-2xl flex justify-center items-center"
           >
-            <p class="inline block">Visum</p>
+            <p class="inline">Visum</p>
           </div>
           <div
             v-if="contract.incomingVolunteer"
             class="inline bg-voloyellow-100 px-2 pt-[1px] rounded-2xl flex justify-center items-center"
           >
-            <p class="inline block">Incoming</p>
+            <p class="inline">Incoming</p>
           </div>
           <div
             v-if="age < 18"
             class="inline bg-voloyellow-100 px-2 pt-[1px] rounded-2xl flex justify-center items-center"
           >
-            <p class="inline block">U18</p>
+            <p class="inline">U18</p>
           </div>
           <div
             v-if="age > 25"
             class="inline bg-voloyellow-100 px-2 pt-[1px] rounded-2xl flex justify-center items-center"
           >
-            <p class="inline block">Ü25</p>
+            <p class="inline">Ü25</p>
           </div>
-          <button
-            class="inline bg-vologray-300 text-white px-2 rounded-2xl flex justify-center items-center"
-          >
-            <p class="inline block">+</p>
+          <button class="bg-transparent text-vologray-300 text-[30px]">
+            <IconPlus />
           </button>
         </div>
       </section>
@@ -171,6 +169,7 @@ import IconSeminars from './IconSeminars.vue'
 import VolunteerDetailContractSallary from './VolunteerDetailContractSallary.vue'
 import IconDashboard from './IconDashboard.vue'
 import IconClinicalThermometer from './IconClinicalThermometer.vue'
+import IconPlus from './IconPlus.vue'
 
 export default {
   setup: () => {
@@ -188,7 +187,8 @@ export default {
     IconSeminars,
     VolunteerDetailContractSallary,
     IconDashboard,
-    IconClinicalThermometer
+    IconClinicalThermometer,
+    IconPlus
   },
   computed: {
     age() {
