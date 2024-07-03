@@ -8,7 +8,7 @@
     <!-- Grid -->
     <div v-if="volunteer && contract" class="flex flex-wrap gap-[10px] mt-8">
       <!-- Contract-Overview -->
-      <section class="rounded bg-white px-[18px] py-[16px] w-[290px] h-[100px]">
+      <section class="rounded bg-white px-[18px] py-[16px] w-[330px] h-[120px]">
         <h2 class="inline font-medium">Vereinbarung</h2>
         <p class="inline text-vologray-400">
           - vom
@@ -55,40 +55,39 @@
         </div>
       </section>
       <!-- Time of Service -->
-      <section
-        v-if="volunteer"
-        class="rounded bg-white px-[18px] py-[16px] flex justify-between w-[290px] h-[100px]"
-      >
-        <!-- left column -->
-        <div>
-          <h2 class="font-medium">Dienstzeit</h2>
-          <div class="flex gap-2 mt-2">
+      <section class="rounded bg-white px-[18px] py-[16px] w-[330px] h-[120px]">
+        <h2 class="font-medium">Dienstzeit</h2>
+        <div v-if="volunteer" class="flex justify-between items-center h-[62px]">
+          <!-- left column -->
+
+          <div class="flex gap-2 mt-2 items-center">
             <IconCalendar class="inline text-3xl text-voloblue-200/50" />
             <p class="inline text-3xl">12</p>
             <p class="inline self-end">Monate</p>
           </div>
-        </div>
-        <!-- right column -->
-        <div class="flex flex-col h-full">
-          <div class="flex gap-1">
-            <IconCircleWithCheckmark class="text-voloblue-200/50" />
-            <p class="leading-none">
-              {{ getPropperDateString(contract.start) }}
-            </p>
-          </div>
-          <div class="border-l-2 border-dotted ml-[7px] flex-grow"></div>
-          <div class="flex gap-1 self-end">
-            <IconCircleWithPoint class="text-voloblue-200/50" />
-            <p class="leading-none">
-              {{ getPropperDateString(contract.end) }}
-            </p>
+
+          <!-- right column -->
+          <div class="flex flex-col h-full">
+            <div class="flex gap-1">
+              <IconCircleWithCheckmark class="text-voloblue-200/50" />
+              <p class="leading-none">
+                {{ getPropperDateString(contract.start) }}
+              </p>
+            </div>
+            <div class="border-l-2 border-dotted ml-[7px] flex-grow"></div>
+            <div class="flex gap-1 self-end">
+              <IconCircleWithPoint class="text-voloblue-200/50" />
+              <p class="leading-none">
+                {{ getPropperDateString(contract.end) }}
+              </p>
+            </div>
           </div>
         </div>
       </section>
       <!-- Holiday -->
       <section
         v-if="volunteer"
-        class="rounded bg-white px-[18px] py-[16px] w-[140px] h-[100px] flex flex-col justify-between"
+        class="rounded bg-white px-[18px] py-[16px] w-[160px] h-[120px] flex flex-col justify-between"
       >
         <h2 class="font-medium">Urlaubstage</h2>
         <div class="flex gap-2 items-end">
@@ -99,7 +98,7 @@
       <!-- Seminar Days -->
       <section
         v-if="volunteer"
-        class="rounded bg-white px-[18px] py-[16px] w-[140px] h-[100px] flex flex-col justify-between"
+        class="rounded bg-white px-[18px] py-[16px] w-[160px] h-[120px] flex flex-col justify-between"
       >
         <h2 class="font-medium">Seminartage</h2>
         <div class="flex gap-2 items-end">
@@ -110,7 +109,7 @@
       <!-- Sick Days -->
       <section
         v-if="volunteer"
-        class="rounded bg-white px-[18px] py-[16px] w-[140px] h-[100px] flex flex-col justify-between"
+        class="rounded bg-white px-[18px] py-[16px] w-[160px] h-[120px] flex flex-col justify-between"
       >
         <h2 class="font-medium">Krankheitst.</h2>
         <div class="flex gap-2 items-end">
@@ -119,7 +118,7 @@
         </div>
       </section>
       <!-- Sallery -->
-      <section v-if="volunteer" class="rounded bg-white px-[18px] py-[16px] w-[290px] h-[210px]">
+      <section v-if="volunteer" class="rounded bg-white px-[18px] py-[16px] w-[330px] h-[210px]">
         <h2 class="font-medium">
           Vergütung
           <span class="font-normal text-vologray-400">- ({{ contract.salary.name }})</span>
@@ -131,7 +130,7 @@
       <!-- Legal guardian -->
       <section
         v-if="contract && getAge(volunteer.birthday, contract.created) < 18"
-        class="rounded bg-white px-[18px] py-[16px] w-[290px] h-[210px]"
+        class="rounded bg-white px-[18px] py-[16px] w-[330px] h-[210px]"
       >
         <h2 class="font-medium">Erziehungsberechtigt</h2>
         <div class="mt-2">

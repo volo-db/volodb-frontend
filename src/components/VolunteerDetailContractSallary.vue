@@ -1,125 +1,43 @@
 <template>
   <div class="relative">
-    <!-- SVG NOT READY YET -->
-    <svg
-      v-if="true"
-      :width="`${diagramWidth}px`"
-      :height="`${diagramWidth * 0.55}px`"
-      xmlns="http://www.w3.org/2000/svg"
-      viewbox="0 0 1 1"
-    >
-      <defs>
-        <!-- Diagonal hatch pattern -->
-        <pattern id="diagonalHatch" patternUnits="userSpaceOnUse" width="10" height="10">
-          <path d="M0,0 L5,5" stroke="#000" stroke-width="2" />
-        </pattern>
-        <!-- Horizontal hatch pattern -->
-        <pattern id="horizontalHatch" patternUnits="userSpaceOnUse" width="10" height="10">
-          <path d="M0,5 L10,5" stroke="black" stroke-width="1" />
-        </pattern>
-        <!-- Vertical hatch pattern -->
-        <pattern id="verticalHatch" patternUnits="userSpaceOnUse" width="10" height="10">
-          <path d="M5,0 L5,10" stroke="black" stroke-width="1" />
-        </pattern>
-        <pattern id="dottedPattern" patternUnits="userSpaceOnUse" width="10" height="10">
-          <!-- Small circle for the dot -->
-          <circle cx="5" cy="5" r="1" fill="black" />
-        </pattern>
-      </defs>
-      <!-- BACKGROUND CIRCLE -->
-      <!-- <circle
-        :cx="center.x"
-        :cy="center.y"
-        :r="radius"
-        stroke="#ddd"
-        fill="transparent"
-        :stroke-width="strokeWidth"
-        :stroke-dasharray="`${radius * pi * 1} ${1000}`"
-        stroke-linecap="round"
-        :transform="`scale(-1 -1) translate(-${diagramWidth} -${diagramWidth})`"
-      /> -->
-      <!-- FOOD -->
-      <!-- Free of charge -->
-      <!-- <circle
-        :cx="center.x"
-        :cy="center.y"
-        :r="radius"
-        stroke="#ffd3ad"
-        fill="transparent"
-        :stroke-width="strokeWidth * 0.72"
-        :stroke-dasharray="`${radius * pi * freeOfChargeFoodRelation} ${1000}`"
-        stroke-linecap="round"
-        :transform="`scale(-1 -1) translate(-${diagramWidth} -${diagramWidth})`"
-      /> -->
-      <!-- Allowance -->
-      <!-- <circle
-        :cx="center.x"
-        :cy="center.y"
-        :r="radius"
-        stroke="#ffa04d"
-        fill="transparent"
-        :stroke-width="strokeWidth * 0.72"
-        :stroke-dasharray="`${radius * pi * foodAllowanceRelation} ${1000}`"
-        stroke-linecap="round"
-        :transform="`scale(-1 -1) translate(-${diagramWidth} -${diagramWidth})`"
-      /> -->
-      <!-- ACCOMODATION -->
-      <!-- Free of charge -->
-      <!-- <circle
-        :cx="center.x"
-        :cy="center.y"
-        :r="radius"
-        stroke="#a0b9ff"
-        fill="transparent"
-        :stroke-width="strokeWidth * 0.72"
-        :stroke-dasharray="`${radius * pi * freeOfChargeAccomodationRelation} ${1000}`"
-        stroke-linecap="round"
-        :transform="`scale(-1 -1) translate(-${diagramWidth} -${diagramWidth})`"
-      /> -->
-      <!-- Allowance -->
-      <!-- <circle
-        :cx="center.x"
-        :cy="center.y"
-        :r="radius"
-        stroke="#0025ff"
-        fill="transparent"
-        :stroke-width="strokeWidth * 0.72"
-        :stroke-dasharray="`${radius * pi * accomodationAllowanceRelation} ${1000}`"
-        stroke-linecap="round"
-        :transform="`scale(-1 -1) translate(-${diagramWidth} -${diagramWidth})`"
-      /> -->
-
-      <!-- SERVICE -->
-      <!-- Free of charge -->
-      <path :d="generateHalfRingPath(0, 0.2)" fill="#FEF6D8" />
-      <!-- Pocketmoney -->
-      <path :d="generateHalfRingPath(0.2, 0.16)" fill="#FCD12E" />
-      <!-- ACCOMODATIN -->
-      <!-- Free of charge -->
-      <path :d="generateHalfRingPath(0.36, 0.16)" fill="#A0B9FF" />
-      <!-- Allowance -->
-      <path :d="generateHalfRingPath(0.52, 0.16)" fill="#0025FF" />
-      <!-- FOOD -->
-      <!-- Free of charge -->
-      <path :d="generateHalfRingPath(0.68, 0.16)" fill="#ffd3ad" />
-      <!-- Allowance -->
-
-      <path
-        :d="generateHalfRingPath(0.84, 0.16)"
-        fill="red"
-        @mouseenter="console.log('enter')"
-        @mouseleave="console.log('leave')"
-      />
-    </svg>
-
-    <div class="absolute top-0 w-[100%] text-center mt-20">
-      <p class="text-3xl">{{ toValidEuro(sum) }}</p>
-      <p class="text-sm">Auszahlungsbetrag: {{ toValidEuro(cash) }}</p>
+    <div v-if="false">
+      <!-- SVG NOT READY YET -->
+      <svg
+        :width="`${diagramWidth}px`"
+        :height="`${diagramWidth * 0.55}px`"
+        xmlns="http://www.w3.org/2000/svg"
+        viewbox="0 0 1 1"
+      >
+        <!-- SERVICE -->
+        <!-- Free of charge -->
+        <path :d="generateHalfRingPath(0, 0.2)" fill="#FEF6D8" />
+        <!-- Pocketmoney -->
+        <path :d="generateHalfRingPath(0.2, 0.16)" fill="#FCD12E" />
+        <!-- ACCOMODATIN -->
+        <!-- Free of charge -->
+        <path :d="generateHalfRingPath(0.36, 0.16)" fill="#A0B9FF" />
+        <!-- Allowance -->
+        <path :d="generateHalfRingPath(0.52, 0.16)" fill="#0025FF" />
+        <!-- FOOD -->
+        <!-- Free of charge -->
+        <path :d="generateHalfRingPath(0.68, 0.16)" fill="#ffd3ad" />
+        <!-- Allowance -->
+        <path
+          :d="generateHalfRingPath(0.84, 0.16)"
+          fill="red"
+          @mouseenter="console.log('enter')"
+          @mouseleave="console.log('leave')"
+        />
+      </svg>
+      <div class="absolute top-0 w-[100%] text-center mt-20">
+        <p class="text-3xl">{{ toValidEuro(sum) }}</p>
+        <p class="text-sm">Auszahlungsbetrag: {{ toValidEuro(cash) }}</p>
+      </div>
     </div>
 
     <!-- TEXT-VARIANT FOR TRANSITION  -->
-    <div v-if="false">
-      <div class="grid grid-cols-[1fr,auto] gap-x-6 w-[250px]">
+    <div v-if="true">
+      <div class="grid grid-cols-[1fr,auto] gap-x-6 w-[290px]">
         <p v-if="salary.pocketMoney != 0">Taschengeld:</p>
         <p v-if="salary.pocketMoney != 0" class="font-medium">
           {{ toValidEuro(salary.pocketMoney) }}
@@ -231,6 +149,7 @@ export default {
     generateHalfRingPath(start, ratio) {
       const outerR = this.diagramWidth / 2
       const innerR = outerR - this.strokeWidth
+
       // Calculate the end angle based on the ratio
       const startAngle = 180 + 180 * start // Starting from the top of the circle
       const sweepAngle = 180 * ratio // Sweep angle based on the ratio
