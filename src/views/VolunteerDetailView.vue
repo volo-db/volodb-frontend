@@ -1,7 +1,7 @@
 <template>
   <div class="flex overflow-hidden">
     <VolunteerDetailOverview />
-    <div class="flex-1 bg-vologray-100 p-8">
+    <div class="flex-1 bg-vologray-100 p-8 overflow-auto">
       <VolunteerDetailNavigationbar
         :navigation="['Dokumentation', 'Dokumente', 'Vereinbarung']"
         :active="selectedContextTab"

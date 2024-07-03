@@ -6,12 +6,9 @@
     </header>
 
     <!-- Grid -->
-    <div class="flex flex-wrap gap-[10px] mt-8">
+    <div v-if="volunteer && contract" class="flex flex-wrap gap-[10px] mt-8">
       <!-- Contract-Overview -->
-      <section
-        v-if="volunteerStore.selectedVolunteer"
-        class="rounded bg-white px-[18px] py-[16px] w-[290px] h-[100px]"
-      >
+      <section class="rounded bg-white px-[18px] py-[16px] w-[290px] h-[100px]">
         <h2 class="inline font-medium">Vereinbarung</h2>
         <p class="inline text-vologray-400">
           - vom
