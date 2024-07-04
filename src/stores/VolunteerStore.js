@@ -105,6 +105,23 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         this.fetching = false
       }
     },
+    async getVolunteerAddresses(volunteerId) {
+      const thisRequest = `volunteers/${volunteerId}/addresses}`
+
+      mostRecentRequest = thisRequest
+
+      this.fetching = true
+
+      try {
+        const addresses = await vdbFetchData(thisRequest, 'GET')
+        if (mostRecentRequest != thisRequest) return
+        this.selectedVolunteerAddresses = addresses
+      } catch (error) {
+        console.error(error)
+      } finally {
+        this.fetching = false
+      }
+    },
     async setNote(note, id) {
       this.fetching = true
       if (id) {
