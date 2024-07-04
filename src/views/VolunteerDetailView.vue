@@ -1,6 +1,6 @@
 <template>
   <div class="flex overflow-hidden">
-    <div class="bg-white"><VolunteerDetailOverview /></div>
+    <VolunteerDetailOverview />
     <div class="flex-1 bg-vologray-100 p-8 overflow-auto">
       <VolunteerDetailNavigationbar
         :navigation="['Dokumentation', 'Dokumente', 'Vereinbarung']"
