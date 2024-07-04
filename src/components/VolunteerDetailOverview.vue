@@ -40,43 +40,43 @@
             >
               <!-- Email -->
               <p v-if="contact.type === 'email'">
-                <IconMail class="text-voloblue-200 opacity-60 text- mr-2" />
+                <IconMail class="text-voloblue-200 opacity-60 text-[16px] mr-2" />
                 <a :href="'mailto:' + contact.value">{{ contact.value }}</a>
               </p>
               <!-- Phone -->
               <p v-if="contact.type === 'mobile' || contact.type === 'landline'">
-                <IconPhone class="text-voloblue-200 opacity-60 text-xl mr-2" />
+                <IconPhone class="text-voloblue-200 opacity-60 text-[16px] mr-2" />
                 <a :href="'tel:' + contact.value">{{ contact.value }}</a>
               </p>
 
               <!-- MESSENGER: -->
               <!-- WhatsApp -->
               <p v-if="contact.type === 'whatsapp'">
-                <IconMessenger class="text-voloblue-200 opacity-60 text-xl mr-2" />
+                <IconMessenger class="text-voloblue-200 opacity-60 text-[16px] mr-2" />
                 <a :href="'https://wa.me/' + contact.value">{{ contact.value }} (WhatsApp)</a>
               </p>
               <!-- Telegram -->
               <p v-if="contact.type === 'telegram'">
-                <IconMessenger class="text-voloblue-200 opacity-60 text-xl mr-2" />
+                <IconMessenger class="text-voloblue-200 opacity-60 text-[16px] mr-2" />
                 <a :href="'https://t.me/' + contact.value">{{ contact.value }} (Telegram)</a>
               </p>
               <!-- Threema -->
               <p v-if="contact.type === 'threema'">
-                <IconMessenger class="text-voloblue-200 opacity-60 text-xl mr-2" />
+                <IconMessenger class="text-voloblue-200 opacity-60 text-[16px] mr-2" />
                 <a :href="'https://threema.id/' + contact.value + '?text='"
                   >{{ contact.value }} (Threema)</a
                 >
               </p>
               <!-- Instagram -->
               <p v-if="contact.type === 'instagram'">
-                <IconMessenger class="text-voloblue-200 opacity-60 text-xl mr-2" />
+                <IconMessenger class="text-voloblue-200 opacity-60 text-[16px] mr-2" />
                 <a :href="'https://ig.me/m/' + contact.value + '?text='"
                   >{{ contact.value }} (Instagram)</a
                 >
               </p>
               <!-- ToDo: SIGNAL -->
               <!-- <p v-if="contact.type === 'signal'">
-              <IconMessenger class="text-voloblue-200 text-xl mr-2" />
+              <IconMessenger class="text-voloblue-200 text-[16px] mr-2" />
               <a :href="'????' + contact.value">{{ contact.value }} (Telegram)</a>
             </p> -->
             </div>
