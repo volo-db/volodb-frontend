@@ -31,7 +31,9 @@
         </header>
         <article class="flex flex-col gap-8 w-full self-start mt-6">
           <!-- contact section -->
+
           <VolunteerDetailOverviewContact />
+
           <!-- address section -->
           <details v-if="addresses" class="mb-2" open>
             <summary class="font-medium">Anschriften</summary>
