@@ -141,6 +141,21 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       } finally {
         this.fetching = false
       }
+    },
+    async editVolunteerAvatar(formData, id) {
+      this.fetching = true
+
+      try {
+        await fetch('https://volodb.urner.dev/api/v1' + 'volunteers/' + id + '/avatar/', {
+          method: 'PATCH',
+          body: formData
+        })
+      } catch (error) {
+        console.error(error)
+        throw error
+      } finally {
+        this.fetching = false
+      }
     }
   }
 })

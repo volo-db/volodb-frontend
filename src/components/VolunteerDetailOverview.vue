@@ -9,14 +9,8 @@
           <VolunteerDetailOverviewAvatar
             :src="baseUrl + '/files/' + volunteer.avatar"
             :alt="`Avatar von ${volunteer.person.firstname} ${volunteer.person.lastname}`"
+            @editAvatar="editAvatar()"
           />
-          <!-- when hover img -->
-
-          <div
-            class="flex justify-center items-center aspect-square w-[110px] object-cover rounded-full"
-          >
-            <button><IconPenEdit @click="editAvatar()" /></button>
-          </div>
 
           <!-- Name -->
           <h2 class="pt-4 text-lg font-medium">
@@ -124,7 +118,6 @@ import { useVolunteerStore } from '@/stores/VolunteerStore.js'
 import IconMail from '@/components/IconMail.vue'
 import IconPhone from '@/components/IconPhone.vue'
 import IconMessenger from '@/components/IconMessenger.vue'
-import IconPenEdit from '@/components/IconPenEdit.vue'
 import VolunteerDetailOverviewAvatar from './VolunteerDetailOverviewAvatar.vue'
 
 export default {
@@ -141,7 +134,6 @@ export default {
     IconMail,
     IconPhone,
     IconMessenger,
-    IconPenEdit,
     VolunteerDetailOverviewAvatar
   },
   data() {
@@ -153,7 +145,16 @@ export default {
     }
   },
   methods: {
-    editAvatar() {}
+    async editAvatar() {
+      let file = this.formData.file
+      let id = this.$route.params.volunteerId
+
+      try {
+        await this.volunteerStore.editVolunteerAvatar(file, id)
+      } catch (error) {
+        console.error('Error editing avatar:', error)
+      }
+    }
   },
   async beforeMount() {
     await this.volunteerStore.getVolunteer(this.$route.params.volunteerId)
