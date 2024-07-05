@@ -32,6 +32,7 @@ export function getAge(birthdayString, relevantDateString) {
 }
 
 export function getPropperDateString(dateString) {
+  if (!dateString) return ''
   try {
     return new Date(dateString).toLocaleDateString('de-DE', {
       day: '2-digit',
