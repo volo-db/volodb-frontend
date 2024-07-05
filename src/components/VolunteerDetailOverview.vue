@@ -5,13 +5,13 @@
       <div>
         <header class="flex flex-col items-center gap-3">
           <!-- Avatar -->
-          <div class="border-[3px] border-green-300 rounded-full p-2">
-            <img
-              :src="baseUrl + '/files/' + volunteer.avatar"
-              alt="Avatar von ausgewähltem Freiwilligen"
-              class="aspect-square w-[110px] object-cover rounded-full"
-            />
-          </div>
+
+          <VolunteerDetailOverviewAvatar
+            :src="avatarSrc"
+            :alt="`Avatar von ${volunteer.person.firstname} ${volunteer.person.lastname}`"
+            @fileSelected="editAvatar"
+          />
+
           <!-- Name -->
           <h2 class="pt-4 text-lg font-medium">
             {{ volunteer.person.firstname }} {{ volunteer.person.lastname }}
@@ -51,6 +51,7 @@
 </template>
 <script>
 import { useVolunteerStore } from '@/stores/VolunteerStore.js'
+import VolunteerDetailOverviewAvatar from './VolunteerDetailOverviewAvatar.vue'
 import VolunteerDetailOverviewAddresses from './VolunteerDetailOverviewAddresses.vue'
 import VolunteerDetailOverviewContact from './VolunteerDetailOverviewContact.vue'
 
@@ -65,6 +66,7 @@ export default {
     }
   },
   components: {
+    VolunteerDetailOverviewAvatar,
     VolunteerDetailOverviewAddresses,
     VolunteerDetailOverviewContact
   },
@@ -76,12 +78,46 @@ export default {
       relevantContract: null
     }
   },
+  methods: {
+    async editAvatar(event) {
+      const file = event.target.files[0]
+
+      if (file) {
+        const formData = new FormData()
+        formData.append('avatar', file)
+
+        try {
+          await this.volunteerStore.editVolunteerAvatar(formData, this.$route.params.volunteerId)
+        } catch (error) {
+          console.error('Error editing Avatar: ', error)
+        } finally {
+          await this.volunteerStore.getVolunteer(this.$route.params.volunteerId)
+          this.volunteer = this.volunteerStore.selectedVolunteer
+        }
+      }
+    }
+  },
+  computed: {
+    // Computed property to generate a new avatar src URL with a cache-busting query parameter
+    avatarSrc() {
+      return this.volunteer ? `${this.baseUrl}/files/${this.volunteer.avatar}?t=${Date.now()}` : ''
+    }
+  },
+
   async beforeMount() {
     await this.volunteerStore.getVolunteer(this.$route.params.volunteerId)
     this.volunteer = this.volunteerStore.selectedVolunteer
     this.contacts = this.volunteerStore.selectedVolunteerContacts
     this.addresses = this.volunteerStore.selectedVolunteerAddresses
     this.relevantContract = this.volunteerStore.selectedVolunteerRelevantContract
+  },
+  watch: {
+    volunteer(newVal) {
+      if (newVal) {
+        // Automatically updates the `volunteer` property based on the store's `selectedVolunteer`
+        this.volunteer = this.volunteerStore.selectedVolunteer
+      }
+    }
   }
 }
 </script>
