@@ -5,7 +5,7 @@
     <div v-for="contact of contacts" :key="contact.id" class="flex flex-col gap-3 pt-3 text-sm">
       <!-- Email -->
       <p v-if="contact.type === 'email'">
-        <IconMail class="text-voloblue-200 opacity-60 text- mr-2" />
+        <IconMail class="text-voloblue-200 opacity-60 text-xl mr-2" />
         <a :href="'mailto:' + contact.value">{{ contact.value }}</a>
       </p>
       <!-- Phone -->
