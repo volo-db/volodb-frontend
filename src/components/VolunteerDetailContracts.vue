@@ -51,9 +51,15 @@
         </div>
       </section>
       <!-- Time of Service -->
-      <section class="rounded bg-white px-[18px] py-[16px] w-[330px] h-[120px]">
+      <section class="group relative rounded bg-white p-[22px] w-[330px] h-[120px]">
+        <button
+          v-if="true"
+          class="hidden absolute p-2 rounded-full m-1 top-0 right-0 group-hover:inline hover:text-white hover:bg-voloblue-200"
+        >
+          <IconPenEdit />
+        </button>
         <h2 class="font-medium">Dienstzeit</h2>
-        <div v-if="volunteer" class="flex justify-between items-center h-[62px]">
+        <div v-if="volunteer" class="flex justify-between items-center h-[54px]">
           <!-- left column -->
 
           <div class="flex gap-2 mt-2 items-center">
@@ -83,8 +89,14 @@
       <!-- Holiday -->
       <section
         v-if="volunteer"
-        class="rounded bg-white px-[18px] py-[16px] w-[160px] h-[120px] flex flex-col justify-between"
+        class="group relative rounded bg-white px-[18px] py-[16px] w-[160px] h-[120px] flex flex-col justify-between"
       >
+        <button
+          v-if="true"
+          class="hidden absolute p-2 rounded-full m-1 top-0 right-0 group-hover:inline hover:text-white hover:bg-voloblue-200"
+        >
+          <IconPenEdit />
+        </button>
         <h2 class="font-medium">Urlaubstage</h2>
         <div class="flex gap-2 items-end">
           <IconPalmTree class="inline text-2xl text-voloblue-200/50" />
@@ -94,8 +106,14 @@
       <!-- Seminar Days -->
       <section
         v-if="volunteer"
-        class="rounded bg-white px-[18px] py-[16px] w-[160px] h-[120px] flex flex-col justify-between"
+        class="group relative rounded bg-white px-[18px] py-[16px] w-[160px] h-[120px] flex flex-col justify-between"
       >
+        <button
+          v-if="true"
+          class="hidden absolute p-2 rounded-full m-1 top-0 right-0 group-hover:inline hover:text-white hover:bg-voloblue-200"
+        >
+          <IconPenEdit />
+        </button>
         <h2 class="font-medium">Seminartage</h2>
         <div class="flex gap-2 items-end">
           <IconSeminars class="inline text-2xl text-voloblue-200/50" />
@@ -105,8 +123,14 @@
       <!-- Sick Days -->
       <section
         v-if="volunteer"
-        class="rounded bg-white px-[18px] py-[16px] w-[160px] h-[120px] flex flex-col justify-between"
+        class="group relative rounded bg-white px-[18px] py-[16px] w-[160px] h-[120px] flex flex-col justify-between"
       >
+        <button
+          v-if="true"
+          class="hidden absolute p-2 rounded-full m-1 top-0 right-0 group-hover:inline hover:text-white hover:bg-voloblue-200"
+        >
+          <IconPenEdit />
+        </button>
         <h2 class="font-medium">Krankheitst.</h2>
         <div class="flex gap-2 items-end">
           <IconClinicalThermometer class="inline text-3xl text-voloblue-200/50" />
@@ -114,7 +138,16 @@
         </div>
       </section>
       <!-- Sallery -->
-      <section v-if="volunteer" class="rounded bg-white px-[18px] py-[16px] w-[330px] h-[210px]">
+      <section
+        v-if="volunteer"
+        class="group relative rounded bg-white px-[18px] py-[16px] w-[330px] h-[210px]"
+      >
+        <button
+          v-if="true"
+          class="hidden absolute p-2 rounded-full m-1 top-0 right-0 group-hover:inline hover:text-white hover:bg-voloblue-200"
+        >
+          <IconPenEdit />
+        </button>
         <h2 class="font-medium">
           Vergütung
           <span class="font-normal text-vologray-400">- ({{ contract.salary.name }})</span>
@@ -168,6 +201,7 @@ import VolunteerDetailContractSallary from './VolunteerDetailContractSallary.vue
 import IconDashboard from './IconDashboard.vue'
 import IconClinicalThermometer from './IconClinicalThermometer.vue'
 import IconPlus from './IconPlus.vue'
+import IconPenEdit from './IconPenEdit.vue'
 
 export default {
   setup: () => {
@@ -186,7 +220,8 @@ export default {
     VolunteerDetailContractSallary,
     IconDashboard,
     IconClinicalThermometer,
-    IconPlus
+    IconPlus,
+    IconPenEdit
   },
   computed: {
     age() {
