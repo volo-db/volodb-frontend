@@ -51,7 +51,7 @@
       </div>
     </main>
     <footer class="flex justify-between p-6 border-solid border-t border-vologray-200">
-      <ButtonStandard @click.prevent="$emit('cancel')">Abbrechen</ButtonStandard>
+      <ButtonStandard @click.prevent="$emit('cancel')" :gray="true">Abbrechen</ButtonStandard>
       <ButtonStandard type="submit" :form="id">{{ submitButtonText }}</ButtonStandard>
     </footer>
   </section>

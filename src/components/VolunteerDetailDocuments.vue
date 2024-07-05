@@ -2,7 +2,7 @@
   <div>
     <div class="flex justify-between mt-8">
       <SearchBar v-model="searchQuery" placeholder="Suche nach Dokumenten" />
-      <ButtonStandard>Dokument hinzufügen</ButtonStandard>
+      <ButtonStandard @click="uploadDocument = true">Dokument hinzufügen</ButtonStandard>
     </div>
     <div class="mt-16" v-if="volunteerStore.volunteerDocuments">
       <table class="w-full">
@@ -66,6 +66,9 @@
           </tr>
         </tbody>
       </table>
+      <ContainerModal v-if="uploadDocument"
+        ><DocumentFormular @saved="uploadDocument = false" @cancel="uploadDocument = false" />
+      </ContainerModal>
     </div>
   </div>
 </template>
@@ -78,6 +81,8 @@ import IconArrowDownload from './IconArrowDownload.vue'
 import ButtonStandard from '@/components/ButtonStandard.vue'
 import SearchBar from '@/components/SearchBar.vue'
 import debounce from 'lodash.debounce'
+import ContainerModal from '@/components/ContainerModal.vue'
+import DocumentFormular from '@/components/DocumentFormular.vue'
 
 export default {
   setup: () => {
@@ -89,7 +94,9 @@ export default {
     ButtonDownload,
     IconArrowDownload,
     ButtonStandard,
-    SearchBar
+    SearchBar,
+    ContainerModal,
+    DocumentFormular
   },
   data() {
     return {
@@ -98,7 +105,8 @@ export default {
       sortOrder: 'desc',
       sortBy: 'timestamp',
       searchQuery: '',
-      debouncedSearchQuery: ''
+      debouncedSearchQuery: '',
+      uploadDocument: false
     }
   },
   methods: {

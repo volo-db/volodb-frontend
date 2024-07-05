@@ -13,8 +13,9 @@
       :id="id"
       :required="required"
       :placeholder="placeholder"
-      :value="modelValue"
-      @input="$emit('update:modelValue', $event.target.value)"
+      :value="type !== 'file' ? modelValue : ''"
+      @input="handleInput"
+      @change="handleChange"
       ref="input"
     />
   </div>
@@ -37,7 +38,8 @@ export default {
       type: String
     },
     modelValue: {
-      type: String
+      type: [String, Array], // Accept both String and Array
+      default: ''
     },
     hasError: {
       type: Boolean,
@@ -50,6 +52,18 @@ export default {
   },
   emits: ['update:modelValue'],
   methods: {
+    handleInput(event) {
+      // Handle input for text fields
+      if (this.type !== 'file') {
+        this.$emit('update:modelValue', event.target.value)
+      }
+    },
+    handleChange(event) {
+      // Handle file input
+      if (this.type === 'file') {
+        this.$emit('update:modelValue', event.target.files)
+      }
+    },
     focus() {
       this.$refs.input.focus()
     }
