@@ -21,8 +21,8 @@ export const vdbFetchData = async (subdirectory, method, data) => {
     }
   }
 
-  // Only set body if method is not DELETE
-  if (method !== 'DELETE') {
+  // Only set body if it's not null
+  if (data) {
     fetchOptions.body = isFormData ? data : JSON.stringify(data)
   }
 

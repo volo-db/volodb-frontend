@@ -35,24 +35,7 @@
           <VolunteerDetailOverviewContact />
 
           <!-- address section -->
-          <details v-if="addresses" class="mb-2" open>
-            <summary class="font-medium">Anschriften</summary>
-            <div class="flex flex-col gap-4 mt-4">
-              <div v-for="address of addresses" class="text-vologray-600" :key="address.id">
-                <p class="text-sm">{{ address.name }}</p>
-                <p :class="{ 'text-black': address.status === 'ACTIVE' }">{{ address.street }}</p>
-                <p :class="{ 'text-black': address.status === 'ACTIVE' }">
-                  {{ address.postalcode }} {{ address.city }}
-                </p>
-                <p
-                  v-if="!(address.country == 'Germany')"
-                  :class="{ 'text-black': address.status === 'ACTIVE' }"
-                >
-                  {{ address.country }}
-                </p>
-              </div>
-            </div>
-          </details>
+          <VolunteerDetailOverviewAddresses />
           <details v-if="false" class="mb-2">
             <summary class="font-medium">FW-Dienstverlauf</summary>
             <ul class="flex flex-col gap-3 pt-3">
@@ -69,6 +52,7 @@
 <script>
 import { useVolunteerStore } from '@/stores/VolunteerStore.js'
 import VolunteerDetailOverviewAvatar from './VolunteerDetailOverviewAvatar.vue'
+import VolunteerDetailOverviewAddresses from './VolunteerDetailOverviewAddresses.vue'
 import VolunteerDetailOverviewContact from './VolunteerDetailOverviewContact.vue'
 
 export default {
@@ -83,6 +67,7 @@ export default {
   },
   components: {
     VolunteerDetailOverviewAvatar,
+    VolunteerDetailOverviewAddresses,
     VolunteerDetailOverviewContact
   },
   data() {
