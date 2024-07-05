@@ -1,7 +1,7 @@
 <template>
   <section class="w-[70vw] max-w-[850px] min-w-[400px]" @keydown.esc="$emit('cancel')">
     <header class="flex justify-center p-5 border-solid border-b border-vologray-200">
-      <h2 class="text-[20px] text-bold font-medium">{{ title }}</h2>
+      <h2 class="text-[20px] text-bold font-medium">Neuen Namen anlegen</h2>
     </header>
     <main class="p-8">
       <p
@@ -14,66 +14,47 @@
       <div v-if="!volunteerStore.fetching" class="flex justify-center">
         <!-- left column -->
         <div class="flex-1">
-          <p class="text-[13px] text-vologray-400 pe-20">
-            {{ description }}
-          </p>
+          <p class="text-[13px] text-vologray-400 pe-20">Lege hier einen neuen Namen an.</p>
         </div>
         <!-- right column -->
         <div class="flex-1">
-          <form class="flex flex-col gap-2" :id="id" @submit.prevent="onSubmit" novalidate>
-            <!-- for editing a note -->
-
-            <FormularSelectBox
-              :list="['Eingehender Anruf', 'Ausgehender Anruf', 'E-Mail', 'Notiz']"
-              label="Typ"
-              id="type"
-              name="type"
+          <form class="flex flex-col gap-2" id="new-name" @submit.prevent="onSubmit" novalidate>
+            <FormularInput
+              label="Nachname"
+              id="lastname"
+              :hasError="validationErr.lastname"
+              v-model="formData.lastname"
               :required="true"
-              :hasError="validationErr.type"
-              v-model="formData.note.type"
+              ref="lastname"
             />
-            <FormularTextarea
-              label="Notiz"
-              id="note"
-              name="note"
-              rows="6"
-              ref="note"
+            <FormularInput
+              label="Vorname"
+              id="firstname"
+              :hasError="validationErr.firstname"
+              v-model="formData.firstname"
               :required="true"
-              :hasError="validationErr.note"
-              v-model="formData.note.note"
             />
           </form>
         </div>
       </div>
       <div v-if="volunteerStore.fetching" class="flex gap-2 justify-center items-center text-md">
         <IconSpinner />
-        <p>{{ loadingText }}</p>
+        <p>speichere Namen ...</p>
       </div>
     </main>
     <footer class="flex justify-between p-6 border-solid border-t border-vologray-200">
       <ButtonStandard @click.prevent="$emit('cancel')" :gray="true">Abbrechen</ButtonStandard>
-      <ButtonStandard type="submit" :form="id">{{ submitButtonText }}</ButtonStandard>
+      <ButtonStandard type="submit" form="new-name">Namen anlegen</ButtonStandard>
     </footer>
   </section>
 </template>
 
 <script>
+import FormularInput from './FormularInput.vue'
 import ButtonStandard from './ButtonStandard.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
-import FormularSelectBox from './FormularSelectBox.vue'
-import FormularTextarea from './FormularTextarea.vue'
 import IconSpinner from './IconSpinner.vue'
-
 export default {
-  components: { ButtonStandard, FormularSelectBox, FormularTextarea, IconSpinner },
-  props: {
-    title: String,
-    description: String,
-    id: String,
-    loadingText: String,
-    submitButtonText: String,
-    noteCopy: Object
-  },
   setup() {
     const volunteerStore = useVolunteerStore()
 
@@ -81,45 +62,53 @@ export default {
       volunteerStore
     }
   },
+  components: { FormularInput, IconSpinner, ButtonStandard },
   data() {
     return {
-      formData: {
-        note: { ...this.noteCopy }
-      },
       validationErr: {
-        type: false,
-        note: false
+        lastname: false,
+        firstname: false
       },
-
+      formData: {
+        lastname: '',
+        firstname: ''
+      },
       formValid: false,
       errorMessage: false
     }
   },
   methods: {
     validate() {
+      // clear the table ;-)
       this.formValid = false
-      this.validationErr.type = false
-      this.validationErr.note = false
+      this.validationErr.lastname = false
+      this.validationErr.firstname = false
 
-      if (!this.formData.note.type) this.validationErr.type = true
-      if (!this.formData.note.note) this.validationErr.note = true
+      // Validate fields:
+      // Lastname
+      if (!this.formData.lastname) this.validationErr.lastname = true
 
-      if (!this.validationErr.type && !this.validationErr.note) this.formValid = true
+      // Firstname
+      if (!this.formData.firstname) this.validationErr.firstname = true
+
+      // If theres no error -> form is valid
+      if (!this.validationErr.lastname && !this.validationErr.firstname) this.formValid = true
     },
     async onSubmit() {
       this.errorMessage = false
 
       this.validate()
       if (this.formValid) {
-        let note = {
-          type: this.formData.note.type,
-          note: this.formData.note.note.trim()
+        let volunteer = {
+          person: {
+            lastname: this.formData.lastname,
+            firstname: this.formData.firstname
+          }
         }
-
-        let id = this.formData.note.id
+        let id = this.$route.params.volunteerId
 
         try {
-          await this.volunteerStore.setNote(note, id)
+          await this.volunteerStore.editName(volunteer, id)
         } catch (error) {
           console.error(error)
 
@@ -132,10 +121,10 @@ export default {
         }
         this.$emit('saved')
       }
+    },
+    mounted() {
+      this.$refs.lastname.focus()
     }
-  },
-  mounted() {
-    this.$refs.note.focus()
   }
 }
 </script>

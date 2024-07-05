@@ -141,6 +141,18 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       } finally {
         this.fetching = false
       }
+    },
+    async editName(volunteer, id) {
+      this.fetching = true
+
+      try {
+        await vdbFetchData('volunteers/' + id, 'PATCH', volunteer)
+      } catch (error) {
+        console.error(error)
+        throw error
+      } finally {
+        this.fetching = false
+      }
     }
   }
 })

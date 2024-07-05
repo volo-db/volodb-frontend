@@ -13,9 +13,23 @@
             />
           </div>
           <!-- Name -->
-          <h2 class="pt-4 text-lg font-medium">
-            {{ volunteer.person.firstname }} {{ volunteer.person.lastname }}
-          </h2>
+          <div
+            class="flex gap-2 p-2 relative"
+            @mouseover="hover = true"
+            @mouseleave="hover = false"
+          >
+            <h2 class="pt-4 pr-3 text-lg font-medium">
+              {{ volunteer.person.firstname }} {{ volunteer.person.lastname }}
+            </h2>
+            <!-- pen to edit name -->
+            <button
+              class="text-vologray-500 absolute right-0 top-1/2 transform -translate-y-1/2"
+              v-if="hover"
+              @click="newNameModal = true"
+            >
+              <IconPenEdit />
+            </button>
+          </div>
           <!-- Project -->
           <p class="text-sm" v-if="relevantContract">
             Einsatzstelle:
@@ -65,13 +79,19 @@
       </div>
     </div>
   </div>
+  <ContainerModal v-if="newNameModal">
+    <NameFormular @saved="newNameModal = false" @cancel="newNameModal = false" />
+  </ContainerModal>
 </template>
 <script>
 import { useVolunteerStore } from '@/stores/VolunteerStore.js'
-import IconMail from '@/components/IconMail.vue'
-import IconPhone from '@/components/IconPhone.vue'
-import IconMessenger from '@/components/IconMessenger.vue'
+import ContainerModal from '@/components/ContainerModal.vue'
+import NameFormular from '@/components/NameFormular.vue'
+// import IconMail from '@/components/IconMail.vue'
+// import IconPhone from '@/components/IconPhone.vue'
+// import IconMessenger from '@/components/IconMessenger.vue'
 import VolunteerDetailOverviewContact from './VolunteerDetailOverviewContact.vue'
+import IconPenEdit from '@/components/IconPenEdit.vue'
 
 export default {
   setup() {
@@ -84,9 +104,12 @@ export default {
     }
   },
   components: {
-    IconMail,
-    IconPhone,
-    IconMessenger,
+    // IconMail,
+    // IconPhone,
+    // IconMessenger,
+    NameFormular,
+    ContainerModal,
+    IconPenEdit,
     VolunteerDetailOverviewContact
   },
   data() {
@@ -94,7 +117,9 @@ export default {
       volunteer: null,
       contacts: null,
       addresses: null,
-      relevantContract: null
+      relevantContract: null,
+      hover: false,
+      newNameModal: false
     }
   },
   async beforeMount() {
