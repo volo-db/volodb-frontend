@@ -16,10 +16,23 @@ export const vdbFetchData = async (subdirectory, method, data) => {
     },
     body: JSON.stringify(data)
   })
-    .then((res) => {
-      if (!res.ok) throw Error(`VoloDB-ERROR\n🙅‍♀️ fetching failed! (${res.status}`)
-      if (res.headers.get('Content-Length') == 0) return
-      return res.json()
+    .then(async (res) => {
+      if (!res.ok) {
+        throw new Error(`VoloDB-ERROR\n🙅‍♀️ fetching failed! (${res.status}): ${responseBody}`)
+      }
+
+      const contentType = res.headers.get('Content-Type') || ''
+      let responseBody
+
+      if (contentType.includes('application/json')) {
+        // Parse JSON response
+        responseBody = await res.json()
+      } else {
+        // Get text response for non-JSON
+        responseBody = await res.text()
+      }
+
+      return responseBody
     })
     .then((data) => {
       return data

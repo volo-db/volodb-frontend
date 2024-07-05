@@ -105,6 +105,55 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         this.fetching = false
       }
     },
+    async getVolunteerAddresses(volunteerId) {
+      const thisRequest = `volunteers/${volunteerId}/addresses`
+
+      mostRecentRequest = thisRequest
+
+      this.fetching = true
+
+      try {
+        const addresses = await vdbFetchData(thisRequest, 'GET')
+        if (mostRecentRequest != thisRequest) return
+        this.selectedVolunteerAddresses = addresses
+      } catch (error) {
+        console.error(error)
+      } finally {
+        this.fetching = false
+      }
+    },
+    async setVolunteerAddresses(volunteerId, address) {
+      const method = address.id ? 'PATCH' : 'POST'
+
+      const thisRequest = `volunteers/${volunteerId}/addresses${method === 'PATCH' ? '/' + address.id : ''}`
+      mostRecentRequest = thisRequest
+
+      this.fetching = true
+
+      try {
+        const addresses = await vdbFetchData(thisRequest, method, address)
+        if (mostRecentRequest != thisRequest) return
+        this.selectedVolunteerAddresses = addresses
+      } catch (error) {
+        console.error(error)
+      } finally {
+        this.fetching = false
+      }
+    },
+    async deleteVolunteerAddress(addressId) {
+      this.fetching = true
+
+      try {
+        await vdbFetchData(
+          `volunteers/${this.selectedVolunteer.id}/addresses/${addressId}`,
+          'DELETE'
+        )
+      } catch (error) {
+        console.error(error)
+      } finally {
+        this.fetching = false
+      }
+    },
     async setNote(note, id) {
       this.fetching = true
       if (id) {
