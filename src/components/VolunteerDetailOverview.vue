@@ -74,7 +74,6 @@ import IconMessenger from '@/components/IconMessenger.vue'
 import VolunteerDetailOverviewAvatar from './VolunteerDetailOverviewAvatar.vue'
 import VolunteerDetailOverviewContact from './VolunteerDetailOverviewContact.vue'
 
-
 export default {
   setup() {
     const volunteerStore = useVolunteerStore()
@@ -86,12 +85,8 @@ export default {
     }
   },
   components: {
-    IconMail,
-    IconPhone,
-    IconMessenger,
-    VolunteerDetailOverviewAvatar
+    VolunteerDetailOverviewAvatar,
     VolunteerDetailOverviewContact
-
   },
   data() {
     return {
