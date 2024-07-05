@@ -51,9 +51,6 @@
 </template>
 <script>
 import { useVolunteerStore } from '@/stores/VolunteerStore.js'
-import IconMail from '@/components/IconMail.vue'
-import IconPhone from '@/components/IconPhone.vue'
-import IconMessenger from '@/components/IconMessenger.vue'
 import VolunteerDetailOverviewAddresses from './VolunteerDetailOverviewAddresses.vue'
 import VolunteerDetailOverviewContact from './VolunteerDetailOverviewContact.vue'
 
