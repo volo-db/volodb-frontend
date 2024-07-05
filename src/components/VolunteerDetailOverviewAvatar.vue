@@ -9,11 +9,17 @@
       <div>
         <form>
           <label
-            class="cursor-pointer absolute top-1/2 left-1/2 p-2 bg-vologray-200 rounded-full shadow-md transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition"
+            class="cursor-pointer absolute top-1/2 left-1/2 p-2 bg-white rounded-full shadow-md transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition"
             for="edit"
             ><IconPenEdit
           /></label>
-          <input id="edit" type="file" hidden @change="fileSelected" name="avatar" />
+          <input
+            id="edit"
+            type="file"
+            hidden
+            @change="$emit('fileSelected', $event)"
+            name="avatar"
+          />
         </form>
       </div>
     </div>
@@ -36,26 +42,6 @@ export default {
   },
 
   components: { IconPenEdit },
-  props: ['src', 'alt'],
-  methods: {
-    async fileSelected(event) {
-      const file = event.target.files[0]
-
-      if (file) {
-        const formData = new FormData()
-        formData.append('avatar', file)
-        // check for file:
-        for (let [key, value] of formData.entries()) {
-          console.log(`${key}:`, value)
-        }
-        console.log(formData)
-        try {
-          await this.volunteerStore.editVolunteerAvatar(formData, this.$route.params.volunteerId)
-        } catch (error) {
-          console.log('Error editing Avatar: ', error)
-        }
-      }
-    }
-  }
+  props: ['src', 'alt']
 }
 </script>

@@ -146,10 +146,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       this.fetching = true
 
       try {
-        await fetch('https://volodb.urner.dev/api/v1' + 'volunteers/' + id + '/avatar/', {
-          method: 'PATCH',
-          body: formData
-        })
+        await vdbFetchData('volunteers/' + id + '/avatar/', 'PATCH', formData)
       } catch (error) {
         console.error(error)
         throw error

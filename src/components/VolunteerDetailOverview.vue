@@ -7,9 +7,9 @@
           <!-- Avatar -->
 
           <VolunteerDetailOverviewAvatar
-            :src="baseUrl + '/files/' + volunteer.avatar"
+            :src="avatarSrc"
             :alt="`Avatar von ${volunteer.person.firstname} ${volunteer.person.lastname}`"
-            @editAvatar="editAvatar()"
+            @fileSelected="editAvatar"
           />
 
           <!-- Name -->
@@ -145,23 +145,49 @@ export default {
     }
   },
   methods: {
-    async editAvatar() {
-      let file = this.formData.file
-      let id = this.$route.params.volunteerId
+    async editAvatar(event) {
+      const file = event.target.files[0]
 
-      try {
-        await this.volunteerStore.editVolunteerAvatar(file, id)
-      } catch (error) {
-        console.error('Error editing avatar:', error)
+      if (file) {
+        const formData = new FormData()
+        formData.append('avatar', file)
+        // check for file in console:
+        for (let [key, value] of formData.entries()) {
+          console.log(`${key}:`, value)
+        }
+
+        try {
+          await this.volunteerStore.editVolunteerAvatar(formData, this.$route.params.volunteerId)
+        } catch (error) {
+          console.log('Error editing Avatar: ', error)
+        } finally {
+          await this.volunteerStore.getVolunteer(this.$route.params.volunteerId)
+          this.volunteer = this.volunteerStore.selectedVolunteer
+        }
       }
     }
   },
+  computed: {
+    // Computed property to generate a new avatar src URL with a cache-busting query parameter
+    avatarSrc() {
+      return this.volunteer ? `${this.baseUrl}/files/${this.volunteer.avatar}?t=${Date.now()}` : ''
+    }
+  },
+
   async beforeMount() {
     await this.volunteerStore.getVolunteer(this.$route.params.volunteerId)
     this.volunteer = this.volunteerStore.selectedVolunteer
     this.contacts = this.volunteerStore.selectedVolunteerContacts
     this.addresses = this.volunteerStore.selectedVolunteerAddresses
     this.relevantContract = this.volunteerStore.selectedVolunteerRelevantContract
+  },
+  watch: {
+    volunteer(newVal) {
+      if (newVal) {
+        // Automatically updates the `volunteer` property based on the store's `selectedVolunteer`
+        this.volunteer = this.volunteerStore.selectedVolunteer
+      }
+    }
   }
 }
 </script>
