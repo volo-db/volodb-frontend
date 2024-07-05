@@ -186,6 +186,7 @@ export default {
       if (newVal) {
         // Automatically updates the `volunteer` property based on the store's `selectedVolunteer`
         this.volunteer = this.volunteerStore.selectedVolunteer
+        console.log('watch')
       }
     }
   }
