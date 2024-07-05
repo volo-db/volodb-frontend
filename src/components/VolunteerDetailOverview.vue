@@ -16,6 +16,14 @@
           <h2 class="pt-4 text-lg font-medium">
             {{ volunteer.person.firstname }} {{ volunteer.person.lastname }}
           </h2>
+          <!-- Birthday and -place -->
+          <p v-if="volunteer.birthday" class="text-sm">
+            geboren am
+            <span class="font-bold">{{ getPropperDateString(volunteer.birthday) }}</span>
+            in
+            <span class="font-bold">{{ volunteer.birthplace }}</span>
+          </p>
+          <hr class="w-40" />
           <!-- Project -->
           <p class="text-sm" v-if="relevantContract">
             Einsatzstelle:
@@ -54,6 +62,7 @@ import { useVolunteerStore } from '@/stores/VolunteerStore.js'
 import VolunteerDetailOverviewAvatar from './VolunteerDetailOverviewAvatar.vue'
 import VolunteerDetailOverviewAddresses from './VolunteerDetailOverviewAddresses.vue'
 import VolunteerDetailOverviewContact from './VolunteerDetailOverviewContact.vue'
+import { getPropperDateString } from '@/utils/dateAndTime'
 
 export default {
   setup() {
@@ -62,7 +71,8 @@ export default {
 
     return {
       volunteerStore,
-      baseUrl
+      baseUrl,
+      getPropperDateString
     }
   },
   components: {
