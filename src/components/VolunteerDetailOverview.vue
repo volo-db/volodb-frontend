@@ -120,6 +120,7 @@ export default {
     async onNameSaved() {
       this.newNameModal = false
       await this.volunteerStore.getVolunteer(this.volunteerStore.selectedVolunteer.id)
+      this.volunteer = this.volunteerStore.selectedVolunteer
     }
   },
   async beforeMount() {
@@ -128,15 +129,6 @@ export default {
     this.contacts = this.volunteerStore.selectedVolunteerContacts
     this.addresses = this.volunteerStore.selectedVolunteerAddresses
     this.relevantContract = this.volunteerStore.selectedVolunteerRelevantContract
-  },
-  watch: {
-    volunteer(newVal) {
-      console.log('watch ', this.volunteer)
-      if (newVal) {
-        // Automatically updates the `volunteer` property based on the store's `selectedVolunteer`
-        this.volunteer = this.volunteerStore.selectedVolunteer
-      }
-    }
   }
 }
 </script>
