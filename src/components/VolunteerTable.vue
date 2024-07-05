@@ -49,7 +49,7 @@
         </tbody>
       </table>
       <PaginationController
-        class="mt-1"
+        class="mt-[2px]"
         :currentPage="volunteerStore.volunteersPage.pageable.pageNumber"
         :totalPages="volunteerStore.volunteersPage.totalPages"
         @updatePage="updateVolunteerPage"

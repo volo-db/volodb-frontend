@@ -1,8 +1,9 @@
 <template>
-  <div class="flex">
-    <div class="bg-white"><VolunteerDetailOverview /></div>
+  <div class="flex overflow-hidden">
 
-    <div class="flex-1 bg-vologray-100 p-8">
+    <VolunteerDetailOverview />
+
+    <div class="flex-1 bg-vologray-100 p-8 overflow-auto">
       <VolunteerDetailNavigationbar
         :navigation="['Dokumentation', 'Dokumente', 'Vereinbarung']"
         :active="selectedContextTab"
@@ -11,20 +12,23 @@
 
       <VolunteerDetailDocuments class="mt-8" v-if="selectedContextTab === 'dokumente'" />
       <VolunteerDetailNotes class="mt-8" v-if="selectedContextTab === 'dokumentation'" />
+      <VolunteerDetailContracts class="mt-8" v-if="selectedContextTab === 'vereinbarung'" />
     </div>
   </div>
 </template>
 <script>
 import { useVolunteerStore } from '@/stores/VolunteerStore.js'
 import VolunteerDetailNavigationbar from '@/components/VolunteerDetailNavigationbar.vue'
+import VolunteerDetailNotes from '@/components/VolunteerDetailNotes.vue'
+import VolunteerDetailContracts from '@/components/VolunteerDetailContracts.vue'
 import VolunteerDetailOverview from '@/components/VolunteerDetailOverview.vue'
 import VolunteerDetailDocuments from '@/components/VolunteerDetailDocuments.vue'
-import VolunteerDetailNotes from '@/components/VolunteerDetailNotes.vue'
 import debounce from 'lodash.debounce'
 
 export default {
   components: {
     VolunteerDetailNavigationbar,
+    VolunteerDetailContracts,
     VolunteerDetailOverview,
     VolunteerDetailDocuments,
     VolunteerDetailNotes
