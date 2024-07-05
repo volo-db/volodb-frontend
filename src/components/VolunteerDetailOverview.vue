@@ -82,7 +82,7 @@
             </div>
           </details>
           <!-- address section -->
-          <VolunteerDetailOverviewAddresses :addresses="addresses" />
+          <VolunteerDetailOverviewAddresses />
           <details class="mb-2">
             <summary class="font-medium">FW-Dienstverlauf</summary>
             <ul class="flex flex-col gap-3 pt-3">

@@ -1,7 +1,9 @@
 <template>
   <section class="w-[70vw] max-w-[850px] min-w-[400px]" @keydown.esc="$emit('close')">
     <header class="flex justify-center p-5 border-solid border-b border-vologray-200">
-      <h2 class="text-[20px] text-bold font-medium">Neuer Kontakt für</h2>
+      <h2 class="text-[20px] text-bold font-medium">
+        Neue Adresse für {{ volunteerStore.selectedVolunteer.person.firstname }}
+      </h2>
     </header>
     <main class="p-8">
       <p
@@ -30,44 +32,37 @@
               placeholder="zu Hause / Einsatzstelle / WG"
               id="value"
               :required="true"
-              :hasError="validationErr.value"
-              v-model="formData.value"
-              ref="value"
+              :hasError="validationErr.name"
+              v-model="formData.name"
+              ref="addressName"
             />
             <FormularInput
               label="Care Of"
+              placeholder="c/o Huber"
               id="careOf"
               :required="false"
-              :hasError="validationErr.value"
-              v-model="formData.value"
+              v-model="formData.careOf"
             />
             <FormularInput
               label="Straße"
               id="street"
               :required="true"
-              :hasError="validationErr.value"
-              v-model="formData.value"
+              :hasError="validationErr.street"
+              v-model="formData.street"
             />
             <FormularInput
               label="PLZ"
-              id="zipCode"
+              id="postalCode"
               :required="true"
-              :hasError="validationErr.value"
-              v-model="formData.value"
+              :hasError="validationErr.postalCode"
+              v-model="formData.postalCode"
             />
             <FormularInput
               label="Ort"
               id="city"
               :required="true"
-              :hasError="validationErr.value"
-              v-model="formData.value"
-            />
-            <FormularInput
-              label="Land"
-              id="country"
-              :required="true"
-              :hasError="validationErr.value"
-              v-model="formData.value"
+              :hasError="validationErr.city"
+              v-model="formData.city"
             />
             <FormularSelectBox
               :list="countryStore.sortedCountries"
@@ -78,6 +73,18 @@
               v-model="formData.country"
               :required="true"
             />
+
+            <div class="flex gap-2 items-center mt-4">
+              <input
+                class="p-2 border border-vologray-500 rounded-md"
+                type="checkbox"
+                id="primaryAddressYes"
+                v-model="formData.primaryAddress"
+              />
+              <label class="text-vologray-500 font-normal" for="primaryAddressYes"
+                >Hauptadresse?
+              </label>
+            </div>
           </form>
         </div>
       </div>
@@ -91,7 +98,7 @@
     <footer class="flex justify-between p-6 border-solid border-t border-vologray-200">
       <ButtonStandard @click.prevent="$emit('close')" :gray="true">Abbrechen</ButtonStandard>
       <ButtonStandard type="submit" form="new-volunteer"
-        >{{ valueLabel }} hinzufügen</ButtonStandard
+        >Addresse {{ address ? 'speichern' : 'hinzufügen' }}</ButtonStandard
       >
     </footer>
   </section>
@@ -100,7 +107,6 @@
 import ButtonStandard from './ButtonStandard.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
 import { useCountryStore } from '@/stores/CountryStore'
-import { isValidEmail, isValidPhoneNumber } from '@/utils/validations'
 import FormularInput from './FormularInput.vue'
 import FormularSelectBox from './FormularSelectBox.vue'
 import IconSpinner from './IconSpinner.vue'
@@ -110,6 +116,7 @@ export default {
   setup() {
     const volunteerStore = useVolunteerStore()
     const countryStore = useCountryStore()
+
     countryStore.getCountries()
 
     return {
@@ -117,74 +124,89 @@ export default {
       countryStore
     }
   },
+  props: {
+    address: {
+      type: Object
+    }
+  },
   data() {
     return {
       validationErr: {
-        type: false,
-        mobile: false
+        name: false,
+        street: false,
+        postalCode: false,
+        city: false,
+        country: false
       },
       formData: {
-        type: 'Email',
-        value: ''
+        name: this.address ? this.address.name : '',
+        careOf: this.address ? this.address.careof : '',
+        street: this.address ? this.address.street : '',
+        postalCode: this.address ? this.address.postalcode : '',
+        city: this.address ? this.address.city : '',
+        country: this.address ? this.address.country : 'Deutschland',
+        primaryAddress: this.address ? (this.address.status === 'ACTIVE' ? true : false) : false
       },
-      contactTypes: [],
       formValid: false,
-      errorMessage: false,
-      valueLabel: 'Email'
+      errorMessage: false
     }
   },
   methods: {
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // TODO: Validate values according to type
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
     validate() {
       // clear the table ;-)
       this.formValid = false
-      this.validationErr.type = false
-      this.validationErr.value = false
+      this.validationErr.name = false
+      this.validationErr.street = false
+      this.validationErr.postalCode = false
+      this.validationErr.city = false
+      this.validationErr.country = false
 
       // Validate fields:
-      // Gender
-      if (!this.formData.type) this.validationErr.type = true
+      // Name
+      if (!this.formData.name) this.validationErr.name = true
 
-      // Mobile
-      if (!this.formData.value) this.validationErr.value = true
+      // Street
+      if (!this.formData.street) this.validationErr.street = true
+
+      // postalCode
+      if (!this.formData.postalCode) this.validationErr.postalCode = true
+
+      // City
+      if (!this.formData.city) this.validationErr.city = true
+
+      // Country
+      if (!this.formData.country) this.validationErr.country = true
 
       // If theres no error -> form is valid
-      if (!this.validationErr.type && !this.validationErr.value) this.formValid = true
+      if (
+        !this.validationErr.name &&
+        !this.validationErr.street &&
+        !this.validationErr.postalCode &&
+        !this.validationErr.city &&
+        !this.validationErr.country
+      )
+        this.formValid = true
     },
     async onSubmit() {
       this.errorMessage = false
 
       this.validate()
       if (this.formValid) {
-        let backendType = undefined
-
-        switch (this.formData.type) {
-          case 'Email':
-          case 'WhatsApp':
-          case 'Signal':
-          case 'Threema':
-          case 'Telegram':
-          case 'Instagram':
-            backendType = this.formData.type.toLowerCase()
-            break
-          case 'Mobil':
-            backendType = 'mobile'
-            break
-          case 'Festnetz':
-            backendType = 'landline'
-            break
+        let address = {
+          id: this.address ? this.address.id : null,
+          status: this.formData.primaryAddress ? 'ACTIVE' : 'INACTIVE',
+          name: this.formData.name,
+          careof: this.formData.careOf,
+          country: this.formData.country,
+          street: this.formData.street,
+          postalcode: this.formData.postalCode,
+          city: this.formData.city
         }
-
-        let contact = {
-          type: backendType,
-          value: this.formData.value
-        }
-
         try {
-          await this.contactStore.setContact(this.volo.id, contact)
+          await this.volunteerStore.setVolunteerAddresses(
+            this.volunteerStore.selectedVolunteer.id,
+            address
+          )
         } catch (error) {
           console.error(error)
 
@@ -201,9 +223,8 @@ export default {
       }
     }
   },
-  async beforeMount() {},
   mounted() {
-    this.$refs.type.focus()
+    this.$refs.addressName.focus()
   }
 }
 </script>

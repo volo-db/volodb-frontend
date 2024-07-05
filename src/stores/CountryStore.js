@@ -17,19 +17,20 @@ export const useCountryStore = defineStore('CountryStore', {
         console.error('Error fetching countries:', error)
       } finally {
         this.fetching = false
-        console.log(this.countries)
       }
     }
   },
   getters: {
     sortedCountries() {
+      if (!this.countries) return
+
       const sortedCountries = []
       for (let country of this.countries) {
         if (country.localName !== null) {
           sortedCountries.push(country.localName)
-          sortedCountries.sort()
         }
       }
+      sortedCountries.sort()
       return sortedCountries
     }
   }

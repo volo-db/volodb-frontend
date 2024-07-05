@@ -4,17 +4,31 @@
     <div class="flex flex-col mt-4">
       <div
         v-for="address of addresses"
-        class="flex flex-column items-center gap-2 border-voloblue-200/60 rounded-lg p-2"
+        class="flex items-center justify-between rounded-lg p-2 group"
         :key="address.id"
-        :class="{ border: address.status === 'ACTIVE' }"
+        :class="{
+          border: address.status === 'ACTIVE',
+          'font-bold': address.status === 'ACTIVE'
+        }"
       >
         <div class="m-1">
           <p class="text-sm">- {{ address.name }} -</p>
           <p>{{ address.street }}</p>
           <p>{{ address.postalcode }} {{ address.city }}</p>
-          <p v-if="!(address.country == 'Germany')">
+          <p v-if="!(address.country == 'Deutschland')">
             {{ address.country }}
           </p>
+        </div>
+        <div class="flex gap-2">
+          <button
+            @click.prevent="(selectedAddress = address), (newAddressModal = true)"
+            class="hidden group-hover:inline"
+          >
+            <IconPenEdit />
+          </button>
+          <button @click.prevent="deleteAdress(address)" class="hidden group-hover:inline">
+            <IconTrash />
+          </button>
         </div>
       </div>
     </div>
@@ -22,28 +36,52 @@
       <button @click.prevent="newAddressModal = true"><IconPlus /></button>
     </div>
   </details>
-  <ContainerModal v-if="true">
-    <AddressFormular />
+  <ContainerModal v-if="newAddressModal">
+    <AddressFormular
+      :address="selectedAddress"
+      @close="newAddressModal = false"
+      @saved="updateAddresses"
+    />
   </ContainerModal>
 </template>
 
 <script>
 import AddressFormular from './AddressFormular.vue'
 import ContainerModal from './ContainerModal.vue'
-import IconDashboard from './IconDashboard.vue'
+import { useVolunteerStore } from '@/stores/VolunteerStore'
 import IconPlus from './IconPlus.vue'
+import IconPenEdit from './IconPenEdit.vue'
+import IconTrash from './IconTrash.vue'
 export default {
-  components: { IconDashboard, IconPlus, ContainerModal, AddressFormular },
-  setup() {},
-  props: {
-    addresses: {
-      type: Object
-    }
+  components: { IconPlus, ContainerModal, AddressFormular, IconPenEdit, IconTrash },
+  setup() {
+    const volunteerStore = useVolunteerStore()
+
+    return { volunteerStore }
   },
   data() {
     return {
-      newAddressModal: false
+      newAddressModal: false,
+      addresses: null,
+      selectedAddress: null
     }
+  },
+  methods: {
+    async updateAddresses() {
+      // this.selectedAddress = null
+      await this.volunteerStore.getVolunteer(this.$route.params.volunteerId)
+      this.addresses = this.volunteerStore.selectedVolunteerAddresses
+    },
+    async deleteAdress(address) {
+      const confirm = window.confirm(`Möchtest du die Adresse "${address.name}" wirklich löschen?"`)
+      if (confirm) {
+        await this.volunteerStore.deleteVolunteerAddress(address.id)
+        this.updateAddresses()
+      }
+    }
+  },
+  async beforeMount() {
+    await this.updateAddresses()
   }
 }
 </script>
