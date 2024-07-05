@@ -5,7 +5,10 @@
     </label>
     <input
       class="p-2 border border-vologray-500 rounded-md"
-      :class="{ 'error-animation': hasError }"
+      :class="{
+        'error-animation': hasError,
+        'self-start': type === 'checkbox'
+      }"
       :type="type"
       :id="id"
       :required="required"

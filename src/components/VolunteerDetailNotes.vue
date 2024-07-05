@@ -232,7 +232,6 @@ export default {
     openEditModal(note) {
       this.selectedNote = note
       this.editNote = true
-      console.log(this.selectedNote.note)
     },
     async handleDelete(note) {
       if (!window.confirm('Soll die Notiz wirklich gelöscht werden?')) return

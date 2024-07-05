@@ -5,13 +5,13 @@
       <div>
         <header class="flex flex-col items-center gap-3">
           <!-- Avatar -->
-          <div class="border-[3px] border-green-300 rounded-full p-2">
-            <img
-              :src="baseUrl + '/files/' + volunteer.avatar"
-              alt="Avatar von ausgewähltem Freiwilligen"
-              class="aspect-square w-[110px] object-cover rounded-full"
-            />
-          </div>
+
+          <VolunteerDetailOverviewAvatar
+            :src="avatarSrc"
+            :alt="`Avatar von ${volunteer.person.firstname} ${volunteer.person.lastname}`"
+            @fileSelected="editAvatar"
+          />
+
           <!-- Name -->
           <div
             class="flex gap-2 p-2 relative"
@@ -49,24 +49,7 @@
           <VolunteerDetailOverviewContact />
 
           <!-- address section -->
-          <details v-if="addresses" class="mb-2" open>
-            <summary class="font-medium">Anschriften</summary>
-            <div class="flex flex-col gap-4 mt-4">
-              <div v-for="address of addresses" class="text-vologray-600" :key="address.id">
-                <p class="text-sm">{{ address.name }}</p>
-                <p :class="{ 'text-black': address.status === 'ACTIVE' }">{{ address.street }}</p>
-                <p :class="{ 'text-black': address.status === 'ACTIVE' }">
-                  {{ address.postalcode }} {{ address.city }}
-                </p>
-                <p
-                  v-if="!(address.country == 'Germany')"
-                  :class="{ 'text-black': address.status === 'ACTIVE' }"
-                >
-                  {{ address.country }}
-                </p>
-              </div>
-            </div>
-          </details>
+          <VolunteerDetailOverviewAddresses />
           <details v-if="false" class="mb-2">
             <summary class="font-medium">FW-Dienstverlauf</summary>
             <ul class="flex flex-col gap-3 pt-3">
@@ -87,6 +70,8 @@
 import { useVolunteerStore } from '@/stores/VolunteerStore.js'
 import ContainerModal from '@/components/ContainerModal.vue'
 import NameFormular from '@/components/NameFormular.vue'
+import VolunteerDetailOverviewAvatar from './VolunteerDetailOverviewAvatar.vue'
+import VolunteerDetailOverviewAddresses from './VolunteerDetailOverviewAddresses.vue'
 import VolunteerDetailOverviewContact from './VolunteerDetailOverviewContact.vue'
 import IconPenEdit from '@/components/IconPenEdit.vue'
 
@@ -104,6 +89,8 @@ export default {
     NameFormular,
     ContainerModal,
     IconPenEdit,
+    VolunteerDetailOverviewAvatar,
+    VolunteerDetailOverviewAddresses,
     VolunteerDetailOverviewContact
   },
   data() {
@@ -121,14 +108,46 @@ export default {
       this.newNameModal = false
       await this.volunteerStore.getVolunteer(this.volunteerStore.selectedVolunteer.id)
       this.volunteer = this.volunteerStore.selectedVolunteer
+    },
+    async editAvatar(event) {
+      const file = event.target.files[0]
+
+      if (file) {
+        const formData = new FormData()
+        formData.append('avatar', file)
+
+        try {
+          await this.volunteerStore.editVolunteerAvatar(formData, this.$route.params.volunteerId)
+        } catch (error) {
+          console.error('Error editing Avatar: ', error)
+        } finally {
+          await this.volunteerStore.getVolunteer(this.$route.params.volunteerId)
+          this.volunteer = this.volunteerStore.selectedVolunteer
+        }
+      }
     }
   },
+  computed: {
+    // Computed property to generate a new avatar src URL with a cache-busting query parameter
+    avatarSrc() {
+      return this.volunteer ? `${this.baseUrl}/files/${this.volunteer.avatar}?t=${Date.now()}` : ''
+    }
+  },
+
   async beforeMount() {
     await this.volunteerStore.getVolunteer(this.$route.params.volunteerId)
     this.volunteer = this.volunteerStore.selectedVolunteer
     this.contacts = this.volunteerStore.selectedVolunteerContacts
     this.addresses = this.volunteerStore.selectedVolunteerAddresses
     this.relevantContract = this.volunteerStore.selectedVolunteerRelevantContract
+  },
+  watch: {
+    volunteer(newVal) {
+      if (newVal) {
+        // Automatically updates the `volunteer` property based on the store's `selectedVolunteer`
+        this.volunteer = this.volunteerStore.selectedVolunteer
+      }
+    }
   }
 }
 </script>
