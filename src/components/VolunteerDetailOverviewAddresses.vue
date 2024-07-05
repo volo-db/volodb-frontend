@@ -8,7 +8,8 @@
         :key="address.id"
         :class="{
           border: address.status === 'ACTIVE',
-          'font-bold': address.status === 'ACTIVE'
+          'font-bold': address.status === 'ACTIVE',
+          'order-first': address.status === 'ACTIVE'
         }"
       >
         <div class="m-1">
