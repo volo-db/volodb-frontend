@@ -191,6 +191,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         this.fetching = false
       }
     },
+
     async editName(volunteer, id) {
       this.fetching = true
 
