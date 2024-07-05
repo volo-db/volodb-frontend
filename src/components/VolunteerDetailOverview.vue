@@ -100,15 +100,11 @@ export default {
       if (file) {
         const formData = new FormData()
         formData.append('avatar', file)
-        // check for file in console:
-        for (let [key, value] of formData.entries()) {
-          console.log(`${key}:`, value)
-        }
 
         try {
           await this.volunteerStore.editVolunteerAvatar(formData, this.$route.params.volunteerId)
         } catch (error) {
-          console.log('Error editing Avatar: ', error)
+          console.error('Error editing Avatar: ', error)
         } finally {
           await this.volunteerStore.getVolunteer(this.$route.params.volunteerId)
           this.volunteer = this.volunteerStore.selectedVolunteer
@@ -135,7 +131,6 @@ export default {
       if (newVal) {
         // Automatically updates the `volunteer` property based on the store's `selectedVolunteer`
         this.volunteer = this.volunteerStore.selectedVolunteer
-        console.log('watch')
       }
     }
   }
