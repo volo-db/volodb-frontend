@@ -80,16 +80,13 @@
     </div>
   </div>
   <ContainerModal v-if="newNameModal">
-    <NameFormular @saved="newNameModal = false" @cancel="newNameModal = false" />
+    <NameFormular @saved="onNameSaved" @cancel="newNameModal = false" />
   </ContainerModal>
 </template>
 <script>
 import { useVolunteerStore } from '@/stores/VolunteerStore.js'
 import ContainerModal from '@/components/ContainerModal.vue'
 import NameFormular from '@/components/NameFormular.vue'
-// import IconMail from '@/components/IconMail.vue'
-// import IconPhone from '@/components/IconPhone.vue'
-// import IconMessenger from '@/components/IconMessenger.vue'
 import VolunteerDetailOverviewContact from './VolunteerDetailOverviewContact.vue'
 import IconPenEdit from '@/components/IconPenEdit.vue'
 
@@ -104,9 +101,6 @@ export default {
     }
   },
   components: {
-    // IconMail,
-    // IconPhone,
-    // IconMessenger,
     NameFormular,
     ContainerModal,
     IconPenEdit,
@@ -122,12 +116,27 @@ export default {
       newNameModal: false
     }
   },
+  methods: {
+    async onNameSaved() {
+      this.newNameModal = false
+      await this.volunteerStore.getVolunteer(this.volunteerStore.selectedVolunteer.id)
+    }
+  },
   async beforeMount() {
     await this.volunteerStore.getVolunteer(this.$route.params.volunteerId)
     this.volunteer = this.volunteerStore.selectedVolunteer
     this.contacts = this.volunteerStore.selectedVolunteerContacts
     this.addresses = this.volunteerStore.selectedVolunteerAddresses
     this.relevantContract = this.volunteerStore.selectedVolunteerRelevantContract
+  },
+  watch: {
+    volunteer(newVal) {
+      console.log('watch ', this.volunteer)
+      if (newVal) {
+        // Automatically updates the `volunteer` property based on the store's `selectedVolunteer`
+        this.volunteer = this.volunteerStore.selectedVolunteer
+      }
+    }
   }
 }
 </script>

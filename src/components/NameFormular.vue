@@ -121,10 +121,10 @@ export default {
         }
         this.$emit('saved')
       }
-    },
-    mounted() {
-      this.$refs.lastname.focus()
     }
+  },
+  mounted() {
+    this.$refs.lastname.focus()
   }
 }
 </script>
