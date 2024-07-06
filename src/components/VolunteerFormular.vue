@@ -80,6 +80,7 @@
 <script>
 import ButtonStandard from './ButtonStandard.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
+import { useContactStore } from '@/stores/ContactStore'
 import { confetti } from '@/utils/confetti.js'
 import { isValidEmail, isValidPhoneNumber } from '@/utils/validations'
 import FormularInput from './FormularInput.vue'
@@ -90,9 +91,11 @@ export default {
   components: { ButtonStandard, IconSpinner, FormularInput, FormularSelectBox },
   setup() {
     const volunteerStore = useVolunteerStore()
+    const contactStore = useContactStore()
 
     return {
-      volunteerStore
+      volunteerStore,
+      contactStore
     }
   },
   data() {
@@ -170,6 +173,22 @@ export default {
 
         try {
           await this.volunteerStore.setVolunteer(volunteer)
+          const voloId = this.volunteerStore.selectedVolunteer.id
+
+          const mobile = {
+            type: 'mobile',
+            value: this.formData.mobile.trim()
+          }
+
+          const email = {
+            type: 'email',
+            value: this.formData.email.trim()
+          }
+
+          await Promise.all([
+            this.formData.mobile.trim() ? this.contactStore.setContact(voloId, mobile) : null,
+            this.formData.email.trim() ? this.contactStore.setContact(voloId, email) : null
+          ])
         } catch (error) {
           console.error(error)
 
