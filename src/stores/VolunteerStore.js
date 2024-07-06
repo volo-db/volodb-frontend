@@ -191,6 +191,19 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         this.fetching = false
       }
     },
+
+    async editVolunteer(volunteer, id) {
+      this.fetching = true
+
+      try {
+        await vdbFetchData('volunteers/' + id, 'PATCH', volunteer)
+      } catch (error) {
+        console.error(error)
+        throw error
+      } finally {
+        this.fetching = false
+      }
+    },
     async editVolunteerAvatar(formData, id) {
       this.fetching = true
 

@@ -13,9 +13,23 @@
           />
 
           <!-- Name -->
-          <h2 class="pt-4 text-lg font-medium">
-            {{ volunteer.person.firstname }} {{ volunteer.person.lastname }}
-          </h2>
+          <div
+            class="flex gap-2 p-2 relative"
+            @mouseover="hover = true"
+            @mouseleave="hover = false"
+          >
+            <h2 class="pt-4 pr-3 text-lg font-medium">
+              {{ volunteer.person.firstname }} {{ volunteer.person.lastname }}
+            </h2>
+            <!-- pen to edit name -->
+            <button
+              class="text-vologray-500 absolute right-0 top-1/2 transform -translate-y-1/2"
+              v-if="hover"
+              @click="newNameModal = true"
+            >
+              <IconPenEdit />
+            </button>
+          </div>
           <!-- Birthday and -place -->
           <p v-if="volunteer.birthday" class="text-sm">
             geboren am
@@ -24,6 +38,7 @@
             <span class="font-bold">{{ volunteer.birthplace }}</span>
           </p>
           <hr class="w-40" />
+
           <!-- Project -->
           <p class="text-sm" v-if="relevantContract">
             Einsatzstelle:
@@ -56,12 +71,23 @@
       </div>
     </div>
   </div>
+  <ContainerModal v-if="newNameModal">
+    <NameFormular
+      @saved="onNameSaved"
+      @cancel="newNameModal = false"
+      :lastnameCopy="volunteer.person.lastname"
+      :firstnameCopy="volunteer.person.firstname"
+    />
+  </ContainerModal>
 </template>
 <script>
 import { useVolunteerStore } from '@/stores/VolunteerStore.js'
+import ContainerModal from '@/components/ContainerModal.vue'
+import NameFormular from '@/components/NameFormular.vue'
 import VolunteerDetailOverviewAvatar from './VolunteerDetailOverviewAvatar.vue'
 import VolunteerDetailOverviewAddresses from './VolunteerDetailOverviewAddresses.vue'
 import VolunteerDetailOverviewContact from './VolunteerDetailOverviewContact.vue'
+import IconPenEdit from '@/components/IconPenEdit.vue'
 import { getPropperDateString } from '@/utils/dateAndTime'
 
 export default {
@@ -76,6 +102,9 @@ export default {
     }
   },
   components: {
+    NameFormular,
+    ContainerModal,
+    IconPenEdit,
     VolunteerDetailOverviewAvatar,
     VolunteerDetailOverviewAddresses,
     VolunteerDetailOverviewContact
@@ -85,10 +114,17 @@ export default {
       volunteer: null,
       contacts: null,
       addresses: null,
-      relevantContract: null
+      relevantContract: null,
+      hover: false,
+      newNameModal: false
     }
   },
   methods: {
+    async onNameSaved() {
+      this.newNameModal = false
+      await this.volunteerStore.getVolunteer(this.volunteerStore.selectedVolunteer.id)
+      this.volunteer = this.volunteerStore.selectedVolunteer
+    },
     async editAvatar(event) {
       const file = event.target.files[0]
 
