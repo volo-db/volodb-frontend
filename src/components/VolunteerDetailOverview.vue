@@ -18,8 +18,9 @@
             @mouseover="hover = true"
             @mouseleave="hover = false"
           >
-            <h2 class="pt-4 pr-3 text-lg font-medium">
-              {{ volunteer.person.firstname }} {{ volunteer.person.lastname }}
+            <h2 class="pt-2 pr-3 text-lg font-medium flex flex-col items-center">
+              <p>{{ volunteer.person.firstname }}</p>
+              <p>{{ volunteer.person.lastname }}</p>
             </h2>
             <!-- pen to edit name -->
             <button
