@@ -51,9 +51,9 @@
         </div>
       </section>
       <!-- Time of Service -->
-      <section class="rounded bg-white px-[18px] py-[16px] w-[330px] h-[120px]">
+      <section class="relative rounded bg-white p-[22px] w-[330px] h-[120px]">
         <h2 class="font-medium">Dienstzeit</h2>
-        <div v-if="volunteer" class="flex justify-between items-center h-[62px]">
+        <div v-if="volunteer" class="flex justify-between items-center h-[54px]">
           <!-- left column -->
 
           <div class="flex gap-2 mt-2 items-center">
@@ -83,7 +83,7 @@
       <!-- Holiday -->
       <section
         v-if="volunteer"
-        class="rounded bg-white px-[18px] py-[16px] w-[160px] h-[120px] flex flex-col justify-between"
+        class="relative rounded bg-white px-[18px] py-[16px] w-[160px] h-[120px] flex flex-col justify-between"
       >
         <h2 class="font-medium">Urlaubstage</h2>
         <div class="flex gap-2 items-end">
@@ -94,7 +94,7 @@
       <!-- Seminar Days -->
       <section
         v-if="volunteer"
-        class="rounded bg-white px-[18px] py-[16px] w-[160px] h-[120px] flex flex-col justify-between"
+        class="relative rounded bg-white px-[18px] py-[16px] w-[160px] h-[120px] flex flex-col justify-between"
       >
         <h2 class="font-medium">Seminartage</h2>
         <div class="flex gap-2 items-end">
@@ -105,16 +105,33 @@
       <!-- Sick Days -->
       <section
         v-if="volunteer"
-        class="rounded bg-white px-[18px] py-[16px] w-[160px] h-[120px] flex flex-col justify-between"
+        class="group relative rounded bg-white px-[18px] py-[16px] w-[160px] h-[120px] flex flex-col justify-between"
       >
+        <button
+          v-if="true"
+          @click="sickDaysModal = true"
+          class="hidden absolute p-2 rounded-full m-1 top-0 right-0 group-hover:inline hover:text-white hover:bg-voloblue-200"
+        >
+          <IconPenEdit />
+        </button>
+        <ContainerModal v-if="sickDaysModal">
+          <VolunteerContractFormularSickdays
+            @close="sickDaysModal = false"
+            @saved="updateVolo"
+            :contract="contract"
+          />
+        </ContainerModal>
         <h2 class="font-medium">Krankheitst.</h2>
         <div class="flex gap-2 items-end">
           <IconClinicalThermometer class="inline text-3xl text-voloblue-200/50" />
-          <p class="text-3xl leading-6">999</p>
+          <p class="text-3xl leading-6">{{ contract.sickDays }}</p>
         </div>
       </section>
       <!-- Sallery -->
-      <section v-if="volunteer" class="rounded bg-white px-[18px] py-[16px] w-[330px] h-[210px]">
+      <section
+        v-if="volunteer"
+        class="relative rounded bg-white px-[18px] py-[16px] w-[330px] h-[210px]"
+      >
         <h2 class="font-medium">
           Vergütung
           <span class="font-normal text-vologray-400">- ({{ contract.salary.name }})</span>
@@ -168,12 +185,20 @@ import VolunteerDetailContractSallary from './VolunteerDetailContractSallary.vue
 import IconDashboard from './IconDashboard.vue'
 import IconClinicalThermometer from './IconClinicalThermometer.vue'
 import IconPlus from './IconPlus.vue'
+import IconPenEdit from './IconPenEdit.vue'
+import ContainerModal from './ContainerModal.vue'
+import VolunteerContractFormularSickdays from './VolunteerContractFormularSickdays.vue'
 
 export default {
   setup: () => {
     const volunteerStore = useVolunteerStore()
 
     return { volunteerStore, getPropperDateString, getAge }
+  },
+  data() {
+    return {
+      sickDaysModal: false
+    }
   },
   components: {
     // SearchBar,
@@ -186,7 +211,10 @@ export default {
     VolunteerDetailContractSallary,
     IconDashboard,
     IconClinicalThermometer,
-    IconPlus
+    IconPlus,
+    IconPenEdit,
+    ContainerModal,
+    VolunteerContractFormularSickdays
   },
   computed: {
     age() {
@@ -197,6 +225,11 @@ export default {
     },
     contract() {
       return this.volunteerStore.selectedVolunteerRelevantContract
+    }
+  },
+  methods: {
+    updateVolo() {
+      this.volunteerStore.getVolunteer(this.volunteer.id)
     }
   }
 }
