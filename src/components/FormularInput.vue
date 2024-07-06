@@ -9,6 +9,7 @@
         'error-animation': hasError,
         'self-start': type === 'checkbox'
       }"
+      :name="name"
       :type="type"
       :id="id"
       :required="required"
@@ -18,6 +19,9 @@
       @change="handleChange"
       ref="input"
     />
+    <span v-if="type === 'file' && modelValue && modelValue.name">
+      Selected file: {{ modelValue.name }}
+    </span>
   </div>
 </template>
 
@@ -25,6 +29,9 @@
 export default {
   expose: ['focus'],
   props: {
+    name: {
+      type: String
+    },
     label: {
       type: String
     },
@@ -38,7 +45,7 @@ export default {
       type: String
     },
     modelValue: {
-      type: [String, Array], // Accept both String and Array
+      type: [String, Array, File], // Accept both String and Array
       default: ''
     },
     hasError: {
@@ -59,10 +66,20 @@ export default {
       }
     },
     handleChange(event) {
-      // Handle file input
       if (this.type === 'file') {
-        this.$emit('update:modelValue', event.target.files)
+        const file = event.target.files[0] || null
+        this.$emit('update:modelValue', file) // Pass File object
       }
+      // if (this.type === 'file') {
+      //   const file = event.target.files[0] || null
+
+      //   if (file) {
+      //     const formData = new FormData()
+      //     formData.append('document', file)
+
+      //     this.$emit('update:modelValue', file)
+      //   }
+      // }
     },
     focus() {
       this.$refs.input.focus()

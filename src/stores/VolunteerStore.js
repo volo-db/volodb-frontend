@@ -202,6 +202,21 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       } finally {
         this.fetching = false
       }
+    },
+    async setDocument(file, id) {
+      this.fetching = true
+
+      const formData = new FormData()
+      formData.append('file', file)
+
+      try {
+        await vdbFetchData('volunteers/' + id + '/documents', 'POST', formData)
+      } catch (error) {
+        console.error(error)
+        throw error
+      } finally {
+        this.fetching = false
+      }
     }
   }
 })

@@ -16,46 +16,45 @@ export const vdbFetchData = async (subdirectory, method, data) => {
     method,
     headers: {
       // Only set Content-Type if data is not FormData and method is not DELETE
-      ...(isFormData ? {} : method === 'DELETE' ? {} : { 'content-type': 'application/json' }),
+      ...(isFormData ? {} : method === 'DELETE' ? {} : { 'Content-type': 'application/json' }),
       authorization: `Bearer ${token}`
-    }
-  }
-
-  // Only set body if it's not null
-  if (data) {
-    fetchOptions.body = isFormData ? data : JSON.stringify(data)
+    },
+    body: isFormData ? data : JSON.stringify(data)
   }
 
   // Fetch Data from the Backend
-  return fetch(`${baseUrl}/${subdirectory}`, fetchOptions)
-    .then(async (res) => {
-      if (!res.ok) {
-        throw new Error(`VoloDB-ERROR\n🙅‍♀️ fetching failed! (${res.status}): ${responseBody}`)
-      }
+  return (
+    fetch(`${baseUrl}/${subdirectory}`, fetchOptions)
+      .then(async (res) => {
+        if (!res.ok) {
+          const errorText = await res.text()
+          throw new Error(`VoloDB-ERROR\n🙅‍♀️ fetching failed! (${res.status}): ${errorText}`)
+        }
 
-      const contentType = res.headers.get('Content-Type') || ''
-      let responseBody
+        const contentType = res.headers.get('Content-Type') || ''
+        let responseBody
 
-      if (contentType.includes('application/json')) {
-        // Parse JSON response
-        responseBody = await res.json()
-      } else {
-        // Get text response for non-JSON
-        responseBody = await res.text()
-      }
+        if (contentType.includes('application/json')) {
+          // Parse JSON response
+          responseBody = await res.json()
+        } else {
+          // Get text response for non-JSON
+          responseBody = await res.text()
+        }
 
-      return responseBody
-    })
-    .then((data) => {
-      // If response is JSON, parse it
-      if (typeof data === 'object' && data !== null) {
-        return data
-      }
-      // If it's text, just return it
-      return data
-    })
-    .catch((error) => {
-      console.error('Fetch error:', error)
-      throw error
-    })
+        return responseBody
+      })
+      // .then((data) => {
+      //   // If response is JSON, parse it
+      //   if (typeof data === 'object' && data !== null) {
+      //     return data
+      //   }
+      //   // If it's text, just return it
+      //   return data
+      // })
+      .catch((error) => {
+        console.error('Fetch error:', error)
+        throw error
+      })
+  )
 }

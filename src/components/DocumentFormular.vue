@@ -24,13 +24,13 @@
         <div class="flex-1">
           <form class="flex flex-col gap-2" id="new-document" @submit.prevent="onSubmit" novalidate>
             <FormularInput
+              name="document"
               label="Dokument"
               type="file"
               id="document"
               :required="true"
-              v-model="files"
-              :hasError="validationErr.document"
-              @update:modelValue="handleFileChange"
+              v-model="file"
+              :hasError="validationErr.file"
             />
           </form>
         </div>
@@ -65,10 +65,9 @@ export default {
   },
   data() {
     return {
-      files: [],
-      document: null,
+      file: null,
       validationErr: {
-        document: false
+        file: false
       },
       formValid: false,
       errorMessage: false
@@ -77,28 +76,30 @@ export default {
   methods: {
     validate() {
       this.formValid = false
-      this.validationErr.document = false
+      this.validationErr.file = false
+      // Check if `file` is null
+      if (!this.file) this.validationErr.file = true
 
-      if (!this.document) this.validationErr.document = true
-
-      if (!this.validationErr.document) {
+      if (!this.validationErr.file) {
         this.formValid = true
       }
     },
-    onSubmit() {
-      console.log(this.document)
+    async onSubmit() {
+      console.log(this.file)
       this.errorMessage = false
 
       this.validate()
       if (this.formValid) {
         console.log('valid')
-      }
-    },
-    handleFileChange(files) {
-      if (files.length > 0) {
-        this.document = files[0] // Get the first file
-      } else {
-        this.document = null
+
+        try {
+          const formData = new FormData()
+          formData.append('document', this.file) // Append file to FormData
+          await this.volunteerStore.setDocument(formData, this.$route.params.volunteerId)
+        } catch (error) {
+          this.errorMessage = true
+          console.error('Error uploading file:', error)
+        }
       }
     }
   }
