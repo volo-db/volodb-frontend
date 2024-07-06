@@ -63,7 +63,12 @@
     </div>
   </div>
   <ContainerModal v-if="newNameModal">
-    <NameFormular @saved="onNameSaved" @cancel="newNameModal = false" />
+    <NameFormular
+      @saved="onNameSaved"
+      @cancel="newNameModal = false"
+      :lastnameCopy="volunteer.person.lastname"
+      :firstnameCopy="volunteer.person.firstname"
+    />
   </ContainerModal>
 </template>
 <script>

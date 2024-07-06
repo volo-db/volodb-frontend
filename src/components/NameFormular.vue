@@ -63,6 +63,7 @@ export default {
     }
   },
   components: { FormularInput, IconSpinner, ButtonStandard },
+  props: { lastnameCopy: String, firstnameCopy: String },
   data() {
     return {
       validationErr: {
@@ -70,8 +71,8 @@ export default {
         firstname: false
       },
       formData: {
-        lastname: '',
-        firstname: ''
+        lastname: this.lastnameCopy,
+        firstname: this.firstnameCopy
       },
       formValid: false,
       errorMessage: false
