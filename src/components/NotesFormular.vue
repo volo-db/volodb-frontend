@@ -20,7 +20,14 @@
         </div>
         <!-- right column -->
         <div class="flex-1">
-          <form class="flex flex-col gap-2" :id="id" @submit.prevent="onSubmit" novalidate>
+          <form
+            ref="notesForm"
+            class="flex flex-col gap-2"
+            :id="id"
+            @keydown="keyPressed($event)"
+            @submit.prevent="onSubmit"
+            novalidate
+          >
             <!-- for editing a note -->
 
             <FormularSelectBox
@@ -92,10 +99,14 @@ export default {
       },
 
       formValid: false,
-      errorMessage: false
+      errorMessage: false,
+      cmdPressed: true
     }
   },
   methods: {
+    keyPressed(e) {
+      if (e.metaKey && e.key.toLowerCase() === 'enter') this.onSubmit()
+    },
     validate() {
       this.formValid = false
       this.validationErr.type = false
