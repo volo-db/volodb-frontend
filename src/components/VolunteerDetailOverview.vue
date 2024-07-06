@@ -30,10 +30,6 @@
               <IconPenEdit />
             </button>
           </div>
-
-          <h2 class="pt-4 text-lg font-medium">
-            {{ volunteer.person.firstname }} {{ volunteer.person.lastname }}
-          </h2>
           <!-- Birthday and -place -->
           <p v-if="volunteer.birthday" class="text-sm">
             geboren am
@@ -93,7 +89,6 @@ import VolunteerDetailOverviewAddresses from './VolunteerDetailOverviewAddresses
 import VolunteerDetailOverviewContact from './VolunteerDetailOverviewContact.vue'
 import IconPenEdit from '@/components/IconPenEdit.vue'
 import { getPropperDateString } from '@/utils/dateAndTime'
-
 
 export default {
   setup() {
