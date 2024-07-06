@@ -13,33 +13,30 @@
           />
 
           <!-- Name -->
-          <div
-            class="flex gap-2 p-2 relative"
-            @mouseover="hover = true"
-            @mouseleave="hover = false"
-          >
-            <h2 class="pt-2 pr-3 text-lg font-medium flex flex-col items-center">
+          <div class="relative" @mouseover="hover = true" @mouseleave="hover = false">
+            <h2 class="p-2 text-lg font-medium flex flex-col items-center">
               <p>{{ volunteer.person.firstname }}</p>
               <p>{{ volunteer.person.lastname }}</p>
             </h2>
-            <!-- pen to edit name -->
+
+            <!-- Birthday and -place -->
+            <p v-if="volunteer.birthday" class="text-sm">
+              geboren am
+              <span class="font-bold">{{ getPropperDateString(volunteer.birthday) }}</span>
+              in
+              <span class="font-bold">{{ volunteer.birthplace }}</span>
+            </p>
+
+            <!-- pen to edit name, gender, birthdate -->
             <button
-              class="text-vologray-500 absolute right-0 top-1/2 transform -translate-y-1/2"
+              class="absolute right-0 top-4 transform -translate-y-1/2 p-2"
               v-if="hover"
               @click="newNameModal = true"
             >
               <IconPenEdit />
             </button>
           </div>
-          <!-- Birthday and -place -->
-          <p v-if="volunteer.birthday" class="text-sm">
-            geboren am
-            <span class="font-bold">{{ getPropperDateString(volunteer.birthday) }}</span>
-            in
-            <span class="font-bold">{{ volunteer.birthplace }}</span>
-          </p>
           <hr class="w-40" />
-
           <!-- Project -->
           <p class="text-sm" v-if="relevantContract">
             Einsatzstelle:
@@ -73,18 +70,21 @@
     </div>
   </div>
   <ContainerModal v-if="newNameModal">
-    <NameFormular
+    <BasicPersonalDataFormular
       @saved="onNameSaved"
       @cancel="newNameModal = false"
       :lastnameCopy="volunteer.person.lastname"
       :firstnameCopy="volunteer.person.firstname"
+      :birthdayCopy="getPropperDateString(volunteer.birthday)"
+      :birthplaceCopy="volunteer.birthplace"
+      :genderCopy="volunteer.person.gender"
     />
   </ContainerModal>
 </template>
 <script>
 import { useVolunteerStore } from '@/stores/VolunteerStore.js'
 import ContainerModal from '@/components/ContainerModal.vue'
-import NameFormular from '@/components/NameFormular.vue'
+import BasicPersonalDataFormular from '@/components/BasicPersonalDataFormular.vue'
 import VolunteerDetailOverviewAvatar from './VolunteerDetailOverviewAvatar.vue'
 import VolunteerDetailOverviewAddresses from './VolunteerDetailOverviewAddresses.vue'
 import VolunteerDetailOverviewContact from './VolunteerDetailOverviewContact.vue'
@@ -103,7 +103,7 @@ export default {
     }
   },
   components: {
-    NameFormular,
+    BasicPersonalDataFormular,
     ContainerModal,
     IconPenEdit,
     VolunteerDetailOverviewAvatar,
