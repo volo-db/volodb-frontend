@@ -109,7 +109,7 @@ export default {
         let id = this.$route.params.volunteerId
 
         try {
-          await this.volunteerStore.editName(volunteer, id)
+          await this.volunteerStore.editVolunteer(volunteer, id)
         } catch (error) {
           console.error(error)
 
