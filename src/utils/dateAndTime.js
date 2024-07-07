@@ -43,11 +43,3 @@ export function getPropperDateString(dateString) {
     throw new Error('dateString not valid')
   }
 }
-
-export function reformatDate(dateStr) {
-  // Split the date string by the '.' character
-  const [day, month, year] = dateStr.split('.')
-
-  // Return the formatted date string
-  return `${year}-${month}-${day}`
-}
