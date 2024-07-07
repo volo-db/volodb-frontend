@@ -161,12 +161,30 @@ export default {
 
       this.validate()
       if (this.formValid) {
+        let backendGender
+
+        switch (this.formData.gender) {
+          case 'männlich':
+            backendGender = 'male'
+            break
+          case 'weiblich':
+            backendGender = 'female'
+            break
+          case 'divers':
+            backendGender = 'diverse'
+            break
+
+          default:
+            backendGender = 'not specified'
+            break
+        }
+
         let volunteer = {
           organisationalId: 'null',
           person: {
             lastname: this.formData.lastname,
             firstname: this.formData.firstname,
-            gender: this.formData.gender
+            gender: backendGender
           },
           status: 'BEWORBEN'
         }
