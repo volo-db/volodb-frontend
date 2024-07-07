@@ -1,6 +1,6 @@
 <template>
-  <div class="relative">
-    <div v-if="false">
+  <div @mousemove="(mouseX = $event.pageX), (mouseY = $event.pageY)" class="relative">
+    <div class="" v-if="true">
       <!-- SVG NOT READY YET -->
       <svg
         :width="`${diagramWidth}px`"
@@ -10,33 +10,124 @@
       >
         <!-- SERVICE -->
         <!-- Free of charge -->
-        <path :d="generateHalfRingPath(0, 0.2)" fill="#FEF6D8" />
+        <path
+          id="freeOfChargeService"
+          :d="generateHalfRingPath(startingPoints.freeOfChargeService, ratios.freeOfChargeService)"
+          fill="#FEF6D8"
+          :stroke="strokeColors.freeOfChargeService"
+          :stroke-width="strokeWidth"
+          @mouseenter="
+            (strokeColors.freeOfChargeService = strokeColors.hovered),
+              (tooltip = true),
+              (hoverdArc = 'freeOfChargeService'),
+              (tooltipText = `Zusätzliche unentgeltliche Leistungen i.W.v.: ${toValidEuro(salary.freeOfChargeService)}`)
+          "
+          @mouseleave="(strokeColors.freeOfChargeService = ''), (tooltip = false)"
+        />
         <!-- Pocketmoney -->
-        <path :d="generateHalfRingPath(0.2, 0.16)" fill="#FCD12E" />
+        <path
+          id="pocketMoney"
+          :d="generateHalfRingPath(startingPoints.pocketMoney, ratios.pocketMoney)"
+          fill="#FCD12E"
+          :stroke="strokeColors.pocketMoney"
+          :stroke-width="strokeWidth"
+          @mouseenter="
+            (strokeColors.pocketMoney = strokeColors.hovered),
+              (tooltip = true),
+              (hoverdArc = 'pocketMoney'),
+              (tooltipText = `Taschengeld i.H.v.: ${toValidEuro(salary.pocketMoney)}`)
+          "
+          @mouseleave="(strokeColors.pocketMoney = ''), (tooltip = false)"
+        />
         <!-- ACCOMODATIN -->
         <!-- Free of charge -->
-        <path :d="generateHalfRingPath(0.36, 0.16)" fill="#A0B9FF" />
-        <!-- Allowance -->
-        <path :d="generateHalfRingPath(0.52, 0.16)" fill="#0025FF" />
-        <!-- FOOD -->
-        <!-- Free of charge -->
-        <path :d="generateHalfRingPath(0.68, 0.16)" fill="#ffd3ad" />
+        <path
+          id="freeOfChargeAccommodation"
+          :d="
+            generateHalfRingPath(
+              startingPoints.freeOfChargeAccommodation,
+              ratios.freeOfChargeAccommodation
+            )
+          "
+          fill="#A0B9FF"
+          :stroke="strokeColors.freeOfChargeAccommodation"
+          :stroke-width="strokeWidth"
+          @mouseenter="
+            (strokeColors.freeOfChargeAccommodation = strokeColors.hovered),
+              (tooltip = true),
+              (hoverdArc = 'freeOfChargeAccommodation'),
+              (tooltipText = `Unterkunft i.W.v.: ${toValidEuro(salary.freeOfChargeAccommodation)}`)
+          "
+          @mouseleave="(strokeColors.freeOfChargeAccommodation = ''), (tooltip = false)"
+        />
         <!-- Allowance -->
         <path
-          :d="generateHalfRingPath(0.84, 0.16)"
-          fill="red"
-          @mouseenter="console.log('enter')"
-          @mouseleave="console.log('leave')"
+          id="accomodationAllowance"
+          :d="
+            generateHalfRingPath(startingPoints.accomodationAllowance, ratios.accomodationAllowance)
+          "
+          fill="#0025FF"
+          :stroke="strokeColors.accomodationAllowance"
+          :stroke-width="strokeWidth"
+          @mouseenter="
+            (strokeColors.accomodationAllowance = strokeColors.hovered),
+              (tooltip = true),
+              (hoverdArc = 'accomodationAllowance'),
+              (tooltipText = `Unterkunftszuschuss i.H.v.: ${toValidEuro(salary.accomodationAllowance)}`)
+          "
+          @mouseleave="(strokeColors.accomodationAllowance = ''), (tooltip = false)"
         />
+        <!-- FOOD -->
+        <!-- Free of charge -->
+        <path
+          id="freeOfChargeFood"
+          :d="generateHalfRingPath(startingPoints.freeOfChargeFood, ratios.freeOfChargeFood)"
+          fill="#ffd3ad"
+          :stroke="strokeColors.freeOfChargeFood"
+          :stroke-width="strokeWidth"
+          @mouseenter="
+            (strokeColors.freeOfChargeFood = strokeColors.hovered),
+              (tooltip = true),
+              (hoverdArc = 'freeOfChargeFood'),
+              (tooltipText = `Verpflegung i.W.v.: ${toValidEuro(salary.freeOfChargeFood)}`)
+          "
+          @mouseleave="(strokeColors.freeOfChargeFood = ''), (tooltip = false)"
+        />
+        <!-- Allowance -->
+        <path
+          id="foodAllowance"
+          :d="generateHalfRingPath(startingPoints.foodAllowance, ratios.foodAllowance)"
+          fill="orange"
+          :stroke="strokeColors.foodAllowance"
+          :stroke-width="strokeWidth"
+          @mouseenter="
+            (strokeColors.foodAllowance = strokeColors.hovered),
+              (tooltip = true),
+              (hoverdArc = 'foodAllowance'),
+              (tooltipText = `Verpflegungszuschuss i.H.v.: ${toValidEuro(salary.foodAllowance)}`)
+          "
+          @mouseleave="(strokeColors.foodAllowance = ''), (tooltip = false)"
+        />
+        <use :xlink:href="`#${hoverdArc}`" />
       </svg>
-      <div class="absolute top-0 w-[100%] text-center mt-20">
+      <!-- Salary-Sums -->
+      <div class="absolute top-0 w-[100%] text-center mt-20 pointer-events-none">
         <p class="text-3xl">{{ toValidEuro(sum) }}</p>
         <p class="text-sm">Auszahlungsbetrag: {{ toValidEuro(cash) }}</p>
+      </div>
+      <!-- Tooltip -->
+      <div
+        v-if="tooltip"
+        class="fixed flex items-center transform translate-x-4 -translate-y-1 text-white"
+        :style="`top: ${mouseY}px; left: ${mouseX - 4}px`"
+      >
+        <div class="w-2 h-2 border-[6px] border-transparent border-r-black/80"></div>
+        <p class="px-2 max-w-60 bg-black/80">{{ tooltipText }}</p>
       </div>
     </div>
 
     <!-- TEXT-VARIANT FOR TRANSITION  -->
-    <div v-if="true">
+    <div v-if="false">
       <div class="grid grid-cols-[1fr,auto] gap-x-6 w-[290px]">
         <p v-if="salary.pocketMoney != 0">Taschengeld:</p>
         <p v-if="salary.pocketMoney != 0" class="font-medium">
@@ -74,6 +165,7 @@
 
 <script>
 import { toValidEuro } from '@/utils/currency'
+
 export default {
   setup() {
     const pi = Math.PI
@@ -83,26 +175,33 @@ export default {
   props: {
     diagramWidth: {
       type: Number,
-      default: 250
+      default: 290
     },
     salary: {
       type: Object,
       required: true
     }
   },
+  data() {
+    return {
+      hoverdArc: '',
+      strokeWidth: 2,
+      strokeColors: {
+        freeOfChargeService: '',
+        pocketMoney: '',
+        freeOfChargeAccommodation: '',
+        accomodationAllowance: '',
+        freeOfChargeFood: '',
+        foodAllowance: '',
+        hovered: '#555'
+      },
+      mouseX: 0,
+      mouseY: 0,
+      tooltip: false,
+      tooltipText: 'Hey ho lets go!'
+    }
+  },
   computed: {
-    center() {
-      return { x: this.diagramWidth / 2, y: this.diagramWidth / 2 }
-    },
-    radius() {
-      return this.diagramWidth / 2 - this.strokeWidth / 2
-    },
-    innerRadius() {
-      return this.radius
-    },
-    outerRadius() {
-      return this.diagramWidth / 2
-    },
     sum() {
       return (
         this.salary.pocketMoney +
@@ -116,26 +215,39 @@ export default {
     cash() {
       return this.salary.pocketMoney + this.salary.accomodationAllowance + this.salary.foodAllowance
     },
-    strokeWidth() {
-      return this.diagramWidth * 0.1
+    ratios() {
+      const freeOfChargeService = Number(this.salary.freeOfChargeService / this.sum)
+      const pocketMoney = Number(this.salary.pocketMoney / this.sum)
+      const freeOfChargeAccommodation = Number(this.salary.freeOfChargeAccommodation / this.sum)
+      const accomodationAllowance = Number(this.salary.accomodationAllowance / this.sum)
+      const freeOfChargeFood = Number(this.salary.freeOfChargeFood / this.sum)
+      const foodAllowance = Number(this.salary.foodAllowance / this.sum)
+      return {
+        freeOfChargeService,
+        pocketMoney,
+        freeOfChargeAccommodation,
+        accomodationAllowance,
+        freeOfChargeFood,
+        foodAllowance
+      }
     },
-    pocketMoneyRelation() {
-      return this.salary.pocketMoney / this.sum
-    },
-    freeOfChargeServiceRelation() {
-      return this.salary.freeOfChargeService / this.sum + this.pocketMoneyRelation
-    },
-    accomodationAllowanceRelation() {
-      return this.salary.accomodationAllowance / this.sum + this.freeOfChargeServiceRelation
-    },
-    freeOfChargeAccomodationRelation() {
-      return this.salary.freeOfChargeAccommodation / this.sum + this.accomodationAllowanceRelation
-    },
-    foodAllowanceRelation() {
-      return this.salary.foodAllowance / this.sum + this.freeOfChargeAccomodationRelation
-    },
-    freeOfChargeFoodRelation() {
-      return this.salary.freeOfChargeFood / this.sum + this.foodAllowanceRelation
+    startingPoints() {
+      const freeOfChargeService = 0
+      const pocketMoney = freeOfChargeService + this.ratios.freeOfChargeService
+      const freeOfChargeAccommodation = pocketMoney + this.ratios.pocketMoney
+      const accomodationAllowance =
+        freeOfChargeAccommodation + this.ratios.freeOfChargeAccommodation
+      const freeOfChargeFood = accomodationAllowance + this.ratios.accomodationAllowance
+      const foodAllowance = freeOfChargeFood + this.ratios.freeOfChargeFood
+
+      return {
+        freeOfChargeService,
+        pocketMoney,
+        freeOfChargeAccommodation,
+        accomodationAllowance,
+        freeOfChargeFood,
+        foodAllowance
+      }
     }
   },
   methods: {
@@ -147,8 +259,11 @@ export default {
       }
     },
     generateHalfRingPath(start, ratio) {
-      const outerR = this.diagramWidth / 2
-      const innerR = outerR - this.strokeWidth
+      const strokeWidth = this.strokeWidth
+      const width = this.diagramWidth - 2 * strokeWidth
+      const center = { x: width / 2 + strokeWidth, y: width / 2 + strokeWidth }
+      const outerR = width / 2
+      const innerR = outerR - width * 0.11 // arc-width
 
       // Calculate the end angle based on the ratio
       const startAngle = 180 + 180 * start // Starting from the top of the circle
@@ -156,12 +271,12 @@ export default {
       const endAngle = startAngle + sweepAngle // Ending angle
 
       // Outer arc start and end points
-      const outerStart = this.polarToCartesian(this.center.x, this.center.y, outerR, startAngle)
-      const outerEnd = this.polarToCartesian(this.center.x, this.center.y, outerR, endAngle)
+      const outerStart = this.polarToCartesian(center.x, center.y, outerR, startAngle)
+      const outerEnd = this.polarToCartesian(center.x, center.y, outerR, endAngle)
 
       // Inner arc start and end points (drawn in reverse order)
-      const innerStart = this.polarToCartesian(this.center.x, this.center.y, innerR, endAngle)
-      const innerEnd = this.polarToCartesian(this.center.x, this.center.y, innerR, startAngle)
+      const innerStart = this.polarToCartesian(center.x, center.y, innerR, endAngle)
+      const innerEnd = this.polarToCartesian(center.x, center.y, innerR, startAngle)
 
       // Generate the path string
       return [
