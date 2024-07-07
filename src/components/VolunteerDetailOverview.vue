@@ -13,23 +13,28 @@
           />
 
           <!-- Name -->
-          <div class="relative" @mouseover="hover = true" @mouseleave="hover = false">
-            <h2 class="p-2 text-lg font-medium flex flex-col items-center">
-              <p>{{ volunteer.person.firstname }}</p>
-              <p>{{ volunteer.person.lastname }}</p>
-            </h2>
-
-            <!-- Birthday and -place -->
-            <p v-if="volunteer.birthday" class="text-sm">
-              geboren am
-              <span class="font-bold">{{ getPropperDateString(volunteer.birthday) }}</span>
-              in
-              <span class="font-bold">{{ volunteer.birthplace }}</span>
-            </p>
+          <div
+            class="relative w-full flex justify-center items-center"
+            @mouseover="hover = true"
+            @mouseleave="hover = false"
+          >
+            <div>
+              <h2 class="p-2 text-lg font-medium flex flex-col items-center">
+                <p>{{ volunteer.person.firstname }}</p>
+                <p>{{ volunteer.person.lastname }}</p>
+              </h2>
+              <!-- Birthday and -place -->
+              <p v-if="volunteer.birthday" class="text-sm">
+                geboren am
+                <span class="font-bold">{{ getPropperDateString(volunteer.birthday) }}</span>
+                in
+                <span class="font-bold">{{ volunteer.birthplace }}</span>
+              </p>
+            </div>
 
             <!-- pen to edit name, gender, birthdate -->
             <button
-              class="absolute right-0 top-4 transform -translate-y-1/2 p-2"
+              class="absolute right-0 top-1/2 transform -translate-y-1/2"
               v-if="hover"
               @click="newNameModal = true"
             >
