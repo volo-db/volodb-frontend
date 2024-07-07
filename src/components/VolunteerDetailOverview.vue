@@ -75,7 +75,7 @@
       @cancel="newNameModal = false"
       :lastnameCopy="volunteer.person.lastname"
       :firstnameCopy="volunteer.person.firstname"
-      :birthdayCopy="getPropperDateString(volunteer.birthday)"
+      :birthdayCopy="volunteer.birthday"
       :birthplaceCopy="volunteer.birthplace"
       :genderCopy="volunteer.person.gender"
     />

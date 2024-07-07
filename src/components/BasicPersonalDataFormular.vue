@@ -37,6 +37,7 @@
             <FormularInput
               label="Geburtsdatum"
               id="birthdate"
+              type="date"
               :hasError="validationErr.birthday"
               v-model="formData.birthday"
               :required="true"
@@ -48,12 +49,13 @@
               v-model="formData.birthplace"
               :required="true"
             />
-            <FormularInput
+            <FormularSelectBox
+              :list="['weiblich', 'männlich', 'divers', 'keine Angabe']"
               label="Geschlecht"
               id="gender"
+              :required="true"
               :hasError="validationErr.gender"
               v-model="formData.gender"
-              :required="true"
             />
           </form>
         </div>
@@ -72,20 +74,20 @@
 
 <script>
 import FormularInput from './FormularInput.vue'
+import FormularSelectBox from './FormularSelectBox.vue'
 import ButtonStandard from './ButtonStandard.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
 import IconSpinner from './IconSpinner.vue'
-import { reformatDate } from '@/utils/dateAndTime'
+
 export default {
   setup() {
     const volunteerStore = useVolunteerStore()
 
     return {
-      volunteerStore,
-      reformatDate
+      volunteerStore
     }
   },
-  components: { FormularInput, IconSpinner, ButtonStandard },
+  components: { FormularInput, IconSpinner, ButtonStandard, FormularSelectBox },
   props: {
     lastnameCopy: String,
     firstnameCopy: String,
@@ -107,7 +109,7 @@ export default {
         firstname: this.firstnameCopy,
         birthday: this.birthdayCopy,
         birthplace: this.birthplaceCopy,
-        gender: this.genderCopy
+        gender: ''
       },
       formValid: false,
       errorMessage: false
@@ -151,13 +153,31 @@ export default {
 
       this.validate()
       if (this.formValid) {
+        let backendGender
+
+        switch (this.formData.gender) {
+          case 'männlich':
+            backendGender = 'male'
+            break
+          case 'weiblich':
+            backendGender = 'female'
+            break
+          case 'divers':
+            backendGender = 'diverse'
+            break
+
+          default:
+            backendGender = 'not specified'
+            break
+        }
+
         let volunteer = {
           person: {
             lastname: this.formData.lastname,
             firstname: this.formData.firstname,
-            gender: this.formData.gender
+            gender: backendGender
           },
-          birthday: reformatDate(this.formData.birthday),
+          birthday: this.formData.birthday,
           birthplace: this.formData.birthplace
         }
         let id = this.$route.params.volunteerId
@@ -175,6 +195,23 @@ export default {
         }
         this.$emit('saved')
       }
+    }
+  },
+  beforeMount() {
+    switch (this.genderCopy) {
+      case 'female':
+        this.formData.gender = 'weiblich'
+        break
+      case 'male':
+        this.formData.gender = 'männlich'
+        break
+      case 'diverse':
+        this.formData.gender = 'divers'
+        break
+
+      default:
+        this.formData.gender = 'keine Angabe'
+        break
     }
   },
   mounted() {
