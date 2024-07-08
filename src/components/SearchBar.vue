@@ -1,13 +1,13 @@
 <template>
   <div class="flex justify-between items-center w-96 h-11 bg-white px-4 py-2 border rounded-md">
     <input
-      class="outline-none placeholder-vologray-300 w-full"
+      class="outline-none placeholder-black placeholder-opacity-80 w-full"
       type="text"
       :placeholder="placeholder"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
     />
-    <IconSearch class="text-vologray-700" />
+    <IconSearch class="opacity-60" />
   </div>
 </template>
 <script>
