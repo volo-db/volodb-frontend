@@ -6,7 +6,7 @@
     </div>
     <div class="mt-16" v-if="volunteerStore.volunteerDocuments">
       <table class="w-full">
-        <thead>
+        <thead v-if="volunteerStore.volunteerNotes.length !== 0">
           <tr>
             <td
               v-for="(title, index) in tableHead"
