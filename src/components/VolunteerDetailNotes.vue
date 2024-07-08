@@ -6,7 +6,7 @@
     </div>
     <div class="mt-16" v-if="volunteerStore.volunteerNotes">
       <table class="w-full">
-        <thead>
+        <thead v-if="volunteerStore.volunteerNotes.length !== 0">
           <tr>
             <td
               v-for="(title, index) in tableHead"
@@ -97,10 +97,10 @@
             >
               <div class="flex gap-1 mr-2 justify-start" v-if="note.user == userStore.user.email">
                 <button @click="openEditModal(note)" title="editieren">
-                  <IconPenEdit class="text-vologray-600 opacity-60" />
+                  <IconPenEdit class="opacity-80" />
                 </button>
                 <button @click="handleDelete(note)" title="löschen">
-                  <IconTrash class="text-vologray-600 opacity-60" />
+                  <IconTrash class="opacity-80" />
                 </button>
               </div>
             </td>
