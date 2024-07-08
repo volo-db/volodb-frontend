@@ -74,6 +74,12 @@ export default {
       this.addresses = this.volunteerStore.selectedVolunteerAddresses
     },
     async deleteAdress(address) {
+      if (address.status === 'ACTIVE') {
+        window.alert(
+          'Es ist nicht möglich die Hauptadresse zu löschen. Markiere zunächst eine andere Adresse als Hauptadresse oder lege eine solche an.'
+        )
+        return
+      }
       const confirm = window.confirm(`Möchtest du die Adresse "${address.name}" wirklich löschen?"`)
       if (confirm) {
         await this.volunteerStore.deleteVolunteerAddress(address.id)

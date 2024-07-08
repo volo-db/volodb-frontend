@@ -81,6 +81,7 @@
                 type="checkbox"
                 id="primaryAddressYes"
                 v-model="formData.primaryAddress"
+                :disabled="firstAddress"
               />
               <label class="text-vologray-500 font-normal" for="primaryAddressYes"
                 >Hauptadresse?
@@ -119,10 +120,11 @@ export default {
     const countryStore = useCountryStore()
 
     countryStore.getCountries()
-
+    const firstAddress = !Boolean(volunteerStore.selectedVolunteerAddresses.length)
     return {
       volunteerStore,
-      countryStore
+      countryStore,
+      firstAddress
     }
   },
   props: {
@@ -146,7 +148,13 @@ export default {
         postalCode: this.address ? this.address.postalcode : '',
         city: this.address ? this.address.city : '',
         country: this.address ? this.address.country : 'Deutschland',
-        primaryAddress: this.address ? (this.address.status === 'ACTIVE' ? true : false) : false
+        primaryAddress: this.firstAddress
+          ? true
+          : this.address
+            ? this.address.status === 'ACTIVE'
+              ? true
+              : false
+            : false
       },
       formValid: false,
       errorMessage: false
