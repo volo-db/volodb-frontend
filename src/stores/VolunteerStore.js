@@ -203,11 +203,8 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         this.fetching = false
       }
     },
-    async setDocument(file, id) {
+    async setDocument(formData, id) {
       this.fetching = true
-
-      const formData = new FormData()
-      formData.append('file', file)
 
       try {
         await vdbFetchData('volunteers/' + id + '/documents', 'POST', formData)

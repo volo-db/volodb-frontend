@@ -24,12 +24,44 @@
         <div class="flex-1">
           <form class="flex flex-col gap-2" id="new-document" @submit.prevent="onSubmit" novalidate>
             <FormularInput
+              name="name"
+              label="Name"
+              type="text"
+              id="name"
+              :required="true"
+              :hasError="validationErr.name"
+              v-model="formData.name"
+            />
+            <FormularSelectBox
+              :title="[
+                'Lebenslauf, Anschreiben, Schulzeugnise und Co.',
+                'Ausgefüllter Personalbogen.',
+                'Verbpflichtender Nachweis über bestehenden Masernschut durch Imunität, Impfung oder ärztl. Befreieiung.',
+                'Erweitertes polizeiliches Führungszeugnis welches nicht älter als 12 Monate sein darf',
+                'Einwilligung über Foto- und Videoaufnahmen welche für öffentlichkeitsarbeitszwecke wärend des FWD angefertigt werden könnten.',
+                'Bewertungsbogen von EST.'
+              ]"
+              :list="[
+                'Bewerbungsunterlagen',
+                'Personalbogen',
+                'Masernschutz',
+                'Erweitertes Führungszeugnis',
+                'Einwillingung Foto- und Videoaufnahmen',
+                'Bewertungsbogen'
+              ]"
+              label="Typ"
+              id="type"
+              :required="true"
+              :hasError="validationErr.type"
+              v-model="formData.type"
+            />
+            <FormularInput
               name="document"
               label="Dokument"
               type="file"
               id="document"
               :required="true"
-              v-model="file"
+              v-model="formData.file"
               :hasError="validationErr.file"
             />
           </form>
@@ -53,9 +85,10 @@
 import ButtonStandard from './ButtonStandard.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
 import FormularInput from './FormularInput.vue'
+import FormularSelectBox from './FormularSelectBox.vue'
 import IconSpinner from './IconSpinner.vue'
 export default {
-  components: { ButtonStandard, IconSpinner, FormularInput },
+  components: { ButtonStandard, IconSpinner, FormularInput, FormularSelectBox },
   setup() {
     const volunteerStore = useVolunteerStore()
 
@@ -65,9 +98,15 @@ export default {
   },
   data() {
     return {
-      file: null,
+      formData: {
+        file: null,
+        name: '',
+        type: ''
+      },
       validationErr: {
-        file: false
+        file: false,
+        name: false,
+        type: false
       },
       formValid: false,
       errorMessage: false
@@ -77,29 +116,64 @@ export default {
     validate() {
       this.formValid = false
       this.validationErr.file = false
+      this.validationErr.name = false
+      this.validationErr.type = false
       // Check if `file` is null
-      if (!this.file) this.validationErr.file = true
+      if (!this.formData.file) this.validationErr.file = true
+      if (!this.formData.name) this.validationErr.name = true
+      if (!this.formData.type) this.validationErr.type = true
 
-      if (!this.validationErr.file) {
+      if (!this.validationErr.file && !this.validationErr.name && !this.validationErr.type) {
         this.formValid = true
       }
     },
     async onSubmit() {
-      console.log(this.file)
       this.errorMessage = false
 
       this.validate()
       if (this.formValid) {
         console.log('valid')
 
+        // documentType id:
+        let documentTypeId
+
+        switch (this.formData.type) {
+          case 'Bewerbungsunterlagen':
+            documentTypeId = 1
+            break
+          case 'Personalbogen':
+            documentTypeId = 2
+            break
+          case 'Masernschutz':
+            documentTypeId = 3
+            break
+          case 'Erweitertes Führungszeugnis':
+            documentTypeId = 4
+            break
+          case 'Einwillingung Foto- und Videoaufnahmen':
+            documentTypeId = 5
+            break
+          case 'Bewertungsbogen':
+            documentTypeId = 6
+            break
+
+          default:
+            documentTypeId = 1
+            break
+        }
+
         try {
           const formData = new FormData()
-          formData.append('document', this.file) // Append file to FormData
+          formData.append('document', this.formData.file)
+          formData.append('documentName', this.formData.name)
+          formData.append('documentTypeId', documentTypeId)
+          console.log(formData)
           await this.volunteerStore.setDocument(formData, this.$route.params.volunteerId)
         } catch (error) {
           this.errorMessage = true
           console.error('Error uploading file:', error)
         }
+        this.$emit('saved')
       }
     }
   }

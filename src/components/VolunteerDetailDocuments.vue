@@ -67,7 +67,10 @@
         </tbody>
       </table>
       <ContainerModal v-if="uploadDocument"
-        ><DocumentFormular @saved="uploadDocument = false" @cancel="uploadDocument = false" />
+        ><DocumentFormular
+          @saved="(uploadDocument = false), getDocuments()"
+          @cancel="uploadDocument = false"
+        />
       </ContainerModal>
     </div>
   </div>
