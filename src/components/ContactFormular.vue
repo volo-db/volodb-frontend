@@ -75,7 +75,7 @@
 <script>
 import ButtonStandard from './ButtonStandard.vue'
 import { useContactStore } from '@/stores/ContactStore'
-import { isValidEmail, isValidPhoneNumber } from '@/utils/validations'
+import { parsePhoneNumber, isPossiblePhoneNumber } from 'libphonenumber-js'
 import FormularInput from './FormularInput.vue'
 import FormularSelectBox from './FormularSelectBox.vue'
 import IconSpinner from './IconSpinner.vue'
@@ -97,7 +97,6 @@ export default {
   data() {
     return {
       validationErr: {
-        type: false,
         mobile: false
       },
       formData: {
@@ -118,18 +117,26 @@ export default {
     validate() {
       // clear the table ;-)
       this.formValid = false
-      this.validationErr.type = false
       this.validationErr.value = false
 
       // Validate fields:
-      // Gender
+      switch (this.formData.type.toLocaleLowerCase()) {
+        case 'mobil':
+        case 'festnetz':
+          this.validationErr.value = !isPossiblePhoneNumber(this.formData.value, 'DE')
+          break
+
+        default:
+          break
+      }
+      // Type
       if (!this.formData.type) this.validationErr.type = true
 
-      // Mobile
+      // Value
       if (!this.formData.value) this.validationErr.value = true
 
       // If theres no error -> form is valid
-      if (!this.validationErr.type && !this.validationErr.value) this.formValid = true
+      if (!this.validationErr.value) this.formValid = true
     },
     async onSubmit() {
       this.errorMessage = false
@@ -149,9 +156,11 @@ export default {
             break
           case 'Mobil':
             backendType = 'mobile'
+            this.formData.value = parsePhoneNumber(this.formData.value, 'DE').number
             break
           case 'Festnetz':
             backendType = 'landline'
+            this.formData.value = parsePhoneNumber(this.formData.value, 'DE').number
             break
         }
 

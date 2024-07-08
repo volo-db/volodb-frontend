@@ -11,7 +11,9 @@
       <!-- Phone -->
       <p v-if="contact.type === 'mobile' || contact.type === 'landline'">
         <IconPhone class="text-voloblue-200 opacity-60 text-lg mr-2" />
-        <a :href="'tel:' + contact.value">{{ contact.value }}</a>
+        <a :href="'tel:' + contact.value"
+          >{{ parsePhoneNumber(contact.value, 'DE').formatInternational() }}
+        </a>
       </p>
 
       <!-- MESSENGER: -->
@@ -59,6 +61,7 @@ import IconMessenger from '@/components/IconMessenger.vue'
 import IconPlus from '@/components/IconPlus.vue'
 import ContainerModal from './ContainerModal.vue'
 import ContactFormular from './ContactFormular.vue'
+import { parsePhoneNumber } from 'libphonenumber-js'
 
 export default {
   setup() {
@@ -67,7 +70,8 @@ export default {
 
     return {
       volunteerStore,
-      baseUrl
+      baseUrl,
+      parsePhoneNumber
     }
   },
   components: {

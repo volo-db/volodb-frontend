@@ -82,7 +82,8 @@ import ButtonStandard from './ButtonStandard.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
 import { useContactStore } from '@/stores/ContactStore'
 import { confetti } from '@/utils/confetti.js'
-import { isValidEmail, isValidPhoneNumber } from '@/utils/validations'
+import { isValidEmail } from '@/utils/validations'
+import { parsePhoneNumber, isPossiblePhoneNumber } from 'libphonenumber-js'
 import FormularInput from './FormularInput.vue'
 import FormularSelectBox from './FormularSelectBox.vue'
 import IconSpinner from './IconSpinner.vue'
@@ -142,8 +143,7 @@ export default {
       if (this.formData.email && !isValidEmail(this.formData.email)) this.validationErr.email = true
 
       // Mobile
-      this.formData.mobile = this.formData.mobile.split(' ').join('')
-      if (this.formData.mobile && !isValidPhoneNumber(this.formData.mobile))
+      if (this.formData.mobile && !isPossiblePhoneNumber(this.formData.mobile, 'DE'))
         this.validationErr.mobile = true
 
       // If theres no error -> form is valid
@@ -195,7 +195,7 @@ export default {
 
           const mobile = {
             type: 'mobile',
-            value: this.formData.mobile.trim()
+            value: parsePhoneNumber(this.formData.mobile, 'DE').number
           }
 
           const email = {
