@@ -17,6 +17,14 @@ export const useVolunteerStore = defineStore('volunteerStore', {
     }
   },
   actions: {
+    clearVolunteer() {
+      this.volunteerNotes = null
+      this.selectedVolunteer = null
+      this.selectedVolunteerContacts = null
+      this.selectedVolunteerAddresses = null
+      this.selectedVolunteerRelevantContract = null
+      this.volunteerDocuments = null
+    },
     async setVolunteer(volunteer) {
       this.fetching = true
       try {
