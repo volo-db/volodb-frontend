@@ -12,7 +12,7 @@
       @input="$emit('update:modelValue', $event.target.value)"
       ref="input"
     >
-      <option v-for="(item, index) in list" :key="index" :value="item" :title="title[index]">
+      <option v-for="(item, index) in list" :key="index" :value="item" :title="titles[index] || ''">
         {{ item }}
       </option>
     </select>
@@ -24,8 +24,9 @@ export default {
   expose: ['focus'],
   emits: ['update:modelValue'],
   props: {
-    title: {
-      Array
+    titles: {
+      type: Array,
+      default: () => []
     },
     list: {
       type: Array

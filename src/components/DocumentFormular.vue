@@ -33,22 +33,8 @@
               v-model="formData.name"
             />
             <FormularSelectBox
-              :title="[
-                'Lebenslauf, Anschreiben, Schulzeugnise und Co.',
-                'Ausgefüllter Personalbogen.',
-                'Verbpflichtender Nachweis über bestehenden Masernschut durch Imunität, Impfung oder ärztl. Befreieiung.',
-                'Erweitertes polizeiliches Führungszeugnis welches nicht älter als 12 Monate sein darf',
-                'Einwilligung über Foto- und Videoaufnahmen welche für öffentlichkeitsarbeitszwecke wärend des FWD angefertigt werden könnten.',
-                'Bewertungsbogen von EST.'
-              ]"
-              :list="[
-                'Bewerbungsunterlagen',
-                'Personalbogen',
-                'Masernschutz',
-                'Erweitertes Führungszeugnis',
-                'Einwillingung Foto- und Videoaufnahmen',
-                'Bewertungsbogen'
-              ]"
+              :titles="titles"
+              :list="list"
               label="Typ"
               id="type"
               :required="true"
@@ -98,6 +84,22 @@ export default {
   },
   data() {
     return {
+      list: [
+        'Bewerbungsunterlagen',
+        'Personalbogen',
+        'Masernschutz',
+        'Erweitertes Führungszeugnis',
+        'Einwillingung Foto- und Videoaufnahmen',
+        'Bewertungsbogen'
+      ],
+      titles: [
+        'Lebenslauf, Anschreiben, Schulzeugnise und Co.',
+        'Ausgefüllter Personalbogen.',
+        'Verbpflichtender Nachweis über bestehenden Masernschut durch Imunität, Impfung oder ärztl. Befreieiung.',
+        'Erweitertes polizeiliches Führungszeugnis welches nicht älter als 12 Monate sein darf',
+        'Einwilligung über Foto- und Videoaufnahmen welche für öffentlichkeitsarbeitszwecke wärend des FWD angefertigt werden könnten.',
+        'Bewertungsbogen von EST.'
+      ],
       formData: {
         file: null,
         name: '',

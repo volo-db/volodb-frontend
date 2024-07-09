@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { vdbFetchData } from '@/utils/api'
+import { vdbFetchData, vdbFetchFormData } from '@/utils/api'
 
 let mostRecentRequest = ''
 
@@ -195,7 +195,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       this.fetching = true
 
       try {
-        await vdbFetchData('volunteers/' + id + '/avatar/', 'PATCH', formData)
+        await vdbFetchFormData('volunteers/' + id + '/avatar/', 'PATCH', formData)
       } catch (error) {
         console.error(error)
         throw error
@@ -207,7 +207,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       this.fetching = true
 
       try {
-        await vdbFetchData('volunteers/' + id + '/documents', 'POST', formData)
+        await vdbFetchFormData('volunteers/' + id + '/documents', 'POST', formData)
       } catch (error) {
         console.error(error)
         throw error
