@@ -6,7 +6,7 @@
     </div>
     <div class="mt-16" v-if="volunteerStore.volunteerDocuments">
       <div
-        v-if="!volunteerStore.volunteerNotes || volunteerStore.volunteerNotes.length == 0"
+        v-if="!volunteerStore.volunteerDocuments || volunteerStore.volunteerDocuments.length == 0"
         class="flex flex-col items-center gap-8 text-vologray-700/30"
       >
         <p class="font-medium text-3xl">Noch keine Dokumente vorhanden</p>
