@@ -5,10 +5,12 @@
       <ButtonStandard>Dokument hinzufügen</ButtonStandard>
     </div>
     <div class="mt-16" v-if="volunteerStore.volunteerDocuments">
-      <div v-if="(!volunteerStore.volunteerNotes) || volunteerStore.volunteerNotes.length == 0" class="flex flex-col items-center gap-8 text-vologray-700/30  ">
+      <div
+        v-if="!volunteerStore.volunteerNotes || volunteerStore.volunteerNotes.length == 0"
+        class="flex flex-col items-center gap-8 text-vologray-700/30"
+      >
         <p class="font-medium text-3xl">Noch keine Dokumente vorhanden</p>
-        <IconFile class="text-[300px]"/>
-        
+        <IconFile class="text-[300px]" />
       </div>
       <table class="w-full">
         <thead v-if="volunteerStore.volunteerDocuments.length !== 0">
