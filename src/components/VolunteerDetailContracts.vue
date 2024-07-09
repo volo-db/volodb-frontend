@@ -4,7 +4,10 @@
       <!-- <SearchBar placeholder="Suche nach Vereinbarungen" /> -->
       <ButtonStandard>Vereinbarung hinzufügen</ButtonStandard>
     </header>
-
+    <div v-if="!contract" class="flex flex-col items-center gap-8 text-vologray-700/30 mt-16">
+      <p class="font-medium text-3xl">Noch keine Vereinbarung vorhanden</p>
+      <IconContract class="text-[300px]" />
+    </div>
     <!-- Grid -->
     <div v-if="volunteer && contract" class="flex flex-wrap gap-[10px] mt-8">
       <!-- Contract-Overview -->
@@ -181,6 +184,7 @@ import IconCircleWithCheckmark from './IconCircleWithCheckmark.vue'
 import IconCircleWithPoint from './IconCircleWithPoint.vue'
 import IconPalmTree from './IconPalmTree.vue'
 import IconSeminars from './IconSeminars.vue'
+import IconContract from './IconContract.vue'
 import VolunteerDetailContractSallary from './VolunteerDetailContractSallary.vue'
 import IconDashboard from './IconDashboard.vue'
 import IconClinicalThermometer from './IconClinicalThermometer.vue'
@@ -208,6 +212,7 @@ export default {
     IconCircleWithPoint,
     IconPalmTree,
     IconSeminars,
+    IconContract,
     VolunteerDetailContractSallary,
     IconDashboard,
     IconClinicalThermometer,
