@@ -238,6 +238,17 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         this.fetchingDocuments = false
       }
     },
+    async deleteDocument(id) {
+      this.fetching = true
+      try {
+        await vdbFetchData('volunteers/' + this.selectedVolunteer.id + '/documents/' + id, 'DELETE')
+      } catch (error) {
+        console.error(error)
+        throw error
+      } finally {
+        this.fetching = false
+      }
+    },
     async getVolunteerDocumentTypes() {
       this.volunteerDocumentTypes = null
 

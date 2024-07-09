@@ -64,10 +64,19 @@
                 'rounded-br-md': index === volunteerStore.volunteerDocuments.length - 1
               }"
             >
-              <div class="flex justify-end">
-                <ButtonDownload class="flex gap-1 items-center"
-                  >Download<IconArrowDownload
-                /></ButtonDownload>
+              <div class="flex items-center gap-1">
+                <div class="mr-auto">
+                  <ButtonDownload class="flex gap-1 items-center"
+                    >Download<IconArrowDownload
+                  /></ButtonDownload>
+                </div>
+
+                <div class="flex gap-1" v-if="document.user == userStore.user.email">
+                  <button><IconPenEdit class="opacity-80" title="editieren" /></button>
+                  <button @click="handleDelete(document)">
+                    <IconTrash class="opacity-80" title="löschen" />
+                  </button>
+                </div>
               </div>
             </td>
           </tr>
@@ -87,19 +96,23 @@
 import IconTableSortArrows from './IconTableSortArrows.vue'
 import ButtonDownload from './ButtonDownload.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
+import { useUserStore } from '@/stores/UserStore'
 import IconArrowDownload from './IconArrowDownload.vue'
 import ButtonStandard from '@/components/ButtonStandard.vue'
 import SearchBar from '@/components/SearchBar.vue'
 import debounce from 'lodash.debounce'
 import ContainerModal from '@/components/ContainerModal.vue'
 import DocumentFormular from '@/components/DocumentFormular.vue'
-
+import IconPenEdit from './IconPenEdit.vue'
+import IconTrash from './IconTrash.vue'
 import IconFile from './IconFile.vue'
 
 export default {
   setup: () => {
     const volunteerStore = useVolunteerStore()
-    return { volunteerStore }
+    const userStore = useUserStore()
+
+    return { volunteerStore, userStore }
   },
   components: {
     IconTableSortArrows,
@@ -109,7 +122,9 @@ export default {
     SearchBar,
     ContainerModal,
     DocumentFormular,
-    IconFile
+    IconFile,
+    IconPenEdit,
+    IconTrash
   },
   data() {
     return {
@@ -156,6 +171,16 @@ export default {
         })
       } catch (error) {
         console.error('Error fetching documents:', error)
+      }
+    },
+    async handleDelete(document) {
+      if (!window.confirm('Soll das Dokument wirklich gelöscht werden?')) return
+      try {
+        await this.volunteerStore.deleteDocument(document.id)
+      } catch (error) {
+        console.error('Error deleting document: ', error)
+      } finally {
+        this.getDocuments()
       }
     },
     debouncedSearch: debounce((input, searchFunction) => {
