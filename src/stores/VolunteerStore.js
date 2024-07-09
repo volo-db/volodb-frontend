@@ -7,6 +7,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
   state: () => {
     return {
       fetching: false,
+      fetchingDocuments: false,
       volunteersPage: null,
       volunteerNotes: null,
       selectedVolunteer: null,
@@ -205,7 +206,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       }
     },
     async setDocument(formData, id) {
-      this.fetching = true
+      this.fetchingDocuments = true
 
       try {
         await vdbFetchFormData('volunteers/' + id + '/documents', 'POST', formData)
@@ -213,7 +214,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         console.error(error)
         throw error
       } finally {
-        this.fetching = false
+        this.fetchingDocuments = false
       }
     },
     async getVolunteerDocumentTypes() {
@@ -223,10 +224,32 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       try {
         this.volunteerDocumentTypes = await vdbFetchData(`/documents/types`, 'GET')
       } catch (error) {
-        console.error(error)
+        console.error('Error fetching document types:', error)
       } finally {
         this.fetching = false
       }
+    }
+  },
+  getters: {
+    getTypeList() {
+      if (!this.volunteerDocumentTypes) return
+
+      let list = []
+
+      for (let key of Object.keys(this.volunteerDocumentTypes)) {
+        list.push(this.volunteerDocumentTypes[key].name)
+      }
+      return list
+    },
+    getTitlesList() {
+      if (!this.volunteerDocumentTypes) return
+
+      let titles = []
+
+      for (let key of Object.keys(this.volunteerDocumentTypes)) {
+        titles.push(this.volunteerDocumentTypes[key].description)
+      }
+      return titles
     }
   }
 })

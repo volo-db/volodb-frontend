@@ -12,7 +12,7 @@
       >
         🤷‍♀️ Upsi! Da ist wohl was schief gelaufen... Versuchs bitte nochmal.
       </p>
-      <div v-if="!volunteerStore.fetching" class="flex justify-center">
+      <div v-if="!volunteerStore.fetchingDocuments" class="flex justify-center">
         <!-- left column -->
         <div class="flex-1">
           <p class="text-[13px] text-vologray-400 pe-20">
@@ -33,8 +33,8 @@
               v-model="formData.name"
             />
             <FormularSelectBox
-              :titles="titles"
-              :list="list"
+              :titles="volunteerStore.getTitlesList"
+              :list="volunteerStore.getTypeList"
               label="Typ"
               id="type"
               :required="true"
@@ -54,7 +54,7 @@
         </div>
       </div>
       <div
-        v-if="volunteerStore.fetching"
+        v-if="volunteerStore.fetchingDocuments"
         class="p-4 flex flex-row gap-2 justify-center items-center text-md"
       >
         <IconSpinner />speichere Dokument...
@@ -143,28 +143,10 @@ export default {
       }
     }
   },
-  computed: {
-    getTypeList() {
-      return Object.keys(this.documentTypes).forEach((key) => {
-        this.list.push(this.documentTypes[key].name)
-      })
-    },
-    getTitlesList() {
-      return Object.keys(this.documentTypes).forEach((key) => {
-        this.titles.push(this.documentTypes[key].description)
-      })
-    }
-  },
+
   mounted() {
     this.volunteerStore.getVolunteerDocumentTypes()
     this.documentTypes = this.volunteerStore.volunteerDocumentTypes
-  },
-  watch: {
-    'formData.type'(value) {
-      this.formData.id = this.getId()
-      console.log(value)
-      console.log(this.formData.id)
-    }
   }
 }
 </script>
