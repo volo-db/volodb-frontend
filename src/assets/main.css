@@ -1,4 +1,17 @@
-@import url(https://fonts.bunny.net/css?family=amatic-sc:700|fira-sans:100,200,300,400,500,600,700);
+/* @import url(https://fonts.bunny.net/css?family=amatic-sc:700|fira-sans:100,200,300,400,500,600,700); */
+
+@font-face {
+  font-family: 'fira sans';
+  src: url('/public/fonts/Fira_Sans/FiraSans-Regular.ttf') format('ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'fira sans';
+  src: url('/public/fonts/Fira_Sans/FiraSans-Medium.ttf') format('ttf');
+  font-weight: normal;
+  font-style: normal;
+}
 
 @tailwind base;
 @tailwind components;
@@ -10,7 +23,7 @@
     --error-bg-color: rgba(255, 0, 0, 0.1);
   }
   html {
-    font-family: 'fira sans', sans-serif;
+    font-family: 'fira sans', Arial, Helvetica, sans-serif;
   }
 }
 
