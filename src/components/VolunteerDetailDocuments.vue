@@ -96,7 +96,6 @@ import DocumentFormular from '@/components/DocumentFormular.vue'
 
 import IconFile from './IconFile.vue'
 
-
 export default {
   setup: () => {
     const volunteerStore = useVolunteerStore()
@@ -109,9 +108,8 @@ export default {
     ButtonStandard,
     SearchBar,
     ContainerModal,
-    DocumentFormular
+    DocumentFormular,
     IconFile
-
   },
   data() {
     return {
