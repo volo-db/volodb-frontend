@@ -52,6 +52,7 @@
         class="mt-[2px]"
         :currentPage="volunteerStore.volunteersPage.pageable.pageNumber"
         :totalPages="volunteerStore.volunteersPage.totalPages"
+        :pageLength="pageSize"
         @updatePage="updateVolunteerPage"
         @updateLength="(length) => updateVolunteerListLenght(length)"
       />
@@ -111,7 +112,7 @@ export default {
       sortOrder: 'asc',
       sortBy: 'person.lastname',
       page: 0,
-      pageSize: 13
+      pageSize: 15
     }
   },
   methods: {

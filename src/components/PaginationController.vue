@@ -23,7 +23,7 @@
     </div>
     <formular-select-box
       :list="[10, 15, 25, 50, 100]"
-      v-model="test"
+      v-model="currentLength"
       class="ml-auto m-2 w-[75px]"
     />
   </div>
@@ -37,16 +37,17 @@ export default {
   components: { FormularSelectBox, IconArrowCircleLeftLeft, IconArrowCircleLeft },
   data() {
     return {
-      test: 10
+      currentLength: null
     }
   },
   props: {
     currentPage: Number,
-    totalPages: Number
+    totalPages: Number,
+    pageLength: Number
   },
   watch: {
-    test(newValue) {
-      this.$emit('updateLength', newValue)
+    currentLength(newValue) {
+      this.$emit('updateLength', Number(newValue))
     }
   },
   methods: {
@@ -66,6 +67,9 @@ export default {
     pageToFirst() {
       this.$emit('updatePage', 0)
     }
+  },
+  beforeMount() {
+    this.currentLength = String(this.pageLength)
   }
 }
 </script>
