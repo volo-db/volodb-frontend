@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { vdbFetchData } from '@/utils/api'
+import { vdbFetchData, vdbFetchFormData } from '@/utils/api'
 
 let mostRecentRequest = ''
 
@@ -7,13 +7,15 @@ export const useVolunteerStore = defineStore('volunteerStore', {
   state: () => {
     return {
       fetching: false,
+      fetchingDocuments: false,
       volunteersPage: null,
       volunteerNotes: null,
       selectedVolunteer: null,
       selectedVolunteerContacts: null,
       selectedVolunteerAddresses: null,
       selectedVolunteerRelevantContract: null,
-      volunteerDocuments: null
+      volunteerDocuments: null,
+      volunteerDocumentTypes: null
     }
   },
   actions: {
@@ -216,13 +218,59 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       this.fetching = true
 
       try {
-        await vdbFetchData('volunteers/' + id + '/avatar/', 'PATCH', formData)
+        await vdbFetchFormData('volunteers/' + id + '/avatar/', 'PATCH', formData)
       } catch (error) {
         console.error(error)
         throw error
       } finally {
         this.fetching = false
       }
+    },
+    async setDocument(formData, id) {
+      this.fetchingDocuments = true
+
+      try {
+        await vdbFetchFormData('volunteers/' + id + '/documents', 'POST', formData)
+      } catch (error) {
+        console.error(error)
+        throw error
+      } finally {
+        this.fetchingDocuments = false
+      }
+    },
+    async getVolunteerDocumentTypes() {
+      this.volunteerDocumentTypes = null
+
+      this.fetching = true
+      try {
+        this.volunteerDocumentTypes = await vdbFetchData(`/documents/types`, 'GET')
+      } catch (error) {
+        console.error('Error fetching document types:', error)
+      } finally {
+        this.fetching = false
+      }
+    }
+  },
+  getters: {
+    getTypeList() {
+      if (!this.volunteerDocumentTypes) return
+
+      let list = []
+
+      for (let key of Object.keys(this.volunteerDocumentTypes)) {
+        list.push(this.volunteerDocumentTypes[key].name)
+      }
+      return list
+    },
+    getTitlesList() {
+      if (!this.volunteerDocumentTypes) return
+
+      let titles = []
+
+      for (let key of Object.keys(this.volunteerDocumentTypes)) {
+        titles.push(this.volunteerDocumentTypes[key].description)
+      }
+      return titles
     }
   }
 })
