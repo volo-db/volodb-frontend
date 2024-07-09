@@ -19,6 +19,14 @@ export const useVolunteerStore = defineStore('volunteerStore', {
     }
   },
   actions: {
+    clearVolunteer() {
+      this.volunteerNotes = null
+      this.selectedVolunteer = null
+      this.selectedVolunteerContacts = null
+      this.selectedVolunteerAddresses = null
+      this.selectedVolunteerRelevantContract = null
+      this.volunteerDocuments = null
+    },
     async setVolunteer(volunteer) {
       this.fetching = true
       try {
@@ -186,6 +194,19 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       this.fetching = true
       try {
         await vdbFetchData('volunteers/' + this.selectedVolunteer.id + '/notes/' + id, 'DELETE')
+      } catch (error) {
+        console.error(error)
+        throw error
+      } finally {
+        this.fetching = false
+      }
+    },
+
+    async editVolunteer(volunteer, id) {
+      this.fetching = true
+
+      try {
+        await vdbFetchData('volunteers/' + id, 'PATCH', volunteer)
       } catch (error) {
         console.error(error)
         throw error

@@ -5,8 +5,15 @@
       <ButtonStandard @click="uploadDocument = true">Dokument hinzufügen</ButtonStandard>
     </div>
     <div class="mt-16" v-if="volunteerStore.volunteerDocuments">
+      <div
+        v-if="!volunteerStore.volunteerDocuments || volunteerStore.volunteerDocuments.length == 0"
+        class="flex flex-col items-center gap-8 text-vologray-700/30"
+      >
+        <p class="font-medium text-3xl">Noch keine Dokumente vorhanden</p>
+        <IconFile class="text-[300px]" />
+      </div>
       <table class="w-full">
-        <thead>
+        <thead v-if="volunteerStore.volunteerDocuments.length !== 0">
           <tr>
             <td
               v-for="(title, index) in tableHead"
@@ -87,6 +94,9 @@ import debounce from 'lodash.debounce'
 import ContainerModal from '@/components/ContainerModal.vue'
 import DocumentFormular from '@/components/DocumentFormular.vue'
 
+import IconFile from './IconFile.vue'
+
+
 export default {
   setup: () => {
     const volunteerStore = useVolunteerStore()
@@ -100,6 +110,8 @@ export default {
     SearchBar,
     ContainerModal,
     DocumentFormular
+    IconFile
+
   },
   data() {
     return {

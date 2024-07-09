@@ -5,8 +5,15 @@
       <ButtonStandard @click.prevent="setNote = true">Aktivität hinzufügen</ButtonStandard>
     </div>
     <div class="mt-16" v-if="volunteerStore.volunteerNotes">
+      <div
+        v-if="volunteerStore.volunteerNotes.length == 0"
+        class="flex flex-col items-center gap-8 text-vologray-700/30"
+      >
+        <p class="font-medium text-3xl">Noch keine Notizen vorhanden</p>
+        <IconMemo class="text-[300px]" />
+      </div>
       <table class="w-full">
-        <thead>
+        <thead v-if="volunteerStore.volunteerNotes.length !== 0">
           <tr>
             <td
               v-for="(title, index) in tableHead"
@@ -86,7 +93,9 @@
                   index === volunteerStore.volunteerNotes.length - 1 && expandedRows.includes(index)
               }"
             >
-              <p class="bg-vologray-100 px-4 py-2 mx-4 rounded-md">{{ note.note }}</p>
+              <p class="bg-vologray-100 px-4 py-2 mx-4 rounded-md whitespace-pre">
+                {{ note.note }}
+              </p>
             </td>
             <td
               class="h-14 border-b"
@@ -97,10 +106,10 @@
             >
               <div class="flex gap-1 mr-2 justify-start" v-if="note.user == userStore.user.email">
                 <button @click="openEditModal(note)" title="editieren">
-                  <IconPenEdit class="text-vologray-600 opacity-60" />
+                  <IconPenEdit class="opacity-80" />
                 </button>
                 <button @click="handleDelete(note)" title="löschen">
-                  <IconTrash class="text-vologray-600 opacity-60" />
+                  <IconTrash class="opacity-80" />
                 </button>
               </div>
             </td>
@@ -152,6 +161,7 @@ import ButtonStandard from '@/components/ButtonStandard.vue'
 import SearchBar from '@/components/SearchBar.vue'
 import debounce from 'lodash.debounce'
 import VolunteerDetailNotesTypeData from '@/components/VolunteerDetailNotesTypeData.vue'
+import IconMemo from './IconMemo.vue'
 
 export default {
   setup: () => {
@@ -168,7 +178,8 @@ export default {
     ButtonStandard,
     SearchBar,
     IconTrash,
-    VolunteerDetailNotesTypeData
+    VolunteerDetailNotesTypeData,
+    IconMemo
   },
 
   data() {

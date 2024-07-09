@@ -22,7 +22,7 @@
         </div>
         <div class="flex gap-2">
           <button
-            @click.prevent="(selectedAddress = address), (newAddressModal = true)"
+            @click.prevent="(selectedAddress = address), (addressModal = true)"
             class="hidden group-hover:inline"
           >
             <IconPenEdit />
@@ -34,13 +34,13 @@
       </div>
     </div>
     <div class="pt-3 flex flex-col items-center text-2xl text-vologray-800">
-      <button @click.prevent="newAddressModal = true"><IconPlus /></button>
+      <button @click.prevent="addressModal = true"><IconPlus /></button>
     </div>
   </details>
-  <ContainerModal v-if="newAddressModal">
+  <ContainerModal v-if="addressModal">
     <AddressFormular
       :address="selectedAddress"
-      @close="newAddressModal = false"
+      @close="addressModal = false"
       @saved="updateAddresses"
     />
   </ContainerModal>
@@ -62,7 +62,7 @@ export default {
   },
   data() {
     return {
-      newAddressModal: false,
+      addressModal: false,
       addresses: null,
       selectedAddress: null
     }
@@ -74,6 +74,12 @@ export default {
       this.addresses = this.volunteerStore.selectedVolunteerAddresses
     },
     async deleteAdress(address) {
+      if (address.status === 'ACTIVE') {
+        window.alert(
+          'Es ist nicht möglich die Hauptadresse zu löschen. Markiere zunächst eine andere Adresse als Hauptadresse oder lege eine solche an.'
+        )
+        return
+      }
       const confirm = window.confirm(`Möchtest du die Adresse "${address.name}" wirklich löschen?"`)
       if (confirm) {
         await this.volunteerStore.deleteVolunteerAddress(address.id)

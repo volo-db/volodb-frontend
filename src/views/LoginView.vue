@@ -110,7 +110,7 @@ export default {
         await this.userStore.login(this.email, this.password)
         this.$router.push({ name: 'DashboardView' })
       } catch (error) {
-        console.log(error)
+        console.error(error)
         this.errorAnimationMail()
         this.errorAnimationPassword()
         this.email = ''

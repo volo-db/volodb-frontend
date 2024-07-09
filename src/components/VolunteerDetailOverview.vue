@@ -13,9 +13,35 @@
           />
 
           <!-- Name -->
-          <h2 class="pt-4 text-lg font-medium">
-            {{ volunteer.person.firstname }} {{ volunteer.person.lastname }}
-          </h2>
+          <div
+            class="relative w-full flex justify-center items-center"
+            @mouseover="hover = true"
+            @mouseleave="hover = false"
+          >
+            <div>
+              <h2 class="p-2 text-lg font-medium flex flex-col items-center">
+                <p>{{ volunteer.person.firstname }}</p>
+                <p>{{ volunteer.person.lastname }}</p>
+              </h2>
+              <!-- Birthday and -place -->
+              <p v-if="volunteer.birthday" class="text-sm">
+                geboren am
+                <span class="font-bold">{{ getPropperDateString(volunteer.birthday) }}</span>
+                in
+                <span class="font-bold">{{ volunteer.birthplace }}</span>
+              </p>
+            </div>
+
+            <!-- pen to edit name, gender, birthdate -->
+            <button
+              class="absolute right-0 top-1/2 transform -translate-y-1/2"
+              v-if="hover"
+              @click="newNameModal = true"
+            >
+              <IconPenEdit />
+            </button>
+          </div>
+          <hr class="w-40" />
           <!-- Project -->
           <p class="text-sm" v-if="relevantContract">
             Einsatzstelle:
@@ -48,12 +74,27 @@
       </div>
     </div>
   </div>
+  <ContainerModal v-if="newNameModal">
+    <BasicPersonalDataFormular
+      @saved="onNameSaved"
+      @cancel="newNameModal = false"
+      :lastnameCopy="volunteer.person.lastname"
+      :firstnameCopy="volunteer.person.firstname"
+      :birthdayCopy="volunteer.birthday"
+      :birthplaceCopy="volunteer.birthplace"
+      :genderCopy="volunteer.person.gender"
+    />
+  </ContainerModal>
 </template>
 <script>
 import { useVolunteerStore } from '@/stores/VolunteerStore.js'
+import ContainerModal from '@/components/ContainerModal.vue'
+import BasicPersonalDataFormular from '@/components/BasicPersonalDataFormular.vue'
 import VolunteerDetailOverviewAvatar from './VolunteerDetailOverviewAvatar.vue'
 import VolunteerDetailOverviewAddresses from './VolunteerDetailOverviewAddresses.vue'
 import VolunteerDetailOverviewContact from './VolunteerDetailOverviewContact.vue'
+import IconPenEdit from '@/components/IconPenEdit.vue'
+import { getPropperDateString } from '@/utils/dateAndTime'
 
 export default {
   setup() {
@@ -62,10 +103,14 @@ export default {
 
     return {
       volunteerStore,
-      baseUrl
+      baseUrl,
+      getPropperDateString
     }
   },
   components: {
+    BasicPersonalDataFormular,
+    ContainerModal,
+    IconPenEdit,
     VolunteerDetailOverviewAvatar,
     VolunteerDetailOverviewAddresses,
     VolunteerDetailOverviewContact
@@ -75,10 +120,17 @@ export default {
       volunteer: null,
       contacts: null,
       addresses: null,
-      relevantContract: null
+      relevantContract: null,
+      hover: false,
+      newNameModal: false
     }
   },
   methods: {
+    async onNameSaved() {
+      this.newNameModal = false
+      await this.volunteerStore.getVolunteer(this.volunteerStore.selectedVolunteer.id)
+      this.volunteer = this.volunteerStore.selectedVolunteer
+    },
     async editAvatar(event) {
       const file = event.target.files[0]
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-auto" v-bind="$attrs">
+  <div v-bind="$attrs">
     <div v-if="volunteerStore.volunteersPage">
       <table class="w-full">
         <thead>
@@ -53,6 +53,7 @@
         :currentPage="volunteerStore.volunteersPage.pageable.pageNumber"
         :totalPages="volunteerStore.volunteersPage.totalPages"
         @updatePage="updateVolunteerPage"
+        @updateLength="(length) => updateVolunteerListLenght(length)"
       />
     </div>
   </div>
@@ -124,6 +125,17 @@ export default {
         sortBy: this.sortBy,
         page: pageNumber,
         pageSize: this.pageSize
+      }
+      this.volunteerStore.getVolunteers(params)
+    },
+    updateVolunteerListLenght(length) {
+      this.pageSize = length
+      this.volunteerStore.volunteersPage.pageable.pageNumber = 0
+      let params = {
+        sortOrder: this.sortOrder,
+        sortBy: this.sortBy,
+        page: this.volunteerStore.volunteersPage.pageable.pageNumber,
+        pageSize: length
       }
       this.volunteerStore.getVolunteers(params)
     },
