@@ -13,7 +13,8 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       selectedVolunteerContacts: null,
       selectedVolunteerAddresses: null,
       selectedVolunteerRelevantContract: null,
-      volunteerDocuments: null
+      volunteerDocuments: null,
+      volunteerDocumentTypes: null
     }
   },
   actions: {
@@ -211,6 +212,18 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       } catch (error) {
         console.error(error)
         throw error
+      } finally {
+        this.fetching = false
+      }
+    },
+    async getVolunteerDocumentTypes() {
+      this.volunteerDocumentTypes = null
+
+      this.fetching = true
+      try {
+        this.volunteerDocumentTypes = await vdbFetchData(`/documents/types`, 'GET')
+      } catch (error) {
+        console.error(error)
       } finally {
         this.fetching = false
       }

@@ -84,26 +84,14 @@ export default {
   },
   data() {
     return {
-      list: [
-        'Bewerbungsunterlagen',
-        'Personalbogen',
-        'Masernschutz',
-        'Erweitertes Führungszeugnis',
-        'Einwillingung Foto- und Videoaufnahmen',
-        'Bewertungsbogen'
-      ],
-      titles: [
-        'Lebenslauf, Anschreiben, Schulzeugnise und Co.',
-        'Ausgefüllter Personalbogen.',
-        'Verbpflichtender Nachweis über bestehenden Masernschut durch Imunität, Impfung oder ärztl. Befreieiung.',
-        'Erweitertes polizeiliches Führungszeugnis welches nicht älter als 12 Monate sein darf',
-        'Einwilligung über Foto- und Videoaufnahmen welche für öffentlichkeitsarbeitszwecke wärend des FWD angefertigt werden könnten.',
-        'Bewertungsbogen von EST.'
-      ],
+      documentTypes: null,
+      list: [],
+      titles: [],
       formData: {
         file: null,
         name: '',
-        type: ''
+        type: '',
+        id: null
       },
       validationErr: {
         file: false,
@@ -129,46 +117,22 @@ export default {
         this.formValid = true
       }
     },
+    getId() {
+      const documentType =
+        this.documentTypes &&
+        Object.values(this.documentTypes).find((type) => type.name === this.formData.type)
+      return documentType ? documentType.id : null
+    },
     async onSubmit() {
       this.errorMessage = false
 
       this.validate()
       if (this.formValid) {
-        console.log('valid')
-
-        // documentType id:
-        let documentTypeId
-
-        switch (this.formData.type) {
-          case 'Bewerbungsunterlagen':
-            documentTypeId = 1
-            break
-          case 'Personalbogen':
-            documentTypeId = 2
-            break
-          case 'Masernschutz':
-            documentTypeId = 3
-            break
-          case 'Erweitertes Führungszeugnis':
-            documentTypeId = 4
-            break
-          case 'Einwillingung Foto- und Videoaufnahmen':
-            documentTypeId = 5
-            break
-          case 'Bewertungsbogen':
-            documentTypeId = 6
-            break
-
-          default:
-            documentTypeId = 1
-            break
-        }
-
         try {
           const formData = new FormData()
           formData.append('document', this.formData.file)
           formData.append('documentName', this.formData.name)
-          formData.append('documentTypeId', documentTypeId)
+          formData.append('documentTypeId', this.formData.id)
           console.log(formData)
           await this.volunteerStore.setDocument(formData, this.$route.params.volunteerId)
         } catch (error) {
@@ -177,6 +141,29 @@ export default {
         }
         this.$emit('saved')
       }
+    }
+  },
+  computed: {
+    getTypeList() {
+      return Object.keys(this.documentTypes).forEach((key) => {
+        this.list.push(this.documentTypes[key].name)
+      })
+    },
+    getTitlesList() {
+      return Object.keys(this.documentTypes).forEach((key) => {
+        this.titles.push(this.documentTypes[key].description)
+      })
+    }
+  },
+  mounted() {
+    this.volunteerStore.getVolunteerDocumentTypes()
+    this.documentTypes = this.volunteerStore.volunteerDocumentTypes
+  },
+  watch: {
+    'formData.type'(value) {
+      this.formData.id = this.getId()
+      console.log(value)
+      console.log(this.formData.id)
     }
   }
 }
