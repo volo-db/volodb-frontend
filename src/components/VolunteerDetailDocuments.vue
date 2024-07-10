@@ -72,9 +72,9 @@
                 </div>
 
                 <div class="flex gap-1" v-if="document.user == userStore.user.email">
-                  <button><IconPenEdit class="opacity-80" title="editieren" /></button>
-                  <button @click="handleDelete(document)">
-                    <IconTrash class="opacity-80" title="löschen" />
+                  <button title="editieren"><IconPenEdit class="opacity-80" /></button>
+                  <button @click="handleDelete(document)" title="löschen">
+                    <IconTrash class="opacity-80" />
                   </button>
                 </div>
               </div>
