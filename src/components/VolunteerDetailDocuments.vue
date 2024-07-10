@@ -12,17 +12,20 @@
               v-for="(title, index) in tableHead"
               :key="index"
               class="pb-3 text-vologray-700 text-sm cursor-pointer"
-              :class="{ 'pl-4': index === 0 }"
-              :style="{ color: sortBy === sortParameter[index] ? '#0025FF' : '#8C97AF' }"
+              :class="{
+                'pl-4': index === 0,
+                'text-voloblue-200': sortBy === sortParameter[index],
+                'text-black opacity-80': !(sortBy === sortParameter[index])
+              }"
               @click="sortDocumentsList(sortParameter[index])"
             >
               {{ title }}
               <IconTableSortArrows
                 :upArrowColor="
-                  sortParameter[index] === sortBy && sortOrder === 'asc' ? '#0025FF' : 'lightgrey'
+                  sortParameter[index] === sortBy && sortOrder === 'asc' ? '#0025FF' : 'darkgray'
                 "
                 :downArrowColor="
-                  sortParameter[index] === sortBy && sortOrder === 'desc' ? '#0025FF' : 'lightgrey'
+                  sortParameter[index] === sortBy && sortOrder === 'desc' ? '#0025FF' : 'darkgray'
                 "
                 class="inline"
               />
