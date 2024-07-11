@@ -241,7 +241,10 @@ export const useVolunteerStore = defineStore('volunteerStore', {
     async deleteDocument(id) {
       this.fetching = true
       try {
-        await vdbFetchData('volunteers/' + this.selectedVolunteer.id + '/documents/' + id, 'DELETE')
+        await vdbFetchFormData(
+          'volunteers/' + this.selectedVolunteer.id + '/documents/' + id,
+          'DELETE'
+        )
       } catch (error) {
         console.error(error)
         throw error
