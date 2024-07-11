@@ -33,6 +33,17 @@ export const useContactStore = defineStore('ContactStore', {
       } finally {
         this.fetching = false
       }
+    },
+    async deleteContact(contactId, volunteerId) {
+      this.fetching = true
+
+      try {
+        await vdbFetchData(`volunteers/${volunteerId}/contacts/${contactId}`, 'DELETE')
+      } catch (error) {
+        console.error(error)
+      } finally {
+        this.fetching = false
+      }
     }
   },
   getters: {

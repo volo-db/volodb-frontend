@@ -173,6 +173,7 @@ export default {
         }
 
         let contact = {
+          id: this.contact ? this.contact.id : null,
           type: backendType,
           value: this.formData.value
         }

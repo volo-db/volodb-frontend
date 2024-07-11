@@ -162,20 +162,6 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         this.fetching = false
       }
     },
-    async deleteVolunteerContact(contactId) {
-      this.fetching = true
-
-      try {
-        await vdbFetchData(
-          `volunteers/${this.selectedVolunteer.id}/contacts/${contactId}`,
-          'DELETE'
-        )
-      } catch (error) {
-        console.error(error)
-      } finally {
-        this.fetching = false
-      }
-    },
     async setNote(note, id) {
       this.fetching = true
       if (id) {
