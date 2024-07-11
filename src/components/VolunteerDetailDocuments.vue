@@ -67,11 +67,12 @@
                 'rounded-br-md': index === volunteerStore.volunteerDocuments.length - 1
               }"
             >
-              <div class="flex justify-end">
-                <ButtonDownload class="flex gap-1 items-center"
-                  >Download<IconArrowDownload
-                /></ButtonDownload>
-              </div>
+              <a
+                :href="`${baseUrl}/files/${document.path}?download=true`"
+                class="flex ml-auto p-2 text-2xl"
+              >
+                <IconArrowDownload />
+              </a>
             </td>
           </tr>
         </tbody>
@@ -88,7 +89,6 @@
 
 <script>
 import IconTableSortArrows from './IconTableSortArrows.vue'
-import ButtonDownload from './ButtonDownload.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
 import IconArrowDownload from './IconArrowDownload.vue'
 import ButtonStandard from '@/components/ButtonStandard.vue'
@@ -102,11 +102,11 @@ import IconFile from './IconFile.vue'
 export default {
   setup: () => {
     const volunteerStore = useVolunteerStore()
-    return { volunteerStore }
+    const baseUrl = import.meta.env.VITE_BASE_URL
+    return { volunteerStore, baseUrl }
   },
   components: {
     IconTableSortArrows,
-    ButtonDownload,
     IconArrowDownload,
     ButtonStandard,
     SearchBar,
