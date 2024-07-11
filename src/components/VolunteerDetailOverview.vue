@@ -30,7 +30,7 @@
             <!-- pen to edit name, gender, birthdate -->
             <div class="flex absolute inset-0 justify-end items-center pointer-events-none">
               <button
-                class="opacity-0 group-hover:opacity-100 p-4 -m-4 pointer-events-auto"
+                class="hidden group-hover:inline p-4 -m-4 pointer-events-auto"
                 @click="newNameModal = true"
               >
                 <IconPenEdit />
