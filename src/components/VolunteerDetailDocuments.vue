@@ -163,10 +163,7 @@ export default {
     },
     debouncedSearch: debounce((input, searchFunction) => {
       searchFunction(input)
-    }, 1000),
-    downloadDocument(document) {
-      this.volunteerStore.downloadDocument(document)
-    }
+    }, 1000)
   },
   watch: {
     searchQuery: {
