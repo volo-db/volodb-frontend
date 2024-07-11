@@ -75,7 +75,9 @@
                 </div>
 
                 <div class="flex gap-1" v-if="document.user == userStore.user.email">
-                  <button title="editieren"><IconPenEdit class="opacity-80" /></button>
+                  <button @click="openEditModal(document)" title="editieren">
+                    <IconPenEdit class="opacity-80" />
+                  </button>
                   <button @click="handleDelete(document)" title="löschen">
                     <IconTrash class="opacity-80" />
                   </button>
@@ -85,10 +87,36 @@
           </tr>
         </tbody>
       </table>
+      <!-- Modal for editing document -->
+      <ContainerModal v-if="editDocument">
+        <DocumentFormular
+          @saved="(editDocument = false), getDocuments()"
+          @cancel="editDocument = false"
+          id="edited-document"
+          title="Dokument bearbeiten"
+          :description="
+            'Bearbeite hier dein dokument für ' +
+            volunteerStore.selectedVolunteer.person.firstname +
+            '.'
+          "
+          loadingText="speichere bearbeitetes Dokument ..."
+          submitButtonText="Speichern"
+          :documentCopy="selectedDocument"
+        />
+      </ContainerModal>
+      <!-- Modal for deleting document -->
       <ContainerModal v-if="uploadDocument"
         ><DocumentFormular
           @saved="(uploadDocument = false), getDocuments()"
           @cancel="uploadDocument = false"
+          :title="'Neues Dokument für ' + volunteerStore.selectedVolunteer.person.firstname"
+          :description="
+            'Lade ein neues Dokument für ' +
+            volunteerStore.selectedVolunteer.person.firstname +
+            ' hoch.'
+          "
+          loadingText="speichere neues Dokument ..."
+          submitButtonText="Dokument speichern"
         />
       </ContainerModal>
     </div>
@@ -137,7 +165,9 @@ export default {
       sortBy: 'timestamp',
       searchQuery: '',
       debouncedSearchQuery: '',
-      uploadDocument: false
+      uploadDocument: false,
+      selectedDocument: null,
+      editDocument: false
     }
   },
   methods: {
@@ -175,6 +205,10 @@ export default {
       } catch (error) {
         console.error('Error fetching documents:', error)
       }
+    },
+    openEditModal(note) {
+      this.selectedDocument = note
+      this.editDocument = true
     },
     async handleDelete(document) {
       if (!window.confirm('Soll das Dokument wirklich gelöscht werden?')) return
