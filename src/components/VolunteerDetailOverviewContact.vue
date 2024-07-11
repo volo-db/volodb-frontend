@@ -50,9 +50,7 @@
             </p> -->
       <div class="flex gap-2 ml-auto">
         <button
-          @click.prevent="
-            updateContacts((selectedVolunteerContact = contact)), (newContactModal = true)
-          "
+          @click.prevent="(selectedContact = contact), (newContactModal = true)"
           class="hidden group-hover:inline"
         >
           <IconPenEdit />
@@ -63,10 +61,16 @@
       </div>
     </div>
     <div class="pt-3 flex flex-col items-center text-2xl text-vologray-800">
-      <button @click.prevent="newContactModal = true"><IconPlus /></button>
+      <button @click.prevent="(selectedContact = null), (newContactModal = true)">
+        <IconPlus />
+      </button>
     </div>
     <ContainerModal v-if="newContactModal">
-      <ContactFormular @close="newContactModal = false" @saved="updateVolo" :volo="volunteer" />
+      <ContactFormular
+        @close="newContactModal = false"
+        @saved="updateVolo"
+        :contact="selectedContact"
+      />
     </ContainerModal>
   </details>
 </template>
@@ -122,7 +126,9 @@ export default {
       this.contacts = this.volunteerStore.selectedVolunteerContacts
     },
     async deleteContact(contact) {
-      const confirm = window.confirm(`Möchtest du den Kontakt "${contact.name}" wirklich löschen?"`)
+      const confirm = window.confirm(
+        `Möchtest du ${contact.value} (${contact.type}) wirklich löschen?"`
+      )
       if (confirm) {
         await this.volunteerStore.deleteVolunteerContact(contact.id)
         this.updateContacts()

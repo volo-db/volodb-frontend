@@ -1,5 +1,5 @@
 <template>
-  <section class="w-[70vw] max-w-[850px] min-w-[400px]" @keydown.esc="$emit('close')">
+  <section v-if="volo" class="w-[70vw] max-w-[850px] min-w-[400px]" @keydown.esc="$emit('close')">
     <header class="flex justify-center p-5 border-solid border-b border-vologray-200">
       <h2 class="text-[20px] text-bold font-medium">
         Neuer Kontakt für {{ volo.person.firstname }}
@@ -47,7 +47,7 @@
               ref="type"
             />
             <FormularInput
-              :label="valueLabel"
+              :label="formData.type"
               id="value"
               :required="true"
               :hasError="validationErr.value"
@@ -67,7 +67,7 @@
     <footer class="flex justify-between p-6 border-solid border-t border-vologray-200">
       <ButtonStandard @click.prevent="$emit('close')" :gray="true">Abbrechen</ButtonStandard>
       <ButtonStandard type="submit" form="new-volunteer"
-        >{{ valueLabel }} hinzufügen</ButtonStandard
+        >Kontakt {{ contact ? 'speichern' : 'hinzufügen' }}</ButtonStandard
       >
     </footer>
   </section>
@@ -75,6 +75,7 @@
 <script>
 import ButtonStandard from './ButtonStandard.vue'
 import { useContactStore } from '@/stores/ContactStore'
+import { useVolunteerStore } from '@/stores/VolunteerStore'
 import { parsePhoneNumber, isPossiblePhoneNumber } from 'libphonenumber-js'
 import FormularInput from './FormularInput.vue'
 import FormularSelectBox from './FormularSelectBox.vue'
@@ -84,13 +85,15 @@ export default {
   components: { ButtonStandard, IconSpinner, FormularInput, FormularSelectBox },
   setup() {
     const contactStore = useContactStore()
+    const volunteerStore = useVolunteerStore()
 
     return {
-      contactStore
+      contactStore,
+      volunteerStore
     }
   },
   props: {
-    volo: {
+    contact: {
       type: Object
     }
   },
@@ -107,6 +110,11 @@ export default {
       formValid: false,
       errorMessage: false,
       valueLabel: 'Email'
+    }
+  },
+  computed: {
+    volo() {
+      return this.volunteerStore.selectedVolunteer
     }
   },
   methods: {
@@ -192,9 +200,43 @@ export default {
     this.contactStore.contactTypes.forEach((type) => {
       this.contactTypes.push(type.name)
     })
+
+    if (this.contact) {
+      let tempType = ''
+
+      switch (this.contact.type.toLowerCase()) {
+        case 'email':
+          tempType = 'Email'
+          break
+        case 'whatsapp':
+          tempType = 'WhatsApp'
+          break
+        case 'signal':
+          tempType = 'Signal'
+          break
+        case 'threema':
+          tempType = 'Threema'
+          break
+        case 'telegram':
+          tempType = 'Telegram'
+          break
+        case 'instagram':
+          tempType = 'Instagram'
+          break
+        case 'mobile':
+          tempType = 'Mobil'
+          break
+        case 'landline':
+          tempType = 'Festnetz'
+          break
+      }
+
+      this.formData.type = tempType
+      this.formData.value = this.contact.value
+    }
   },
   mounted() {
-    this.$refs.type.focus()
+    // this.$refs.type.focus()
   }
 }
 </script>
