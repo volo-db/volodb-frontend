@@ -5,9 +5,12 @@
       <ButtonStandard @click.prevent="setNote = true">Aktivität hinzufügen</ButtonStandard>
     </div>
     <div class="mt-16" v-if="volunteerStore.volunteerNotes">
-      <div v-if="volunteerStore.volunteerNotes.length == 0" class="flex flex-col items-center gap-8 text-vologray-700/30  ">
+      <div
+        v-if="volunteerStore.volunteerNotes.length == 0"
+        class="flex flex-col items-center gap-8 text-vologray-700/30"
+      >
         <p class="font-medium text-3xl">Noch keine Notizen vorhanden</p>
-        <IconMemo class="text-[300px]"/>
+        <IconMemo class="text-[300px]" />
       </div>
       <table class="w-full">
         <thead v-if="volunteerStore.volunteerNotes.length !== 0">
@@ -16,19 +19,20 @@
               v-for="(title, index) in tableHead"
               :key="index"
               class="pb-3 text-sm cursor-pointer"
-              :class="{ 'pl-4': index === 0 }"
-              :style="{
-                color: sortBy === sortParameter[index] ? '#0025FF' : '#8C97AF'
+              :class="{
+                'pl-4': index === 0,
+                'text-voloblue-200': sortBy === sortParameter[index],
+                'text-black opacity-80': !(sortBy === sortParameter[index])
               }"
               @click="sortNotesList(sortParameter[index])"
             >
               {{ title }}
               <IconTableSortArrows
                 :upArrowColor="
-                  sortParameter[index] === sortBy && sortOrder === 'asc' ? '#0025FF' : 'lightgrey'
+                  sortParameter[index] === sortBy && sortOrder === 'asc' ? '#0025FF' : 'darkgray'
                 "
                 :downArrowColor="
-                  sortParameter[index] === sortBy && sortOrder === 'desc' ? '#0025FF' : 'lightgrey'
+                  sortParameter[index] === sortBy && sortOrder === 'desc' ? '#0025FF' : 'darkgray'
                 "
                 class="inline"
               />
@@ -90,7 +94,9 @@
                   index === volunteerStore.volunteerNotes.length - 1 && expandedRows.includes(index)
               }"
             >
-              <p class="bg-vologray-100 px-4 py-2 mx-4 rounded-md">{{ note.note }}</p>
+              <p class="bg-vologray-100 px-4 py-2 mx-4 rounded-md whitespace-pre">
+                {{ note.note }}
+              </p>
             </td>
             <td
               class="h-14 border-b"

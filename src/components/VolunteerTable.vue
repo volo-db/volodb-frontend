@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-auto" v-bind="$attrs">
+  <div v-bind="$attrs">
     <div v-if="volunteerStore.volunteersPage">
       <table class="w-full">
         <thead>
@@ -8,19 +8,20 @@
               v-for="(title, index) in tableHead"
               @click="sortVolunteersList(sortParameter[index])"
               :key="index"
-              class="pb-3 text-vologray-700 text-sm cursor-pointer"
-              :class="{ 'pl-4': index === 0 }"
-              :style="{
-                color: sortBy === sortParameter[index] ? '#0025FF' : ''
+              class="pb-3 text-sm cursor-pointer"
+              :class="{
+                'pl-4': index === 0,
+                'text-voloblue-200': sortBy === sortParameter[index],
+                'text-black opacity-80': !(sortBy === sortParameter[index])
               }"
             >
               {{ title }}
               <IconTableSortArrows
                 :upArrowColor="
-                  sortParameter[index] === sortBy && sortOrder === 'asc' ? '#0025FF' : 'lightgrey'
+                  sortParameter[index] === sortBy && sortOrder === 'asc' ? '#0025FF' : 'darkgray'
                 "
                 :downArrowColor="
-                  sortParameter[index] === sortBy && sortOrder === 'desc' ? '#0025FF' : 'lightgrey'
+                  sortParameter[index] === sortBy && sortOrder === 'desc' ? '#0025FF' : 'darkgray'
                 "
                 class="pl-2 inline w-5"
               />
@@ -52,19 +53,21 @@
         class="mt-[2px]"
         :currentPage="volunteerStore.volunteersPage.pageable.pageNumber"
         :totalPages="volunteerStore.volunteersPage.totalPages"
+        :pageLength="pageSize"
         @updatePage="updateVolunteerPage"
+        @updateLength="(length) => updateVolunteerListLenght(length)"
       />
     </div>
   </div>
-  <ModalContainer v-if="volunteerStore.fetching">
+  <ContainerModal v-if="volunteerStore.fetching" :delay="500">
     <div class="p-4 flex flex-row gap-2 items-center text-md"><IconSpinner />loading ...</div>
-  </ModalContainer>
+  </ContainerModal>
 </template>
 
 <script>
 import IconArrowGoto from './IconArrowGoto.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
-import ModalContainer from '@/components/ContainerModal.vue'
+import ContainerModal from '@/components/ContainerModal.vue'
 import IconSpinner from '@/components/IconSpinner.vue'
 import PaginationController from '@/components/PaginationController.vue'
 import IconTableSortArrows from './IconTableSortArrows.vue'
@@ -73,7 +76,7 @@ import { useRouter } from 'vue-router'
 export default {
   components: {
     IconArrowGoto,
-    ModalContainer,
+    ContainerModal,
     IconSpinner,
     PaginationController,
     IconTableSortArrows
@@ -110,7 +113,7 @@ export default {
       sortOrder: 'asc',
       sortBy: 'person.lastname',
       page: 0,
-      pageSize: 13
+      pageSize: 15
     }
   },
   methods: {
@@ -124,6 +127,17 @@ export default {
         sortBy: this.sortBy,
         page: pageNumber,
         pageSize: this.pageSize
+      }
+      this.volunteerStore.getVolunteers(params)
+    },
+    updateVolunteerListLenght(length) {
+      this.pageSize = length
+      this.volunteerStore.volunteersPage.pageable.pageNumber = 0
+      let params = {
+        sortOrder: this.sortOrder,
+        sortBy: this.sortBy,
+        page: this.volunteerStore.volunteersPage.pageable.pageNumber,
+        pageSize: length
       }
       this.volunteerStore.getVolunteers(params)
     },

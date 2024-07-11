@@ -15,7 +15,7 @@
       <!-- Phone -->
       <p v-if="contact.type === 'mobile' || contact.type === 'landline'">
         <IconPhone class="text-voloblue-200 opacity-60 text-lg mr-2" />
-        <a :href="'tel:' + contact.value"
+        <a :href="parsePhoneNumber(contact.value, 'DE').getURI()"
           >{{ parsePhoneNumber(contact.value, 'DE').formatInternational() }}
         </a>
       </p>
@@ -24,24 +24,32 @@
       <!-- WhatsApp -->
       <p v-if="contact.type === 'whatsapp'">
         <IconMessenger class="text-voloblue-200 opacity-60 text-lg mr-2" />
+
         <a :href="'https://wa.me/' + contact.value">WhatsApp ({{ contact.value }})</a>
+
       </p>
       <!-- Telegram -->
       <p v-if="contact.type === 'telegram'">
         <IconMessenger class="text-voloblue-200 opacity-60 text-lg mr-2" />
+
         <a :href="'https://t.me/' + contact.value">Telegram ({{ contact.value }})</a>
+
       </p>
       <!-- Threema -->
       <p v-if="contact.type === 'threema'">
         <IconMessenger class="text-voloblue-200 opacity-60 text-lg mr-2" />
+
         <a :href="'https://threema.id/' + contact.value + '?text='"
           >Threema ({{ contact.value }})</a
         >
+
       </p>
       <!-- Instagram -->
       <p v-if="contact.type === 'instagram'">
         <IconMessenger class="text-voloblue-200 opacity-60 text-lg mr-2" />
-        <a :href="'https://ig.me/m/' + contact.value + '?text='">Instagram ({{ contact.value }})</a>
+
+        <a :href="'https://ig.me/m/' + contact.value + '?text='">Instagram</a>
+
       </p>
       <!-- ToDo: SIGNAL -->
       <!-- <p v-if="contact.type === 'signal'">

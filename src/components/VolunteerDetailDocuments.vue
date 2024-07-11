@@ -2,7 +2,7 @@
   <div>
     <div class="flex justify-between mt-8">
       <SearchBar v-model="searchQuery" placeholder="Suche nach Dokumenten" />
-      <ButtonStandard>Dokument hinzufügen</ButtonStandard>
+      <ButtonStandard @click="uploadDocument = true">Dokument hinzufügen</ButtonStandard>
     </div>
     <div class="mt-16" v-if="volunteerStore.volunteerDocuments">
       <div
@@ -19,17 +19,20 @@
               v-for="(title, index) in tableHead"
               :key="index"
               class="pb-3 text-vologray-700 text-sm cursor-pointer"
-              :class="{ 'pl-4': index === 0 }"
-              :style="{ color: sortBy === sortParameter[index] ? '#0025FF' : '#8C97AF' }"
+              :class="{
+                'pl-4': index === 0,
+                'text-voloblue-200': sortBy === sortParameter[index],
+                'text-black opacity-80': !(sortBy === sortParameter[index])
+              }"
               @click="sortDocumentsList(sortParameter[index])"
             >
               {{ title }}
               <IconTableSortArrows
                 :upArrowColor="
-                  sortParameter[index] === sortBy && sortOrder === 'asc' ? '#0025FF' : 'lightgrey'
+                  sortParameter[index] === sortBy && sortOrder === 'asc' ? '#0025FF' : 'darkgray'
                 "
                 :downArrowColor="
-                  sortParameter[index] === sortBy && sortOrder === 'desc' ? '#0025FF' : 'lightgrey'
+                  sortParameter[index] === sortBy && sortOrder === 'desc' ? '#0025FF' : 'darkgray'
                 "
                 class="inline"
               />
@@ -64,40 +67,51 @@
                 'rounded-br-md': index === volunteerStore.volunteerDocuments.length - 1
               }"
             >
-              <div class="flex justify-end">
-                <ButtonDownload class="flex gap-1 items-center"
-                  >Download<IconArrowDownload
-                /></ButtonDownload>
-              </div>
+              <a
+                :href="`${baseUrl}/files/${document.path}?download=true`"
+                class="flex ml-auto p-2 text-2xl"
+              >
+                <IconArrowDownload />
+              </a>
             </td>
           </tr>
         </tbody>
       </table>
+      <ContainerModal v-if="uploadDocument"
+        ><DocumentFormular
+          @saved="(uploadDocument = false), getDocuments()"
+          @cancel="uploadDocument = false"
+        />
+      </ContainerModal>
     </div>
   </div>
 </template>
 
 <script>
 import IconTableSortArrows from './IconTableSortArrows.vue'
-import ButtonDownload from './ButtonDownload.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
 import IconArrowDownload from './IconArrowDownload.vue'
 import ButtonStandard from '@/components/ButtonStandard.vue'
 import SearchBar from '@/components/SearchBar.vue'
 import debounce from 'lodash.debounce'
+import ContainerModal from '@/components/ContainerModal.vue'
+import DocumentFormular from '@/components/DocumentFormular.vue'
+
 import IconFile from './IconFile.vue'
 
 export default {
   setup: () => {
     const volunteerStore = useVolunteerStore()
-    return { volunteerStore }
+    const baseUrl = import.meta.env.VITE_BASE_URL
+    return { volunteerStore, baseUrl }
   },
   components: {
     IconTableSortArrows,
-    ButtonDownload,
     IconArrowDownload,
     ButtonStandard,
     SearchBar,
+    ContainerModal,
+    DocumentFormular,
     IconFile
   },
   data() {
@@ -107,7 +121,8 @@ export default {
       sortOrder: 'desc',
       sortBy: 'timestamp',
       searchQuery: '',
-      debouncedSearchQuery: ''
+      debouncedSearchQuery: '',
+      uploadDocument: false
     }
   },
   methods: {
