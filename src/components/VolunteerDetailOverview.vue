@@ -13,11 +13,7 @@
           />
 
           <!-- Name -->
-          <div
-            class="relative w-full flex justify-center items-center"
-            @mouseover="hover = true"
-            @mouseleave="hover = false"
-          >
+          <div class="relative w-full flex justify-center items-center group">
             <div>
               <h2 class="p-2 text-lg font-medium flex flex-col items-center">
                 <p>{{ volunteer.person.firstname }}</p>
@@ -31,15 +27,15 @@
                 <span class="font-bold">{{ volunteer.birthplace }}</span>
               </p>
             </div>
-
             <!-- pen to edit name, gender, birthdate -->
-            <button
-              class="absolute right-0 top-1/2 transform -translate-y-1/2"
-              v-if="hover"
-              @click="newNameModal = true"
-            >
-              <IconPenEdit />
-            </button>
+            <div class="flex absolute inset-0 justify-end items-center pointer-events-none">
+              <button
+                class="hidden group-hover:inline p-4 -m-4 pointer-events-auto"
+                @click="newNameModal = true"
+              >
+                <IconPenEdit />
+              </button>
+            </div>
           </div>
           <hr class="w-40" />
           <!-- Project -->
