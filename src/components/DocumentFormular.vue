@@ -118,9 +118,9 @@ export default {
       }
     },
     getId() {
-      const documentType =
-        this.documentTypes &&
-        Object.values(this.documentTypes).find((type) => type.name === this.formData.type)
+      const documentType = this.documentTypes
+        ? Object.values(this.documentTypes).find((type) => type.name === this.formData.type)
+        : null
       return documentType ? documentType.id : null
     },
     async onSubmit() {
@@ -128,6 +128,8 @@ export default {
 
       this.validate()
       if (this.formValid) {
+        console.log('sended data:', this.formData)
+
         try {
           const formData = new FormData()
           formData.append('document', this.formData.file)
@@ -143,9 +145,15 @@ export default {
       }
     }
   },
+  watch: {
+    'formData.type'(newType) {
+      this.formData.id = this.getId()
+      console.log(`Type changed to: ${newType}, ID set to: ${this.formData.id}`)
+    }
+  },
 
-  mounted() {
-    this.volunteerStore.getVolunteerDocumentTypes()
+  async mounted() {
+    await this.volunteerStore.getVolunteerDocumentTypes()
     this.documentTypes = this.volunteerStore.volunteerDocumentTypes
   }
 }

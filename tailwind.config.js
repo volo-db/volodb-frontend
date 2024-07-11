@@ -27,7 +27,7 @@ export default {
   plugins: []
 }
 
-// import { colors } from '@/utils/colors.js'
+// import { colors } from './src/utils/colors.js'
 
 // export default {
 //   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
