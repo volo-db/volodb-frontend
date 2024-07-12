@@ -1,6 +1,6 @@
 <template>
   <details v-if="addresses" class="mb-2" open>
-    <summary class="font-medium">Anschriften</summary>
+    <summary class="font-medium cursor-pointer">Anschriften</summary>
     <div class="flex flex-col mt-4">
       <div
         v-for="address of addresses"

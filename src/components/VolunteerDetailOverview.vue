@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-none flex flex-col justify-start items-center p-8 w-[400px]">
+  <div class="flex-none flex flex-col justify-start items-center p-8 w-[400px] overflow-y-auto">
     <div v-if="volunteerStore.fetching" id="skeleton-loader"></div>
     <div class="w-full" v-if="volunteer">
       <div>
@@ -59,7 +59,7 @@
           <!-- address section -->
           <VolunteerDetailOverviewAddresses />
           <details v-if="false" class="mb-2">
-            <summary class="font-medium">FW-Dienstverlauf</summary>
+            <summary class="font-medium cursor-pointer">FW-Dienstverlauf</summary>
             <ul class="flex flex-col gap-3 pt-3">
               <li>Station 1</li>
               <li>Station 2</li>
