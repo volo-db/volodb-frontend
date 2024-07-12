@@ -1,5 +1,5 @@
 <template>
-  <section class="w-[70vw] max-w-[850px] min-w-[400px]" @keydown.esc="$emit('close')">
+  <section class="w-[70vw] max-w-[850px] min-w-[400px]" @keydown.esc="$emit('cancel')">
     <header class="flex justify-center p-5 border-solid border-b border-vologray-200">
       <h2 class="text-[20px] text-bold font-medium">{{ title }}</h2>
     </header>
@@ -34,6 +34,7 @@
               :required="true"
               :hasError="validationErr.name"
               v-model="formData.document.name"
+              ref="name"
             />
             <FormularSelectBox
               :titles="volunteerStore.getTitlesList"
@@ -42,9 +43,10 @@
               id="type"
               :required="true"
               :hasError="validationErr.type"
-              v-model="formData.document.documentType.name"
+              v-model="formData.documentType.name"
             />
             <FormularInput
+              v-if="!edit"
               name="document"
               label="Dokument"
               type="file"
@@ -84,7 +86,11 @@ export default {
     id: String,
     loadingText: String,
     submitButtonText: String,
-    documentCopy: Object
+    documentCopy: {
+      type: Object,
+      default: () => ({})
+    },
+    edit: Boolean
   },
   setup() {
     const volunteerStore = useVolunteerStore()
@@ -96,7 +102,8 @@ export default {
   data() {
     return {
       formData: {
-        document: { ...this.documentCopy }
+        document: {},
+        documentType: {}
       },
       documentTypes: null,
       list: [],
@@ -112,6 +119,12 @@ export default {
     }
   },
   methods: {
+    initializeFormData() {
+      this.formData.document = JSON.parse(JSON.stringify(this.documentCopy))
+      this.formData.documentType = this.documentCopy.documentType
+        ? JSON.parse(JSON.stringify(this.documentCopy.documentType))
+        : {}
+    },
     keyPressed(e) {
       if (e.metaKey && e.key.toLowerCase() === 'enter') this.onSubmit()
     },
@@ -123,7 +136,7 @@ export default {
       // Check if `file` is null
       if (!this.formData.document.path) this.validationErr.file = true
       if (!this.formData.document.name) this.validationErr.name = true
-      if (!this.formData.document.documentType.name) this.validationErr.type = true
+      if (!this.formData.documentType.name) this.validationErr.type = true
 
       if (!this.validationErr.file && !this.validationErr.name && !this.validationErr.type) {
         this.formValid = true
@@ -132,13 +145,29 @@ export default {
     getDocumentTypeId() {
       const documentType = this.documentTypes
         ? Object.values(this.documentTypes).find(
-            (type) => type.name === this.formData.document.documentType.name
+            (type) => type.name === this.formData.documentType.name
           )
         : null
       return documentType ? documentType.id : null
     },
     async onSubmit() {
       this.errorMessage = false
+
+      if (this.edit) {
+        let id = this.formData.document.id
+        try {
+          let formData = {
+            name: this.formData.document.name,
+            documentType: this.formData.documentType.id
+          }
+          await this.volunteerStore.setDocument(formData, id)
+        } catch (error) {
+          this.errorMessage = true
+          console.error('Error uploading file:', error)
+        }
+
+        this.$emit('saved')
+      }
 
       this.validate()
       if (this.formValid) {
@@ -147,7 +176,7 @@ export default {
           const formData = new FormData()
           formData.append('document', this.formData.document.path)
           formData.append('documentName', this.formData.document.name)
-          formData.append('documentTypeId', this.formData.document.documentType.id)
+          formData.append('documentTypeId', this.formData.documentType.id)
           console.log(formData)
 
           await this.volunteerStore.setDocument(formData, id)
@@ -160,24 +189,20 @@ export default {
     }
   },
   watch: {
-    'formData.document.documentType'(newType) {
-      this.formData.document.documentType.id = this.getDocumentTypeId()
-      console.log(
-        `Type changed to: ${newType}, ID set to: ${this.formData.document.documentType.id}`
-      )
+    'formData.documentType.name'(newType) {
+      this.formData.documentType.id = this.getDocumentTypeId()
+      console.log(`Type changed to: ${newType}, ID set to: ${this.formData.documentType.id}`)
     }
   },
 
   async mounted() {
+    if (this.edit) {
+      this.initializeFormData()
+    }
     await this.volunteerStore.getVolunteerDocumentTypes()
     this.documentTypes = this.volunteerStore.volunteerDocumentTypes
-    console.log(
-      this.formData.document,
-      this.formData.document.name,
-      this.formData.document.id,
-      this.formData.document.documentType,
-      this.formData.document.path
-    )
+
+    this.$refs.name.focus()
   }
 }
 </script>

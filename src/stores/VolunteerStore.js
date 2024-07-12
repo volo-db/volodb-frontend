@@ -195,7 +195,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
 
       if (id) {
         try {
-          await vdbFetchFormData(
+          await vdbFetchData(
             'volunteers/' + this.selectedVolunteer.id + '/documents/' + id,
             'PATCH',
             formData

@@ -18,7 +18,7 @@
             <td
               v-for="(title, index) in tableHead"
               :key="index"
-              class="pb-3 text-vologray-700 text-sm cursor-pointer"
+              class="pb-3 text-sm cursor-pointer"
               :class="{
                 'pl-4': index === 0,
                 'text-voloblue-200': sortBy === sortParameter[index],
@@ -90,8 +90,8 @@
       <!-- Modal for editing document -->
       <ContainerModal v-if="editDocument">
         <DocumentFormular
-          @saved="(editDocument = false), getDocuments()"
-          @cancel="editDocument = false"
+          @saved="handleSaved"
+          @cancel="handleCancel"
           id="edited-document"
           title="Dokument bearbeiten"
           :description="
@@ -102,13 +102,14 @@
           loadingText="speichere bearbeitetes Dokument ..."
           submitButtonText="Speichern"
           :documentCopy="selectedDocument"
+          :edit="editDocument"
         />
       </ContainerModal>
-      <!-- Modal for deleting document -->
+      <!-- Modal for new document -->
       <ContainerModal v-if="uploadDocument"
         ><DocumentFormular
-          @saved="(uploadDocument = false), getDocuments()"
-          @cancel="uploadDocument = false"
+          @saved="handleUploadSaved"
+          @cancel="handleCancelUpload"
           :title="'Neues Dokument für ' + volunteerStore.selectedVolunteer.person.firstname"
           :description="
             'Lade ein neues Dokument für ' +
@@ -206,8 +207,8 @@ export default {
         console.error('Error fetching documents:', error)
       }
     },
-    openEditModal(note) {
-      this.selectedDocument = note
+    openEditModal(document) {
+      this.selectedDocument = document
       this.editDocument = true
     },
     async handleDelete(document) {
@@ -219,6 +220,20 @@ export default {
       } finally {
         this.getDocuments()
       }
+    },
+    handleSaved() {
+      this.editDocument = false
+      this.getDocuments()
+    },
+    handleCancel() {
+      this.editDocument = false
+    },
+    handleUploadSaved() {
+      this.uploadDocument = false
+      this.getDocuments()
+    },
+    handleCancelUpload() {
+      this.uploadDocument = false
     },
     debouncedSearch: debounce((input, searchFunction) => {
       searchFunction(input)
