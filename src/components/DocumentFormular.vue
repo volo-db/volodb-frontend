@@ -158,7 +158,7 @@ export default {
         try {
           let formData = {
             name: this.formData.document.name,
-            documentType: this.formData.documentType.id
+            documentType: this.getDocumentTypeId()
           }
           await this.volunteerStore.setDocument(formData, id)
         } catch (error) {

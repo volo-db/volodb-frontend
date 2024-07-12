@@ -108,8 +108,8 @@
       <!-- Modal for new document -->
       <ContainerModal v-if="uploadDocument"
         ><DocumentFormular
-          @saved="handleUploadSaved"
-          @cancel="handleCancelUpload"
+          @saved="handleSaved"
+          @cancel="handleCancel"
           :title="'Neues Dokument für ' + volunteerStore.selectedVolunteer.person.firstname"
           :description="
             'Lade ein neues Dokument für ' +
@@ -223,18 +223,14 @@ export default {
     },
     handleSaved() {
       this.editDocument = false
+      this.uploadDocument = false
       this.getDocuments()
     },
     handleCancel() {
       this.editDocument = false
-    },
-    handleUploadSaved() {
-      this.uploadDocument = false
-      this.getDocuments()
-    },
-    handleCancelUpload() {
       this.uploadDocument = false
     },
+
     debouncedSearch: debounce((input, searchFunction) => {
       searchFunction(input)
     }, 1000)
