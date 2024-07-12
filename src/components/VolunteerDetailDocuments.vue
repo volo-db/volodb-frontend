@@ -45,7 +45,7 @@
           :key="document.id"
           class="bg-white"
         >
-          <tr class="h-14 border-b hover:text-voloblue-100 hover:bg-gray-50">
+          <tr class="group h-14 border-b hover:text-voloblue-100 hover:bg-gray-50">
             <td
               class="font-bold pl-4"
               :class="{
@@ -67,19 +67,16 @@
                 'rounded-br-md': index === volunteerStore.volunteerDocuments.length - 1
               }"
             >
-              <div class="flex gap-1 justify-between">
+              <div class="invisible group-hover:visible flex gap-3 justify-end">
                 <a :href="`${baseUrl}/files/${document.path}?download=true`" class="text-2xl">
                   <IconArrowDownload class="opacity-80" />
                 </a>
-
-                <div class="flex gap-2 pr-2" v-if="document.user == userStore.user.email">
-                  <button @click="openEditModal(document)" title="editieren">
-                    <IconPenEdit class="opacity-80" />
-                  </button>
-                  <button @click="handleDelete(document)" title="löschen">
-                    <IconTrash class="opacity-80" />
-                  </button>
-                </div>
+                <button @click="openEditModal(document)" title="editieren">
+                  <IconPenEdit class="opacity-80" />
+                </button>
+                <button @click="handleDelete(document)" title="löschen">
+                  <IconTrash class="opacity-80" />
+                </button>
               </div>
             </td>
           </tr>
