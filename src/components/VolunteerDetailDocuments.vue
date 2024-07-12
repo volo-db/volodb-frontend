@@ -18,7 +18,7 @@
             <td
               v-for="(title, index) in tableHead"
               :key="index"
-              class="pb-3 text-vologray-700 text-sm cursor-pointer"
+              class="pb-3 text-sm cursor-pointer"
               :class="{
                 'pl-4': index === 0,
                 'text-voloblue-200': sortBy === sortParameter[index],
@@ -45,7 +45,7 @@
           :key="document.id"
           class="bg-white"
         >
-          <tr class="h-14 border-b hover:text-voloblue-100 hover:bg-gray-50">
+          <tr class="group h-14 border-b hover:text-voloblue-100 hover:bg-gray-50">
             <td
               class="font-bold pl-4"
               :class="{
@@ -67,20 +67,52 @@
                 'rounded-br-md': index === volunteerStore.volunteerDocuments.length - 1
               }"
             >
-              <a
-                :href="`${baseUrl}/files/${document.path}?download=true`"
-                class="flex ml-auto p-2 text-2xl"
-              >
-                <IconArrowDownload />
-              </a>
+              <div class="invisible group-hover:visible flex gap-3 justify-end">
+                <a :href="`${baseUrl}/files/${document.path}?download=true`" class="text-2xl">
+                  <IconArrowDownload class="opacity-80" />
+                </a>
+                <button @click="openEditModal(document)" title="editieren">
+                  <IconPenEdit class="opacity-80" />
+                </button>
+                <button @click="handleDelete(document)" title="löschen">
+                  <IconTrash class="opacity-80" />
+                </button>
+              </div>
             </td>
           </tr>
         </tbody>
       </table>
+      <!-- Modal for editing document -->
+      <ContainerModal v-if="editDocument">
+        <DocumentFormular
+          @saved="handleSaved"
+          @cancel="handleCancel"
+          id="edited-document"
+          title="Dokument bearbeiten"
+          :description="
+            'Bearbeite hier dein dokument für ' +
+            volunteerStore.selectedVolunteer.person.firstname +
+            '.'
+          "
+          loadingText="speichere bearbeitetes Dokument ..."
+          submitButtonText="Speichern"
+          :documentCopy="selectedDocument"
+          :edit="editDocument"
+        />
+      </ContainerModal>
+      <!-- Modal for new document -->
       <ContainerModal v-if="uploadDocument"
         ><DocumentFormular
-          @saved="(uploadDocument = false), getDocuments()"
-          @cancel="uploadDocument = false"
+          @saved="handleSaved"
+          @cancel="handleCancel"
+          :title="'Neues Dokument für ' + volunteerStore.selectedVolunteer.person.firstname"
+          :description="
+            'Lade ein neues Dokument für ' +
+            volunteerStore.selectedVolunteer.person.firstname +
+            ' hoch.'
+          "
+          loadingText="speichere neues Dokument ..."
+          submitButtonText="Dokument speichern"
         />
       </ContainerModal>
     </div>
@@ -90,20 +122,24 @@
 <script>
 import IconTableSortArrows from './IconTableSortArrows.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
+import { useUserStore } from '@/stores/UserStore'
 import IconArrowDownload from './IconArrowDownload.vue'
 import ButtonStandard from '@/components/ButtonStandard.vue'
 import SearchBar from '@/components/SearchBar.vue'
 import debounce from 'lodash.debounce'
 import ContainerModal from '@/components/ContainerModal.vue'
 import DocumentFormular from '@/components/DocumentFormular.vue'
-
+import IconPenEdit from './IconPenEdit.vue'
+import IconTrash from './IconTrash.vue'
 import IconFile from './IconFile.vue'
 
 export default {
   setup: () => {
     const volunteerStore = useVolunteerStore()
+    const userStore = useUserStore()
     const baseUrl = import.meta.env.VITE_BASE_URL
-    return { volunteerStore, baseUrl }
+
+    return { volunteerStore, userStore, baseUrl }
   },
   components: {
     IconTableSortArrows,
@@ -112,7 +148,9 @@ export default {
     SearchBar,
     ContainerModal,
     DocumentFormular,
-    IconFile
+    IconFile,
+    IconPenEdit,
+    IconTrash
   },
   data() {
     return {
@@ -122,7 +160,9 @@ export default {
       sortBy: 'timestamp',
       searchQuery: '',
       debouncedSearchQuery: '',
-      uploadDocument: false
+      uploadDocument: false,
+      selectedDocument: null,
+      editDocument: false
     }
   },
   methods: {
@@ -161,6 +201,30 @@ export default {
         console.error('Error fetching documents:', error)
       }
     },
+    openEditModal(document) {
+      this.selectedDocument = document
+      this.editDocument = true
+    },
+    async handleDelete(document) {
+      if (!window.confirm('Soll das Dokument wirklich gelöscht werden?')) return
+      try {
+        await this.volunteerStore.deleteDocument(document.id)
+      } catch (error) {
+        console.error('Error deleting document: ', error)
+      } finally {
+        this.getDocuments()
+      }
+    },
+    handleSaved() {
+      this.editDocument = false
+      this.uploadDocument = false
+      this.getDocuments()
+    },
+    handleCancel() {
+      this.editDocument = false
+      this.uploadDocument = false
+    },
+
     debouncedSearch: debounce((input, searchFunction) => {
       searchFunction(input)
     }, 1000)

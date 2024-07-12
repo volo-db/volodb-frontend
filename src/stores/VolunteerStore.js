@@ -190,6 +190,37 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         }
       }
     },
+    async setDocument(formData, id) {
+      this.fetchingDocuments = true
+
+      if (id) {
+        try {
+          await vdbFetchData(
+            'volunteers/' + this.selectedVolunteer.id + '/documents/' + id,
+            'PATCH',
+            formData
+          )
+        } catch (error) {
+          console.error(error)
+          throw error
+        } finally {
+          this.fetchingDocuments = false
+        }
+      } else {
+        try {
+          await vdbFetchFormData(
+            'volunteers/' + this.selectedVolunteer.id + '/documents',
+            'POST',
+            formData
+          )
+        } catch (error) {
+          console.error(error)
+          throw error
+        } finally {
+          this.fetchingDocuments = false
+        }
+      }
+    },
     async deleteNote(id) {
       this.fetching = true
       try {
@@ -201,7 +232,6 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         this.fetching = false
       }
     },
-
     async editVolunteer(volunteer, id) {
       this.fetching = true
 
@@ -226,16 +256,18 @@ export const useVolunteerStore = defineStore('volunteerStore', {
         this.fetching = false
       }
     },
-    async setDocument(formData, id) {
-      this.fetchingDocuments = true
-
+    async deleteDocument(id) {
+      this.fetching = true
       try {
-        await vdbFetchFormData('volunteers/' + id + '/documents', 'POST', formData)
+        await vdbFetchFormData(
+          'volunteers/' + this.selectedVolunteer.id + '/documents/' + id,
+          'DELETE'
+        )
       } catch (error) {
         console.error(error)
         throw error
       } finally {
-        this.fetchingDocuments = false
+        this.fetching = false
       }
     },
     async getVolunteerDocumentTypes() {

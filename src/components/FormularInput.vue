@@ -65,21 +65,12 @@ export default {
         this.$emit('update:modelValue', event.target.value)
       }
     },
+    // handle input for files
     handleChange(event) {
       if (this.type === 'file') {
         const file = event.target.files[0] || null
         this.$emit('update:modelValue', file) // Pass File object
       }
-      // if (this.type === 'file') {
-      //   const file = event.target.files[0] || null
-
-      //   if (file) {
-      //     const formData = new FormData()
-      //     formData.append('document', file)
-
-      //     this.$emit('update:modelValue', file)
-      //   }
-      // }
     },
     focus() {
       this.$refs.input.focus()
