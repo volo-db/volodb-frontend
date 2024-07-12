@@ -67,14 +67,12 @@
                 'rounded-br-md': index === volunteerStore.volunteerDocuments.length - 1
               }"
             >
-   <a
-                :href="`${baseUrl}/files/${document.path}?download=true`"
-                class="flex ml-auto p-2 text-2xl"
-              >
-                <IconArrowDownload />
-              </a>
-              
-                <div class="flex gap-1" v-if="document.user == userStore.user.email">
+              <div class="flex gap-1 justify-between">
+                <a :href="`${baseUrl}/files/${document.path}?download=true`" class="text-2xl">
+                  <IconArrowDownload class="opacity-80" />
+                </a>
+
+                <div class="flex gap-2 pr-2" v-if="document.user == userStore.user.email">
                   <button @click="openEditModal(document)" title="editieren">
                     <IconPenEdit class="opacity-80" />
                   </button>
@@ -83,9 +81,6 @@
                   </button>
                 </div>
               </div>
-
-           
-
             </td>
           </tr>
         </tbody>
@@ -147,8 +142,7 @@ export default {
     const userStore = useUserStore()
     const baseUrl = import.meta.env.VITE_BASE_URL
 
-    return { volunteerStore, userStore, baseUrl}
-
+    return { volunteerStore, userStore, baseUrl }
   },
   components: {
     IconTableSortArrows,

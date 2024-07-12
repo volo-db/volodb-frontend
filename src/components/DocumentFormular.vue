@@ -191,7 +191,6 @@ export default {
   watch: {
     'formData.documentType.name'(newType) {
       this.formData.documentType.id = this.getDocumentTypeId()
-      console.log(`Type changed to: ${newType}, ID set to: ${this.formData.documentType.id}`)
     }
   },
 
