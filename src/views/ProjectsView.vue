@@ -1,5 +1,5 @@
 <template>
-  <main class="bg-vologray-100 px-8">
+  <main class="bg-vologray-100 px-8 overflow-auto">
     <div class="flex justify-between pt-6">
       <SearchBar placeholder="Suche nach Einsatzstellen" />
       <ButtonStandard @click.prevent="newProjectModal = true">Einsatzstelle anlegen</ButtonStandard>

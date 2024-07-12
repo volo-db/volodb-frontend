@@ -1,7 +1,7 @@
 <template>
   <!-- contact section -->
   <details v-if="contacts" class="mb-2 w-full" open>
-    <summary class="font-medium">Kontakt</summary>
+    <summary class="font-medium cursor-pointer">Kontakt</summary>
     <div
       v-for="contact of contacts"
       :key="contact.id"
