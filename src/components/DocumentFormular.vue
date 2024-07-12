@@ -177,7 +177,6 @@ export default {
           formData.append('document', this.formData.document.path)
           formData.append('documentName', this.formData.document.name)
           formData.append('documentTypeId', this.formData.documentType.id)
-          console.log(formData)
 
           await this.volunteerStore.setDocument(formData, id)
         } catch (error) {
