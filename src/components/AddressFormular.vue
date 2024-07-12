@@ -16,7 +16,7 @@
         <!-- left column -->
         <div class="flex-1">
           <p class="text-[13px] text-vologray-400 pe-20">
-            Lege hier eine neue Kontaktmöglichekeit für
+            Lege hier eine neue Kontaktmöglichkeit für
             {{ volunteerStore.selectedVolunteer.person.firstname }} an
           </p>
         </div>

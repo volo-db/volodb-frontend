@@ -137,7 +137,8 @@ export default {
       if (!this.formData.firstname) this.validationErr.firstname = true
 
       // Gender
-      if (!this.formData.gender) this.validationErr.gender = true
+      if (!this.formData.gender || this.formData.gender === '--bitte auswählen--')
+        this.validationErr.gender = true
 
       // Email
       if (this.formData.email && !isValidEmail(this.formData.email)) this.validationErr.email = true
@@ -195,7 +196,7 @@ export default {
 
           const mobile = {
             type: 'mobile',
-            value: parsePhoneNumber(this.formData.mobile, 'DE').number
+            value: this.formData.mobile ? parsePhoneNumber(this.formData.mobile, 'DE').number : null
           }
 
           const email = {
@@ -204,7 +205,7 @@ export default {
           }
 
           await Promise.all([
-            this.formData.mobile.trim() ? this.contactStore.setContact(voloId, mobile) : null,
+            this.formData.mobile ? this.contactStore.setContact(voloId, mobile) : null,
             this.formData.email.trim() ? this.contactStore.setContact(voloId, email) : null
           ])
         } catch (error) {

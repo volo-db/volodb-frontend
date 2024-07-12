@@ -59,15 +59,15 @@
       />
     </div>
   </div>
-  <ModalContainer v-if="volunteerStore.fetching">
+  <ContainerModal v-if="volunteerStore.fetching" :delay="500">
     <div class="p-4 flex flex-row gap-2 items-center text-md"><IconSpinner />loading ...</div>
-  </ModalContainer>
+  </ContainerModal>
 </template>
 
 <script>
 import IconArrowGoto from './IconArrowGoto.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
-import ModalContainer from '@/components/ContainerModal.vue'
+import ContainerModal from '@/components/ContainerModal.vue'
 import IconSpinner from '@/components/IconSpinner.vue'
 import PaginationController from '@/components/PaginationController.vue'
 import IconTableSortArrows from './IconTableSortArrows.vue'
@@ -76,7 +76,7 @@ import { useRouter } from 'vue-router'
 export default {
   components: {
     IconArrowGoto,
-    ModalContainer,
+    ContainerModal,
     IconSpinner,
     PaginationController,
     IconTableSortArrows

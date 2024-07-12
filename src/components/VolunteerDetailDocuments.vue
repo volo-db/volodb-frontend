@@ -67,13 +67,13 @@
                 'rounded-br-md': index === volunteerStore.volunteerDocuments.length - 1
               }"
             >
-              <div class="flex items-center gap-1">
-                <div class="mr-auto">
-                  <ButtonDownload class="flex gap-1 items-center"
-                    >Download<IconArrowDownload
-                  /></ButtonDownload>
-                </div>
-
+   <a
+                :href="`${baseUrl}/files/${document.path}?download=true`"
+                class="flex ml-auto p-2 text-2xl"
+              >
+                <IconArrowDownload />
+              </a>
+              
                 <div class="flex gap-1" v-if="document.user == userStore.user.email">
                   <button @click="openEditModal(document)" title="editieren">
                     <IconPenEdit class="opacity-80" />
@@ -83,6 +83,9 @@
                   </button>
                 </div>
               </div>
+
+           
+
             </td>
           </tr>
         </tbody>
@@ -126,7 +129,6 @@
 
 <script>
 import IconTableSortArrows from './IconTableSortArrows.vue'
-import ButtonDownload from './ButtonDownload.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
 import { useUserStore } from '@/stores/UserStore'
 import IconArrowDownload from './IconArrowDownload.vue'
@@ -143,12 +145,13 @@ export default {
   setup: () => {
     const volunteerStore = useVolunteerStore()
     const userStore = useUserStore()
+    const baseUrl = import.meta.env.VITE_BASE_URL
 
-    return { volunteerStore, userStore }
+    return { volunteerStore, userStore, baseUrl}
+
   },
   components: {
     IconTableSortArrows,
-    ButtonDownload,
     IconArrowDownload,
     ButtonStandard,
     SearchBar,
