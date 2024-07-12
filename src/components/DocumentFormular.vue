@@ -189,7 +189,7 @@ export default {
     }
   },
   watch: {
-    'formData.documentType.name'(newType) {
+    'formData.documentType.name'() {
       this.formData.documentType.id = this.getDocumentTypeId()
     }
   },
