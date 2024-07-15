@@ -52,7 +52,9 @@
         class="mt-[2px]"
         :currentPage="projectStore.projectsPage.pageable.pageNumber"
         :totalPages="projectStore.projectsPage.totalPages"
+        :pageLength="pageSize"
         @updatePage="updateProjectPage"
+        @updateLength="(length) => updateProjectListLenght(length)"
       />
     </div>
   </div>
@@ -96,7 +98,7 @@ export default {
       sortOrder: 'asc',
       sortBy: 'name',
       page: 0,
-      pageSize: 13
+      pageSize: 15
     }
   },
   methods: {
@@ -104,6 +106,17 @@ export default {
     // goToDetails(projectId) {
     //   this.$router.push({ name: 'ProjectDetailView', params: { projectId } })
     // },
+    updateProjectListLenght(length) {
+      this.pageSize = length
+      this.projectStore.projectsPage.pageable.pageNumber = 0
+      let params = {
+        sortOrder: this.sortOrder,
+        sortBy: this.sortBy,
+        page: this.projectStore.projectsPage.pageable.pageNumber,
+        pageSize: length
+      }
+      this.projectStore.getProjects(params)
+    },
     updateProjectPage(pageNumber) {
       this.projectStore.projectsPage.pageable.pageNumber = pageNumber
       let params = {
