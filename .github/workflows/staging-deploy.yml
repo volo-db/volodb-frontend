@@ -1,4 +1,4 @@
-name: Staging on Dockerprod
+name: STAGING [Fabi Keller]
 
 on:
   workflow_dispatch: # Allow manual triggering
