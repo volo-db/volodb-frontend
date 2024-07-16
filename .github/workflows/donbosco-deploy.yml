@@ -1,4 +1,4 @@
-name: Build and Deploy volodb_frontend on Self-Hosted Runner
+name: PRODUCTION [Don Bosco]
 
 on:
   workflow_dispatch: # Allow manual triggering
