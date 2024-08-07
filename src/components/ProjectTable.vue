@@ -128,17 +128,13 @@ export default {
       this.projectStore.getProjects(params)
     },
     sortProjectsList(sortBy) {
-      if (this.sortBy !== sortBy) {
-        this.sortOrder === 'asc'
+      if (this.sortBy === sortBy) {
+        // Toggle sort order if the sortBy is the same
+        this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'
       } else {
-        if (this.sortOrder === 'asc') {
-          this.sortOrder = 'desc'
-        } else {
-          this.sortOrder = 'asc'
-        }
+        // Keep the current sort order when changing the sortBy
+        this.sortBy = sortBy
       }
-
-      this.sortBy = sortBy
 
       this.getProjects()
     },
