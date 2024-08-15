@@ -69,13 +69,13 @@
             >
               <div class="invisible group-hover:visible flex gap-3 justify-end">
                 <a :href="`${baseUrl}/files/${document.path}?download=true`" class="text-2xl">
-                  <IconArrowDownload class="opacity-80" />
+                  <IconArrowDownload class="text-vologray-800 hover:text-voloblue-200" />
                 </a>
                 <button @click="openEditModal(document)" title="editieren">
-                  <IconPenEdit class="opacity-80" />
+                  <IconPenEdit class="text-vologray-800 hover:text-voloblue-200" />
                 </button>
                 <button @click="handleDelete(document)" title="löschen">
-                  <IconTrash class="opacity-80" />
+                  <IconTrash class="text-vologray-800 hover:text-voloblue-200" />
                 </button>
               </div>
             </td>
