@@ -1,15 +1,15 @@
 <template>
   <main class="bg-vologray-100 p-8 overflow-auto">
+    <div class="max-w-7xl">
     <div class="flex justify-between">
       <SearchBar v-model="searchQuery" placeholder="Suche nach Freiwilligen" />
       <ButtonStandard @click.prevent="newVolunteerModal = true"
         >Freiwillige:n anlegen</ButtonStandard
       >
-    </div>
-    <div>
+    </div> 
       <VolunteerTable :searchQuery="debouncedSearchQuery" class="w-full mt-12" />
-    </div>
-
+   
+  </div>
     <ContainerModal v-if="newVolunteerModal">
       <VolunteerFormular @saved="redirectToCreatedVolunteer" @cancel="newVolunteerModal = false" />
     </ContainerModal>

@@ -1,13 +1,13 @@
 <template>
-  <div class="overflow-auto" v-bind="$attrs">
+  <div v-bind="$attrs">
     <div v-if="projectStore.projectsPage">
-      <table class="w-full" v-if="projectStore.projectsPage">
+      <table class="w-full">
         <thead>
           <tr>
             <td
               v-for="(title, index) in tableHead"
               :key="index"
-              class="pb-3 text-sm cursor-pointer"
+              class="pb-3 text-sm cursor-pointer whitespace-nowrap pl-4"
               :class="{
                 'pl-4': index === 0,
                 'text-voloblue-200': sortBy === sortParameter[index],
@@ -38,10 +38,10 @@
             <td class="font-bold pl-4" :class="{ 'rounded-tl-md': index === 0 }">
               {{ project.name }}
             </td>
-            <td>{{ project.city }}</td>
-            <td>{{ project.email }}</td>
-            <td>2023/24</td>
-            <td>{{ project.capacity }}</td>
+            <td class="font-bold pl-4">{{ project.city }}</td>
+            <td class="font-bold pl-4">{{ project.email }}</td>
+            <td class="font-bold pl-4">2023/24</td>
+            <td class="font-bold pl-4">{{ project.capacity }}</td>
             <td class="text-voloblue-200 pr-4 md:pr-1" :class="{ 'rounded-tr-md ': index === 0 }">
               <IconArrowGoto class="text-voloblue-200 opacity-50" />
             </td>
@@ -128,17 +128,13 @@ export default {
       this.projectStore.getProjects(params)
     },
     sortProjectsList(sortBy) {
-      if (this.sortBy !== sortBy) {
-        this.sortOrder === 'asc'
+      if (this.sortBy === sortBy) {
+        // Toggle sort order if the sortBy is the same
+        this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'
       } else {
-        if (this.sortOrder === 'asc') {
-          this.sortOrder = 'desc'
-        } else {
-          this.sortOrder = 'asc'
-        }
+        // Keep the current sort order when changing the sortBy
+        this.sortBy = sortBy
       }
-
-      this.sortBy = sortBy
 
       this.getProjects()
     },

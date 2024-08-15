@@ -9,7 +9,7 @@
               v-for="(title, index) in tableHead"
               @click="sortVolunteersList(sortParameter[index])"
               :key="index"
-              class="pb-3 text-sm cursor-pointer"
+              class="pb-3 text-sm cursor-pointer whitespace-nowrap pl-4"
               :class="{
                 'pl-4': index === 0,
                 'text-voloblue-200': sortBy === sortParameter[index],
@@ -39,16 +39,13 @@
             <td class="font-bold pl-4" :class="{ 'rounded-tl-md': index === 0 }">
               {{ volunteer.person.lastname }}
             </td>
-            <td class="font-bold">{{ volunteer.person.firstname }}</td>
-            <td>{{ volunteer.birthplace }}</td>
-            <td>2023/24</td>
-            <td>2/5</td>
-            <td>25/25</td>
-            <td
-              class="text-voloblue-200 text-right pr-2"
-              :class="{ 'rounded-tr-md ': index === 0 }"
-            >
-              <IconArrowGoto class="text-voloblue-200 opacity-50 inline" />
+            <td class="font-bold pl-4">{{ volunteer.person.firstname }}</td>
+            <td class="pl-4">{{ volunteer.birthplace }}</td>
+            <td class="pl-4">2023/24</td>
+            <td class="pl-4">2/5</td>
+            <td class="pl-4">25/25</td>
+            <td class="text-voloblue-200 pr-4 md:pr-1" :class="{ 'rounded-tr-md ': index === 0 }">
+              <IconArrowGoto class="text-voloblue-200 opacity-50" />
             </td>
           </tr>
         </tbody>
@@ -147,17 +144,13 @@ export default {
       this.volunteerStore.getVolunteers(params)
     },
     sortVolunteersList(sortBy) {
-      if (this.sortBy !== sortBy) {
-        this.sortOrder === 'asc'
+      if (this.sortBy === sortBy) {
+        // Toggle sort order if the sortBy is the same
+        this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'
       } else {
-        if (this.sortOrder === 'asc') {
-          this.sortOrder = 'desc'
-        } else {
-          this.sortOrder = 'asc'
-        }
+        // Keep the current sort order when changing the sortBy
+        this.sortBy = sortBy
       }
-
-      this.sortBy = sortBy
 
       this.getVolunteers()
     },
