@@ -4,7 +4,7 @@
 
     <div class="flex-1 bg-vologray-100 p-8 overflow-auto">
       <VolunteerDetailNavigationbar
-        :navigation="['Dokumentation', 'Dokumente', 'Vereinbarung']"
+        :navigation="['Dokumentation', 'Dokumente', 'Vereinbarung', 'TipTap']"
         :active="selectedContextTab"
         @navLinkClick="openTab"
       />
@@ -12,6 +12,7 @@
       <VolunteerDetailDocuments class="mt-8" v-if="selectedContextTab === 'dokumente'" />
       <VolunteerDetailNotes class="mt-8" v-if="selectedContextTab === 'dokumentation'" />
       <VolunteerDetailContracts class="mt-8" v-if="selectedContextTab === 'vereinbarung'" />
+      <DocumentEditor v-model="content" class="mt-8" v-if="selectedContextTab === 'tiptap'" />
     </div>
   </div>
 </template>
@@ -22,6 +23,7 @@ import VolunteerDetailNotes from '@/components/VolunteerDetailNotes.vue'
 import VolunteerDetailContracts from '@/components/VolunteerDetailContracts.vue'
 import VolunteerDetailOverview from '@/components/VolunteerDetailOverview.vue'
 import VolunteerDetailDocuments from '@/components/VolunteerDetailDocuments.vue'
+import DocumentEditor from '@/components/DocumentEditor.vue'
 import debounce from 'lodash.debounce'
 
 export default {
@@ -30,7 +32,8 @@ export default {
     VolunteerDetailContracts,
     VolunteerDetailOverview,
     VolunteerDetailDocuments,
-    VolunteerDetailNotes
+    VolunteerDetailNotes,
+    DocumentEditor
   },
   name: 'VolunteerDetailView.vue',
   setup() {
@@ -41,7 +44,9 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      content: 'test'
+    }
   },
   computed: {
     selectedContextTab() {
