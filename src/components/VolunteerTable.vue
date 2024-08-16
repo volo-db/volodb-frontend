@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-7xl" v-bind="$attrs">
+  <div class="" v-bind="$attrs">
     <div class="min-w-[900px]" v-if="volunteerStore.volunteersPage">
       <!-- <div class="block overflow-x-auto"> -->
       <table class="table-fixed w-full">
@@ -9,7 +9,7 @@
               v-for="(title, index) in tableHead"
               @click="sortVolunteersList(sortParameter[index])"
               :key="index"
-              class="pb-3 text-sm cursor-pointer"
+              class="pb-3 text-sm cursor-pointer min-w-min"
               :class="{
                 'pl-4': index === 0,
                 'text-voloblue-200': sortBy === sortParameter[index],
