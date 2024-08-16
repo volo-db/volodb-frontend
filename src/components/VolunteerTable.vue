@@ -1,8 +1,8 @@
 <template>
   <div class="" v-bind="$attrs">
     <div class="min-w-[900px]" v-if="volunteerStore.volunteersPage">
-      <!-- <div class="block overflow-x-auto"> -->
       <table class="table-fixed w-full">
+        <col class="w-56" />
         <thead class="text-nowrap">
           <tr>
             <td
@@ -36,7 +36,7 @@
             :key="volunteer.id"
             @click="goToDetails(volunteer.id)"
           >
-            <td class="font-bold pl-4 truncate" :class="{ 'rounded-tl-md': index === 0 }">
+            <td class="font-bold pl-4 truncate w-40" :class="{ 'rounded-tl-md': index === 0 }">
               {{ volunteer.person.lastname }}
             </td>
             <td class="font-bold pl-4">{{ volunteer.person.firstname }}</td>
@@ -44,7 +44,7 @@
             <td class="pl-4">2023/24</td>
             <td class="pl-4">2/5</td>
             <td class="pl-4">25/25</td>
-            <td class="text-voloblue-200 pr-4 md:pr-1" :class="{ 'rounded-tr-md ': index === 0 }">
+            <td class="text-voloblue-200 md:pr-1" :class="{ 'rounded-tr-md ': index === 0 }">
               <IconArrowGoto class="text-voloblue-200 opacity-50" />
             </td>
           </tr>
