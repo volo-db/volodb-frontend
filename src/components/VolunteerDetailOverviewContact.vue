@@ -55,17 +55,23 @@
       <div class="flex gap-2 ml-auto">
         <button
           @click.prevent="(selectedContact = contact), (newContactModal = true)"
-          class="hidden group-hover:inline"
+          class="hidden group-hover:inline text-vologray-800 hover:!text-voloblue-200"
         >
           <IconPenEdit />
         </button>
-        <button @click.prevent="deleteContact(contact)" class="hidden group-hover:inline">
+        <button
+          @click.prevent="deleteContact(contact)"
+          class="hidden group-hover:inline text-vologray-800 hover:!text-voloblue-200"
+        >
           <IconTrash />
         </button>
       </div>
     </div>
     <div class="pt-3 flex flex-col items-center text-2xl text-vologray-800">
-      <button @click.prevent="(selectedContact = null), (newContactModal = true)">
+      <button
+        @click.prevent="(selectedContact = null), (newContactModal = true)"
+        class="hover:text-voloblue-200"
+      >
         <IconPlus />
       </button>
     </div>

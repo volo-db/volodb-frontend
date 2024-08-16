@@ -107,10 +107,10 @@
             >
               <div class="flex gap-1 mr-2 justify-start" v-if="note.user == userStore.user.email">
                 <button @click="openEditModal(note)" title="editieren">
-                  <IconPenEdit class="opacity-80" />
+                  <IconPenEdit class="text-vologray-800 hover:text-voloblue-200" />
                 </button>
                 <button @click="handleDelete(note)" title="löschen">
-                  <IconTrash class="opacity-80" />
+                  <IconTrash class="text-vologray-800 hover:text-voloblue-200" />
                 </button>
               </div>
             </td>
