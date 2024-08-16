@@ -36,7 +36,7 @@
             :key="volunteer.id"
             @click="goToDetails(volunteer.id)"
           >
-            <td class="font-bold pl-4" :class="{ 'rounded-tl-md': index === 0 }">
+            <td class="font-bold pl-4 truncate" :class="{ 'rounded-tl-md': index === 0 }">
               {{ volunteer.person.lastname }}
             </td>
             <td class="font-bold pl-4">{{ volunteer.person.firstname }}</td>
