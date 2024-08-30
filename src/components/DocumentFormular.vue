@@ -42,7 +42,7 @@
               :hasError="validationErr.type"
               v-model="formData.type"
             />
-            <FormularInput
+            <FormularFileInput
               name="document"
               label="Dokument"
               type="file"
@@ -74,8 +74,9 @@ import { useVolunteerStore } from '@/stores/VolunteerStore'
 import FormularInput from './FormularInput.vue'
 import FormularSelectBox from './FormularSelectBox.vue'
 import IconSpinner from './IconSpinner.vue'
+import FormularFileInput from './FormularFileInput.vue'
 export default {
-  components: { ButtonStandard, IconSpinner, FormularInput, FormularSelectBox },
+  components: { ButtonStandard, IconSpinner, FormularInput, FormularSelectBox, FormularFileInput },
   setup() {
     const volunteerStore = useVolunteerStore()
 

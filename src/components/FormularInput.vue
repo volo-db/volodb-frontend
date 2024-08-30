@@ -16,7 +16,6 @@
       :placeholder="placeholder"
       :value="type !== 'file' ? modelValue : ''"
       @input="handleInput"
-      @change="handleChange"
       ref="input"
     />
     <span v-if="type === 'file' && modelValue && modelValue.name">
@@ -64,23 +63,28 @@ export default {
       if (this.type !== 'file') {
         this.$emit('update:modelValue', event.target.value)
       }
-    },
-    handleChange(event) {
+
       if (this.type === 'file') {
         const file = event.target.files[0] || null
         this.$emit('update:modelValue', file) // Pass File object
       }
-      // if (this.type === 'file') {
-      //   const file = event.target.files[0] || null
-
-      //   if (file) {
-      //     const formData = new FormData()
-      //     formData.append('document', file)
-
-      //     this.$emit('update:modelValue', file)
-      //   }
-      // }
     },
+    // handleChange(event) {
+    //   if (this.type === 'file') {
+    //     const file = event.target.files[0] || null
+    //     this.$emit('update:modelValue', file) // Pass File object
+    //   }
+    // //   if (this.type === 'file') {
+    // //     const file = event.target.files[0] || null
+
+    // //     if (file) {
+    // //       const formData = new FormData()
+    // //       formData.append('document', file)
+
+    // //       this.$emit('update:modelValue', file)
+    // //     }
+    // //   }
+    // },
     focus() {
       this.$refs.input.focus()
     }
