@@ -31,6 +31,7 @@
               :required="true"
               :hasError="validationErr.name"
               v-model="formData.name"
+              ref="name"
             />
             <FormularSelectBox
               :titles="volunteerStore.getTitlesList"
@@ -155,6 +156,8 @@ export default {
   async mounted() {
     await this.volunteerStore.getVolunteerDocumentTypes()
     this.documentTypes = this.volunteerStore.volunteerDocumentTypes
+
+    this.$refs.name.focus()
   }
 }
 </script>

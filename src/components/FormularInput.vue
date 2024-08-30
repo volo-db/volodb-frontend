@@ -45,7 +45,7 @@ export default {
       type: String
     },
     modelValue: {
-      type: [String, Array, File], // Accept both String and Array
+      type: [String, Array, File],
       default: ''
     },
     hasError: {
