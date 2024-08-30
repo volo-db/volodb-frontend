@@ -1,12 +1,14 @@
 <template>
-  <main class="bg-vologray-100 p-8 overflow-auto">
-    <div class="max-w-7xl">
-    <div class="flex justify-between">
-      <SearchBar placeholder="Suche nach Einsatzstellen" />
-      <ButtonStandard @click.prevent="newProjectModal = true">Einsatzstelle anlegen</ButtonStandard>
+  <main class="bg-vologray-100 overflow-auto">
+    <div class="max-w-7xl m-8">
+      <div class="flex justify-between gap-2">
+        <SearchBar placeholder="Suche nach Einsatzstellen" />
+        <ButtonStandard @click.prevent="newProjectModal = true"
+          >Einsatzstelle anlegen</ButtonStandard
+        >
+      </div>
+      <ProjectTable class="w-full mt-12" />
     </div>
-    <ProjectTable class="w-full mt-12" />
-  </div>
     <ContainerModal v-if="newProjectModal">
       <ProjectFormular @close="newProjectModal = false" />
     </ContainerModal>

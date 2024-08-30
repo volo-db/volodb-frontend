@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <div class="flex justify-between mt-8">
+  <div class="max-w-5xl mt-8">
+    <div class="flex justify-between gap-2">
       <SearchBar v-model="searchQuery" placeholder="Suche nach Dokumenten" />
       <ButtonStandard @click="uploadDocument = true">Dokument hinzufügen</ButtonStandard>
     </div>
-    <div class="mt-16" v-if="volunteerStore.volunteerDocuments">
+    <div class="mt-16 min-w-[800px]" v-if="volunteerStore.volunteerDocuments">
       <div
         v-if="!volunteerStore.volunteerDocuments || volunteerStore.volunteerDocuments.length == 0"
         class="flex flex-col items-center gap-8 text-vologray-700/30"
@@ -12,13 +12,20 @@
         <p class="font-medium text-3xl">Noch keine Dokumente vorhanden</p>
         <IconFile class="text-[300px]" />
       </div>
-      <table class="w-full">
-        <thead v-if="volunteerStore.volunteerDocuments.length !== 0">
+      <table class="table-fixed w-full">
+        <colgroup>
+          <col class="w-1/5" />
+          <col class="w-1/4" />
+          <col class="w-1/4" />
+          <col class="w-1/5" />
+          <col class="w-[10%]" />
+        </colgroup>
+        <thead class="text-nowrap" v-if="volunteerStore.volunteerDocuments.length !== 0">
           <tr>
             <td
               v-for="(title, index) in tableHead"
               :key="index"
-              class="pb-3 text-sm cursor-pointer"
+              class="pb-3 text-sm cursor-pointer whitespace-nowrap pl-4"
               :class="{
                 'pl-4': index === 0,
                 'text-voloblue-200': sortBy === sortParameter[index],
@@ -55,13 +62,13 @@
             >
               {{ document.name }}
             </td>
-            <td>{{ document.documentType.name }}</td>
-            <td>{{ document.user }}</td>
-            <td>
+            <td class="pl-4 truncate">{{ document.documentType.name }}</td>
+            <td class="pl-4 truncate">{{ document.user }}</td>
+            <td class="pl-4 truncate">
               {{ document.timestamp.split('T').slice(0, 1).join().split('-').reverse().join('.') }}
             </td>
             <td
-              class="px-2"
+              class="pr-4"
               :class="{
                 'rounded-tr-md ': index === 0,
                 'rounded-br-md': index === volunteerStore.volunteerDocuments.length - 1

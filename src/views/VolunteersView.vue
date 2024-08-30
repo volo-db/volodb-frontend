@@ -1,7 +1,7 @@
 <template>
-  <main class="bg-vologray-100 p-8 overflow-auto">
-    <div class="max-w-7xl">
-      <div class="flex justify-between">
+  <main class="bg-vologray-100 overflow-auto">
+    <div class="max-w-7xl m-8">
+      <div class="flex justify-between gap-2">
         <SearchBar v-model="searchQuery" placeholder="Suche nach Freiwilligen" />
         <ButtonStandard @click.prevent="newVolunteerModal = true"
           >Freiwillige:n anlegen</ButtonStandard
