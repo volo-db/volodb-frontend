@@ -9,7 +9,7 @@
               v-for="(title, index) in tableHead"
               @click="sortVolunteersList(sortParameter[index])"
               :key="index"
-              class="pb-3 text-sm cursor-pointer whitespace-nowrap pl-4"
+              class="pb-3 text-sm cursor-pointer pl-4"
               :class="{
                 'pl-4': index === 0,
                 'text-voloblue-200': sortBy === sortParameter[index],

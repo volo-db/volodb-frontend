@@ -25,7 +25,7 @@
             <td
               v-for="(title, index) in tableHead"
               :key="index"
-              class="pb-3 text-sm cursor-pointer whitespace-nowrap pl-4"
+              class="pb-3 text-sm cursor-pointer pl-4"
               :class="{
                 'pl-4': index === 0,
                 'text-voloblue-200': sortBy === sortParameter[index],
@@ -74,7 +74,7 @@
                 'rounded-br-md': index === volunteerStore.volunteerDocuments.length - 1
               }"
             >
-              <div class="invisible group-hover:visible flex gap-3 justify-end">
+              <div class="flex gap-3 justify-end">
                 <a :href="`${baseUrl}/files/${document.path}?download=true`" class="text-2xl">
                   <IconArrowDownload class="text-vologray-800 hover:text-voloblue-200" />
                 </a>
