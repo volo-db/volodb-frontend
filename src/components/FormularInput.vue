@@ -59,7 +59,6 @@ export default {
   emits: ['update:modelValue'],
   methods: {
     handleInput(event) {
-      // Handle input for text fields
       if (this.type !== 'file') {
         this.$emit('update:modelValue', event.target.value)
       }
