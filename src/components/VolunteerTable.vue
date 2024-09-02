@@ -1,6 +1,6 @@
 <template>
   <div v-bind="$attrs">
-    <div class="min-w-[900px]" v-if="volunteerStore.volunteersPage">
+    <div v-if="volunteerStore.volunteersPage">
       <table class="table-fixed w-full">
         <col class="w-56" />
         <thead class="text-nowrap">

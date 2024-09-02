@@ -1,10 +1,10 @@
 <template>
-  <div class="max-w-5xl mt-8">
+  <div class="max-w-5xl min-w-[800px] mt-8">
     <div class="flex justify-between gap-2">
       <SearchBar v-model="searchQuery" placeholder="Suche nach Dokumenten" />
       <ButtonStandard @click="uploadDocument = true">Dokument hinzufügen</ButtonStandard>
     </div>
-    <div class="mt-16 min-w-[800px]" v-if="volunteerStore.volunteerDocuments">
+    <div class="mt-16" v-if="volunteerStore.volunteerDocuments">
       <div
         v-if="!volunteerStore.volunteerDocuments || volunteerStore.volunteerDocuments.length == 0"
         class="flex flex-col items-center gap-8 text-vologray-700/30"

@@ -1,6 +1,6 @@
 <template>
   <div v-bind="$attrs">
-    <div class="min-w-[900px]" v-if="projectStore.projectsPage">
+    <div v-if="projectStore.projectsPage">
       <table class="table-fixed w-full">
         <colgroup>
           <col class="w-2/5" />

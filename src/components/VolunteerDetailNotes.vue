@@ -1,10 +1,10 @@
 <template>
-  <div class="max-w-5xl mt-8">
+  <div class="max-w-5xl min-w-[600px] mt-8">
     <div class="flex justify-between gap-2">
       <SearchBar v-model="searchQuery" placeholder="Suche nach Aktivitäten" />
       <ButtonStandard @click.prevent="setNote = true">Aktivität hinzufügen</ButtonStandard>
     </div>
-    <div class="mt-16 min-w-[600px]" v-if="volunteerStore.volunteerNotes">
+    <div class="mt-16" v-if="volunteerStore.volunteerNotes">
       <div
         v-if="volunteerStore.volunteerNotes.length == 0"
         class="flex flex-col items-center gap-8 text-vologray-700/30"

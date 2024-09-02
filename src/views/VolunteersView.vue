@@ -1,6 +1,6 @@
 <template>
   <main class="bg-vologray-100 overflow-auto">
-    <div class="max-w-7xl m-8">
+    <div class="max-w-7xl min-w-[900px] m-8">
       <div class="flex justify-between gap-2">
         <SearchBar v-model="searchQuery" placeholder="Suche nach Freiwilligen" />
         <ButtonStandard @click.prevent="newVolunteerModal = true"
