@@ -8,19 +8,20 @@
               v-for="(title, index) in tableHead"
               @click="sortVolunteersList(sortParameter[index])"
               :key="index"
-              class="pb-3 text-vologray-700 text-sm cursor-pointer"
-              :class="{ 'pl-4': index === 0 }"
-              :style="{
-                color: sortBy === sortParameter[index] ? '#0025FF' : ''
+              class="pb-3 text-sm cursor-pointer whitespace-nowrap pl-4"
+              :class="{
+                'pl-4': index === 0,
+                'text-voloblue-200': sortBy === sortParameter[index],
+                'text-black opacity-80': !(sortBy === sortParameter[index])
               }"
             >
               {{ title }}
               <IconTableSortArrows
                 :upArrowColor="
-                  sortParameter[index] === sortBy && sortOrder === 'asc' ? '#0025FF' : 'lightgrey'
+                  sortParameter[index] === sortBy && sortOrder === 'asc' ? '#0025FF' : 'darkgray'
                 "
                 :downArrowColor="
-                  sortParameter[index] === sortBy && sortOrder === 'desc' ? '#0025FF' : 'lightgrey'
+                  sortParameter[index] === sortBy && sortOrder === 'desc' ? '#0025FF' : 'darkgray'
                 "
                 class="pl-2 inline w-5"
               />
@@ -37,11 +38,11 @@
             <td class="font-bold pl-4" :class="{ 'rounded-tl-md': index === 0 }">
               {{ volunteer.person.lastname }}
             </td>
-            <td class="font-bold">{{ volunteer.person.firstname }}</td>
-            <td>{{ volunteer.birthplace }}</td>
-            <td>2023/24</td>
-            <td>2/5</td>
-            <td>25/25</td>
+            <td class="font-bold pl-4">{{ volunteer.person.firstname }}</td>
+            <td class="pl-4">{{ volunteer.birthplace }}</td>
+            <td class="pl-4">2023/24</td>
+            <td class="pl-4">2/5</td>
+            <td class="pl-4">25/25</td>
             <td class="text-voloblue-200 pr-4 md:pr-1" :class="{ 'rounded-tr-md ': index === 0 }">
               <IconArrowGoto class="text-voloblue-200 opacity-50" />
             </td>
@@ -58,15 +59,15 @@
       />
     </div>
   </div>
-  <ModalContainer v-if="volunteerStore.fetching">
+  <ContainerModal v-if="volunteerStore.fetching" :delay="500">
     <div class="p-4 flex flex-row gap-2 items-center text-md"><IconSpinner />loading ...</div>
-  </ModalContainer>
+  </ContainerModal>
 </template>
 
 <script>
 import IconArrowGoto from './IconArrowGoto.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
-import ModalContainer from '@/components/ContainerModal.vue'
+import ContainerModal from '@/components/ContainerModal.vue'
 import IconSpinner from '@/components/IconSpinner.vue'
 import PaginationController from '@/components/PaginationController.vue'
 import IconTableSortArrows from './IconTableSortArrows.vue'
@@ -75,7 +76,7 @@ import { useRouter } from 'vue-router'
 export default {
   components: {
     IconArrowGoto,
-    ModalContainer,
+    ContainerModal,
     IconSpinner,
     PaginationController,
     IconTableSortArrows
@@ -141,17 +142,13 @@ export default {
       this.volunteerStore.getVolunteers(params)
     },
     sortVolunteersList(sortBy) {
-      if (this.sortBy !== sortBy) {
-        this.sortOrder === 'asc'
+      if (this.sortBy === sortBy) {
+        // Toggle sort order if the sortBy is the same
+        this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'
       } else {
-        if (this.sortOrder === 'asc') {
-          this.sortOrder = 'desc'
-        } else {
-          this.sortOrder = 'asc'
-        }
+        // Keep the current sort order when changing the sortBy
+        this.sortBy = sortBy
       }
-
-      this.sortBy = sortBy
 
       this.getVolunteers()
     },

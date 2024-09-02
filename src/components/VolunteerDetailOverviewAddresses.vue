@@ -1,6 +1,6 @@
 <template>
   <details v-if="addresses" class="mb-2" open>
-    <summary class="font-medium">Anschriften</summary>
+    <summary class="font-medium cursor-pointer">Anschriften</summary>
     <div class="flex flex-col mt-4">
       <div
         v-for="address of addresses"
@@ -23,18 +23,23 @@
         <div class="flex gap-2">
           <button
             @click.prevent="(selectedAddress = address), (addressModal = true)"
-            class="hidden group-hover:inline"
+            class="hidden text-vologray-800 group-hover:inline hover:!text-voloblue-200"
           >
             <IconPenEdit />
           </button>
-          <button @click.prevent="deleteAdress(address)" class="hidden group-hover:inline">
+          <button
+            @click.prevent="deleteAdress(address)"
+            class="hidden text-vologray-800 group-hover:inline hover:!text-voloblue-200"
+          >
             <IconTrash />
           </button>
         </div>
       </div>
     </div>
     <div class="pt-3 flex flex-col items-center text-2xl text-vologray-800">
-      <button @click.prevent="addressModal = true"><IconPlus /></button>
+      <button @click.prevent="addressModal = true" class="hover:text-voloblue-200">
+        <IconPlus />
+      </button>
     </div>
   </details>
   <ContainerModal v-if="addressModal">

@@ -1,26 +1,27 @@
 <template>
-  <div class="overflow-auto" v-bind="$attrs">
+  <div v-bind="$attrs">
     <div v-if="projectStore.projectsPage">
-      <table class="w-full" v-if="projectStore.projectsPage">
+      <table class="w-full">
         <thead>
           <tr>
             <td
               v-for="(title, index) in tableHead"
               :key="index"
-              class="pb-3 text-vologray-700 text-sm cursor-pointer"
-              :class="{ 'pl-4': index === 0 }"
-              :style="{
-                color: sortBy === sortParameter[index] ? '#0025FF' : ''
+              class="pb-3 text-sm cursor-pointer whitespace-nowrap pl-4"
+              :class="{
+                'pl-4': index === 0,
+                'text-voloblue-200': sortBy === sortParameter[index],
+                'text-black opacity-80': !(sortBy === sortParameter[index])
               }"
               @click="sortProjectsList(sortParameter[index])"
             >
               {{ title }}
               <IconTableSortArrows
                 :upArrowColor="
-                  sortParameter[index] === sortBy && sortOrder === 'asc' ? '#0025FF' : 'lightgrey'
+                  sortParameter[index] === sortBy && sortOrder === 'asc' ? '#0025FF' : 'darkgray'
                 "
                 :downArrowColor="
-                  sortParameter[index] === sortBy && sortOrder === 'desc' ? '#0025FF' : 'lightgrey'
+                  sortParameter[index] === sortBy && sortOrder === 'desc' ? '#0025FF' : 'darkgray'
                 "
                 class="pl-2 inline w-5"
               />
@@ -37,10 +38,10 @@
             <td class="font-bold pl-4" :class="{ 'rounded-tl-md': index === 0 }">
               {{ project.name }}
             </td>
-            <td>{{ project.city }}</td>
-            <td>{{ project.email }}</td>
-            <td>2023/24</td>
-            <td>{{ project.capacity }}</td>
+            <td class="font-bold pl-4">{{ project.city }}</td>
+            <td class="font-bold pl-4">{{ project.email }}</td>
+            <td class="font-bold pl-4">2023/24</td>
+            <td class="font-bold pl-4">{{ project.capacity }}</td>
             <td class="text-voloblue-200 pr-4 md:pr-1" :class="{ 'rounded-tr-md ': index === 0 }">
               <IconArrowGoto class="text-voloblue-200 opacity-50" />
             </td>
@@ -51,7 +52,9 @@
         class="mt-[2px]"
         :currentPage="projectStore.projectsPage.pageable.pageNumber"
         :totalPages="projectStore.projectsPage.totalPages"
+        :pageLength="pageSize"
         @updatePage="updateProjectPage"
+        @updateLength="(length) => updateProjectListLenght(length)"
       />
     </div>
   </div>
@@ -95,7 +98,7 @@ export default {
       sortOrder: 'asc',
       sortBy: 'name',
       page: 0,
-      pageSize: 13
+      pageSize: 15
     }
   },
   methods: {
@@ -103,6 +106,17 @@ export default {
     // goToDetails(projectId) {
     //   this.$router.push({ name: 'ProjectDetailView', params: { projectId } })
     // },
+    updateProjectListLenght(length) {
+      this.pageSize = length
+      this.projectStore.projectsPage.pageable.pageNumber = 0
+      let params = {
+        sortOrder: this.sortOrder,
+        sortBy: this.sortBy,
+        page: this.projectStore.projectsPage.pageable.pageNumber,
+        pageSize: length
+      }
+      this.projectStore.getProjects(params)
+    },
     updateProjectPage(pageNumber) {
       this.projectStore.projectsPage.pageable.pageNumber = pageNumber
       let params = {
@@ -114,17 +128,13 @@ export default {
       this.projectStore.getProjects(params)
     },
     sortProjectsList(sortBy) {
-      if (this.sortBy !== sortBy) {
-        this.sortOrder === 'asc'
+      if (this.sortBy === sortBy) {
+        // Toggle sort order if the sortBy is the same
+        this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'
       } else {
-        if (this.sortOrder === 'asc') {
-          this.sortOrder = 'desc'
-        } else {
-          this.sortOrder = 'asc'
-        }
+        // Keep the current sort order when changing the sortBy
+        this.sortBy = sortBy
       }
-
-      this.sortBy = sortBy
 
       this.getProjects()
     },
