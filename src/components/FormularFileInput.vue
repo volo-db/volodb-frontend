@@ -4,7 +4,7 @@
       >{{ label }}<span v-if="required">*</span>
 
       <input
-        class="p-2 border border-vologray-500 rounded-md file:border-transparent file:rounded-md file:bg-vologray-100 hover:file:border-solid hover:file:border-vologray-500"
+        class="p-2 border border-vologray-500 rounded-md file:border-transparent file:rounded-md file:bg-vologray-100 hover:file:border-solid hover:file:border-vologray-500 text-black"
         :class="{
           'error-animation': hasError
         }"
