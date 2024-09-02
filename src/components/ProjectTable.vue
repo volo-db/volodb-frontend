@@ -1,13 +1,21 @@
 <template>
   <div v-bind="$attrs">
     <div v-if="projectStore.projectsPage">
-      <table class="w-full">
-        <thead>
+      <table class="table-fixed w-full">
+        <colgroup>
+          <col class="w-2/5" />
+          <col class="w-3/12" />
+          <col class="w-3/12" />
+          <col class="w-1/6" />
+          <col class="w-1/6" />
+          <col class="w-1/12" />
+        </colgroup>
+        <thead class="text-nowrap">
           <tr>
             <td
               v-for="(title, index) in tableHead"
               :key="index"
-              class="pb-3 text-sm cursor-pointer whitespace-nowrap pl-4"
+              class="pb-3 text-sm cursor-pointer pl-4"
               :class="{
                 'pl-4': index === 0,
                 'text-voloblue-200': sortBy === sortParameter[index],
@@ -35,15 +43,15 @@
             :key="project.id"
             @click="goToDetails(project.id)"
           >
-            <td class="font-bold pl-4" :class="{ 'rounded-tl-md': index === 0 }">
+            <td class="font-bold pl-4 truncate" :class="{ 'rounded-tl-md': index === 0 }">
               {{ project.name }}
             </td>
-            <td class="font-bold pl-4">{{ project.city }}</td>
-            <td class="font-bold pl-4">{{ project.email }}</td>
-            <td class="font-bold pl-4">2023/24</td>
-            <td class="font-bold pl-4">{{ project.capacity }}</td>
+            <td class="pl-4 truncate">{{ project.city }}</td>
+            <td class="pl-4 truncate">{{ project.email }}</td>
+            <td class="pl-4 truncate">2023/24</td>
+            <td class="pl-4 truncate">{{ project.capacity }}</td>
             <td class="text-voloblue-200 pr-4 md:pr-1" :class="{ 'rounded-tr-md ': index === 0 }">
-              <IconArrowGoto class="text-voloblue-200 opacity-50" />
+              <IconArrowGoto class="text-voloblue-200 opacity-50 ml-auto mr-2" />
             </td>
           </tr>
         </tbody>

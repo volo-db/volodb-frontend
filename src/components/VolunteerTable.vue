@@ -1,15 +1,15 @@
 <template>
-  <div class="max-w-7xl" v-bind="$attrs">
-    <div class="min-w-[900px]" v-if="volunteerStore.volunteersPage">
-      <!-- <div class="block overflow-x-auto"> -->
+  <div v-bind="$attrs">
+    <div v-if="volunteerStore.volunteersPage">
       <table class="table-fixed w-full">
+        <col class="w-56" />
         <thead class="text-nowrap">
           <tr>
             <td
               v-for="(title, index) in tableHead"
               @click="sortVolunteersList(sortParameter[index])"
               :key="index"
-              class="pb-3 text-sm cursor-pointer whitespace-nowrap pl-4"
+              class="pb-3 text-sm cursor-pointer pl-4"
               :class="{
                 'pl-4': index === 0,
                 'text-voloblue-200': sortBy === sortParameter[index],
@@ -44,8 +44,8 @@
             <td class="pl-4 truncate">2023/24</td>
             <td class="pl-4 truncate">2/5</td>
             <td class="pl-4 truncate">25/25</td>
-            <td class="text-voloblue-200 pr-4 md:pr-1" :class="{ 'rounded-tr-md ': index === 0 }">
-              <IconArrowGoto class="text-voloblue-200 opacity-50" />
+            <td class="text-voloblue-200 md:pr-1" :class="{ 'rounded-tr-md ': index === 0 }">
+              <IconArrowGoto class="text-voloblue-200 opacity-50 ml-auto mr-2" />
             </td>
           </tr>
         </tbody>
