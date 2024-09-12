@@ -33,7 +33,9 @@
               id="name"
               :required="true"
               :hasError="validationErr.name"
+
               v-model="formData.document.name"
+
               ref="name"
             />
             <FormularSelectBox
@@ -45,8 +47,11 @@
               :hasError="validationErr.type"
               v-model="formData.documentType.name"
             />
-            <FormularInput
+
+            <FormularFileInput
+
               v-if="!edit"
+
               name="document"
               label="Dokument"
               type="file"
@@ -78,8 +83,11 @@ import { useVolunteerStore } from '@/stores/VolunteerStore'
 import FormularInput from './FormularInput.vue'
 import FormularSelectBox from './FormularSelectBox.vue'
 import IconSpinner from './IconSpinner.vue'
+import FormularFileInput from './FormularFileInput.vue'
 export default {
-  components: { ButtonStandard, IconSpinner, FormularInput, FormularSelectBox },
+
+  components: { ButtonStandard, IconSpinner, FormularInput, FormularSelectBox, FormularFileInput },
+
   props: {
     title: String,
     description: String,
@@ -92,6 +100,7 @@ export default {
     },
     edit: Boolean
   },
+
   setup() {
     const volunteerStore = useVolunteerStore()
 
