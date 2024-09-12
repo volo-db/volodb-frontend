@@ -1,14 +1,15 @@
 <template>
   <div v-bind="$attrs">
     <div v-if="volunteerStore.volunteersPage">
-      <table class="w-full">
-        <thead>
+      <table class="table-fixed w-full">
+        <col class="w-56" />
+        <thead class="text-nowrap">
           <tr>
             <td
               v-for="(title, index) in tableHead"
               @click="sortVolunteersList(sortParameter[index])"
               :key="index"
-              class="pb-3 text-sm cursor-pointer whitespace-nowrap pl-4"
+              class="pb-3 text-sm cursor-pointer pl-4"
               :class="{
                 'pl-4': index === 0,
                 'text-voloblue-200': sortBy === sortParameter[index],
@@ -35,20 +36,21 @@
             :key="volunteer.id"
             @click="goToDetails(volunteer.id)"
           >
-            <td class="font-bold pl-4" :class="{ 'rounded-tl-md': index === 0 }">
+            <td class="font-bold pl-4 truncate" :class="{ 'rounded-tl-md': index === 0 }">
               {{ volunteer.person.lastname }}
             </td>
-            <td class="font-bold pl-4">{{ volunteer.person.firstname }}</td>
-            <td class="pl-4">{{ volunteer.birthplace }}</td>
-            <td class="pl-4">2023/24</td>
-            <td class="pl-4">2/5</td>
-            <td class="pl-4">25/25</td>
-            <td class="text-voloblue-200 pr-4 md:pr-1" :class="{ 'rounded-tr-md ': index === 0 }">
-              <IconArrowGoto class="text-voloblue-200 opacity-50" />
+            <td class="font-bold pl-4 truncate">{{ volunteer.person.firstname }}</td>
+            <td class="pl-4 truncate">{{ volunteer.birthplace }}</td>
+            <td class="pl-4 truncate">2023/24</td>
+            <td class="pl-4 truncate">2/5</td>
+            <td class="pl-4 truncate">25/25</td>
+            <td class="text-voloblue-200 md:pr-1" :class="{ 'rounded-tr-md ': index === 0 }">
+              <IconArrowGoto class="text-voloblue-200 opacity-50 ml-auto mr-2" />
             </td>
           </tr>
         </tbody>
       </table>
+      <!-- </div> -->
       <PaginationController
         class="mt-[2px]"
         :currentPage="volunteerStore.volunteersPage.pageable.pageNumber"

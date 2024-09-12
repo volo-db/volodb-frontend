@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="flex justify-between mt-8">
+  <div class="max-w-5xl min-w-[600px] mt-8">
+    <div class="flex justify-between gap-2">
       <SearchBar v-model="searchQuery" placeholder="Suche nach Aktivitäten" />
       <ButtonStandard @click.prevent="setNote = true">Aktivität hinzufügen</ButtonStandard>
     </div>
@@ -12,13 +12,19 @@
         <p class="font-medium text-3xl">Noch keine Notizen vorhanden</p>
         <IconMemo class="text-[300px]" />
       </div>
-      <table class="w-full">
-        <thead v-if="volunteerStore.volunteerNotes.length !== 0">
+      <table class="table-fixed w-full">
+        <colgroup>
+          <col class="w-1/5" />
+          <col class="w-2/5" />
+          <col class="w-1/5" />
+          <col class="w-1/5" />
+        </colgroup>
+        <thead class="text-nowrap" v-if="volunteerStore.volunteerNotes.length !== 0">
           <tr>
             <td
               v-for="(title, index) in tableHead"
               :key="index"
-              class="pb-3 text-sm cursor-pointer"
+              class="pb-3 text-sm cursor-pointer pl-4"
               :class="{
                 'pl-4': index === 0,
                 'text-voloblue-200': sortBy === sortParameter[index],
@@ -53,7 +59,7 @@
             }"
           >
             <td
-              class="font-bold pl-4"
+              class="font-bold pl-4 truncate"
               :class="{
                 'rounded-tl-md': index === 0,
                 'rounded-bl-md':
@@ -63,12 +69,12 @@
             >
               <VolunteerDetailNotesTypeData :type="note.type" />
             </td>
-            <td>{{ note.user }}</td>
-            <td>
+            <td class="pl-4 truncate">{{ note.user }}</td>
+            <td class="pl-4 truncate">
               {{ note.timestamp.split('T').slice(0, 1).join().split('-').reverse().join('.') }}
             </td>
             <td
-              class="px-4"
+              class="pr-4"
               :class="{
                 'rounded-tr-md ': index === 0,
                 'rounded-br-md':
