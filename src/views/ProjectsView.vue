@@ -10,7 +10,7 @@
       <ProjectTable class="w-full mt-12" />
     </div>
     <ContainerModal v-if="newProjectModal">
-      <ProjectFormular @close="newProjectModal = false" />
+      <NewProjectFormular @close="newProjectModal = false" />
     </ContainerModal>
   </main>
 </template>
@@ -21,11 +21,12 @@ import ContainerModal from '@/components/ContainerModal.vue'
 import ProjectTable from '@/components/ProjectTable.vue'
 import { useProjectStore } from '@/stores/ProjectStore'
 import SearchBar from '@/components/SearchBar.vue'
-import ProjectFormular from '@/components/ProjectFormular.vue'
+// import ProjectFormular from '@/components/ProjectFormular.vue'
+import NewProjectFormular from '@/components/NewProjectFormular.vue'
 
 export default {
   name: 'ProjectsView',
-  components: { ButtonStandard, ProjectTable, SearchBar, ContainerModal, ProjectFormular },
+  components: { ButtonStandard, ProjectTable, SearchBar, ContainerModal, NewProjectFormular },
   setup: () => {
     const projectStore = useProjectStore()
     return { projectStore }

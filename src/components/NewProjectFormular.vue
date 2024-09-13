@@ -1,19 +1,18 @@
 <template>
-  <section class="w-[70vw] max-w-[850px] min-w-[400px]" @keydown.esc="$emit('close')">
-    <header class="flex justify-center p-5 border-solid border-b border-vologray-200">
-      <h2 class="text-[20px] text-bold font-medium">Neue Einsatzstelle</h2>
-    </header>
-    <main>
-      <p
-        v-if="errorMessage"
-        class="flex justify-center text-sm font-light rounded border border-1 mb-4 p-3 bg-red-100 border-red-500 text-red-500"
-      >
-        🤷‍♀️ Upsi! Da ist wohl was schief gelaufen... Versuchs bitte nochmal.
-      </p>
-      <div v-if="!projectStore.fetching" class="flex justify-center p-8">
-        <button @click="currentPage = 1" class="self-center mr-4">
-          <IconArrowPageLeft :ArrowLeftColor="currentPage === 1 ? 'lightgrey' : 'blue'" />
-        </button>
+    <section class="w-[70vw] max-w-[850px] min-w-[400px]" @keydown.esc="$emit('close')">
+        <header class="flex flex-col px-5 pt-5 border-solid border-b border-vologray-200">
+            <h2 class="text-[20px] text-bold font-medium self-center">Neue Einsatzstelle</h2>
+            <!-- tabnavigation -->
+            <div>
+              <button @click="currentTab = 1" class="px-3 py-2 bg-vologray-200 " :class="{' border-x-2 border-t-2 border-vologray-400': currentTab === 1}">Beschreibung</button>
+              <button @click="currentTab = 2" class="px-3 py-2 bg-vologray-200" :class="{' border-x-2 border-t-2 border-vologray-400': currentTab === 2}">Kontakt</button>
+              <button @click="currentTab = 3" class="px-3 py-2 bg-vologray-200" :class="{' border-x-2 border-t-2 border-vologray-400': currentTab === 3}">Sonstiges</button>
+            </div>
+        </header>
+        <main>           
+            <!-- tabcontent -->     
+            <div v-if="!projectStore.fetching" class="flex justify-center p-8">
+
         <div v-if="!projectStore.fetching" class="flex justify-center">
           <!-- left column -->
           <div class="flex-1">
@@ -119,58 +118,29 @@
             </form>
           </div>
         </div>
-        <button class="self-center ml-4">
-          <IconArrowPageRight
-            @click="currentPage = 2"
-            :ArrowRightColor="currentPage === 1 ? 'blue' : 'lightgrey'"
-          />
-        </button>
+
       </div>
-      <div class="text-sm text-center text-vologray-400">{{ currentPage }} / 2</div>
-    </main>
-    <div
-      v-if="projectStore.fetching"
-      class="p-4 flex flex-row gap-2 justify-center items-center text-md"
-    >
-      <IconSpinner />speichere daten...
-    </div>
-    <footer class="flex justify-between p-6 border-solid border-t border-vologray-200">
-      <ButtonStandard @click.prevent="$emit('close')" :gray="true">Abbrechen</ButtonStandard>
-      <p
-        class="flex justify-center text-sm font-light rounded border border-1 mb-4 p-3 bg-red-100 border-red-500 text-red-500"
-        v-if="pageOneErr === true"
-      >
-        Eingabefelder auf Seite 1 prüfen
-      </p>
-      <ButtonStandard
-        type="submit"
-        form="new-project"
-        :disabled="currentPage === 1"
-        :class="{ 'bg-opacity-70': currentPage === 1 }"
-        >Einsatzstelle anlegen
-        </ButtonStandard>
-    </footer>
-  </section>
+        </main>
+
+    </section>
 </template>
 
 <script>
-import ButtonStandard from './ButtonStandard.vue'
+// import ButtonStandard from './ButtonStandard.vue'
 import { useProjectStore } from '@/stores/ProjectStore'
 import { useCountryStore } from '@/stores/CountryStore'
 import { isValidEmail, isValidPhoneNumber } from '@/utils/validations'
-import IconSpinner from '@/components/IconSpinner.vue'
-import IconArrowPageLeft from './IconArrowPageLeft.vue'
-import IconArrowPageRight from './IconArrowPageRight.vue'
+// import IconSpinner from '@/components/IconSpinner.vue'
+
 import FormularInput from './FormularInput.vue'
 import FormularTextarea from './FormularTextarea.vue'
 import FormularSelectBox from './FormularSelectBox.vue'
 
 export default {
   components: {
-    ButtonStandard,
-    IconSpinner,
-    IconArrowPageLeft,
-    IconArrowPageRight,
+    // ButtonStandard,
+    // IconSpinner,
+  
     FormularInput,
     FormularTextarea,
     FormularSelectBox
@@ -185,7 +155,7 @@ export default {
   },
   data() {
     return {
-      currentPage: 1,
+      currentTab: 1,
       pageOneErr: false,
       formData: {
         name: '',
