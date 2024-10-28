@@ -1,12 +1,12 @@
 <template>
-    <section class="w-[70vw] max-w-[850px] min-w-[400px]" @keydown.esc="$emit('close')">
-        <header class="flex flex-col px-5 pt-5 border-solid border-b border-vologray-200">
+    <section class="w-[70vw] max-w-[850px] min-w-[400px] h-[560px]" @keydown.esc="$emit('close')">
+        <header class="flex flex-col p-5 border-solid border-b border-vologray-200">
             <h2 class="text-[20px] text-bold font-medium self-center">Neue Einsatzstelle</h2>
             <!-- tabnavigation -->
             <div>
-              <button @click="currentTab = 1" class="px-3 py-2 bg-vologray-200 " :class="{' border-x-2 border-t-2 border-vologray-400': currentTab === 1}">Beschreibung</button>
-              <button @click="currentTab = 2" class="px-3 py-2 bg-vologray-200" :class="{' border-x-2 border-t-2 border-vologray-400': currentTab === 2}">Kontakt</button>
-              <button @click="currentTab = 3" class="px-3 py-2 bg-vologray-200" :class="{' border-x-2 border-t-2 border-vologray-400': currentTab === 3}">Sonstiges</button>
+              <button @click="currentTab = 1" class="rounded-t-lg text-sm font-medium px-6 h-11" :class="currentTab === 1 ? 'bg-white text-voloblue-200 border-t-2 border-x-2 border-voloblue-200' : ' bg-voloblue-200 text-white'">Beschreibung</button>
+              <button @click="currentTab = 2" class="rounded-t-lg text-sm font-medium px-6 h-11" :class="currentTab === 2 ? 'bg-white text-voloblue-200 border-t-2 border-x-2 border-voloblue-200' : ' bg-voloblue-200 text-white'">Kontakt</button>
+              <button @click="currentTab = 3" class="rounded-t-lg text-sm font-medium px-6 h-11" :class="currentTab === 3 ? 'bg-white text-voloblue-200 border-t-2 border-x-2 border-voloblue-200' : ' bg-voloblue-200 text-white'">Adresse</button>  
             </div>
         </header>
         <main>           
@@ -22,8 +22,8 @@
             </p>
           </div>
           <!-- right column -->
-          <!-- Page 1-->
-          <div class="flex-1" v-if="currentPage === 1">
+          <!-- Tab 1-->
+          <div class="flex-1" v-if="currentTab === 1">
             <form
               class="flex flex-col gap-2"
               id="new-project"
@@ -55,7 +55,18 @@
                 rows="3"
                 v-model="formData.description"
               />
-              <FormularInput
+              
+            </form>
+          </div>
+          <!-- Page 2 -->
+          <div class="flex-1" v-if="currentTab === 2">
+            <form
+              class="flex flex-col gap-2"
+              id="new-project"
+              @submit.prevent="onSubmit"
+              novalidate
+            >
+            <FormularInput
                 label="E-mail"
                 id="email"
                 :required="true"
@@ -71,16 +82,18 @@
                 type="text"
                 v-model="formData.phone"
               />
+   
             </form>
           </div>
-          <!-- Page 2 -->
-          <div class="flex-1" v-if="currentPage === 2">
+          <!-- Page 3 -->
+          <div class="flex-1" v-if="currentTab === 3">
             <form
               class="flex flex-col gap-2"
               id="new-project"
               @submit.prevent="onSubmit"
               novalidate
             >
+       
               <FormularInput
                 label="Straße"
                 id="street"
@@ -118,15 +131,17 @@
             </form>
           </div>
         </div>
-
       </div>
         </main>
-
+        <footer class="flex justify-between p-6 border-solid border-t border-vologray-200">
+      <ButtonStandard @click.prevent="$emit('cancel')" :gray="true">Abbrechen</ButtonStandard>
+      <ButtonStandard type="submit" form="new-volunteer">Einsatzstelle anlegen</ButtonStandard>
+    </footer>
     </section>
 </template>
 
 <script>
-// import ButtonStandard from './ButtonStandard.vue'
+import ButtonStandard from './ButtonStandard.vue'
 import { useProjectStore } from '@/stores/ProjectStore'
 import { useCountryStore } from '@/stores/CountryStore'
 import { isValidEmail, isValidPhoneNumber } from '@/utils/validations'
@@ -138,7 +153,7 @@ import FormularSelectBox from './FormularSelectBox.vue'
 
 export default {
   components: {
-    // ButtonStandard,
+     ButtonStandard,
     // IconSpinner,
   
     FormularInput,
