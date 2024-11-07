@@ -11,6 +11,10 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@tailwindcss/typography": "^0.5.14",
+    "@tiptap/pm": "^2.6.4",
+    "@tiptap/starter-kit": "^2.6.4",
+    "@tiptap/vue-3": "^2.6.4",
     "@vueuse/core": "^10.9.0",
     "canvas-confetti": "^1.9.3",
     "libphonenumber-js": "^1.11.4",

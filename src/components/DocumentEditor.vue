@@ -1,10 +1,11 @@
 <template>
   <div class="flex border-x border-t border-gray-600 mt-8 px-8 py-4">
     <button @click="editor.chain().focus().toggleBold().run()">Bold</button>
+
     <button @click="send" class="ml-auto bg-voloblue-200 text-white rounded p-2">senden</button>
   </div>
   <div class="p-8 border border-gray-600 max-h-[900px] overflow-y-auto">
-    <editor-content :editor="editor" class="" />
+    <editor-content style="all: initial" :editor="editor" />
   </div>
 </template>
 s
@@ -27,16 +28,31 @@ export default {
   },
   methods: {
     async send() {
-      console.log(this.modelValue)
+      // const html =
+      //   "<html><head><meta charset='UTF-8'>" +
+      //   "<link rel='stylesheet' href='https://unpkg.com/normalize.css@8.0.1/normalize.css' />" +
+      //   '<style>' +
+      //   '</style>' +
+      //   '</head><body>' +
+      //   this.modelValue +
+      //   '</body></html>'
+      const html =
+        "<html><head><meta charset='UTF-8'>" +
+        '<style>' +
+        '</style>' +
+        '</head><body>' +
+        this.modelValue +
+        '</body></html>'
 
       const objectToSend = {
-        html: this.modelValue
+        html
       }
+
+      console.log(html)
 
       this.openHtmlInNewTab(await vdbFetchData('documents', 'POST', objectToSend))
     },
     openHtmlInNewTab(htmlString) {
-      console.log(htmlString)
       // Create a new window
       const newWindow = window.open('', '_blank')
 
