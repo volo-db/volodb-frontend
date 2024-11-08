@@ -11,10 +11,16 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+<<<<<<< Updated upstream
     "@tailwindcss/typography": "^0.5.14",
     "@tiptap/pm": "^2.6.4",
     "@tiptap/starter-kit": "^2.6.4",
     "@tiptap/vue-3": "^2.6.4",
+=======
+    "@tiptap/pm": "^2.6.6",
+    "@tiptap/starter-kit": "^2.6.6",
+    "@tiptap/vue-3": "^2.6.6",
+>>>>>>> Stashed changes
     "@vueuse/core": "^10.9.0",
     "canvas-confetti": "^1.9.3",
     "libphonenumber-js": "^1.11.4",

@@ -3,6 +3,7 @@ import { useUserStore } from '@/stores/UserStore'
 import LoginView from '@/views/LoginView.vue'
 import VolunteersView from '@/views/VolunteersView.vue'
 import VolunteerDetailView from '@/views/VolunteerDetailView.vue'
+import TipTapView from '@/views/TipTapView.vue'
 import ProjectsView from '@/views/ProjectsView.vue'
 
 const router = createRouter({
@@ -22,6 +23,11 @@ const router = createRouter({
       path: '/volunteers',
       name: 'VolunteersView',
       component: VolunteersView
+    },
+    {
+      path: '/editor',
+      name: 'TipTapView',
+      component: TipTapView
     },
     {
       path: '/volunteers/:volunteerId',
