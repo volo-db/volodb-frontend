@@ -1,18 +1,50 @@
 <template>
-    <section class="w-[70vw] max-w-[850px] min-w-[400px] h-[560px]" @keydown.esc="$emit('close')">
-        <header class="flex flex-col p-5 border-solid border-b border-vologray-200">
-            <h2 class="text-[20px] text-bold font-medium self-center">Neue Einsatzstelle</h2>
-            <!-- tabnavigation -->
-            <div>
-              <button @click="currentTab = 1" class="rounded-t-lg text-sm font-medium px-6 h-11" :class="currentTab === 1 ? 'bg-white text-voloblue-200 border-t-2 border-x-2 border-voloblue-200' : ' bg-voloblue-200 text-white'">Beschreibung</button>
-              <button @click="currentTab = 2" class="rounded-t-lg text-sm font-medium px-6 h-11" :class="currentTab === 2 ? 'bg-white text-voloblue-200 border-t-2 border-x-2 border-voloblue-200' : ' bg-voloblue-200 text-white'">Kontakt</button>
-              <button @click="currentTab = 3" class="rounded-t-lg text-sm font-medium px-6 h-11" :class="currentTab === 3 ? 'bg-white text-voloblue-200 border-t-2 border-x-2 border-voloblue-200' : ' bg-voloblue-200 text-white'">Adresse</button>  
-            </div>
-        </header>
-        <main>           
-            <!-- tabcontent -->     
-            <div v-if="!projectStore.fetching" class="flex justify-center p-8">
-
+  <section
+    class="w-[70vw] max-w-[850px] min-w-[400px] h-[600px] grid grid-rows-[auto,1fr,auto]"
+    @keydown.esc="$emit('close')"
+  >
+    <header class="flex flex-col pt-5 px-5">
+      <h2 class="text-[20px] text-bold font-medium self-center">Neue Einsatzstelle</h2>
+      <!-- tabnavigation -->
+      <div class="mt-3">
+        <button
+          @click="currentTab = 1"
+          class="rounded-t-lg text-sm font-medium px-6 h-11"
+          :class="
+            currentTab === 1
+              ? 'bg-white text-voloblue-200 border-t-2 border-x-2 border-voloblue-200'
+              : ' bg-voloblue-200 text-white'
+          "
+        >
+          Beschreibung
+        </button>
+        <button
+          @click="currentTab = 2"
+          class="rounded-t-lg text-sm font-medium px-6 h-11"
+          :class="
+            currentTab === 2
+              ? 'bg-white text-voloblue-200 border-t-2 border-x-2 border-voloblue-200'
+              : ' bg-voloblue-200 text-white'
+          "
+        >
+          Kontakt
+        </button>
+        <button
+          @click="currentTab = 3"
+          class="rounded-t-lg text-sm font-medium px-6 h-11"
+          :class="
+            currentTab === 3
+              ? 'bg-white text-voloblue-200 border-t-2 border-x-2 border-voloblue-200'
+              : ' bg-voloblue-200 text-white'
+          "
+        >
+          Adresse
+        </button>
+      </div>
+    </header>
+    <main>
+      <!-- tabcontent -->
+      <div v-if="!projectStore.fetching" class="flex justify-center p-8">
         <div v-if="!projectStore.fetching" class="flex justify-center">
           <!-- left column -->
           <div class="flex-1">
@@ -55,7 +87,6 @@
                 rows="3"
                 v-model="formData.description"
               />
-              
             </form>
           </div>
           <!-- Page 2 -->
@@ -66,7 +97,7 @@
               @submit.prevent="onSubmit"
               novalidate
             >
-            <FormularInput
+              <FormularInput
                 label="E-mail"
                 id="email"
                 :required="true"
@@ -82,7 +113,6 @@
                 type="text"
                 v-model="formData.phone"
               />
-   
             </form>
           </div>
           <!-- Page 3 -->
@@ -93,7 +123,6 @@
               @submit.prevent="onSubmit"
               novalidate
             >
-       
               <FormularInput
                 label="Straße"
                 id="street"
@@ -132,12 +161,12 @@
           </div>
         </div>
       </div>
-        </main>
-        <footer class="flex justify-between p-6 border-solid border-t border-vologray-200">
-      <ButtonStandard @click.prevent="$emit('cancel')" :gray="true">Abbrechen</ButtonStandard>
+    </main>
+    <footer class="flex justify-between p-6 border-solid border-t border-vologray-200">
+      <ButtonStandard @click.prevent="$emit('close')" :gray="true">Abbrechen</ButtonStandard>
       <ButtonStandard type="submit" form="new-volunteer">Einsatzstelle anlegen</ButtonStandard>
     </footer>
-    </section>
+  </section>
 </template>
 
 <script>
@@ -153,9 +182,9 @@ import FormularSelectBox from './FormularSelectBox.vue'
 
 export default {
   components: {
-     ButtonStandard,
+    ButtonStandard,
     // IconSpinner,
-  
+
     FormularInput,
     FormularTextarea,
     FormularSelectBox
