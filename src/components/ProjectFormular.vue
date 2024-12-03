@@ -1,7 +1,46 @@
 <template>
-  <section class="w-[70vw] max-w-[850px] min-w-[400px]" @keydown.esc="$emit('close')">
-    <header class="flex justify-center p-5 border-solid border-b border-vologray-200">
-      <h2 class="text-[20px] text-bold font-medium">Neue Einsatzstelle</h2>
+  <section
+    class="w-[70vw] max-w-[850px] min-w-[400px] h-[600px] grid grid-rows-[auto,1fr,auto]"
+    @keydown.esc="$emit('close')"
+  >
+    <header class="flex flex-col pt-5 px-5">
+      <h2 class="text-[20px] text-bold font-medium self-center">Neue Einsatzstelle</h2>
+      <!-- tabnavigation -->
+      <div class="mt-3">
+        <button
+          @click="currentTab = 1"
+          class="rounded-t-lg text-sm font-medium px-6 h-11"
+          :class="
+            currentTab === 1
+              ? 'bg-white text-voloblue-200 border-t-2 border-x-2 border-voloblue-200'
+              : ' bg-voloblue-200 text-white'
+          "
+        >
+          Beschreibung
+        </button>
+        <button
+          @click="currentTab = 2"
+          class="rounded-t-lg text-sm font-medium px-6 h-11"
+          :class="
+            currentTab === 2
+              ? 'bg-white text-voloblue-200 border-t-2 border-x-2 border-voloblue-200'
+              : ' bg-voloblue-200 text-white'
+          "
+        >
+          Kontakt
+        </button>
+        <button
+          @click="currentTab = 3"
+          class="rounded-t-lg text-sm font-medium px-6 h-11"
+          :class="
+            currentTab === 3
+              ? 'bg-white text-voloblue-200 border-t-2 border-x-2 border-voloblue-200'
+              : ' bg-voloblue-200 text-white'
+          "
+        >
+          Adresse
+        </button>
+      </div>
     </header>
     <main>
       <p
@@ -10,10 +49,8 @@
       >
         🤷‍♀️ Upsi! Da ist wohl was schief gelaufen... Versuchs bitte nochmal.
       </p>
+      <!-- tabcontent -->
       <div v-if="!projectStore.fetching" class="flex justify-center p-8">
-        <button @click="currentPage = 1" class="self-center mr-4">
-          <IconArrowPageLeft :ArrowLeftColor="currentPage === 1 ? 'lightgrey' : 'blue'" />
-        </button>
         <div v-if="!projectStore.fetching" class="flex justify-center">
           <!-- left column -->
           <div class="flex-1">
@@ -23,8 +60,8 @@
             </p>
           </div>
           <!-- right column -->
-          <!-- Page 1-->
-          <div class="flex-1" v-if="currentPage === 1">
+          <!-- Tab 1-->
+          <div class="flex-1" v-if="currentTab === 1">
             <form
               class="flex flex-col gap-2"
               id="new-project"
@@ -56,6 +93,16 @@
                 rows="3"
                 v-model="formData.description"
               />
+            </form>
+          </div>
+          <!-- Page 2 -->
+          <div class="flex-1" v-if="currentTab === 2">
+            <form
+              class="flex flex-col gap-2"
+              id="new-project"
+              @submit.prevent="onSubmit"
+              novalidate
+            >
               <FormularInput
                 label="E-mail"
                 id="email"
@@ -74,8 +121,8 @@
               />
             </form>
           </div>
-          <!-- Page 2 -->
-          <div class="flex-1" v-if="currentPage === 2">
+          <!-- Page 3 -->
+          <div class="flex-1" v-if="currentTab === 3">
             <form
               class="flex flex-col gap-2"
               id="new-project"
@@ -119,14 +166,7 @@
             </form>
           </div>
         </div>
-        <button class="self-center ml-4">
-          <IconArrowPageRight
-            @click="currentPage = 2"
-            :ArrowRightColor="currentPage === 1 ? 'blue' : 'lightgrey'"
-          />
-        </button>
       </div>
-      <div class="text-sm text-center text-vologray-400">{{ currentPage }} / 2</div>
     </main>
     <div
       v-if="projectStore.fetching"
@@ -136,19 +176,15 @@
     </div>
     <footer class="flex justify-between p-6 border-solid border-t border-vologray-200">
       <ButtonStandard @click.prevent="$emit('close')" :gray="true">Abbrechen</ButtonStandard>
-      <p
-        class="flex justify-center text-sm font-light rounded border border-1 mb-4 p-3 bg-red-100 border-red-500 text-red-500"
-        v-if="pageOneErr === true"
-      >
-        Eingabefelder auf Seite 1 prüfen
-      </p>
       <ButtonStandard
         type="submit"
         form="new-project"
-        :disabled="currentPage === 1"
-        :class="{ 'bg-opacity-70': currentPage === 1 }"
+        :class="{
+          'bg-opacity-70 hover:bg-voloblue-200 hover:bg-opacity-70 hover:text-white hover:cursor-default':
+            isButtonDisabled
+        }"
         >Einsatzstelle anlegen
-        </ButtonStandard>
+      </ButtonStandard>
     </footer>
   </section>
 </template>
@@ -159,8 +195,6 @@ import { useProjectStore } from '@/stores/ProjectStore'
 import { useCountryStore } from '@/stores/CountryStore'
 import { isValidEmail, isValidPhoneNumber } from '@/utils/validations'
 import IconSpinner from '@/components/IconSpinner.vue'
-import IconArrowPageLeft from './IconArrowPageLeft.vue'
-import IconArrowPageRight from './IconArrowPageRight.vue'
 import FormularInput from './FormularInput.vue'
 import FormularTextarea from './FormularTextarea.vue'
 import FormularSelectBox from './FormularSelectBox.vue'
@@ -169,8 +203,6 @@ export default {
   components: {
     ButtonStandard,
     IconSpinner,
-    IconArrowPageLeft,
-    IconArrowPageRight,
     FormularInput,
     FormularTextarea,
     FormularSelectBox
@@ -185,18 +217,18 @@ export default {
   },
   data() {
     return {
-      currentPage: 1,
+      currentTab: 1,
       pageOneErr: false,
       formData: {
         name: '',
+        shorthand: '',
         description: null,
         email: '',
         phone: '',
         street: '',
         postalcode: '',
         city: '',
-        country: 'Deutschland',
-        shorthand: ''
+        country: 'Deutschland'
       },
       validationErr: {
         name: false,
@@ -208,9 +240,24 @@ export default {
         country: false,
         shorthand: false
       },
+      buttonDisabled: true,
       formValid: false,
       errorMessage: false,
       successMessage: false
+    }
+  },
+  computed: {
+    isButtonDisabled() {
+      return (
+        this.formData.name === '' ||
+        this.formData.shorthand === '' ||
+        this.formData.email === '' ||
+        this.formData.phone === '' ||
+        this.formData.street === '' ||
+        this.formData.postalcode === '' ||
+        this.formData.city === '' ||
+        this.formData.country === ''
+      )
     }
   },
   methods: {
@@ -225,9 +272,7 @@ export default {
       this.validationErr.country = false
       this.validationErr.shorthand = false
 
-      // validate fields:
       if (!this.formData.name) this.validationErr.name = true
-
       if (!this.formData.email || !isValidEmail(this.formData.email))
         this.validationErr.email = true
 
@@ -241,7 +286,6 @@ export default {
       if (!this.formData.country) this.validationErr.country = true
       if (!this.formData.shorthand) this.validationErr.shorthand = true
 
-      // check for errors, no errors -> form is valid
       if (
         !this.validationErr.name &&
         !this.validationErr.email &&
@@ -257,20 +301,7 @@ export default {
     async onSubmit() {
       this.errorMessage = false
       this.successMessage = false
-
       this.validate()
-
-      // reminder to check page 2 if submit is not working but page 2 has no errors
-      if (
-        (this.currentPage === 2 && this.validationErr.name) ||
-        this.validationErr.phone ||
-        this.validationErr.email ||
-        this.validationErr.shorthand
-      )
-        this.pageOneErr = true
-      setTimeout(() => {
-        this.pageOneErr = false
-      }, 5000)
 
       if (this.formValid) {
         let project = {
