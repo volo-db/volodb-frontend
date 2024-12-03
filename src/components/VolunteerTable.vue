@@ -36,11 +36,19 @@
             :key="volunteer.id"
             @click="goToDetails(volunteer.id)"
           >
-            <td class="font-bold pl-4 truncate" :class="{ 'rounded-tl-md': index === 0 }">
+            <td
+              class="font-bold pl-4 truncate"
+              :class="{ 'rounded-tl-md': index === 0 }"
+              :title="volunteer.person.lastname"
+            >
               {{ volunteer.person.lastname }}
             </td>
-            <td class="font-bold pl-4 truncate">{{ volunteer.person.firstname }}</td>
-            <td class="pl-4 truncate">{{ volunteer.birthplace }}</td>
+            <td class="font-bold pl-4 truncate" :title="volunteer.person.firstname">
+              {{ volunteer.person.firstname }}
+            </td>
+            <td class="pl-4 truncate" :title="volunteer.birthplace">
+              {{ volunteer.birthplace }}
+            </td>
             <td class="pl-4 truncate">2023/24</td>
             <td class="pl-4 truncate">2/5</td>
             <td class="pl-4 truncate">25/25</td>
