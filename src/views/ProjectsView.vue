@@ -21,6 +21,7 @@ import ContainerModal from '@/components/ContainerModal.vue'
 import ProjectTable from '@/components/ProjectTable.vue'
 import { useProjectStore } from '@/stores/ProjectStore'
 import SearchBar from '@/components/SearchBar.vue'
+// import ProjectFormular from '@/components/ProjectFormular.vue'
 import ProjectFormular from '@/components/ProjectFormular.vue'
 
 export default {
