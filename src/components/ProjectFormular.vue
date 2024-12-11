@@ -6,7 +6,7 @@
     <header class="flex flex-col pt-5 px-5">
       <h2 class="text-[20px] text-bold font-medium self-center">Neue Einsatzstelle</h2>
       <!-- tabnavigation -->
-      <div class="mt-3">
+      <div class="mt-3 flex">
         <button
           @click="currentTab = 1"
           class="rounded-t-lg text-sm font-medium px-6 h-11"
@@ -40,6 +40,7 @@
         >
           Adresse
         </button>
+        <div class="w-[100%] h-11 border-b-2 border-b-voloblue-200"></div>
       </div>
     </header>
     <main>
