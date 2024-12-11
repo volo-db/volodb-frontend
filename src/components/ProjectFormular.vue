@@ -240,7 +240,6 @@ export default {
         country: false,
         shorthand: false
       },
-      buttonDisabled: true,
       formValid: false,
       errorMessage: false,
       successMessage: false
