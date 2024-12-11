@@ -43,11 +43,15 @@
             :key="project.id"
             @click="goToDetails(project.id)"
           >
-            <td class="font-bold pl-4 truncate" :class="{ 'rounded-tl-md': index === 0 }">
+            <td
+              class="font-bold pl-4 truncate"
+              :class="{ 'rounded-tl-md': index === 0 }"
+              :title="project.name"
+            >
               {{ project.name }}
             </td>
-            <td class="pl-4 truncate">{{ project.city }}</td>
-            <td class="pl-4 truncate">{{ project.email }}</td>
+            <td class="pl-4 truncate" :title="project.city">{{ project.city }}</td>
+            <td class="pl-4 truncate" :title="project.email">{{ project.email }}</td>
             <td class="pl-4 truncate">2023/24</td>
             <td class="pl-4 truncate">{{ project.capacity }}</td>
             <td class="text-voloblue-200 pr-4 md:pr-1" :class="{ 'rounded-tr-md ': index === 0 }">
