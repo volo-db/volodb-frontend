@@ -1,14 +1,75 @@
-# volodb-frontend
+# Nuxt Minimal Starter
 
-VoloDB is an open source project that is intended to massively simplify the administration of the volunteer service formats "FSJ" (Freiwilliges Soziales Jahr) and "BFD" (Bundesfreiwilligendienst) recognized in Germany.
+Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
-The project is still in its infancy. We look forward to any support!
+## Setup
 
+Make sure to install dependencies:
 
-## Some impressions 📸
+```bash
+# npm
+npm install
 
-![login screen](https://github.com/volo-db/volodb-frontend/blob/media/001_screnshot_github.png)
-![searchable list of volunteers](https://github.com/volo-db/volodb-frontend/blob/media/006_screnshot_github.png)
-![detailed view of volunteer with notes](https://github.com/volo-db/volodb-frontend/blob/media/003_screnshot_github.png)
-![detailed view of volunteer with documents](https://github.com/volo-db/volodb-frontend/blob/media/004_screnshot_github.png)
-![detailed view of volunteer with contract-data](https://github.com/volo-db/volodb-frontend/blob/media/005_screnshot_github.png)
+# pnpm
+pnpm install
+
+# yarn
+yarn install
+
+# bun
+bun install
+```
+
+## Development Server
+
+Start the development server on `http://localhost:3000`:
+
+```bash
+# npm
+npm run dev
+
+# pnpm
+pnpm dev
+
+# yarn
+yarn dev
+
+# bun
+bun run dev
+```
+
+## Production
+
+Build the application for production:
+
+```bash
+# npm
+npm run build
+
+# pnpm
+pnpm build
+
+# yarn
+yarn build
+
+# bun
+bun run build
+```
+
+Locally preview production build:
+
+```bash
+# npm
+npm run preview
+
+# pnpm
+pnpm preview
+
+# yarn
+yarn preview
+
+# bun
+bun run preview
+```
+
+Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.

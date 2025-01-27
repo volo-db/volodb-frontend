@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { vdbFetchData, vdbFetchFormData } from '@/utils/api'
+import { vdbFetchData, vdbFetchFormData } from '../utils/api'
 
 let mostRecentRequest = ''
 
@@ -67,7 +67,11 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       }
     },
     async getVolunteers(queryObj) {
-      const thisRequest = `volunteers?page=${queryObj.page || 0}&pageSize=${queryObj.pageSize || 10}&sortBy=${queryObj.sortBy || 'person.lastname'}&sortOrder=${queryObj.sortOrder || 'asc'}&search=${queryObj.search || ''}`
+      const thisRequest = `volunteers?page=${queryObj.page || 0}&pageSize=${
+        queryObj.pageSize || 10
+      }&sortBy=${queryObj.sortBy || 'person.lastname'}&sortOrder=${
+        queryObj.sortOrder || 'asc'
+      }&search=${queryObj.search || ''}`
       mostRecentRequest = thisRequest
 
       this.fetching = true
@@ -83,7 +87,9 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       }
     },
     async getVolunteerNotes(queryObj) {
-      const thisRequest = `volunteers/${queryObj.volunteerId}/notes?sortBy=${queryObj.sortBy || 'timestamp'}&sortOrder=${queryObj.sortOrder || 'desc'}&search=${queryObj.search || ''}`
+      const thisRequest = `volunteers/${queryObj.volunteerId}/notes?sortBy=${
+        queryObj.sortBy || 'timestamp'
+      }&sortOrder=${queryObj.sortOrder || 'desc'}&search=${queryObj.search || ''}`
 
       mostRecentRequest = thisRequest
 
@@ -100,7 +106,9 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       }
     },
     async getVolunteerDocuments(queryObj) {
-      const thisRequest = `volunteers/${queryObj.volunteerId}/documents?sortBy=${queryObj.sortBy || 'timestamp'}&sortOrder=${queryObj.sortOrder || 'desc'}&search=${queryObj.search || ''}`
+      const thisRequest = `volunteers/${queryObj.volunteerId}/documents?sortBy=${
+        queryObj.sortBy || 'timestamp'
+      }&sortOrder=${queryObj.sortOrder || 'desc'}&search=${queryObj.search || ''}`
 
       mostRecentRequest = thisRequest
 
@@ -135,7 +143,9 @@ export const useVolunteerStore = defineStore('volunteerStore', {
     async setVolunteerAddresses(volunteerId, address) {
       const method = address.id ? 'PATCH' : 'POST'
 
-      const thisRequest = `volunteers/${volunteerId}/addresses${method === 'PATCH' ? '/' + address.id : ''}`
+      const thisRequest = `volunteers/${volunteerId}/addresses${
+        method === 'PATCH' ? '/' + address.id : ''
+      }`
       mostRecentRequest = thisRequest
 
       this.fetching = true

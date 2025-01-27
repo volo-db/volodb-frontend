@@ -178,7 +178,7 @@
 import { useVolunteerStore } from '@/stores/VolunteerStore'
 // import SearchBar from '@/components/SearchBar.vue'
 import ButtonStandard from '@/components/ButtonStandard.vue'
-import { getAge, getAgeToday, getPropperDateString } from '@/utils/dateAndTime'
+import { getAge, getAgeToday, getPropperDateString } from '../utils/dateAndTime'
 import IconCalendar from './IconCalendar.vue'
 import IconCircleWithCheckmark from './IconCircleWithCheckmark.vue'
 import IconCircleWithPoint from './IconCircleWithPoint.vue'

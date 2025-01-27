@@ -1,5 +1,5 @@
 <template>
-  <div @mousemove="(mouseX = $event.pageX), (mouseY = $event.pageY)" class="relative">
+  <div @mousemove=";(mouseX = $event.pageX), (mouseY = $event.pageY)" class="relative">
     <div class="" v-if="true">
       <!-- SVG NOT READY YET -->
       <svg
@@ -17,12 +17,14 @@
           :stroke="strokeColors.freeOfChargeService"
           :stroke-width="strokeWidth"
           @mouseenter="
-            (strokeColors.freeOfChargeService = strokeColors.hovered),
+            ;(strokeColors.freeOfChargeService = strokeColors.hovered),
               (tooltip = true),
               (hoverdArc = 'freeOfChargeService'),
-              (tooltipText = `Zusätzliche unentgeltliche Leistungen i.W.v.: ${toValidEuro(salary.freeOfChargeService)}`)
+              (tooltipText = `Zusätzliche unentgeltliche Leistungen i.W.v.: ${toValidEuro(
+                salary.freeOfChargeService
+              )}`)
           "
-          @mouseleave="(strokeColors.freeOfChargeService = ''), (tooltip = false)"
+          @mouseleave=";(strokeColors.freeOfChargeService = ''), (tooltip = false)"
         />
         <!-- Pocketmoney -->
         <path
@@ -32,12 +34,12 @@
           :stroke="strokeColors.pocketMoney"
           :stroke-width="strokeWidth"
           @mouseenter="
-            (strokeColors.pocketMoney = strokeColors.hovered),
+            ;(strokeColors.pocketMoney = strokeColors.hovered),
               (tooltip = true),
               (hoverdArc = 'pocketMoney'),
               (tooltipText = `Taschengeld i.H.v.: ${toValidEuro(salary.pocketMoney)}`)
           "
-          @mouseleave="(strokeColors.pocketMoney = ''), (tooltip = false)"
+          @mouseleave=";(strokeColors.pocketMoney = ''), (tooltip = false)"
         />
         <!-- ACCOMODATIN -->
         <!-- Free of charge -->
@@ -53,12 +55,12 @@
           :stroke="strokeColors.freeOfChargeAccommodation"
           :stroke-width="strokeWidth"
           @mouseenter="
-            (strokeColors.freeOfChargeAccommodation = strokeColors.hovered),
+            ;(strokeColors.freeOfChargeAccommodation = strokeColors.hovered),
               (tooltip = true),
               (hoverdArc = 'freeOfChargeAccommodation'),
               (tooltipText = `Unterkunft i.W.v.: ${toValidEuro(salary.freeOfChargeAccommodation)}`)
           "
-          @mouseleave="(strokeColors.freeOfChargeAccommodation = ''), (tooltip = false)"
+          @mouseleave=";(strokeColors.freeOfChargeAccommodation = ''), (tooltip = false)"
         />
         <!-- Allowance -->
         <path
@@ -70,12 +72,14 @@
           :stroke="strokeColors.accomodationAllowance"
           :stroke-width="strokeWidth"
           @mouseenter="
-            (strokeColors.accomodationAllowance = strokeColors.hovered),
+            ;(strokeColors.accomodationAllowance = strokeColors.hovered),
               (tooltip = true),
               (hoverdArc = 'accomodationAllowance'),
-              (tooltipText = `Unterkunftszuschuss i.H.v.: ${toValidEuro(salary.accomodationAllowance)}`)
+              (tooltipText = `Unterkunftszuschuss i.H.v.: ${toValidEuro(
+                salary.accomodationAllowance
+              )}`)
           "
-          @mouseleave="(strokeColors.accomodationAllowance = ''), (tooltip = false)"
+          @mouseleave=";(strokeColors.accomodationAllowance = ''), (tooltip = false)"
         />
         <!-- FOOD -->
         <!-- Free of charge -->
@@ -86,12 +90,12 @@
           :stroke="strokeColors.freeOfChargeFood"
           :stroke-width="strokeWidth"
           @mouseenter="
-            (strokeColors.freeOfChargeFood = strokeColors.hovered),
+            ;(strokeColors.freeOfChargeFood = strokeColors.hovered),
               (tooltip = true),
               (hoverdArc = 'freeOfChargeFood'),
               (tooltipText = `Verpflegung i.W.v.: ${toValidEuro(salary.freeOfChargeFood)}`)
           "
-          @mouseleave="(strokeColors.freeOfChargeFood = ''), (tooltip = false)"
+          @mouseleave=";(strokeColors.freeOfChargeFood = ''), (tooltip = false)"
         />
         <!-- Allowance -->
         <path
@@ -101,12 +105,12 @@
           :stroke="strokeColors.foodAllowance"
           :stroke-width="strokeWidth"
           @mouseenter="
-            (strokeColors.foodAllowance = strokeColors.hovered),
+            ;(strokeColors.foodAllowance = strokeColors.hovered),
               (tooltip = true),
               (hoverdArc = 'foodAllowance'),
               (tooltipText = `Verpflegungszuschuss i.H.v.: ${toValidEuro(salary.foodAllowance)}`)
           "
-          @mouseleave="(strokeColors.foodAllowance = ''), (tooltip = false)"
+          @mouseleave=";(strokeColors.foodAllowance = ''), (tooltip = false)"
         />
         <use :xlink:href="`#${hoverdArc}`" />
       </svg>
@@ -164,7 +168,7 @@
 </template>
 
 <script>
-import { toValidEuro } from '@/utils/currency'
+import { toValidEuro } from '../utils/currency'
 
 export default {
   setup() {

@@ -1,6 +1,6 @@
 //  ### 📝 ###
 import { defineStore } from 'pinia'
-import { vdbFetchData } from '@/utils/api'
+import { vdbFetchData } from '../utils/api'
 
 export const useContractStore = defineStore('ContractStore', {
   state: () => {

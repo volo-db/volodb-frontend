@@ -19,7 +19,7 @@
 import ButtonStandard from '@/components/ButtonStandard.vue'
 import ContainerModal from '@/components/ContainerModal.vue'
 import VolunteerFormular from '@/components/VolunteerFormular.vue'
-import VolunteerTable from '../components/VolunteerTable.vue'
+import VolunteerTable from '../src/components/VolunteerTable.vue'
 import { useVolunteerStore } from '@/stores/VolunteerStore'
 import SearchBar from '@/components/SearchBar.vue'
 import debounce from 'lodash.debounce'

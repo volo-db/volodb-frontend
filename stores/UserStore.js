@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { useStorage } from '@vueuse/core'
 import router from '@/router'
-import { vdbFetchData } from '@/utils/api'
+import { vdbFetchData } from '../utils/api'
 
 const BASE_URL = import.meta.env.VITE_BASE_URL
 

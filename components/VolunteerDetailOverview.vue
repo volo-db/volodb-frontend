@@ -90,7 +90,7 @@ import VolunteerDetailOverviewAvatar from './VolunteerDetailOverviewAvatar.vue'
 import VolunteerDetailOverviewAddresses from './VolunteerDetailOverviewAddresses.vue'
 import VolunteerDetailOverviewContact from './VolunteerDetailOverviewContact.vue'
 import IconPenEdit from '@/components/IconPenEdit.vue'
-import { getPropperDateString } from '@/utils/dateAndTime'
+import { getPropperDateString } from '../utils/dateAndTime'
 
 export default {
   setup() {

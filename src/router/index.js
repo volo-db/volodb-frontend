@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from '@/stores/UserStore'
-import LoginView from '@/views/LoginView.vue'
-import VolunteersView from '@/views/VolunteersView.vue'
-import VolunteerDetailView from '@/views/VolunteerDetailView.vue'
-import ProjectsView from '@/views/ProjectsView.vue'
+import LoginView from '../../pages/LoginView.vue'
+import VolunteersView from '../../pages/VolunteersView.vue'
+import VolunteerDetailView from '../../pages/VolunteerDetailView.vue'
+import ProjectsView from '../../pages/ProjectsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
